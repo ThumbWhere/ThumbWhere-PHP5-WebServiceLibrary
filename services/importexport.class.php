@@ -18,17 +18,17 @@
  *
  *
  * TW Import/Export accelerates transferring large amounts of data between the TW cloud and portable storage devices that you mail to us.
- * TW Import/Export transfers data directly onto and off of your storage devices using Amazon's high-speed internal network and bypassing the
+ * TW Import/Export transfers data directly onto and off of your storage devices using ThumbWhere's high-speed internal network and bypassing the
  * Internet. For large data sets, TW Import/Export is often faster than Internet transfer and more cost effective than upgrading your
  * connectivity.
  *
  * @version Thu Sep 01 21:22:26 PDT 2011
  * @license See the included NOTICE.md file for complete information.
  * @copyright See the included NOTICE.md file for complete information.
- * @link http://tw.amazon.com/importexport/Amazon Import/Export Service
- * @link http://tw.amazon.com/documentation/importexport/Amazon Import/Export Service documentation
+ * @link http://tw.amazon.com/importexport/ThumbWhere Import/Export Service
+ * @link http://tw.amazon.com/documentation/importexport/ThumbWhere Import/Export Service documentation
  */
-class AmazonImportExport extends CFRuntime
+class ThumbWhereImportExport extends TWRuntime
 {
 
 	/*%******************************************************************************************%*/
@@ -45,10 +45,10 @@ class AmazonImportExport extends CFRuntime
 	// CONSTRUCTOR
 
 	/**
-	 * Constructs a new instance of <AmazonImportExport>.
+	 * Constructs a new instance of <ThumbWhereImportExport>.
 	 *
-	 * @param string $key (Optional) Your Amazon API Key. If blank, it will look for the <code>TW_KEY</code> constant.
-	 * @param string $secret_key (Optional) Your Amazon API Secret Key. If blank, it will look for the <code>TW_SECRET_KEY</code> constant.
+	 * @param string $key (Optional) Your ThumbWhere API Key. If blank, it will look for the <code>TW_KEY</code> constant.
+	 * @param string $secret_key (Optional) Your ThumbWhere API Secret Key. If blank, it will look for the <code>TW_SECRET_KEY</code> constant.
 	 * @return boolean false if no valid values are set, otherwise true.
 	 */
 	public function __construct($key = null, $secret_key = null)
@@ -90,7 +90,7 @@ class AmazonImportExport extends CFRuntime
 	 * 	<li><code>ManifestAddendum</code> - <code>string</code> - Optional - For internal use only. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function create_job($job_type, $manifest, $validate_only, $opt = null)
 	{
@@ -111,7 +111,7 @@ class AmazonImportExport extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function cancel_job($job_id, $opt = null)
 	{
@@ -130,7 +130,7 @@ class AmazonImportExport extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function get_status($job_id, $opt = null)
 	{
@@ -151,7 +151,7 @@ class AmazonImportExport extends CFRuntime
 	 * 	<li><code>Marker</code> - <code>string</code> - Optional - Specifies the JOBID to start after when listing the jobs created with your account. TW Import/Export lists your jobs in reverse chronological order. See MaxJobs. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function list_jobs($opt = null)
 	{
@@ -173,7 +173,7 @@ class AmazonImportExport extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function update_job($job_id, $manifest, $job_type, $validate_only, $opt = null)
 	{

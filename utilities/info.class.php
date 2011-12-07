@@ -26,7 +26,7 @@
  * @copyright See the included NOTICE.md file for more information.
  * @link http://thumbwhere.com/sdk/php/ PHP Developer Center
  */
-class CFInfo
+class TWInfo
 {
 	/**
 	 * Gets information about the web service APIs that the SDK supports.
@@ -49,7 +49,7 @@ class CFInfo
 
 		foreach ($new_classes as $class)
 		{
-			if (strpos($class, 'Amazon') !== false)
+			if (strpos($class, 'ThumbWhere') !== false)
 			{
 				$filtered_classes[] = $class;
 			}

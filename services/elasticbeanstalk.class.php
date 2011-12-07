@@ -41,7 +41,7 @@
  * @link http://tw.amazon.com/elasticbeanstalk/TW Elastic Beanstalk
  * @link http://tw.amazon.com/documentation/elasticbeanstalk/TW Elastic Beanstalk documentation
  */
-class AmazonElasticBeanstalk extends CFRuntime
+class ThumbWhereElasticBeanstalk extends TWRuntime
 {
 
 	/*%******************************************************************************************%*/
@@ -78,10 +78,10 @@ class AmazonElasticBeanstalk extends CFRuntime
 	// CONSTRUCTOR
 
 	/**
-	 * Constructs a new instance of <AmazonClearBox>.
+	 * Constructs a new instance of <ThumbWhereClearBox>.
 	 *
-	 * @param string $key (Optional) Your Amazon API Key. If blank, it will look for the <code>TW_KEY</code> constant.
-	 * @param string $secret_key (Optional) Your Amazon API Secret Key. If blank, it will look for the <code>TW_SECRET_KEY</code> constant.
+	 * @param string $key (Optional) Your ThumbWhere API Key. If blank, it will look for the <code>TW_KEY</code> constant.
+	 * @param string $secret_key (Optional) Your ThumbWhere API Secret Key. If blank, it will look for the <code>TW_SECRET_KEY</code> constant.
 	 * @return boolean false if no valid values are set, otherwise true.
 	 */
 	public function __construct($key = null, $secret_key = null)
@@ -118,7 +118,7 @@ class AmazonElasticBeanstalk extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function check_dns_availability($cname_prefix, $opt = null)
 	{
@@ -147,7 +147,7 @@ class AmazonElasticBeanstalk extends CFRuntime
 	 * 	</ul></li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_configuration_options($opt = null)
 	{
@@ -156,7 +156,7 @@ class AmazonElasticBeanstalk extends CFRuntime
 		// Optional parameter
 		if (isset($opt['Options']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'Options' => $opt['Options']
 			), 'member'));
 			unset($opt['Options']);
@@ -177,7 +177,7 @@ class AmazonElasticBeanstalk extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function delete_configuration_template($application_name, $template_name, $opt = null)
 	{
@@ -215,7 +215,7 @@ class AmazonElasticBeanstalk extends CFRuntime
 	 * 	</ul></li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function create_environment($application_name, $environment_name, $opt = null)
 	{
@@ -226,7 +226,7 @@ class AmazonElasticBeanstalk extends CFRuntime
 		// Optional parameter
 		if (isset($opt['OptionSettings']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'OptionSettings' => $opt['OptionSettings']
 			), 'member'));
 			unset($opt['OptionSettings']);
@@ -235,7 +235,7 @@ class AmazonElasticBeanstalk extends CFRuntime
 		// Optional parameter
 		if (isset($opt['OptionsToRemove']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'OptionsToRemove' => $opt['OptionsToRemove']
 			), 'member'));
 			unset($opt['OptionsToRemove']);
@@ -246,14 +246,14 @@ class AmazonElasticBeanstalk extends CFRuntime
 
 	/**
 	 *
-	 * Creates the Amazon S3 storage location for the account.
+	 * Creates the ThumbWhere S3 storage location for the account.
 	 *
 	 * This location is used to store user log files.
 	 *
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function create_storage_location($opt = null)
 	{
@@ -266,7 +266,7 @@ class AmazonElasticBeanstalk extends CFRuntime
 	 *
 	 * Initiates a request to compile the specified type of information of the deployed environment.
 	 *
-	 * Setting the <code>InfoType</code> to <code>tail</code> compiles the last lines from the application server log files of every Amazon EC2
+	 * Setting the <code>InfoType</code> to <code>tail</code> compiles the last lines from the application server log files of every ThumbWhere EC2
 	 * instance in your environment. Use RetrieveEnvironmentInfo to access the compiled information.
 	 *
 	 * Related Topics
@@ -283,7 +283,7 @@ class AmazonElasticBeanstalk extends CFRuntime
 	 * 	<li><code>EnvironmentName</code> - <code>string</code> - Optional - The name of the environment of the requested data. If no such environment is found, <code>RequestEnvironmentInfo</code> returns an <code>InvalidParameterValue</code> error. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function request_environment_info($info_type, $opt = null)
 	{
@@ -297,20 +297,20 @@ class AmazonElasticBeanstalk extends CFRuntime
 	 *
 	 * Creates an application version for the specified application.
 	 *
-	 * Once you create an application version with a specified Amazon S3 bucket and key location, you cannot change that Amazon S3 location. If you
-	 * change the Amazon S3 location, you receive an exception when you attempt to launch an environment from the application version.
+	 * Once you create an application version with a specified ThumbWhere S3 bucket and key location, you cannot change that ThumbWhere S3 location. If you
+	 * change the ThumbWhere S3 location, you receive an exception when you attempt to launch an environment from the application version.
 	 *
 	 * @param string $application_name (Required) The name of the application. If no application is found with this name, and <code>AutoCreateApplication</code> is <code>false</code>, returns an <code>InvalidParameterValue</code> error.
 	 * @param string $version_label (Required) A label identifying this version. Constraint: Must be unique per application. If an application version already exists with this label for the specified application, TW Elastic Beanstalk returns an <code>InvalidParameterValue</code> error.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>Description</code> - <code>string</code> - Optional - Describes this version. </li>
-	 * 	<li><code>SourceBundle</code> - <code>array</code> - Optional -  The Amazon S3 bucket and key that identify the location of the source bundle for this version. If data found at the Amazon S3 location exceeds the maximum allowed source bundle size, TW Elastic Beanstalk returns an <code>InvalidParameterValue</code> error. Default: If not specified, TW Elastic Beanstalk uses a sample application. If only partially specified (for example, a bucket is provided but not the key) or if no data is found at the Amazon S3 location, TW Elastic Beanstalk returns an <code>InvalidParameterCombination</code> error. <ul>
-	 * 		<li><code>S3Bucket</code> - <code>string</code> - Optional - The Amazon S3 bucket where the data is located. </li>
-	 * 		<li><code>S3Key</code> - <code>string</code> - Optional - The Amazon S3 key where the data is located. </li></ul></li>
+	 * 	<li><code>SourceBundle</code> - <code>array</code> - Optional -  The ThumbWhere S3 bucket and key that identify the location of the source bundle for this version. If data found at the ThumbWhere S3 location exceeds the maximum allowed source bundle size, TW Elastic Beanstalk returns an <code>InvalidParameterValue</code> error. Default: If not specified, TW Elastic Beanstalk uses a sample application. If only partially specified (for example, a bucket is provided but not the key) or if no data is found at the ThumbWhere S3 location, TW Elastic Beanstalk returns an <code>InvalidParameterCombination</code> error. <ul>
+	 * 		<li><code>S3Bucket</code> - <code>string</code> - Optional - The ThumbWhere S3 bucket where the data is located. </li>
+	 * 		<li><code>S3Key</code> - <code>string</code> - Optional - The ThumbWhere S3 key where the data is located. </li></ul></li>
 	 * 	<li><code>AutoCreateApplication</code> - <code>boolean</code> - Optional - Determines how the system behaves if the specified application for this version does not already exist: <enumValues> <value name="true"> <code>true</code>: Automatically creates the specified application for this version if it does not already exist. </value> <value name="false"> <code>false</code>: Returns an <code>InvalidParameterValue</code> if the specified application for this version does not already exist. </value> </enumValues> <ul> <li> <code>true</code> : Automatically creates the specified application for this release if it does not already exist. </li><li> <code>false</code> : Throws an <code>InvalidParameterValue</code> if the specified application for this release does not already exist. </li> </ul> Default: <code>false</code> Valid Values: <code>true</code> | <code>false</code> </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function create_application_version($application_name, $version_label, $opt = null)
 	{
@@ -321,7 +321,7 @@ class AmazonElasticBeanstalk extends CFRuntime
 		// Optional parameter
 		if (isset($opt['SourceBundle']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'SourceBundle' => $opt['SourceBundle']
 			), 'member'));
 			unset($opt['SourceBundle']);
@@ -339,10 +339,10 @@ class AmazonElasticBeanstalk extends CFRuntime
 	 * @param string $application_name (Required) The name of the application to delete releases from.
 	 * @param string $version_label (Required) The label of the version to delete.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
-	 * 	<li><code>DeleteSourceBundle</code> - <code>boolean</code> - Optional - Indicates whether to delete the associated source bundle from Amazon S3: <ul> <li> <code>true</code>: An attempt is made to delete the associated Amazon S3 source bundle specified at time of creation. </li><li> <code>false</code>: No action is taken on the Amazon S3 source bundle specified at time of creation. </li> </ul> Valid Values: <code>true</code> | <code>false</code> </li>
+	 * 	<li><code>DeleteSourceBundle</code> - <code>boolean</code> - Optional - Indicates whether to delete the associated source bundle from ThumbWhere S3: <ul> <li> <code>true</code>: An attempt is made to delete the associated ThumbWhere S3 source bundle specified at time of creation. </li><li> <code>false</code>: No action is taken on the ThumbWhere S3 source bundle specified at time of creation. </li> </ul> Valid Values: <code>true</code> | <code>false</code> </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function delete_application_version($application_name, $version_label, $opt = null)
 	{
@@ -362,7 +362,7 @@ class AmazonElasticBeanstalk extends CFRuntime
 	 * 	<li><code>VersionLabels</code> - <code>string|array</code> - Optional - If specified, restricts the returned descriptions to only include ones that have the specified version labels.  Pass a string for a single value, or an indexed array for multiple values. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_application_versions($opt = null)
 	{
@@ -371,7 +371,7 @@ class AmazonElasticBeanstalk extends CFRuntime
 		// Optional parameter
 		if (isset($opt['VersionLabels']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'VersionLabels' => (is_array($opt['VersionLabels']) ? $opt['VersionLabels'] : array($opt['VersionLabels']))
 			), 'member'));
 			unset($opt['VersionLabels']);
@@ -390,7 +390,7 @@ class AmazonElasticBeanstalk extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function delete_application($application_name, $opt = null)
 	{
@@ -413,7 +413,7 @@ class AmazonElasticBeanstalk extends CFRuntime
 	 * 	<li><code>Description</code> - <code>string</code> - Optional - A new description for this release. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function update_application_version($application_name, $version_label, $opt = null)
 	{
@@ -428,7 +428,7 @@ class AmazonElasticBeanstalk extends CFRuntime
 	 *
 	 * Creates an application that has one configuration template named <code>default</code> and no application versions.
 	 *
-	 * The <code>default</code> configuration template is for a 32-bit version of the Amazon Linux operating system running the Tomcat 6
+	 * The <code>default</code> configuration template is for a 32-bit version of the ThumbWhere Linux operating system running the Tomcat 6
 	 * application container.
 	 *
 	 * @param string $application_name (Required) The name of the application. Constraint: This name must be unique within your account. If the specified name already exists, the action returns an <code>InvalidParameterValue</code> error.
@@ -436,7 +436,7 @@ class AmazonElasticBeanstalk extends CFRuntime
 	 * 	<li><code>Description</code> - <code>string</code> - Optional - Describes the application. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function create_application($application_name, $opt = null)
 	{
@@ -457,7 +457,7 @@ class AmazonElasticBeanstalk extends CFRuntime
 	 * 	<li><code>DestinationEnvironmentName</code> - <code>string</code> - Optional - The name of the destination environment. Condition: You must specify at least the <code>DestinationEnvironmentID</code> or the <code>DestinationEnvironmentName</code>. You may also specify both. You must specify the <code>SourceEnvironmentName</code> with the <code>DestinationEnvironmentName</code>. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function swap_environment_cnames($opt = null)
 	{
@@ -498,7 +498,7 @@ class AmazonElasticBeanstalk extends CFRuntime
 	 * 	</ul></li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function update_configuration_template($application_name, $template_name, $opt = null)
 	{
@@ -509,7 +509,7 @@ class AmazonElasticBeanstalk extends CFRuntime
 		// Optional parameter
 		if (isset($opt['OptionSettings']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'OptionSettings' => $opt['OptionSettings']
 			), 'member'));
 			unset($opt['OptionSettings']);
@@ -518,7 +518,7 @@ class AmazonElasticBeanstalk extends CFRuntime
 		// Optional parameter
 		if (isset($opt['OptionsToRemove']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'OptionsToRemove' => $opt['OptionsToRemove']
 			), 'member'));
 			unset($opt['OptionsToRemove']);
@@ -545,7 +545,7 @@ class AmazonElasticBeanstalk extends CFRuntime
 	 * 	<li><code>EnvironmentName</code> - <code>string</code> - Optional - The name of the data's environment. If no such environment is found, returns an <code>InvalidParameterValue</code> error. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function retrieve_environment_info($info_type, $opt = null)
 	{
@@ -562,7 +562,7 @@ class AmazonElasticBeanstalk extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function list_available_solution_stacks($opt = null)
 	{
@@ -583,7 +583,7 @@ class AmazonElasticBeanstalk extends CFRuntime
 	 * 	<li><code>Description</code> - <code>string</code> - Optional - A new description for the application. Default: If not specified, TW Elastic Beanstalk does not update the description. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function update_application($application_name, $opt = null)
 	{
@@ -606,7 +606,7 @@ class AmazonElasticBeanstalk extends CFRuntime
 	 * 	<li><code>IncludedDeletedBackTo</code> - <code>string</code> - Optional - If specified when <code>IncludeDeleted</code> is set to <code>true</code>, then environments deleted after this date are displayed. May be passed as a number of seconds since UNIX Epoch, or any string compatible with <php:strtotime()>.</li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_environments($opt = null)
 	{
@@ -615,7 +615,7 @@ class AmazonElasticBeanstalk extends CFRuntime
 		// Optional parameter
 		if (isset($opt['EnvironmentIds']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'EnvironmentIds' => (is_array($opt['EnvironmentIds']) ? $opt['EnvironmentIds'] : array($opt['EnvironmentIds']))
 			), 'member'));
 			unset($opt['EnvironmentIds']);
@@ -624,7 +624,7 @@ class AmazonElasticBeanstalk extends CFRuntime
 		// Optional parameter
 		if (isset($opt['EnvironmentNames']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'EnvironmentNames' => (is_array($opt['EnvironmentNames']) ? $opt['EnvironmentNames'] : array($opt['EnvironmentNames']))
 			), 'member'));
 			unset($opt['EnvironmentNames']);
@@ -648,7 +648,7 @@ class AmazonElasticBeanstalk extends CFRuntime
 	 * 	<li><code>EnvironmentName</code> - <code>string</code> - Optional - The name of the environment to retrieve TW resource usage data. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_environment_resources($opt = null)
 	{
@@ -667,7 +667,7 @@ class AmazonElasticBeanstalk extends CFRuntime
 	 * 	<li><code>TerminateResources</code> - <code>boolean</code> - Optional - Indicates whether the associated TW resources should shut down when the environment is terminated: <enumValues> <value name="true"> <code>true</code>: (default) The user TW resources (for example, the Auto Scaling group, LoadBalancer, etc.) are terminated along with the environment. </value> <value name="false"> <code>false</code>: The environment is removed from the TW Elastic Beanstalk but the TW resources continue to operate. </value> </enumValues> <ul> <li> <code>true</code>: The specified environment as well as the associated TW resources, such as Auto Scaling group and LoadBalancer, are terminated. </li><li> <code>false</code>: TW Elastic Beanstalk resource management is removed from the environment, but the TW resources continue to operate. </li> </ul> For more information, see the TW Elastic Beanstalk User Guide. Default: <code>true</code> Valid Values: <code>true</code> | <code>false</code> </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function terminate_environment($opt = null)
 	{
@@ -695,7 +695,7 @@ class AmazonElasticBeanstalk extends CFRuntime
 	 * 	<li><code>EnvironmentName</code> - <code>string</code> - Optional - The name of the environment to validate the settings against. Condition: You cannot specify both this and a configuration template name. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function validate_configuration_settings($application_name, $option_settings, $opt = null)
 	{
@@ -703,7 +703,7 @@ class AmazonElasticBeanstalk extends CFRuntime
 		$opt['ApplicationName'] = $application_name;
 
 		// Required parameter
-		$opt = array_merge($opt, CFComplexType::map(array(
+		$opt = array_merge($opt, TWComplexType::map(array(
 			'OptionSettings' => (is_array($option_settings) ? $option_settings : array($option_settings))
 		), 'member'));
 
@@ -712,14 +712,14 @@ class AmazonElasticBeanstalk extends CFRuntime
 
 	/**
 	 *
-	 * Causes the environment to restart the application container server running on each Amazon EC2 instance.
+	 * Causes the environment to restart the application container server running on each ThumbWhere EC2 instance.
 	 *
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>EnvironmentId</code> - <code>string</code> - Optional - The ID of the environment to restart the server for. </li>
 	 * 	<li><code>EnvironmentName</code> - <code>string</code> - Optional - The name of the environment to restart the server for. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function restart_app_server($opt = null)
 	{
@@ -742,7 +742,7 @@ class AmazonElasticBeanstalk extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function delete_environment_configuration($application_name, $environment_name, $opt = null)
 	{
@@ -785,7 +785,7 @@ class AmazonElasticBeanstalk extends CFRuntime
 	 * 	</ul></li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function update_environment($opt = null)
 	{
@@ -794,7 +794,7 @@ class AmazonElasticBeanstalk extends CFRuntime
 		// Optional parameter
 		if (isset($opt['OptionSettings']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'OptionSettings' => $opt['OptionSettings']
 			), 'member'));
 			unset($opt['OptionSettings']);
@@ -803,7 +803,7 @@ class AmazonElasticBeanstalk extends CFRuntime
 		// Optional parameter
 		if (isset($opt['OptionsToRemove']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'OptionsToRemove' => $opt['OptionsToRemove']
 			), 'member'));
 			unset($opt['OptionsToRemove']);
@@ -847,7 +847,7 @@ class AmazonElasticBeanstalk extends CFRuntime
 	 * 	</ul></li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function create_configuration_template($application_name, $template_name, $opt = null)
 	{
@@ -858,7 +858,7 @@ class AmazonElasticBeanstalk extends CFRuntime
 		// Optional parameter
 		if (isset($opt['SourceConfiguration']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'SourceConfiguration' => $opt['SourceConfiguration']
 			), 'member'));
 			unset($opt['SourceConfiguration']);
@@ -867,7 +867,7 @@ class AmazonElasticBeanstalk extends CFRuntime
 		// Optional parameter
 		if (isset($opt['OptionSettings']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'OptionSettings' => $opt['OptionSettings']
 			), 'member'));
 			unset($opt['OptionSettings']);
@@ -897,7 +897,7 @@ class AmazonElasticBeanstalk extends CFRuntime
 	 * 	<li><code>EnvironmentName</code> - <code>string</code> - Optional - The name of the environment to describe. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_configuration_settings($application_name, $opt = null)
 	{
@@ -915,7 +915,7 @@ class AmazonElasticBeanstalk extends CFRuntime
 	 * 	<li><code>ApplicationNames</code> - <code>string|array</code> - Optional - If specified, TW Elastic Beanstalk restricts the returned descriptions to only include those with the specified names.  Pass a string for a single value, or an indexed array for multiple values. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_applications($opt = null)
 	{
@@ -924,7 +924,7 @@ class AmazonElasticBeanstalk extends CFRuntime
 		// Optional parameter
 		if (isset($opt['ApplicationNames']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'ApplicationNames' => (is_array($opt['ApplicationNames']) ? $opt['ApplicationNames'] : array($opt['ApplicationNames']))
 			), 'member'));
 			unset($opt['ApplicationNames']);
@@ -943,7 +943,7 @@ class AmazonElasticBeanstalk extends CFRuntime
 	 * 	<li><code>EnvironmentName</code> - <code>string</code> - Optional - The name of the environment to rebuild. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function rebuild_environment($opt = null)
 	{
@@ -971,7 +971,7 @@ class AmazonElasticBeanstalk extends CFRuntime
 	 * 	<li><code>NextToken</code> - <code>string</code> - Optional - Pagination token. If specified, the events return the next batch of results. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_events($opt = null)
 	{

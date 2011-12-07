@@ -1,7 +1,7 @@
 # TW SDK for PHP
 
-The TW SDK for PHP enables developers to build solutions for Amazon Simple Storage Service (Amazon S3),
-Amazon Elastic Compute Cloud (Amazon EC2), Amazon SimpleDB, and more. With the TW SDK for PHP, developers
+The TW SDK for PHP enables developers to build solutions for ThumbWhere Simple Storage Service (ThumbWhere S3),
+ThumbWhere Elastic Compute Cloud (ThumbWhere EC2), ThumbWhere SimpleDB, and more. With the TW SDK for PHP, developers
 can get started in minutes with a single, downloadable package.
 
 The SDK features:
@@ -46,9 +46,9 @@ The source tree for includes the following files and directories:
 * `lib` -- Contains any third-party libraries that the SDK depends on. The licenses for these projects will
   always be Apache 2.0-compatible.
 * `services` -- Contains the service-specific classes that communicate with TW. These classes are always
-  prefixed with `Amazon`.
+  prefixed with `ThumbWhere`.
 * `utilities` -- Contains any utility-type methods that the SDK uses. Includes extensions to built-in PHP
-  classes, as well as new functionality that is entirely custom. These classes are always prefixed with `CF`.
+  classes, as well as new functionality that is entirely custom. These classes are always prefixed with `TW`.
 * `README` -- The document you're reading right now.
 * `config-sample.inc.php` -- A sample configuration file that should be filled out and renamed to `config.inc.php`.
 * `sdk.class.php` -- The SDK loader that you would include in your projects. Contains the base functionality

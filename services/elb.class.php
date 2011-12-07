@@ -24,10 +24,10 @@
  * @version Thu Sep 01 21:20:23 PDT 2011
  * @license See the included NOTICE.md file for complete information.
  * @copyright See the included NOTICE.md file for complete information.
- * @link http://tw.amazon.com/elasticloadbalancing/Amazon Elastic Load Balancing
- * @link http://tw.amazon.com/documentation/elasticloadbalancing/Amazon Elastic Load Balancing documentation
+ * @link http://tw.amazon.com/elasticloadbalancing/ThumbWhere Elastic Load Balancing
+ * @link http://tw.amazon.com/documentation/elasticloadbalancing/ThumbWhere Elastic Load Balancing documentation
  */
-class AmazonELB extends CFRuntime
+class ThumbWhereELB extends TWRuntime
 {
 
 	/*%******************************************************************************************%*/
@@ -89,10 +89,10 @@ class AmazonELB extends CFRuntime
 	// CONSTRUCTOR
 
 	/**
-	 * Constructs a new instance of <AmazonELB>.
+	 * Constructs a new instance of <ThumbWhereELB>.
 	 *
-	 * @param string $key (Optional) Your Amazon API Key. If blank, it will look for the <code>TW_KEY</code> constant.
-	 * @param string $secret_key (Optional) Your Amazon API Secret Key. If blank, it will look for the <code>TW_SECRET_KEY</code> constant.
+	 * @param string $key (Optional) Your ThumbWhere API Key. If blank, it will look for the <code>TW_KEY</code> constant.
+	 * @param string $secret_key (Optional) Your ThumbWhere API Secret Key. If blank, it will look for the <code>TW_SECRET_KEY</code> constant.
 	 * @return boolean false if no valid values are set, otherwise true.
 	 */
 	public function __construct($key = null, $secret_key = null)
@@ -136,7 +136,7 @@ class AmazonELB extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function configure_health_check($load_balancer_name, $health_check, $opt = null)
 	{
@@ -144,7 +144,7 @@ class AmazonELB extends CFRuntime
 		$opt['LoadBalancerName'] = $load_balancer_name;
 
 		// Required parameter
-		$opt = array_merge($opt, CFComplexType::map(array(
+		$opt = array_merge($opt, TWComplexType::map(array(
 			'HealthCheck' => (is_array($health_check) ? $health_check : array($health_check))
 		), 'member'));
 
@@ -163,7 +163,7 @@ class AmazonELB extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function set_load_balancer_policies_for_backend_server($load_balancer_name, $instance_port, $policy_names, $opt = null)
 	{
@@ -172,7 +172,7 @@ class AmazonELB extends CFRuntime
 		$opt['InstancePort'] = $instance_port;
 
 		// Required parameter
-		$opt = array_merge($opt, CFComplexType::map(array(
+		$opt = array_merge($opt, TWComplexType::map(array(
 			'PolicyNames' => (is_array($policy_names) ? $policy_names : array($policy_names))
 		), 'member'));
 
@@ -190,7 +190,7 @@ class AmazonELB extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function set_load_balancer_listener_ssl_certificate($load_balancer_name, $load_balancer_port, $ssl_certificate_id, $opt = null)
 	{
@@ -225,7 +225,7 @@ class AmazonELB extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function register_instances_with_load_balancer($load_balancer_name, $instances, $opt = null)
 	{
@@ -233,7 +233,7 @@ class AmazonELB extends CFRuntime
 		$opt['LoadBalancerName'] = $load_balancer_name;
 
 		// Required parameter
-		$opt = array_merge($opt, CFComplexType::map(array(
+		$opt = array_merge($opt, TWComplexType::map(array(
 			'Instances' => (is_array($instances) ? $instances : array($instances))
 		), 'member'));
 
@@ -250,7 +250,7 @@ class AmazonELB extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function set_load_balancer_policies_of_listener($load_balancer_name, $load_balancer_port, $policy_names, $opt = null)
 	{
@@ -259,7 +259,7 @@ class AmazonELB extends CFRuntime
 		$opt['LoadBalancerPort'] = $load_balancer_port;
 
 		// Required parameter
-		$opt = array_merge($opt, CFComplexType::map(array(
+		$opt = array_merge($opt, TWComplexType::map(array(
 			'PolicyNames' => (is_array($policy_names) ? $policy_names : array($policy_names))
 		), 'member'));
 
@@ -275,7 +275,7 @@ class AmazonELB extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function delete_load_balancer_listeners($load_balancer_name, $load_balancer_ports, $opt = null)
 	{
@@ -283,7 +283,7 @@ class AmazonELB extends CFRuntime
 		$opt['LoadBalancerName'] = $load_balancer_name;
 
 		// Required parameter
-		$opt = array_merge($opt, CFComplexType::map(array(
+		$opt = array_merge($opt, TWComplexType::map(array(
 			'LoadBalancerPorts' => (is_array($load_balancer_ports) ? $load_balancer_ports : array($load_balancer_ports))
 		), 'member'));
 
@@ -309,7 +309,7 @@ class AmazonELB extends CFRuntime
 	 * 	<li><code>CookieExpirationPeriod</code> - <code>long</code> - Optional - The time period in seconds after which the cookie should be considered stale. Not specifying this parameter indicates that the sticky session will last for the duration of the browser session. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function create_lb_cookie_stickiness_policy($load_balancer_name, $policy_name, $opt = null)
 	{
@@ -332,7 +332,7 @@ class AmazonELB extends CFRuntime
 	 * 	<li><code>PolicyNames</code> - <code>string|array</code> - Optional - The names of LoadBalancer policies you've created or Elastic Load Balancing sample policy names.  Pass a string for a single value, or an indexed array for multiple values. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_load_balancer_policies($opt = null)
 	{
@@ -341,7 +341,7 @@ class AmazonELB extends CFRuntime
 		// Optional parameter
 		if (isset($opt['PolicyNames']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'PolicyNames' => (is_array($opt['PolicyNames']) ? $opt['PolicyNames'] : array($opt['PolicyNames']))
 			), 'member'));
 			unset($opt['PolicyNames']);
@@ -360,7 +360,7 @@ class AmazonELB extends CFRuntime
 	 * 	<li><code>PolicyTypeNames</code> - <code>string|array</code> - Optional - Specifies the name of the policy types. If no names are specified, returns the description of all the policy types defined by Elastic Load Balancing service.  Pass a string for a single value, or an indexed array for multiple values. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_load_balancer_policy_types($opt = null)
 	{
@@ -369,7 +369,7 @@ class AmazonELB extends CFRuntime
 		// Optional parameter
 		if (isset($opt['PolicyTypeNames']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'PolicyTypeNames' => (is_array($opt['PolicyTypeNames']) ? $opt['PolicyTypeNames'] : array($opt['PolicyTypeNames']))
 			), 'member'));
 			unset($opt['PolicyTypeNames']);
@@ -396,7 +396,7 @@ class AmazonELB extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function disable_availability_zones_for_load_balancer($load_balancer_name, $availability_zones, $opt = null)
 	{
@@ -404,7 +404,7 @@ class AmazonELB extends CFRuntime
 		$opt['LoadBalancerName'] = $load_balancer_name;
 
 		// Required parameter
-		$opt = array_merge($opt, CFComplexType::map(array(
+		$opt = array_merge($opt, TWComplexType::map(array(
 			'AvailabilityZones' => (is_array($availability_zones) ? $availability_zones : array($availability_zones))
 		), 'member'));
 
@@ -450,7 +450,7 @@ class AmazonELB extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function create_load_balancer($load_balancer_name, $listeners, $availability_zones, $opt = null)
 	{
@@ -458,12 +458,12 @@ class AmazonELB extends CFRuntime
 		$opt['LoadBalancerName'] = $load_balancer_name;
 
 		// Required parameter
-		$opt = array_merge($opt, CFComplexType::map(array(
+		$opt = array_merge($opt, TWComplexType::map(array(
 			'Listeners' => (is_array($listeners) ? $listeners : array($listeners))
 		), 'member'));
 
 		// Required parameter
-		$opt = array_merge($opt, CFComplexType::map(array(
+		$opt = array_merge($opt, TWComplexType::map(array(
 			'AvailabilityZones' => (is_array($availability_zones) ? $availability_zones : array($availability_zones))
 		), 'member'));
 
@@ -484,7 +484,7 @@ class AmazonELB extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function enable_availability_zones_for_load_balancer($load_balancer_name, $availability_zones, $opt = null)
 	{
@@ -492,7 +492,7 @@ class AmazonELB extends CFRuntime
 		$opt['LoadBalancerName'] = $load_balancer_name;
 
 		// Required parameter
-		$opt = array_merge($opt, CFComplexType::map(array(
+		$opt = array_merge($opt, TWComplexType::map(array(
 			'AvailabilityZones' => (is_array($availability_zones) ? $availability_zones : array($availability_zones))
 		), 'member'));
 
@@ -516,7 +516,7 @@ class AmazonELB extends CFRuntime
 	 * 	</ul></li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function create_load_balancer_policy($load_balancer_name, $policy_name, $policy_type_name, $opt = null)
 	{
@@ -528,7 +528,7 @@ class AmazonELB extends CFRuntime
 		// Optional parameter
 		if (isset($opt['PolicyAttributes']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'PolicyAttributes' => $opt['PolicyAttributes']
 			), 'member'));
 			unset($opt['PolicyAttributes']);
@@ -552,7 +552,7 @@ class AmazonELB extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function deregister_instances_from_load_balancer($load_balancer_name, $instances, $opt = null)
 	{
@@ -560,7 +560,7 @@ class AmazonELB extends CFRuntime
 		$opt['LoadBalancerName'] = $load_balancer_name;
 
 		// Required parameter
-		$opt = array_merge($opt, CFComplexType::map(array(
+		$opt = array_merge($opt, TWComplexType::map(array(
 			'Instances' => (is_array($instances) ? $instances : array($instances))
 		), 'member'));
 
@@ -587,7 +587,7 @@ class AmazonELB extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function create_app_cookie_stickiness_policy($load_balancer_name, $policy_name, $cookie_name, $opt = null)
 	{
@@ -616,7 +616,7 @@ class AmazonELB extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function delete_load_balancer($load_balancer_name, $opt = null)
 	{
@@ -635,7 +635,7 @@ class AmazonELB extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function delete_load_balancer_policy($load_balancer_name, $policy_name, $opt = null)
 	{
@@ -663,7 +663,7 @@ class AmazonELB extends CFRuntime
 	 * 	</ul></li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_instance_health($load_balancer_name, $opt = null)
 	{
@@ -673,7 +673,7 @@ class AmazonELB extends CFRuntime
 		// Optional parameter
 		if (isset($opt['Instances']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'Instances' => $opt['Instances']
 			), 'member'));
 			unset($opt['Instances']);
@@ -694,7 +694,7 @@ class AmazonELB extends CFRuntime
 	 * 	<li><code>LoadBalancerNames</code> - <code>string|array</code> - Optional - A list of names associated with the LoadBalancers at creation time.  Pass a string for a single value, or an indexed array for multiple values. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_load_balancers($opt = null)
 	{
@@ -703,7 +703,7 @@ class AmazonELB extends CFRuntime
 		// Optional parameter
 		if (isset($opt['LoadBalancerNames']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'LoadBalancerNames' => (is_array($opt['LoadBalancerNames']) ? $opt['LoadBalancerNames'] : array($opt['LoadBalancerNames']))
 			), 'member'));
 			unset($opt['LoadBalancerNames']);
@@ -730,7 +730,7 @@ class AmazonELB extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function create_load_balancer_listeners($load_balancer_name, $listeners, $opt = null)
 	{
@@ -738,7 +738,7 @@ class AmazonELB extends CFRuntime
 		$opt['LoadBalancerName'] = $load_balancer_name;
 
 		// Required parameter
-		$opt = array_merge($opt, CFComplexType::map(array(
+		$opt = array_merge($opt, TWComplexType::map(array(
 			'Listeners' => (is_array($listeners) ? $listeners : array($listeners))
 		), 'member'));
 

@@ -1,7 +1,7 @@
 #! /usr/bin/env php
 <?php
 /*
- * Copyright 2010 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ * Copyright 2010 ThumbWhere.com, Inc. or its affiliates. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License").
  * You may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
 	In order to run this sample, I'll assume a few things:
 
 	* You already have a valid ThumbWhere developer account, and are
-	  signed up to use Amazon S3 <http://thumbwhere.com/api>.
+	  signed up to use ThumbWhere S3 <http://thumbwhere.com/api>.
 
 	* You already understand the fundamentals of object-oriented PHP.
 
@@ -53,8 +53,8 @@
 /*%******************************************************************************************%*/
 // DOWNLOAD SAMPLE FILE FROM S3
 
-	// Instantiate the AmazonS3 class
-	$s3 = new AmazonS3();
+	// Instantiate the ThumbWhereS3 class
+	$s3 = new ThumbWhereS3();
 
 	// Instantiate a new progress bar.
 	// We won't know the max number of bytes until the download starts, so we'll handle that in our callback.
@@ -106,7 +106,7 @@
 	$bucket = 's3-progress-bar-' . strtolower($s3->key);
 	if (!$s3->if_bucket_exists($bucket))
 	{
-		$response = $s3->create_bucket($bucket, AmazonS3::REGION_US_E1);
+		$response = $s3->create_bucket($bucket, ThumbWhereS3::REGION_US_E1);
 		if (!$response->isOK()) die('Could not create `' . $bucket . '`.');
 	}
 

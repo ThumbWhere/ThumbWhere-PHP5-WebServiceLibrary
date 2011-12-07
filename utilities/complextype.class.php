@@ -26,7 +26,7 @@
  * @copyright See the included NOTICE.md file for more information.
  * @link http://thumbwhere.com/sdk/php/ PHP Developer Center
  */
-class CFComplexType
+class TWComplexType
 {
 	/**
 	 * Takes a JSON object, as a string, to convert to query string keys.
@@ -101,7 +101,7 @@ class CFComplexType
 				{
 					self::option_group($v, $member, $key, $out);
 				}
-				elseif ($v instanceof CFStepConfig)
+				elseif ($v instanceof TWStepConfig)
 				{
 					self::option_group($v->get_config(), $member, $key, $out);
 				}

@@ -19,7 +19,7 @@
 // CLASS
 
 /**
- * Contains a set of pre-built Amazon EMR Hadoop Bootstrap Actions.
+ * Contains a set of pre-built ThumbWhere EMR Hadoop Bootstrap Actions.
  *
  * @version 2011.05.03
  * @license See the included NOTICE.md file for more information.
@@ -27,7 +27,7 @@
  * @link http://thumbwhere.com/sdk/php/ PHP Developer Center
  * @link http://hadoop.apache.org Apache Hadoop
  */
-class CFHadoopBootstrap extends CFHadoopBase
+class TWHadoopBootstrap extends TWHadoopBase
 {
 	// Config file types
 	const CONFIG_SITE = 'S';
@@ -61,7 +61,7 @@ class CFHadoopBootstrap extends CFHadoopBase
 	/**
 	 * Specify options to merge with Hadoop's default configuration.
 	 *
-	 * @param string $file (Required) The Hadoop configuration file to merge with. [Allowed values: <code>CFHadoopBootstrap::CONFIG_SITE</code>, <code>CFHadoopBootstrap::CONFIG_DEFAULT</code>, <code>CFHadoopBootstrap::CONFIG_CORE</code>, <code>CFHadoopBootstrap::CONFIG_HDFS</code>, <code>CFHadoopBootstrap::CONFIG_MAPREDUCE</code>]
+	 * @param string $file (Required) The Hadoop configuration file to merge with. [Allowed values: <code>TWHadoopBootstrap::CONFIG_SITE</code>, <code>TWHadoopBootstrap::CONFIG_DEFAULT</code>, <code>TWHadoopBootstrap::CONFIG_CORE</code>, <code>TWHadoopBootstrap::CONFIG_HDFS</code>, <code>TWHadoopBootstrap::CONFIG_MAPREDUCE</code>]
 	 * @param string|array $config (Required) This can either be an XML file in S3 (as <code>s3://bucket/path</code>), or an associative array of key-value pairs.
 	 * @return array A configuration set to be provided when running a job flow.
 	 */

@@ -26,17 +26,17 @@
  * @copyright See the included NOTICE.md file for more information.
  * @link http://thumbwhere.com/sdk/php/ PHP Developer Center
  */
-class CFJSON
+class TWJSON
 {
 	/**
-	 * Converts a JSON string to a CFSimpleXML object.
+	 * Converts a JSON string to a TWSimpleXML object.
 	 *
 	 * @param string|array $json (Required) Pass either a valid JSON-formatted string, or an associative array.
 	 * @param SimpleXMLElement $xml (Optional) An XML object to add nodes to. Must be an object that is an <code>instanceof</code> a <code>SimpleXMLElement</code> object. If an object is not passed, a new one will be generated using the classname defined for <code>$parser</code>.
-	 * @param string $parser (Optional) The name of the class to use to parse the XML. This class should extend <code>SimpleXMLElement</code>. Has a default value of <code>CFSimpleXML</code>.
-	 * @return CFSimpleXML An XML representation of the data.
+	 * @param string $parser (Optional) The name of the class to use to parse the XML. This class should extend <code>SimpleXMLElement</code>. Has a default value of <code>TWSimpleXML</code>.
+	 * @return TWSimpleXML An XML representation of the data.
 	 */
-	public static function to_xml($json, SimpleXMLElement $xml = null, $parser = 'CFSimpleXML')
+	public static function to_xml($json, SimpleXMLElement $xml = null, $parser = 'TWSimpleXML')
 	{
 		// If there isn't an XML object, create one
 		if (!$xml)
@@ -80,14 +80,14 @@ class CFJSON
 	}
 
 	/**
-	 * Converts a JSON string to a CFSimpleXML object.
+	 * Converts a JSON string to a TWSimpleXML object.
 	 *
 	 * @param string|array $json (Required) Pass either a valid JSON-formatted string, or an associative array.
 	 * @param SimpleXMLElement $xml (Optional) An XML object to add nodes to. Must be an object that is an <code>instanceof</code> a <code>SimpleXMLElement</code> object. If an object is not passed, a new one will be generated using the classname defined for <code>$parser</code>.
-	 * @param string $parser (Optional) The name of the class to use to parse the XML. This class should extend <code>SimpleXMLElement</code>. Has a default value of <code>CFSimpleXML</code>.
-	 * @return CFSimpleXML An XML representation of the data.
+	 * @param string $parser (Optional) The name of the class to use to parse the XML. This class should extend <code>SimpleXMLElement</code>. Has a default value of <code>TWSimpleXML</code>.
+	 * @return TWSimpleXML An XML representation of the data.
 	 */
-	protected static function process_json($json, SimpleXMLElement $xml = null, $parser = 'CFSimpleXML')
+	protected static function process_json($json, SimpleXMLElement $xml = null, $parser = 'TWSimpleXML')
 	{
 		foreach ($json as $k => $v)
 		{

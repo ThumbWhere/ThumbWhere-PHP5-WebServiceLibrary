@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2011 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ * Copyright 2011 ThumbWhere.com, Inc. or its affiliates. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License").
  * You may not use this file except in compliance with the License.
@@ -71,7 +71,7 @@
  * @link http://thumbwhere.com/sdk/php/ PHP Developer Center
  * @link https://github.com/simplepie/simplepie/blob/master/SimplePie/gzdecode.php SimplePie_gzdecode
  */
-class CFGzipDecode
+class TWGzipDecode
 {
 	/**
 	 * Compressed data

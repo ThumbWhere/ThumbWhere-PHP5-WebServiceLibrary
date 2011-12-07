@@ -19,9 +19,9 @@
 // EXCEPTIONS
 
 /**
- * Default CFBatchRequest Exception.
+ * Default TWBatchRequest Exception.
  */
-class CFBatchRequest_Exception extends Exception {}
+class TWBatchRequest_Exception extends Exception {}
 
 
 /*%******************************************************************************************%*/
@@ -37,7 +37,7 @@ class CFBatchRequest_Exception extends Exception {}
  * @copyright See the included NOTICE.md file for more information.
  * @link http://thumbwhere.com/sdk/php/ PHP Developer Center
  */
-class CFBatchRequest extends CFRuntime
+class TWBatchRequest extends TWRuntime
 {
 	/**
 	 * Stores the cURL handles that are to be processed.
@@ -82,7 +82,7 @@ class CFBatchRequest extends CFRuntime
 	 * Executes the batch request queue.
 	 *
 	 * @param array $opt (DO NOT USE) Enabled for compatibility with the method this overrides, although any values passed will be ignored.
-	 * @return array An indexed array of <CFResponse> objects.
+	 * @return array An indexed array of <TWResponse> objects.
 	 */
 	public function send($opt = null)
 	{

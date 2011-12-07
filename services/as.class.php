@@ -21,7 +21,7 @@
  * health checks. Auto Scaling responds automatically to changing conditions. All you need to do is specify how it should respond to those
  * changes.
  *
- * Auto Scaling groups can work across multiple Availability Zones - distinct physical locations for the hosted Amazon EC2 instances - so that
+ * Auto Scaling groups can work across multiple Availability Zones - distinct physical locations for the hosted ThumbWhere EC2 instances - so that
  * if an Availability Zone becomes unavailable, Auto Scaling will automatically redistribute applications to a different Availability Zone.
  *
  * Every API call returns a response meta data object that contains a request identifier. Successful requests return an HTTP 200 status code.
@@ -41,10 +41,10 @@
  * @version Thu Sep 01 21:17:05 PDT 2011
  * @license See the included NOTICE.md file for complete information.
  * @copyright See the included NOTICE.md file for complete information.
- * @link http://tw.amazon.com/autoscaling/Amazon Auto-Scaling
- * @link http://tw.amazon.com/documentation/autoscaling/Amazon Auto-Scaling documentation
+ * @link http://tw.amazon.com/autoscaling/ThumbWhere Auto-Scaling
+ * @link http://tw.amazon.com/documentation/autoscaling/ThumbWhere Auto-Scaling documentation
  */
-class AmazonAS extends CFRuntime
+class ThumbWhereAS extends TWRuntime
 {
 
 	/*%******************************************************************************************%*/
@@ -106,10 +106,10 @@ class AmazonAS extends CFRuntime
 	// CONSTRUCTOR
 
 	/**
-	 * Constructs a new instance of <AmazonAS>.
+	 * Constructs a new instance of <ThumbWhereAS>.
 	 *
-	 * @param string $key (Optional) Your Amazon API Key. If blank, it will look for the <code>TW_KEY</code> constant.
-	 * @param string $secret_key (Optional) Your Amazon API Secret Key. If blank, it will look for the <code>TW_SECRET_KEY</code> constant.
+	 * @param string $key (Optional) Your ThumbWhere API Key. If blank, it will look for the <code>TW_KEY</code> constant.
+	 * @param string $secret_key (Optional) Your ThumbWhere API Secret Key. If blank, it will look for the <code>TW_SECRET_KEY</code> constant.
 	 * @return boolean false if no valid values are set, otherwise true.
 	 */
 	public function __construct($key = null, $secret_key = null)
@@ -154,7 +154,7 @@ class AmazonAS extends CFRuntime
 	 * 	<li><code>DesiredCapacity</code> - <code>integer</code> - Optional - The number of EC2 instances that should be running in the group. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function put_scheduled_update_group_action($auto_scaling_group_name, $scheduled_action_name, $opt = null)
 	{
@@ -201,7 +201,7 @@ class AmazonAS extends CFRuntime
 	 * 	<li><code>HonorCooldown</code> - <code>boolean</code> - Optional - By default, <code>SetDesiredCapacity</code> overrides any cooldown period. Set to True if you want Auto Scaling to reject this request if the Auto Scaling group is in cooldown. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function set_desired_capacity($auto_scaling_group_name, $desired_capacity, $opt = null)
 	{
@@ -221,7 +221,7 @@ class AmazonAS extends CFRuntime
 	 * 	<li><code>AutoScalingGroupName</code> - <code>string</code> - Optional - The name of the Auto Scaling group. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function delete_policy($policy_name, $opt = null)
 	{
@@ -240,7 +240,7 @@ class AmazonAS extends CFRuntime
 	 * 	<li><code>AutoScalingGroupName</code> - <code>string</code> - Optional - The name of the Auto Scaling group </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function delete_scheduled_action($scheduled_action_name, $opt = null)
 	{
@@ -262,7 +262,7 @@ class AmazonAS extends CFRuntime
 	 * 	<li><code>MaxRecords</code> - <code>integer</code> - Optional - The maximum number of launch configurations. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_launch_configurations($opt = null)
 	{
@@ -271,7 +271,7 @@ class AmazonAS extends CFRuntime
 		// Optional parameter
 		if (isset($opt['LaunchConfigurationNames']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'LaunchConfigurationNames' => (is_array($opt['LaunchConfigurationNames']) ? $opt['LaunchConfigurationNames'] : array($opt['LaunchConfigurationNames']))
 			), 'member'));
 			unset($opt['LaunchConfigurationNames']);
@@ -287,7 +287,7 @@ class AmazonAS extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_scaling_process_types($opt = null)
 	{
@@ -298,7 +298,7 @@ class AmazonAS extends CFRuntime
 
 	/**
 	 *
-	 * Returns a full description of each Auto Scaling group in the given list. This includes all Amazon EC2 instances that are members of the
+	 * Returns a full description of each Auto Scaling group in the given list. This includes all ThumbWhere EC2 instances that are members of the
 	 * group. If a list of names is not provided, the service returns the full details of all Auto Scaling groups.
 	 *
 	 * This action supports pagination by returning a token if there are more pages to retrieve. To get the next page, call this action again with
@@ -310,7 +310,7 @@ class AmazonAS extends CFRuntime
 	 * 	<li><code>MaxRecords</code> - <code>integer</code> - Optional - The maximum number of records to return. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_auto_scaling_groups($opt = null)
 	{
@@ -319,7 +319,7 @@ class AmazonAS extends CFRuntime
 		// Optional parameter
 		if (isset($opt['AutoScalingGroupNames']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'AutoScalingGroupNames' => (is_array($opt['AutoScalingGroupNames']) ? $opt['AutoScalingGroupNames'] : array($opt['AutoScalingGroupNames']))
 			), 'member'));
 			unset($opt['AutoScalingGroupNames']);
@@ -342,7 +342,7 @@ class AmazonAS extends CFRuntime
 	 * 	<li><code>Metrics</code> - <code>string|array</code> - Optional - The list of metrics to collect. If no metrics are specified, all metrics are enabled. The following metrics are supported: <ul> <li>GroupMinSize</li><li>GroupMaxSize</li><li>GroupDesiredCapacity</li><li>GroupInServiceInstances</li><li>GroupPendingInstances</li><li>GroupTerminatingInstances</li><li>GroupTotalInstances</li> </ul>  Pass a string for a single value, or an indexed array for multiple values. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function enable_metrics_collection($auto_scaling_group_name, $granularity, $opt = null)
 	{
@@ -352,7 +352,7 @@ class AmazonAS extends CFRuntime
 		// Optional parameter
 		if (isset($opt['Metrics']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'Metrics' => (is_array($opt['Metrics']) ? $opt['Metrics'] : array($opt['Metrics']))
 			), 'member'));
 			unset($opt['Metrics']);
@@ -373,7 +373,7 @@ class AmazonAS extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function terminate_instance_in_auto_scaling_group($instance_id, $should_decrement_desired_capacity, $opt = null)
 	{
@@ -401,7 +401,7 @@ class AmazonAS extends CFRuntime
 	 * 	<li><code>NextToken</code> - <code>string</code> - Optional - A string that marks the start of the next batch of returned results for pagination. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_scaling_activities($opt = null)
 	{
@@ -410,7 +410,7 @@ class AmazonAS extends CFRuntime
 		// Optional parameter
 		if (isset($opt['ActivityIds']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'ActivityIds' => (is_array($opt['ActivityIds']) ? $opt['ActivityIds'] : array($opt['ActivityIds']))
 			), 'member'));
 			unset($opt['ActivityIds']);
@@ -429,7 +429,7 @@ class AmazonAS extends CFRuntime
 	 * 	<li><code>HonorCooldown</code> - <code>boolean</code> - Optional - Set to True if you want Auto Scaling to reject this request if the Auto Scaling group is in cooldown. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function execute_policy($policy_name, $opt = null)
 	{
@@ -446,7 +446,7 @@ class AmazonAS extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_metric_collection_types($opt = null)
 	{
@@ -467,7 +467,7 @@ class AmazonAS extends CFRuntime
 	 * 	<li><code>MaxRecords</code> - <code>integer</code> - Optional - The maximum number of policies that will be described with each call. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_policies($opt = null)
 	{
@@ -476,7 +476,7 @@ class AmazonAS extends CFRuntime
 		// Optional parameter
 		if (isset($opt['PolicyNames']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'PolicyNames' => (is_array($opt['PolicyNames']) ? $opt['PolicyNames'] : array($opt['PolicyNames']))
 			), 'member'));
 			unset($opt['PolicyNames']);
@@ -492,7 +492,7 @@ class AmazonAS extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_adjustment_types($opt = null)
 	{
@@ -512,7 +512,7 @@ class AmazonAS extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function delete_auto_scaling_group($auto_scaling_group_name, $opt = null)
 	{
@@ -539,13 +539,13 @@ class AmazonAS extends CFRuntime
 	 * 	<li><code>DesiredCapacity</code> - <code>integer</code> - Optional - The number of EC2 instances that should be running in the group. For more information, see SetDesiredCapacity. </li>
 	 * 	<li><code>DefaultCooldown</code> - <code>integer</code> - Optional - The amount of time, in seconds, after a scaling activity completes before any further trigger-related scaling activities can start. </li>
 	 * 	<li><code>LoadBalancerNames</code> - <code>string|array</code> - Optional - A list of LoadBalancers to use.  Pass a string for a single value, or an indexed array for multiple values. </li>
-	 * 	<li><code>HealthCheckType</code> - <code>string</code> - Optional - The service you want the health status from, Amazon EC2 or Elastic Load Balancer. Valid values are "EC2" or "ELB." </li>
+	 * 	<li><code>HealthCheckType</code> - <code>string</code> - Optional - The service you want the health status from, ThumbWhere EC2 or Elastic Load Balancer. Valid values are "EC2" or "ELB." </li>
 	 * 	<li><code>HealthCheckGracePeriod</code> - <code>integer</code> - Optional - Length of time in seconds after a new EC2 instance comes into service that Auto Scaling starts checking its health. </li>
-	 * 	<li><code>PlacementGroup</code> - <code>string</code> - Optional - Physical location of your cluster placement group created in Amazon EC2. </li>
+	 * 	<li><code>PlacementGroup</code> - <code>string</code> - Optional - Physical location of your cluster placement group created in ThumbWhere EC2. </li>
 	 * 	<li><code>VPCZoneIdentifier</code> - <code>string</code> - Optional - The subnet identifier of the Virtual Private Cloud. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function create_auto_scaling_group($auto_scaling_group_name, $launch_configuration_name, $min_size, $max_size, $availability_zones, $opt = null)
 	{
@@ -556,14 +556,14 @@ class AmazonAS extends CFRuntime
 		$opt['MaxSize'] = $max_size;
 
 		// Required parameter
-		$opt = array_merge($opt, CFComplexType::map(array(
+		$opt = array_merge($opt, TWComplexType::map(array(
 			'AvailabilityZones' => (is_array($availability_zones) ? $availability_zones : array($availability_zones))
 		), 'member'));
 
 		// Optional parameter
 		if (isset($opt['LoadBalancerNames']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'LoadBalancerNames' => (is_array($opt['LoadBalancerNames']) ? $opt['LoadBalancerNames'] : array($opt['LoadBalancerNames']))
 			), 'member'));
 			unset($opt['LoadBalancerNames']);
@@ -586,7 +586,7 @@ class AmazonAS extends CFRuntime
 	 * 	<li><code>NextToken</code> - <code>string</code> - Optional - The token returned by a previous call to indicate that there is more data available. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_auto_scaling_instances($opt = null)
 	{
@@ -595,7 +595,7 @@ class AmazonAS extends CFRuntime
 		// Optional parameter
 		if (isset($opt['InstanceIds']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'InstanceIds' => (is_array($opt['InstanceIds']) ? $opt['InstanceIds'] : array($opt['InstanceIds']))
 			), 'member'));
 			unset($opt['InstanceIds']);
@@ -615,7 +615,7 @@ class AmazonAS extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function delete_launch_configuration($launch_configuration_name, $opt = null)
 	{
@@ -638,7 +638,7 @@ class AmazonAS extends CFRuntime
 	 * 	<li><code>Cooldown</code> - <code>integer</code> - Optional - The amount of time, in seconds, after a scaling activity completes before any further trigger-related scaling activities can start. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function put_scaling_policy($auto_scaling_group_name, $policy_name, $scaling_adjustment, $adjustment_type, $opt = null)
 	{
@@ -661,7 +661,7 @@ class AmazonAS extends CFRuntime
 	 * 	<li><code>ShouldRespectGracePeriod</code> - <code>boolean</code> - Optional - If True, this call should respect the grace period associated with the group. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function set_instance_health($instance_id, $health_status, $opt = null)
 	{
@@ -696,13 +696,13 @@ class AmazonAS extends CFRuntime
 	 * 	<li><code>DesiredCapacity</code> - <code>integer</code> - Optional - The desired capacity for the Auto Scaling group. </li>
 	 * 	<li><code>DefaultCooldown</code> - <code>integer</code> - Optional - The amount of time, in seconds, after a scaling activity completes before any further trigger-related scaling activities can start. </li>
 	 * 	<li><code>AvailabilityZones</code> - <code>string|array</code> - Optional - Availability zones for the group.  Pass a string for a single value, or an indexed array for multiple values. </li>
-	 * 	<li><code>HealthCheckType</code> - <code>string</code> - Optional - The service of interest for the health status check, either "EC2" for Amazon EC2 or "ELB" for Elastic Load Balancing. </li>
+	 * 	<li><code>HealthCheckType</code> - <code>string</code> - Optional - The service of interest for the health status check, either "EC2" for ThumbWhere EC2 or "ELB" for Elastic Load Balancing. </li>
 	 * 	<li><code>HealthCheckGracePeriod</code> - <code>integer</code> - Optional - The length of time that Auto Scaling waits before checking an instance's health status. The grace period begins when an instance comes into service. </li>
-	 * 	<li><code>PlacementGroup</code> - <code>string</code> - Optional - The name of the cluster placement group, if applicable. For more information, go to Using Cluster Instances in the <i>Amazon EC2 User Guide</i>. </li>
+	 * 	<li><code>PlacementGroup</code> - <code>string</code> - Optional - The name of the cluster placement group, if applicable. For more information, go to Using Cluster Instances in the <i>ThumbWhere EC2 User Guide</i>. </li>
 	 * 	<li><code>VPCZoneIdentifier</code> - <code>string</code> - Optional - The identifier for the VPC connection, if applicable. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function update_auto_scaling_group($auto_scaling_group_name, $opt = null)
 	{
@@ -712,7 +712,7 @@ class AmazonAS extends CFRuntime
 		// Optional parameter
 		if (isset($opt['AvailabilityZones']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'AvailabilityZones' => (is_array($opt['AvailabilityZones']) ? $opt['AvailabilityZones'] : array($opt['AvailabilityZones']))
 			), 'member'));
 			unset($opt['AvailabilityZones']);
@@ -735,7 +735,7 @@ class AmazonAS extends CFRuntime
 	 * 	<li><code>MaxRecords</code> - <code>integer</code> - Optional - The maximum number of scheduled actions to return. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_scheduled_actions($opt = null)
 	{
@@ -744,7 +744,7 @@ class AmazonAS extends CFRuntime
 		// Optional parameter
 		if (isset($opt['ScheduledActionNames']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'ScheduledActionNames' => (is_array($opt['ScheduledActionNames']) ? $opt['ScheduledActionNames'] : array($opt['ScheduledActionNames']))
 			), 'member'));
 			unset($opt['ScheduledActionNames']);
@@ -776,12 +776,12 @@ class AmazonAS extends CFRuntime
 	 *
 	 * To resume processes that have been suspended, use ResumeProcesses.
 	 *
-	 * @param string $auto_scaling_group_name (Required) The name or Amazon Resource Name (ARN) of the Auto Scaling group.
+	 * @param string $auto_scaling_group_name (Required) The name or ThumbWhere Resource Name (ARN) of the Auto Scaling group.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>ScalingProcesses</code> - <code>string|array</code> - Optional - The processes that you want to suspend or resume, which can include one or more of the following: <ul> <li>Launch</li><li>Terminate</li><li>HealthCheck</li><li>ReplaceUnhealthy</li><li>AZRebalance</li><li>AlarmNotifications</li><li>ScheduledActions</li> </ul> To suspend all process types, omit this parameter.  Pass a string for a single value, or an indexed array for multiple values. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function suspend_processes($auto_scaling_group_name, $opt = null)
 	{
@@ -791,7 +791,7 @@ class AmazonAS extends CFRuntime
 		// Optional parameter
 		if (isset($opt['ScalingProcesses']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'ScalingProcesses' => (is_array($opt['ScalingProcesses']) ? $opt['ScalingProcesses'] : array($opt['ScalingProcesses']))
 			), 'member'));
 			unset($opt['ScalingProcesses']);
@@ -804,12 +804,12 @@ class AmazonAS extends CFRuntime
 	 *
 	 * Resumes Auto Scaling processes for an Auto Scaling group. For more information, see SuspendProcesses and ProcessType.
 	 *
-	 * @param string $auto_scaling_group_name (Required) The name or Amazon Resource Name (ARN) of the Auto Scaling group.
+	 * @param string $auto_scaling_group_name (Required) The name or ThumbWhere Resource Name (ARN) of the Auto Scaling group.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>ScalingProcesses</code> - <code>string|array</code> - Optional - The processes that you want to suspend or resume, which can include one or more of the following: <ul> <li>Launch</li><li>Terminate</li><li>HealthCheck</li><li>ReplaceUnhealthy</li><li>AZRebalance</li><li>AlarmNotifications</li><li>ScheduledActions</li> </ul> To suspend all process types, omit this parameter.  Pass a string for a single value, or an indexed array for multiple values. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function resume_processes($auto_scaling_group_name, $opt = null)
 	{
@@ -819,7 +819,7 @@ class AmazonAS extends CFRuntime
 		// Optional parameter
 		if (isset($opt['ScalingProcesses']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'ScalingProcesses' => (is_array($opt['ScalingProcesses']) ? $opt['ScalingProcesses'] : array($opt['ScalingProcesses']))
 			), 'member'));
 			unset($opt['ScalingProcesses']);
@@ -836,18 +836,18 @@ class AmazonAS extends CFRuntime
 	 * configurations must not yet have been met, or else the call will fail.
 	 *
 	 * @param string $launch_configuration_name (Required) The name of the launch configuration to create.
-	 * @param string $image_id (Required) Unique ID of the <i>Amazon Machine Image</i> (AMI) which was assigned during registration. For more information about Amazon EC2 images, please go to Using AMIs in the <i>Amazon EC2 User Guide</i>
-	 * @param string $instance_type (Required) The instance type of the EC2 instance. For more information about Amazon EC2 instance types, please go to Using Instances in the <i>Amazon EC2 User Guide</i>.
+	 * @param string $image_id (Required) Unique ID of the <i>ThumbWhere Machine Image</i> (AMI) which was assigned during registration. For more information about ThumbWhere EC2 images, please go to Using AMIs in the <i>ThumbWhere EC2 User Guide</i>
+	 * @param string $instance_type (Required) The instance type of the EC2 instance. For more information about ThumbWhere EC2 instance types, please go to Using Instances in the <i>ThumbWhere EC2 User Guide</i>.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>KeyName</code> - <code>string</code> - Optional - The name of the EC2 key pair. </li>
-	 * 	<li><code>SecurityGroups</code> - <code>string|array</code> - Optional - The names of the security groups with which to associate EC2 instances. For more information about Amazon EC2 security groups, go to Using Security Groups in the <i>Amazon EC2 User Guide</i>.  Pass a string for a single value, or an indexed array for multiple values. </li>
-	 * 	<li><code>UserData</code> - <code>string</code> - Optional - The user data available to the launched EC2 instances. For more information about Amazon EC2 user data, please go to Using Instances in the <i>Amazon EC2 User Guide</i>. </li>
+	 * 	<li><code>SecurityGroups</code> - <code>string|array</code> - Optional - The names of the security groups with which to associate EC2 instances. For more information about ThumbWhere EC2 security groups, go to Using Security Groups in the <i>ThumbWhere EC2 User Guide</i>.  Pass a string for a single value, or an indexed array for multiple values. </li>
+	 * 	<li><code>UserData</code> - <code>string</code> - Optional - The user data available to the launched EC2 instances. For more information about ThumbWhere EC2 user data, please go to Using Instances in the <i>ThumbWhere EC2 User Guide</i>. </li>
 	 * 	<li><code>KernelId</code> - <code>string</code> - Optional - The ID of the kernel associated with the EC2 AMI. </li>
 	 * 	<li><code>RamdiskId</code> - <code>string</code> - Optional - The ID of the RAM disk associated with the EC2 AMI. </li>
-	 * 	<li><code>BlockDeviceMappings</code> - <code>array</code> - Optional - A list of mappings that specify how block devices are exposed to the instance. Each mapping is made up of a <i>VirtualName</i>, a <i>DeviceName</i>, and an <i>ebs</i> data structure that contains information about the associated Elastic Block Storage volume. For more information about Amazon EC2 BlockDeviceMappings, please go to Block Device Mapping in the <i>Amazon EC2 User Guide</i>. <ul>
+	 * 	<li><code>BlockDeviceMappings</code> - <code>array</code> - Optional - A list of mappings that specify how block devices are exposed to the instance. Each mapping is made up of a <i>VirtualName</i>, a <i>DeviceName</i>, and an <i>ebs</i> data structure that contains information about the associated Elastic Block Storage volume. For more information about ThumbWhere EC2 BlockDeviceMappings, please go to Block Device Mapping in the <i>ThumbWhere EC2 User Guide</i>. <ul>
 	 * 		<li><code>x</code> - <code>array</code> - This represents a simple array index. <ul>
 	 * 			<li><code>VirtualName</code> - <code>string</code> - Optional - The virtual name associated with the device. </li>
-	 * 			<li><code>DeviceName</code> - <code>string</code> - Required - The name of the device within Amazon EC2. </li>
+	 * 			<li><code>DeviceName</code> - <code>string</code> - Required - The name of the device within ThumbWhere EC2. </li>
 	 * 			<li><code>Ebs</code> - <code>array</code> - Optional - The Elastic Block Storage volume information. Takes an associative array of parameters that can have the following keys: <ul>
 	 * 				<li><code>SnapshotId</code> - <code>string</code> - Optional - The Snapshot ID. </li>
 	 * 				<li><code>VolumeSize</code> - <code>integer</code> - Optional - The volume size, in GigaBytes. </li>
@@ -858,7 +858,7 @@ class AmazonAS extends CFRuntime
 	 * 		<li><code>Enabled</code> - <code>boolean</code> - Optional - If true, instance monitoring is enabled. </li></ul></li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function create_launch_configuration($launch_configuration_name, $image_id, $instance_type, $opt = null)
 	{
@@ -869,7 +869,7 @@ class AmazonAS extends CFRuntime
 		// Optional parameter
 		if (isset($opt['SecurityGroups']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'SecurityGroups' => (is_array($opt['SecurityGroups']) ? $opt['SecurityGroups'] : array($opt['SecurityGroups']))
 			), 'member'));
 			unset($opt['SecurityGroups']);
@@ -879,7 +879,7 @@ class AmazonAS extends CFRuntime
 		// Optional parameter
 		if (isset($opt['BlockDeviceMappings']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'BlockDeviceMappings' => $opt['BlockDeviceMappings']
 			), 'member'));
 			unset($opt['BlockDeviceMappings']);
@@ -888,7 +888,7 @@ class AmazonAS extends CFRuntime
 		// Optional parameter
 		if (isset($opt['InstanceMonitoring']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'InstanceMonitoring' => $opt['InstanceMonitoring']
 			), 'member'));
 			unset($opt['InstanceMonitoring']);
@@ -907,7 +907,7 @@ class AmazonAS extends CFRuntime
 	 * 	<li><code>Metrics</code> - <code>string|array</code> - Optional - The list of metrics to disable. If no metrics are specified, all metrics are disabled. The following metrics are supported: <ul> <li>GroupMinSize</li><li>GroupMaxSize</li><li>GroupDesiredCapacity</li><li>GroupInServiceInstances</li><li>GroupPendingInstances</li><li>GroupTerminatingInstances</li><li>GroupTotalInstances</li> </ul>  Pass a string for a single value, or an indexed array for multiple values. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function disable_metrics_collection($auto_scaling_group_name, $opt = null)
 	{
@@ -917,7 +917,7 @@ class AmazonAS extends CFRuntime
 		// Optional parameter
 		if (isset($opt['Metrics']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'Metrics' => (is_array($opt['Metrics']) ? $opt['Metrics'] : array($opt['Metrics']))
 			), 'member'));
 			unset($opt['Metrics']);

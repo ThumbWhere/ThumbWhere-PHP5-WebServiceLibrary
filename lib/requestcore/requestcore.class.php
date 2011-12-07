@@ -5,7 +5,7 @@
  * @version 2011.06.07
  * @copyright 2006-2011 Ryan Parman
  * @copyright 2006-2010 Foleeo Inc.
- * @copyright 2010-2011 Amazon.com, Inc. or its affiliates.
+ * @copyright 2010-2011 ThumbWhere.com, Inc. or its affiliates.
  * @copyright 2008-2011 Contributors
  * @license http://opensource.org/licenses/bsd-license.php Simplified BSD License
  */
@@ -993,7 +993,7 @@ class ResponseCore
 	 * Constructs a new instance of this class.
 	 *
 	 * @param array $header (Required) Associative array of HTTP headers (typically returned by <RequestCore::get_response_header()>).
-	 * @param string $body (Required) XML-formatted response from TW.
+	 * @param string $body (Required) XML-formatted response from AWS.
 	 * @param integer $status (Optional) HTTP response status code from the request.
 	 * @return object Contains an <php:array> `header` property (HTTP headers as an associative array), a <php:SimpleXMLElement> or <php:string> `body` property, and an <php:integer> `status` code.
 	 */

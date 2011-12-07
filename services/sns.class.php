@@ -20,10 +20,10 @@
  * @version Thu Sep 01 21:23:56 PDT 2011
  * @license See the included NOTICE.md file for complete information.
  * @copyright See the included NOTICE.md file for complete information.
- * @link http://tw.amazon.com/sns/Amazon Simple Notification Service
- * @link http://tw.amazon.com/documentation/sns/Amazon Simple Notification Service documentation
+ * @link http://tw.amazon.com/sns/ThumbWhere Simple Notification Service
+ * @link http://tw.amazon.com/documentation/sns/ThumbWhere Simple Notification Service documentation
  */
-class AmazonSNS extends CFRuntime
+class ThumbWhereSNS extends TWRuntime
 {
 
 	/*%******************************************************************************************%*/
@@ -71,7 +71,7 @@ class AmazonSNS extends CFRuntime
 	/**
 	 * This allows you to explicitly sets the region for the service to use.
 	 *
-	 * @param string $region (Required) The region to use for subsequent Amazon S3 operations. [Allowed values: `AmazonSNS::REGION_US_E1 `, `AmazonSNS::REGION_US_W1`, `AmazonSNS::REGION_EU_W1`, `AmazonSNS::REGION_APAC_SE1`]
+	 * @param string $region (Required) The region to use for subsequent ThumbWhere S3 operations. [Allowed values: `ThumbWhereSNS::REGION_US_E1 `, `ThumbWhereSNS::REGION_US_W1`, `ThumbWhereSNS::REGION_EU_W1`, `ThumbWhereSNS::REGION_APAC_SE1`]
 	 * @return $this A reference to the current instance.
 	 */
 	public function set_region($region)
@@ -114,7 +114,7 @@ class AmazonSNS extends CFRuntime
 	// CONSTRUCTOR
 
 	/**
-	 * Constructs a new instance of <AmazonSNS>. If the <code>TW_DEFAULT_CACHE_CONFIG</code> configuration
+	 * Constructs a new instance of <ThumbWhereSNS>. If the <code>TW_DEFAULT_CACHE_CONFIG</code> configuration
 	 * option is set, requests will be authenticated using a session token. Otherwise, requests will use
 	 * the older authentication method.
 	 *
@@ -157,7 +157,7 @@ class AmazonSNS extends CFRuntime
 	/**
 	 *
 	 * The ConfirmSubscription action verifies an endpoint owner's intent to receive messages by validating the token sent to the endpoint by an
-	 * earlier Subscribe action. If the token is valid, the action creates a new subscription and returns its Amazon Resource Name (ARN). This call
+	 * earlier Subscribe action. If the token is valid, the action creates a new subscription and returns its ThumbWhere Resource Name (ARN). This call
 	 * requires an TW signature only when the AuthenticateOnUnsubscribe flag is set to "true".
 	 *
 	 * @param string $topic_arn (Required) The ARN of the topic for which you wish to confirm a subscription.
@@ -166,7 +166,7 @@ class AmazonSNS extends CFRuntime
 	 * 	<li><code>AuthenticateOnUnsubscribe</code> - <code>string</code> - Optional - Indicates that you want to disable unauthenticated unsubsciption of the subscription. If parameter is present in the request, the request has an TW signature, and the value of this parameter is true, only the topic owner and the subscription owner will be permitted to unsubscribe the endopint, and the Unsubscribe action will require TW authentication. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function confirm_subscription($topic_arn, $token, $opt = null)
 	{
@@ -186,7 +186,7 @@ class AmazonSNS extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function get_topic_attributes($topic_arn, $opt = null)
 	{
@@ -203,12 +203,12 @@ class AmazonSNS extends CFRuntime
 	 * twenty-four hours.
 	 *
 	 * @param string $topic_arn (Required) The ARN of topic you want to subscribe to.
-	 * @param string $protocol (Required) The protocol you want to use. Supported protocols include: <ul> <li>http -- delivery of JSON-encoded message via HTTP POST</li><li>https -- delivery of JSON-encoded message via HTTPS POST</li><li>email -- delivery of message via SMTP</li><li>email-json -- delivery of JSON-encoded message via SMTP</li><li>sqs -- delivery of JSON-encoded message to an Amazon SQS queue</li> </ul>
-	 * @param string $endpoint (Required) The endpoint that you want to receive notifications. Endpoints vary by protocol: <ul> <li>For the http protocol, the endpoint is an URL beginning with "http://"</li><li>For the https protocol, the endpoint is a URL beginning with "https://"</li><li>For the email protocol, the endpoint is an e-mail address</li><li>For the email-json protocol, the endpoint is an e-mail address</li><li>For the sqs protocol, the endpoint is the ARN of an Amazon SQS queue</li> </ul>
+	 * @param string $protocol (Required) The protocol you want to use. Supported protocols include: <ul> <li>http -- delivery of JSON-encoded message via HTTP POST</li><li>https -- delivery of JSON-encoded message via HTTPS POST</li><li>email -- delivery of message via SMTP</li><li>email-json -- delivery of JSON-encoded message via SMTP</li><li>sqs -- delivery of JSON-encoded message to an ThumbWhere SQS queue</li> </ul>
+	 * @param string $endpoint (Required) The endpoint that you want to receive notifications. Endpoints vary by protocol: <ul> <li>For the http protocol, the endpoint is an URL beginning with "http://"</li><li>For the https protocol, the endpoint is a URL beginning with "https://"</li><li>For the email protocol, the endpoint is an e-mail address</li><li>For the email-json protocol, the endpoint is an e-mail address</li><li>For the sqs protocol, the endpoint is the ARN of an ThumbWhere SQS queue</li> </ul>
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function subscribe($topic_arn, $protocol, $endpoint, $opt = null)
 	{
@@ -230,7 +230,7 @@ class AmazonSNS extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function set_topic_attributes($topic_arn, $attribute_name, $attribute_value, $opt = null)
 	{
@@ -251,7 +251,7 @@ class AmazonSNS extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function delete_topic($topic_arn, $opt = null)
 	{
@@ -270,7 +270,7 @@ class AmazonSNS extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function remove_permission($topic_arn, $label, $opt = null)
 	{
@@ -290,7 +290,7 @@ class AmazonSNS extends CFRuntime
 	 * 	<li><code>NextToken</code> - <code>string</code> - Optional - Token returned by the previous ListSubscriptions request. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function list_subscriptions($opt = null)
 	{
@@ -311,7 +311,7 @@ class AmazonSNS extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function add_permission($topic_arn, $label, $account_id, $action_name, $opt = null)
 	{
@@ -320,12 +320,12 @@ class AmazonSNS extends CFRuntime
 		$opt['Label'] = $label;
 
 		// Required parameter
-		$opt = array_merge($opt, CFComplexType::map(array(
+		$opt = array_merge($opt, TWComplexType::map(array(
 			'TWAccountId' => (is_array($account_id) ? $account_id : array($account_id))
 		), 'member'));
 
 		// Required parameter
-		$opt = array_merge($opt, CFComplexType::map(array(
+		$opt = array_merge($opt, TWComplexType::map(array(
 			'ActionName' => (is_array($action_name) ? $action_name : array($action_name))
 		), 'member'));
 
@@ -342,7 +342,7 @@ class AmazonSNS extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function create_topic($name, $opt = null)
 	{
@@ -361,7 +361,7 @@ class AmazonSNS extends CFRuntime
 	 * 	<li><code>NextToken</code> - <code>string</code> - Optional - Token returned by the previous ListTopics request. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function list_topics($opt = null)
 	{
@@ -381,7 +381,7 @@ class AmazonSNS extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function unsubscribe($subscription_arn, $opt = null)
 	{
@@ -402,7 +402,7 @@ class AmazonSNS extends CFRuntime
 	 * 	<li><code>NextToken</code> - <code>string</code> - Optional - Token returned by the previous ListSubscriptionsByTopic request. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function list_subscriptions_by_topic($topic_arn, $opt = null)
 	{
@@ -415,7 +415,7 @@ class AmazonSNS extends CFRuntime
 	/**
 	 *
 	 * The Publish action sends a message to all of a topic's subscribed endpoints. When a messageId is returned, the message has been saved and
-	 * Amazon SNS will attempt to deliver it to the topic's subscribers shortly. The format of the outgoing message to each subscribed endpoint
+	 * ThumbWhere SNS will attempt to deliver it to the topic's subscribers shortly. The format of the outgoing message to each subscribed endpoint
 	 * depends on the notification protocol selected.
 	 *
 	 * @param string $topic_arn (Required) The topic you want to publish to.
@@ -424,7 +424,7 @@ class AmazonSNS extends CFRuntime
 	 * 	<li><code>Subject</code> - <code>string</code> - Optional - Optional parameter to be used as the "Subject" line of when the message is delivered to e-mail endpoints. This field will also be included, if present, in the standard JSON messages delivered to other endpoints. Constraints: Subjects must be ASCII text that begins with a letter, number or punctuation mark; must not include line breaks or control characters; and must be less than 100 characters long. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function publish($topic_arn, $message, $opt = null)
 	{

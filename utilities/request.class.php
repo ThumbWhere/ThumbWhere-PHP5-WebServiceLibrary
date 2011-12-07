@@ -26,17 +26,17 @@
  * @copyright See the included NOTICE.md file for more information.
  * @link http://thumbwhere.com/sdk/php/ PHP Developer Center
  */
-class CFRequest extends RequestCore
+class TWRequest extends RequestCore
 {
 	/**
-	 * The default class to use for HTTP Requests (defaults to <CFRequest>).
+	 * The default class to use for HTTP Requests (defaults to <TWRequest>).
 	 */
-	public $request_class = 'CFRequest';
+	public $request_class = 'TWRequest';
 
 	/**
-	 * The default class to use for HTTP Responses (defaults to <CFResponse>).
+	 * The default class to use for HTTP Responses (defaults to <TWResponse>).
 	 */
-	public $response_class = 'CFResponse';
+	public $response_class = 'TWResponse';
 
 
 	/*%******************************************************************************************%*/
@@ -56,7 +56,7 @@ class CFRequest extends RequestCore
 
 		// Standard settings for all requests
 		$this->add_header('Expect', '100-continue');
-		$this->set_useragent(CFRUNTIME_USERAGENT);
+		$this->set_useragent(TWRUNTIME_USERAGENT);
 		$this->cacert_location = (defined('TW_CERTIFICATE_AUTHORITY') ? TW_CERTIFICATE_AUTHORITY : false);
 
 		return $this;

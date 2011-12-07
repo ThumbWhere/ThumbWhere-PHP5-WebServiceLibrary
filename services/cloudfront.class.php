@@ -28,21 +28,21 @@ class CloudFront_Exception extends Exception {}
 // MAIN CLASS
 
 /**
- * Amazon CloudFront is a web service for content delivery. It makes it easier for you to distribute content
+ * ThumbWhere CloudFront is a web service for content delivery. It makes it easier for you to distribute content
  * to end users quickly, with low latency and high data transfer speeds.
  *
  * CloudFront delivers your content through a worldwide network of edge locations. End users are routed to
  * the nearest edge location, so content is delivered with the best possible performance. CloudFront works
- * seamlessly with the Amazon Simple Storage Service, which durably stores the original, definitive versions
+ * seamlessly with the ThumbWhere Simple Storage Service, which durably stores the original, definitive versions
  * of your files.
  *
  * @version 2011.03.11
  * @license See the included NOTICE.md file for more information.
  * @copyright See the included NOTICE.md file for more information.
- * @link http://tw.amazon.com/cloudfront/ Amazon CloudFront
- * @link http://tw.amazon.com/documentation/cloudfront/ Amazon CloudFront documentation
+ * @link http://tw.amazon.com/cloudfront/ ThumbWhere CloudFront
+ * @link http://tw.amazon.com/documentation/cloudfront/ ThumbWhere CloudFront documentation
  */
-class AmazonCloudFront extends CFRuntime
+class ThumbWhereCloudFront extends TWRuntime
 {
 	/**
 	 * Specify the default queue URL.
@@ -86,8 +86,8 @@ class AmazonCloudFront extends CFRuntime
 	/**
 	 * Constructs a new instance of this class.
 	 *
-	 * @param string $key (Optional) Your Amazon API Key. If blank, it will look for the <TW_KEY> constant.
-	 * @param string $secret_key (Optional) Your Amazon API Secret Key. If blank, it will look for the <TW_SECRET_KEY> constant.
+	 * @param string $key (Optional) Your ThumbWhere API Key. If blank, it will look for the <TW_KEY> constant.
+	 * @param string $secret_key (Optional) Your ThumbWhere API Secret Key. If blank, it will look for the <TW_SECRET_KEY> constant.
 	 * @return boolean A value of <code>false</code> if no valid values are set, otherwise <code>true</code>.
 	 */
 	public function __construct($key = null, $secret_key = null)
@@ -127,7 +127,7 @@ class AmazonCloudFront extends CFRuntime
 	// AUTHENTICATION
 
 	/**
-	 * Authenticates a connection to Amazon CloudFront. This method should not be used directly unless
+	 * Authenticates a connection to ThumbWhere CloudFront. This method should not be used directly unless
 	 * you're writing custom methods for this class.
 	 *
 	 * @param string $method (Required) The HTTP method to use to connect. Accepts <code>GET</code>, <code>POST</code>, <code>PUT</code>, <code>DELETE</code>, and <code>HEAD</code>.
@@ -135,9 +135,9 @@ class AmazonCloudFront extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters for authenticating. See the individual methods for allowed keys.
 	 * @param string $xml (Optional) The XML body content to send along in the request.
 	 * @param string $etag (Optional) The ETag value to pass along with the If-Match HTTP header.
-	 * @param integer $redirects (Do Not Use) Used internally by this function on occasions when Amazon S3 returns a redirect code and it needs to call itself recursively.
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
-	 * @link http://docs.amazonwebservices.com/AmazonCloudFront/latest/DeveloperGuide/RESTAuthentication.html Authentication
+	 * @param integer $redirects (Do Not Use) Used internally by this function on occasions when ThumbWhere S3 returns a redirect code and it needs to call itself recursively.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+	 * @link http://docs.amazonwebservices.com/ThumbWhereCloudFront/latest/DeveloperGuide/RESTAuthentication.html Authentication
 	 */
 	public function authenticate($method = 'GET', $path = null, $opt = null, $xml = null, $etag = null, $redirects = 0)
 	{
@@ -272,7 +272,7 @@ class AmazonCloudFront extends CFRuntime
 
 		$data =  new $this->response_class($headers, $this->parse_callback($request->get_response_body()), $request->get_response_code());
 
-		// Was it Amazon's fault the request failed? Retry the request until we reach $max_retries.
+		// Was it ThumbWhere's fault the request failed? Retry the request until we reach $max_retries.
 		if ((integer) $request->get_response_code() === 500 || (integer) $request->get_response_code() === 503)
 		{
 			if ($redirects <= $this->max_retries)
@@ -297,7 +297,7 @@ class AmazonCloudFront extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters for authenticating. See the individual methods for allowed keys.
 	 * @param string $xml (Optional) The XML body content to send along in the request.
 	 * @param string $etag (Optional) The ETag value to pass along with the If-Match HTTP header.
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function cache_callback($method = 'GET', $path = null, $opt = null, $xml = null, $etag = null)
 	{
@@ -344,13 +344,13 @@ class AmazonCloudFront extends CFRuntime
 	}
 
 	/**
-	 * Overrides the <CFRuntime::disable_ssl()> method from the base class. SSL is required for CloudFront.
+	 * Overrides the <TWRuntime::disable_ssl()> method from the base class. SSL is required for CloudFront.
 	 *
 	 * @return void
 	 */
 	public function disable_ssl()
 	{
-		throw new CloudFront_Exception('SSL/HTTPS is REQUIRED for Amazon CloudFront and cannot be disabled.');
+		throw new CloudFront_Exception('SSL/HTTPS is REQUIRED for ThumbWhere CloudFront and cannot be disabled.');
 	}
 
 
@@ -361,12 +361,12 @@ class AmazonCloudFront extends CFRuntime
 	 * Generates the distribution configuration XML used with <create_distribution()> and
 	 * <set_distribution_config()>.
 	 *
-	 * @param string $origin (Required) The source to use for the Amazon CloudFront distribution. Use an Amazon S3 bucket name, or a fully-qualified non-S3 domain name prefixed with <code>http://</code> or <code>https://</code>.
+	 * @param string $origin (Required) The source to use for the ThumbWhere CloudFront distribution. Use an ThumbWhere S3 bucket name, or a fully-qualified non-S3 domain name prefixed with <code>http://</code> or <code>https://</code>.
 	 * @param string $caller_reference (Required) A unique identifier for the request. A timestamp-appended string is recommended.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
-	 * 	<li><code>CNAME</code> - <code>string|array</code> - Optional - A DNS CNAME to use to map to the Amazon CloudFront distribution. If setting more than one, use an indexed array. Supports 1-10 CNAMEs.</li>
+	 * 	<li><code>CNAME</code> - <code>string|array</code> - Optional - A DNS CNAME to use to map to the ThumbWhere CloudFront distribution. If setting more than one, use an indexed array. Supports 1-10 CNAMEs.</li>
 	 * 	<li><code>Comment</code> - <code>string</code> - Optional - A comment to apply to the distribution. Cannot exceed 128 characters.</li>
-	 * 	<li><code>DefaultRootObject</code> - <code>string</code> - Optional - The file to load when someone accesses the root of your Amazon CloudFront domain (e.g., <code>index.html</code>).</li>
+	 * 	<li><code>DefaultRootObject</code> - <code>string</code> - Optional - The file to load when someone accesses the root of your ThumbWhere CloudFront domain (e.g., <code>index.html</code>).</li>
 	 * 	<li><code>Enabled</code> - <code>string</code> - Optional - A value of <code>true</code> enables the distribution. A value of <code>false</code> disables it. The default value is <code>true</code>.</li>
 	 * 	<li><code>Logging</code> - <code>array</code> - Optional - An array that contains two keys: <code>Bucket</code>, specifying where logs are written to, and <code>Prefix</code>, specifying a prefix to append to log file names.</li>
 	 * 	<li><code>OriginAccessIdentity</code> - <code>string</code> - Optional - The origin access identity (OAI) associated with this distribution. Use the Identity ID from the OAI, not the <code>CanonicalId</code>. Requires an S3 origin.</li>
@@ -506,11 +506,11 @@ class AmazonCloudFront extends CFRuntime
 	/**
 	 * Updates an existing configuration XML document.
 	 *
-	 * @param CFSimpleXML|CFResponse|string $xml (Required) The source configuration XML to make updates to. Can be the <CFSimpleXML> body of a <get_distribution_config()> response, the entire <CFResponse> of a <get_distribution_config()> response, or a string of XML generated by <generate_config_xml()> or <update_config_xml()>.
+	 * @param TWSimpleXML|TWResponse|string $xml (Required) The source configuration XML to make updates to. Can be the <TWSimpleXML> body of a <get_distribution_config()> response, the entire <TWResponse> of a <get_distribution_config()> response, or a string of XML generated by <generate_config_xml()> or <update_config_xml()>.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>CNAME</code> - <code>string|array</code> - Optional - The value or values to add to the existing list of CNAME values. If setting more than one, use an indexed array. Supports up to 10 CNAMEs.</li>
 	 * 	<li><code>Comment</code> - <code>string</code> - Optional - A comment to apply to the distribution. Cannot exceed 128 characters.</li>
-	 * 	<li><code>DefaultRootObject</code> - <code>string</code> - Optional - The file to load when someone accesses the root of your Amazon CloudFront domain (e.g., <code>index.html</code>).</li>
+	 * 	<li><code>DefaultRootObject</code> - <code>string</code> - Optional - The file to load when someone accesses the root of your ThumbWhere CloudFront domain (e.g., <code>index.html</code>).</li>
 	 * 	<li><code>Enabled</code> - <code>string</code> - Optional - A value of <code>true</code> enables the distribution. A value of <code>false</code> disables it. The default value is <code>true</code>.</li>
 	 * 	<li><code>Logging</code> - <code>array</code> - Optional - An array that contains two keys: <code>Bucket</code>, specifying where logs are written to, and <code>Prefix</code>, specifying a prefix to append to log file names.</li>
 	 * 	<li><code>OriginAccessIdentity</code> - <code>string</code> - Optional - The origin access identity (OAI) associated with this distribution. Use the Identity ID from the OAI, not the <code>CanonicalId</code>.</li>
@@ -519,13 +519,13 @@ class AmazonCloudFront extends CFRuntime
 	 */
 	public function update_config_xml($xml, $opt = null)
 	{
-		// If we receive a full CFResponse object, only use the body.
-		if ($xml instanceof CFResponse)
+		// If we receive a full TWResponse object, only use the body.
+		if ($xml instanceof TWResponse)
 		{
 			$xml = $xml->body;
 		}
 
-		// If we received a string of XML, convert it into a CFSimpleXML object.
+		// If we received a string of XML, convert it into a TWSimpleXML object.
 		if (is_string($xml))
 		{
 			$xml = simplexml_load_string($xml, $this->parser_class);
@@ -681,19 +681,19 @@ class AmazonCloudFront extends CFRuntime
 	/**
 	 * Removes one or more CNAMEs from a <code>DistibutionConfig</code> XML document.
 	 *
-	 * @param CFSimpleXML|CFResponse|string $xml (Required) The source DistributionConfig XML to make updates to. Can be the <CFSimpleXML> body of a <get_distribution_config()> response, the entire <CFResponse> of a <get_distribution_config()> response, or a string of XML generated by <generate_config_xml()> or <update_config_xml()>.
+	 * @param TWSimpleXML|TWResponse|string $xml (Required) The source DistributionConfig XML to make updates to. Can be the <TWSimpleXML> body of a <get_distribution_config()> response, the entire <TWResponse> of a <get_distribution_config()> response, or a string of XML generated by <generate_config_xml()> or <update_config_xml()>.
 	 * @param string|array $cname (Optional) The value or values to remove from the existing list of CNAME values. To add a CNAME value, see <update_config_xml()>.
 	 * @return string XML document.
 	 */
 	public function remove_cname($xml, $cname)
 	{
-		// If we receive a full CFResponse object, only use the body.
-		if ($xml instanceof CFResponse)
+		// If we receive a full TWResponse object, only use the body.
+		if ($xml instanceof TWResponse)
 		{
 			$xml = $xml->body;
 		}
 
-		// If we received a string of XML, convert it into a CFSimpleXML object.
+		// If we received a string of XML, convert it into a TWSimpleXML object.
 		if (is_string($xml))
 		{
 			$xml = simplexml_load_string($xml);
@@ -763,20 +763,20 @@ class AmazonCloudFront extends CFRuntime
 	/**
 	 * Updates the origin access identity (OAI) configureation XML used in <create_oai()>.
 	 *
-	 * @param CFSimpleXML|CFResponse|string $xml (Required) The source configuration XML to make updates to. Can be the <CFSimpleXML> body of a <get_oai_config()> response, the entire <CFResponse> of a <get_oai_config()> response, or a string of XML generated by <generate_oai_xml()> or <update_oai_xml()>.
+	 * @param TWSimpleXML|TWResponse|string $xml (Required) The source configuration XML to make updates to. Can be the <TWSimpleXML> body of a <get_oai_config()> response, the entire <TWResponse> of a <get_oai_config()> response, or a string of XML generated by <generate_oai_xml()> or <update_oai_xml()>.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>Comment</code> - <code>string</code> - Optional - Replaces the existing value for "Comment". Cannot exceed 128 characters.</li></ul>
 	 * @return string XML document.
 	 */
 	public function update_oai_xml($xml, $opt = null)
 	{
-		// If we receive a full CFResponse object, only use the body.
-		if ($xml instanceof CFResponse)
+		// If we receive a full TWResponse object, only use the body.
+		if ($xml instanceof TWResponse)
 		{
 			$xml = $xml->body;
 		}
 
-		// If we received a string of XML, convert it into a CFSimpleXML object.
+		// If we received a string of XML, convert it into a TWSimpleXML object.
 		if (is_string($xml))
 		{
 			$xml = simplexml_load_string($xml, $this->parser_class);
@@ -832,18 +832,18 @@ class AmazonCloudFront extends CFRuntime
 	// DISTRIBUTIONS
 
 	/**
-	 * Creates an Amazon CloudFront distribution. You can have up to 100 distributions in the Amazon
+	 * Creates an ThumbWhere CloudFront distribution. You can have up to 100 distributions in the ThumbWhere
 	 * CloudFront system.
 	 *
 	 * For an Adobe Real-Time Messaging Protocol (RTMP) streaming distribution, set the <code>Streaming</code> option
 	 * to true.
 	 *
-	 * @param string $origin (Required) The source to use for the Amazon CloudFront distribution. Use an Amazon S3 bucket name, or a fully-qualified non-S3 domain name prefixed with <code>http://</code> or <code>https://</code>.
+	 * @param string $origin (Required) The source to use for the ThumbWhere CloudFront distribution. Use an ThumbWhere S3 bucket name, or a fully-qualified non-S3 domain name prefixed with <code>http://</code> or <code>https://</code>.
 	 * @param string $caller_reference (Required) A unique identifier for the request. A timestamp-appended string is recommended.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
-	 * 	<li><code>CNAME</code> - <code>string|array</code> - Optional - A DNS CNAME to use to map to the Amazon CloudFront distribution. If setting more than one, use an indexed array. Supports 1-10 CNAMEs.</li>
+	 * 	<li><code>CNAME</code> - <code>string|array</code> - Optional - A DNS CNAME to use to map to the ThumbWhere CloudFront distribution. If setting more than one, use an indexed array. Supports 1-10 CNAMEs.</li>
 	 * 	<li><code>Comment</code> - <code>string</code> - Optional - A comment to apply to the distribution. Cannot exceed 128 characters.</li>
-	 * 	<li><code>DefaultRootObject</code> - <code>string</code> - Optional - The file to load when someone accesses the root of the Amazon CloudFront domain (e.g., <code>index.html</code>).</li>
+	 * 	<li><code>DefaultRootObject</code> - <code>string</code> - Optional - The file to load when someone accesses the root of the ThumbWhere CloudFront domain (e.g., <code>index.html</code>).</li>
 	 * 	<li><code>Enabled</code> - <code>string</code> - Optional - A value of <code>true</code> will enable the distribution. A value of <code>false</code> will disable it. The default value is <code>true</code>.</li>
 	 * 	<li><code>OriginAccessIdentity</code> - <code>string</code> - Optional - The origin access identity (OAI) associated with this distribution. Use the Identity ID from the OAI, not the <code>CanonicalId</code>. Requires an S3 origin.</li>
 	 * 	<li><code>OriginProtocolPolicy</code> - <code>string</code> - Optional - The origin protocol policy to apply to your origin. If you specify <code>http-only</code>, CloudFront will use HTTP only to access the origin. If you specify <code>match-viewer</code>, CloudFront will fetch from your origin using HTTP or HTTPS, based on the protocol of the viewer request. [Allowed values: <code>http-only</code>, <code>match-viewer</code>]. The default value is <code>match-viewer</code>. Requires a non-S3 origin.</li>
@@ -851,9 +851,9 @@ class AmazonCloudFront extends CFRuntime
 	 * 	<li><code>TrustedSigners</code> - <code>array</code> - Optional - An array of TW account numbers for users who are trusted signers. Explicity add the value <code>Self</code> to the array to add your own account as a trusted signer.</li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
-	 * @link http://docs.amazonwebservices.com/AmazonCloudFront/latest/APIReference/CreateDistribution.html POST Distribution
-	 * @link http://docs.amazonwebservices.com/AmazonCloudFront/latest/APIReference/CreateStreamingDistribution.html POST Streaming Distribution
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+	 * @link http://docs.amazonwebservices.com/ThumbWhereCloudFront/latest/APIReference/CreateDistribution.html POST Distribution
+	 * @link http://docs.amazonwebservices.com/ThumbWhereCloudFront/latest/APIReference/CreateStreamingDistribution.html POST Streaming Distribution
 	 */
 	public function create_distribution($origin, $caller_reference, $opt = null)
 	{
@@ -878,9 +878,9 @@ class AmazonCloudFront extends CFRuntime
 	 * 	<li><code>Streaming</code> - <code>boolean</code> - Optional - Whether or not this should be for a streaming distribution. A value of <code>true</code> will create a streaming distribution. A value of <code>false</code> will create a standard distribution. The default value is <code>false</code>.</li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
-	 * @link http://docs.amazonwebservices.com/AmazonCloudFront/latest/APIReference/ListDistributions.html GET Distribution List
-	 * @link http://docs.amazonwebservices.com/AmazonCloudFront/latest/APIReference/ListStreamingDistributions.html GET Streaming Distribution List
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+	 * @link http://docs.amazonwebservices.com/ThumbWhereCloudFront/latest/APIReference/ListDistributions.html GET Distribution List
+	 * @link http://docs.amazonwebservices.com/ThumbWhereCloudFront/latest/APIReference/ListStreamingDistributions.html GET Streaming Distribution List
 	 */
 	public function list_distributions($opt = null)
 	{
@@ -912,9 +912,9 @@ class AmazonCloudFront extends CFRuntime
 	 * 	<li><code>Streaming</code> - <code>boolean</code> - Optional - Whether or not this should be for a streaming distribution. A value of <code>true</code> will create a streaming distribution. A value of <code>false</code> will create a standard distribution. The default value is <code>false</code>.</li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
-	 * @link http://docs.amazonwebservices.com/AmazonCloudFront/latest/APIReference/GetDistribution.html GET Distribution
-	 * @link http://docs.amazonwebservices.com/AmazonCloudFront/latest/APIReference/GetStreamingDistribution.html GET Streaming Distribution
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+	 * @link http://docs.amazonwebservices.com/ThumbWhereCloudFront/latest/APIReference/GetDistribution.html GET Distribution
+	 * @link http://docs.amazonwebservices.com/ThumbWhereCloudFront/latest/APIReference/GetStreamingDistribution.html GET Streaming Distribution
 	 */
 	public function get_distribution_info($distribution_id, $opt = null)
 	{
@@ -927,7 +927,7 @@ class AmazonCloudFront extends CFRuntime
 	}
 
 	/**
-	 * Deletes a disabled distribution. If distribution hasn't been disabled, Amazon CloudFront returns a
+	 * Deletes a disabled distribution. If distribution hasn't been disabled, ThumbWhere CloudFront returns a
 	 * <code>DistributionNotDisabled</code> error. Use <set_distribution_config()> to disable a distribution before
 	 * attempting to delete.
 	 *
@@ -940,9 +940,9 @@ class AmazonCloudFront extends CFRuntime
 	 * 	<li><code>Streaming</code> - <code>boolean</code> - Optional - Whether or not this should be for a streaming distribution. A value of <code>true</code> will create a streaming distribution. A value of <code>false</code> will create a standard distribution. The default value is <code>false</code>.</li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
-	 * @link http://docs.amazonwebservices.com/AmazonCloudFront/latest/APIReference/DeleteDistribution.html DELETE Distribution
-	 * @link http://docs.amazonwebservices.com/AmazonCloudFront/latest/APIReference/DeleteStreamingDistribution.html DELETE Streaming Distribution
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+	 * @link http://docs.amazonwebservices.com/ThumbWhereCloudFront/latest/APIReference/DeleteDistribution.html DELETE Distribution
+	 * @link http://docs.amazonwebservices.com/ThumbWhereCloudFront/latest/APIReference/DeleteStreamingDistribution.html DELETE Streaming Distribution
 	 */
 	public function delete_distribution($distribution_id, $etag, $opt = null)
 	{
@@ -965,9 +965,9 @@ class AmazonCloudFront extends CFRuntime
 	 * 	<li><code>Streaming</code> - <code>boolean</code> - Optional - Whether or not this should be for a streaming distribution. A value of <code>true</code> will create a streaming distribution. A value of <code>false</code> will create a standard distribution. The default value is <code>false</code>.</li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
-	 * @link http://docs.amazonwebservices.com/AmazonCloudFront/latest/APIReference/GetConfig.html GET Distribution Config
-	 * @link http://docs.amazonwebservices.com/AmazonCloudFront/latest/APIReference/GetStreamingDistConfig.html GET Streaming Distribution Config
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+	 * @link http://docs.amazonwebservices.com/ThumbWhereCloudFront/latest/APIReference/GetConfig.html GET Distribution Config
+	 * @link http://docs.amazonwebservices.com/ThumbWhereCloudFront/latest/APIReference/GetStreamingDistConfig.html GET Streaming Distribution Config
 	 */
 	public function get_distribution_config($distribution_id, $opt = null)
 	{
@@ -992,9 +992,9 @@ class AmazonCloudFront extends CFRuntime
 	 * 	<li><code>Streaming</code> - <code>boolean</code> - Optional - Whether or not this should be for a streaming distribution. A value of <code>true</code> will create a streaming distribution. A value of <code>false</code> will create a standard distribution. The default value is <code>false</code>.</li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
-	 * @link http://docs.amazonwebservices.com/AmazonCloudFront/latest/APIReference/PutConfig.html PUT Distribution Config
-	 * @link http://docs.amazonwebservices.com/AmazonCloudFront/latest/APIReference/PutStreamingDistConfig.html PUT Streaming Distribution Config
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+	 * @link http://docs.amazonwebservices.com/ThumbWhereCloudFront/latest/APIReference/PutConfig.html PUT Distribution Config
+	 * @link http://docs.amazonwebservices.com/ThumbWhereCloudFront/latest/APIReference/PutStreamingDistConfig.html PUT Streaming Distribution Config
 	 */
 	public function set_distribution_config($distribution_id, $xml, $etag, $opt = null)
 	{
@@ -1011,16 +1011,16 @@ class AmazonCloudFront extends CFRuntime
 	// Origin Access Identity
 
 	/**
-	 * Creates a new Amazon CloudFront origin access identity (OAI). You can create up to 100 OAIs per TW
-	 * account. For more information, see the Amazon CloudFront Developer Guide.
+	 * Creates a new ThumbWhere CloudFront origin access identity (OAI). You can create up to 100 OAIs per TW
+	 * account. For more information, see the ThumbWhere CloudFront Developer Guide.
 	 *
 	 * @param string $caller_reference (Required) A unique identifier for the request. A timestamp-appended string is recommended.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>Comment</code> - <code>string</code> - Optional - A comment about the OAI.</li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
-	 * @link http://docs.amazonwebservices.com/AmazonCloudFront/latest/APIReference/CreateOAI.html POST Origin Access Identity
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+	 * @link http://docs.amazonwebservices.com/ThumbWhereCloudFront/latest/APIReference/CreateOAI.html POST Origin Access Identity
 	 */
 	public function create_oai($caller_reference, $opt = null)
 	{
@@ -1042,8 +1042,8 @@ class AmazonCloudFront extends CFRuntime
 	 * 	<li><code>MaxItems</code> - <code>integer</code> - Optional - The maximum number of distributions you want in the response body. Maximum of 100.</li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
-	 * @link http://docs.amazonwebservices.com/AmazonCloudFront/latest/APIReference/ListOAIs.html GET Origin Access Identity List
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+	 * @link http://docs.amazonwebservices.com/ThumbWhereCloudFront/latest/APIReference/ListOAIs.html GET Origin Access Identity List
 	 */
 	public function list_oais($opt = null)
 	{
@@ -1071,8 +1071,8 @@ class AmazonCloudFront extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
-	 * @link http://docs.amazonwebservices.com/AmazonCloudFront/latest/APIReference/GetOAI.html GET Origin Access Identity
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+	 * @link http://docs.amazonwebservices.com/ThumbWhereCloudFront/latest/APIReference/GetOAI.html GET Origin Access Identity
 	 */
 	public function get_oai($identity_id, $opt = null)
 	{
@@ -1084,7 +1084,7 @@ class AmazonCloudFront extends CFRuntime
 	}
 
 	/**
-	 * Deletes an Amazon CloudFront origin access identity (OAI). To delete an OAI, the identity must first
+	 * Deletes an ThumbWhere CloudFront origin access identity (OAI). To delete an OAI, the identity must first
 	 * be disassociated from all distributions (by updating each distribution's configuration to omit the
 	 * <code>OriginAccessIdentity</code> element). Wait until each distribution's state is <code>Deployed</code>
 	 * before deleting the OAI.
@@ -1094,8 +1094,8 @@ class AmazonCloudFront extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
-	 * @link http://docs.amazonwebservices.com/AmazonCloudFront/latest/APIReference/DeleteOAI.html DELETE Origin Access Identity
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+	 * @link http://docs.amazonwebservices.com/ThumbWhereCloudFront/latest/APIReference/DeleteOAI.html DELETE Origin Access Identity
 	 */
 	public function delete_oai($identity_id, $etag, $opt = null)
 	{
@@ -1113,8 +1113,8 @@ class AmazonCloudFront extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
-	 * @link http://docs.amazonwebservices.com/AmazonCloudFront/latest/APIReference/GetOAIConfig.html GET Origin Access Identity Config
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+	 * @link http://docs.amazonwebservices.com/ThumbWhereCloudFront/latest/APIReference/GetOAIConfig.html GET Origin Access Identity Config
 	 */
 	public function get_oai_config($identity_id, $opt = null)
 	{
@@ -1126,12 +1126,12 @@ class AmazonCloudFront extends CFRuntime
 	}
 
 	/**
-	 * Sets the configuration for an Amazon CloudFront origin access identity (OAI). Use this when updating
+	 * Sets the configuration for an ThumbWhere CloudFront origin access identity (OAI). Use this when updating
 	 * the configuration. Currently, only comments may be updated.  Follow the same process as when updating
 	 * an identity's configuration as you do when updating a distribution's configuration. For more
-	 * information, go to Updating a Distribution's Configuration in the Amazon CloudFront Developer Guide.
+	 * information, go to Updating a Distribution's Configuration in the ThumbWhere CloudFront Developer Guide.
 	 *
-	 * When attempting to change configuration items that are not allowed to be updated, Amazon CloudFront
+	 * When attempting to change configuration items that are not allowed to be updated, ThumbWhere CloudFront
 	 * returns an <code>IllegalUpdate</code> error.
 	 *
 	 * @param string $identity_id (Required) An Identity ID for an existing OAI.
@@ -1140,8 +1140,8 @@ class AmazonCloudFront extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
-	 * @link http://docs.amazonwebservices.com/AmazonCloudFront/latest/APIReference/PutOAIConfig.html PUT Origin Access Identity Config
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+	 * @link http://docs.amazonwebservices.com/ThumbWhereCloudFront/latest/APIReference/PutOAIConfig.html PUT Origin Access Identity Config
 	 */
 	public function set_oai_config($identity_id, $xml, $etag, $opt = null)
 	{
@@ -1165,8 +1165,8 @@ class AmazonCloudFront extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
-	 * @link http://docs.amazonwebservices.com/AmazonCloudFront/latest/APIReference/CreateInvalidation.html POST Invalidation
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+	 * @link http://docs.amazonwebservices.com/ThumbWhereCloudFront/latest/APIReference/CreateInvalidation.html POST Invalidation
 	 */
 	public function create_invalidation($distribution_id, $caller_reference, $paths, $opt = null)
 	{
@@ -1189,8 +1189,8 @@ class AmazonCloudFront extends CFRuntime
 	 * 	<li><code>MaxItems</code> - <code>integer</code> - Optional - The maximum number of invalidations you want in the response body. A maximum value of 100 can be used.</li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
-	 * @link http://docs.amazonwebservices.com/AmazonCloudFront/latest/APIReference/ListInvalidation.html GET Invalidation List
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+	 * @link http://docs.amazonwebservices.com/ThumbWhereCloudFront/latest/APIReference/ListInvalidation.html GET Invalidation List
 	 */
 	public function list_invalidations($distribution_id, $opt = null)
 	{
@@ -1219,8 +1219,8 @@ class AmazonCloudFront extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
-	 * @link http://docs.amazonwebservices.com/AmazonCloudFront/latest/APIReference/GetInvalidation.html GET Invalidation
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+	 * @link http://docs.amazonwebservices.com/ThumbWhereCloudFront/latest/APIReference/GetInvalidation.html GET Invalidation
 	 */
 	public function get_invalidation($distribution_id, $invalidation_id, $opt = null)
 	{
@@ -1322,13 +1322,13 @@ class AmazonCloudFront extends CFRuntime
 	 *	<li><code>IPAddress</code> - <code>string</code> - Optional - A single IP address to restrict the access to.</li>
 	 * 	<li><code>Secure</code> - <code>boolean</code> - Optional - Whether or not to use HTTPS as the protocol scheme. A value of <code>true</code> uses <code>https</code>. A value of <code>false</code> uses <code>http</code>. The default value is <code>false</code>.</li></ul>
 	 * @return string The file URL with authentication parameters.
-	 * @link http://docs.amazonwebservices.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html Serving Private Content
+	 * @link http://docs.amazonwebservices.com/ThumbWhereCloudFront/latest/DeveloperGuide/PrivateContent.html Serving Private Content
 	 */
 	public function get_private_object_url($distribution_hostname, $filename, $expires, $opt = null)
 	{
 		if (!$this->key_pair_id || !$this->private_key)
 		{
-			throw new CloudFront_Exception('You must set both a Amazon CloudFront keypair ID and an RSA private key for that keypair before using ' . __FUNCTION__ . '()');
+			throw new CloudFront_Exception('You must set both a ThumbWhere CloudFront keypair ID and an RSA private key for that keypair before using ' . __FUNCTION__ . '()');
 		}
 		if (!function_exists('openssl_sign'))
 		{

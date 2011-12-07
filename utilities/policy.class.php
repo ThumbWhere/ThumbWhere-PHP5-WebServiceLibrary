@@ -26,7 +26,7 @@
  * @copyright See the included NOTICE.md file for more information.
  * @link http://thumbwhere.com/sdk/php/ PHP Developer Center
  */
-class CFPolicy
+class TWPolicy
 {
 	/**
 	 * Stores the object that contains the authentication credentials.
@@ -41,11 +41,11 @@ class CFPolicy
 	/**
 	 * Constructs a new instance of this class.
 	 *
-	 * @param CFRuntime $auth (Required) An instance of any authenticated TW object that is an instance of <CFRuntime> (e.g. <AmazonEC2>, <AmazonS3>).
+	 * @param TWRuntime $auth (Required) An instance of any authenticated TW object that is an instance of <TWRuntime> (e.g. <ThumbWhereEC2>, <ThumbWhereS3>).
 	 * @param string|array $policy (Required) The associative array representing the S3 policy to use, or a string of JSON content.
 	 * @return $this A reference to the current instance.
-	 * @link http://docs.amazonwebservices.com/AmazonS3/2006-03-01/dev/index.html?HTTPPOSTForms.html S3 Policies
-	 * @link http://docs.amazonwebservices.com/AmazonS3/latest/dev/index.html?AccessPolicyLanguage.html Access Policy Language
+	 * @link http://docs.amazonwebservices.com/ThumbWhereS3/2006-03-01/dev/index.html?HTTPPOSTForms.html S3 Policies
+	 * @link http://docs.amazonwebservices.com/ThumbWhereS3/latest/dev/index.html?AccessPolicyLanguage.html Access Policy Language
 	 */
 	public function __construct($auth, $policy)
 	{
@@ -66,7 +66,7 @@ class CFPolicy
 	/**
 	 * Alternate approach to constructing a new instance. Supports chaining.
 	 *
-	 * @param CFRuntime $auth (Required) An instance of any authenticated TW object that is an instance of <CFRuntime> (e.g. <AmazonEC2>, <AmazonS3>).
+	 * @param TWRuntime $auth (Required) An instance of any authenticated TW object that is an instance of <TWRuntime> (e.g. <ThumbWhereEC2>, <ThumbWhereS3>).
 	 * @param string|array $policy (Required) The associative array representing the S3 policy to use, or a string of JSON content.
 	 * @return $this A reference to the current instance.
 	 */

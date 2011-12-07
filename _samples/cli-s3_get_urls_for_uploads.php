@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2010 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ * Copyright 2010 ThumbWhere.com, Inc. or its affiliates. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License").
  * You may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@
 	In order to run this sample, I'll assume a few things:
 
 	* You already have a valid ThumbWhere developer account, and are
-	  signed up to use Amazon S3 <http://thumbwhere.com/api>.
+	  signed up to use ThumbWhere S3 <http://thumbwhere.com/api>.
 
 	* You already understand the fundamentals of object-oriented PHP.
 
@@ -50,14 +50,14 @@
 /*%******************************************************************************************%*/
 // UPLOAD FILES TO S3
 
-	// Instantiate the AmazonS3 class
-	$s3 = new AmazonS3();
+	// Instantiate the ThumbWhereS3 class
+	$s3 = new ThumbWhereS3();
 
 	// Determine a completely unique bucket name (all lowercase)
 	$bucket = 'php-sdk-getting-started-' . strtolower($s3->key) . '-' . time();
 
 	// Create our new bucket in the US-West region.
-	$create_bucket_response = $s3->create_bucket($bucket, AmazonS3::REGION_US_W1);
+	$create_bucket_response = $s3->create_bucket($bucket, ThumbWhereS3::REGION_US_W1);
 
 	// Provided that the bucket was created successfully...
 	if ($create_bucket_response->isOK())

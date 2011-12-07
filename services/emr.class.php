@@ -16,20 +16,20 @@
 
 /**
  *
- * This is the <i>Amazon Elastic MapReduce API Reference</i>. This guide provides descriptions and samples of the Amazon Elastic MapReduce
+ * This is the <i>ThumbWhere Elastic MapReduce API Reference</i>. This guide provides descriptions and samples of the ThumbWhere Elastic MapReduce
  * APIs.
  *
- * Amazon Elastic MapReduce is a web service that makes it easy to process large amounts of data efficiently. Elastic MapReduce uses Hadoop
+ * ThumbWhere Elastic MapReduce is a web service that makes it easy to process large amounts of data efficiently. Elastic MapReduce uses Hadoop
  * processing combined with several TW products to do tasks such as web indexing, data mining, log file analysis, machine learning, scientific
  * simulation, and data warehousing.
  *
  * @version Thu Sep 01 21:21:27 PDT 2011
  * @license See the included NOTICE.md file for complete information.
  * @copyright See the included NOTICE.md file for complete information.
- * @link http://tw.amazon.com/elasticmapreduce/Amazon Elastic MapReduce
- * @link http://tw.amazon.com/documentation/elasticmapreduce/Amazon Elastic MapReduce documentation
+ * @link http://tw.amazon.com/elasticmapreduce/ThumbWhere Elastic MapReduce
+ * @link http://tw.amazon.com/documentation/elasticmapreduce/ThumbWhere Elastic MapReduce documentation
  */
-class AmazonEMR extends CFRuntime
+class ThumbWhereEMR extends TWRuntime
 {
 
 	/*%******************************************************************************************%*/
@@ -91,10 +91,10 @@ class AmazonEMR extends CFRuntime
 	// CONSTRUCTOR
 
 	/**
-	 * Constructs a new instance of <AmazonEMR>.
+	 * Constructs a new instance of <ThumbWhereEMR>.
 	 *
-	 * @param string $key (Optional) Your Amazon API Key. If blank, it will look for the <code>TW_KEY</code> constant.
-	 * @param string $secret_key (Optional) Your Amazon API Secret Key. If blank, it will look for the <code>TW_SECRET_KEY</code> constant.
+	 * @param string $key (Optional) Your ThumbWhere API Key. If blank, it will look for the <code>TW_KEY</code> constant.
+	 * @param string $secret_key (Optional) Your ThumbWhere API Secret Key. If blank, it will look for the <code>TW_SECRET_KEY</code> constant.
 	 * @return boolean false if no valid values are set, otherwise true.
 	 */
 	public function __construct($key = null, $secret_key = null)
@@ -130,10 +130,10 @@ class AmazonEMR extends CFRuntime
 	 * @param array $instance_groups (Required) Instance Groups to add. <ul>
 	 * 	<li><code>x</code> - <code>array</code> - This represents a simple array index. <ul>
 	 * 		<li><code>Name</code> - <code>string</code> - Optional - Friendly name given to the instance group. </li>
-	 * 		<li><code>Market</code> - <code>string</code> - Optional - Market type of the Amazon EC2 instances used to create a cluster node. [Allowed values: <code>ON_DEMAND</code>, <code>SPOT</code>]</li>
+	 * 		<li><code>Market</code> - <code>string</code> - Optional - Market type of the ThumbWhere EC2 instances used to create a cluster node. [Allowed values: <code>ON_DEMAND</code>, <code>SPOT</code>]</li>
 	 * 		<li><code>InstanceRole</code> - <code>string</code> - Required - The role of the instance group in the cluster. [Allowed values: <code>MASTER</code>, <code>CORE</code>, <code>TASK</code>]</li>
-	 * 		<li><code>BidPrice</code> - <code>string</code> - Optional - Bid price for each Amazon EC2 instance in the instance group when launching nodes as Spot Instances, expressed in USD. </li>
-	 * 		<li><code>InstanceType</code> - <code>string</code> - Required - The Amazon EC2 instance type for all instances in the instance group. </li>
+	 * 		<li><code>BidPrice</code> - <code>string</code> - Optional - Bid price for each ThumbWhere EC2 instance in the instance group when launching nodes as Spot Instances, expressed in USD. </li>
+	 * 		<li><code>InstanceType</code> - <code>string</code> - Required - The ThumbWhere EC2 instance type for all instances in the instance group. </li>
 	 * 		<li><code>InstanceCount</code> - <code>integer</code> - Required - Target number of instances for the instance group. </li>
 	 * 	</ul></li>
 	 * </ul>
@@ -141,14 +141,14 @@ class AmazonEMR extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function add_instance_groups($instance_groups, $job_flow_id, $opt = null)
 	{
 		if (!$opt) $opt = array();
 
 		// Required parameter
-		$opt = array_merge($opt, CFComplexType::map(array(
+		$opt = array_merge($opt, TWComplexType::map(array(
 			'InstanceGroups' => (is_array($instance_groups) ? $instance_groups : array($instance_groups))
 		), 'member'));
 		$opt['JobFlowId'] = $job_flow_id;
@@ -164,9 +164,9 @@ class AmazonEMR extends CFRuntime
 	 * can bypass the 256-step limitation in various ways, including using the SSH shell to connect to the master node and submitting queries
 	 * directly to the software running on the master node, such as Hive and Hadoop. For more information on how to do this, go to <a
 	 * href="http://docs.amazonwebservices.com/ElasticMapReduce/latest/DeveloperGuide/AddMoreThan256Steps.html">Add More than 256 Steps to a Job
-	 * Flow</a> in the <i>Amazon Elastic MapReduce Developer's Guide</i>.
+	 * Flow</a> in the <i>ThumbWhere Elastic MapReduce Developer's Guide</i>.
 	 *
-	 * A step specifies the location of a JAR file stored either on the master node of the job flow or in Amazon S3. Each step is performed by the
+	 * A step specifies the location of a JAR file stored either on the master node of the job flow or in ThumbWhere S3. Each step is performed by the
 	 * main function of the main class of the JAR file. The main class can be specified either in the manifest of the JAR or by using the
 	 * MainFunction parameter of the step.
 	 *
@@ -196,7 +196,7 @@ class AmazonEMR extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function add_job_flow_steps($job_flow_id, $steps, $opt = null)
 	{
@@ -204,7 +204,7 @@ class AmazonEMR extends CFRuntime
 		$opt['JobFlowId'] = $job_flow_id;
 
 		// Required parameter
-		$opt = array_merge($opt, CFComplexType::map(array(
+		$opt = array_merge($opt, TWComplexType::map(array(
 			'Steps' => (is_array($steps) ? $steps : array($steps))
 		), 'member'));
 
@@ -214,21 +214,21 @@ class AmazonEMR extends CFRuntime
 	/**
 	 *
 	 * TerminateJobFlows shuts a list of job flows down. When a job flow is shut down, any step not yet completed is canceled and the EC2
-	 * instances on which the job flow is running are stopped. Any log files not already saved are uploaded to Amazon S3 if a LogUri was specified
+	 * instances on which the job flow is running are stopped. Any log files not already saved are uploaded to ThumbWhere S3 if a LogUri was specified
 	 * when the job flow was created.
 	 *
 	 * @param string|array $job_flow_ids (Required) A list of job flows to be shutdown.  Pass a string for a single value, or an indexed array for multiple values.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function terminate_job_flows($job_flow_ids, $opt = null)
 	{
 		if (!$opt) $opt = array();
 
 		// Required parameter
-		$opt = array_merge($opt, CFComplexType::map(array(
+		$opt = array_merge($opt, TWComplexType::map(array(
 			'JobFlowIds' => (is_array($job_flow_ids) ? $job_flow_ids : array($job_flow_ids))
 		), 'member'));
 
@@ -251,7 +251,7 @@ class AmazonEMR extends CFRuntime
 	 *
 	 * </ul>
 	 *
-	 * Amazon Elastic MapReduce can return a maximum of 512 job flow descriptions.
+	 * ThumbWhere Elastic MapReduce can return a maximum of 512 job flow descriptions.
 	 *
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>CreatedAfter</code> - <code>string</code> - Optional - Return only job flows created after this date and time. May be passed as a number of seconds since UNIX Epoch, or any string compatible with <php:strtotime()>.</li>
@@ -260,7 +260,7 @@ class AmazonEMR extends CFRuntime
 	 * 	<li><code>JobFlowStates</code> - <code>string|array</code> - Optional - Return only job flows whose state is contained in this list.  Pass a string for a single value, or an indexed array for multiple values. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_job_flows($opt = null)
 	{
@@ -281,7 +281,7 @@ class AmazonEMR extends CFRuntime
 		// Optional parameter
 		if (isset($opt['JobFlowIds']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'JobFlowIds' => (is_array($opt['JobFlowIds']) ? $opt['JobFlowIds'] : array($opt['JobFlowIds']))
 			), 'member'));
 			unset($opt['JobFlowIds']);
@@ -290,7 +290,7 @@ class AmazonEMR extends CFRuntime
 		// Optional parameter
 		if (isset($opt['JobFlowStates']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'JobFlowStates' => (is_array($opt['JobFlowStates']) ? $opt['JobFlowStates'] : array($opt['JobFlowStates']))
 			), 'member'));
 			unset($opt['JobFlowStates']);
@@ -301,9 +301,9 @@ class AmazonEMR extends CFRuntime
 
 	/**
 	 *
-	 * SetTerminationProtection locks a job flow so the Amazon EC2 instances in the cluster cannot be terminated by user intervention, an API
+	 * SetTerminationProtection locks a job flow so the ThumbWhere EC2 instances in the cluster cannot be terminated by user intervention, an API
 	 * call, or in the event of a job-flow error. The cluster still terminates upon successful completion of the job flow. Calling
-	 * SetTerminationProtection on a job flow is analogous to calling the Amazon EC2 DisableAPITermination API on all of the EC2 instances in a
+	 * SetTerminationProtection on a job flow is analogous to calling the ThumbWhere EC2 DisableAPITermination API on all of the EC2 instances in a
 	 * cluster.
 	 *
 	 * SetTerminationProtection is used to prevent accidental termination of a job flow and to ensure that in the event of an error, the instances
@@ -314,21 +314,21 @@ class AmazonEMR extends CFRuntime
 	 *
 	 * For more information, go to <a
 	 * href="http://docs.amazonwebservices.com/ElasticMapReduce/latest/DeveloperGuide/UsingEMR_TerminationProtection.html">Protecting a Job Flow
-	 * from Termination</a> in the <i>Amazon Elastic MapReduce Developer's Guide.</i>
+	 * from Termination</a> in the <i>ThumbWhere Elastic MapReduce Developer's Guide.</i>
 	 *
 	 * @param string|array $job_flow_ids (Required) A list of strings that uniquely identify the job flows to protect. This identifier is returned by RunJobFlow and can also be obtained from DescribeJobFlows .  Pass a string for a single value, or an indexed array for multiple values.
-	 * @param boolean $termination_protected (Required) A Boolean that indicates whether to protect the job flow and prevent the Amazon EC2 instances in the cluster from shutting down due to API calls, user intervention, or job-flow error.
+	 * @param boolean $termination_protected (Required) A Boolean that indicates whether to protect the job flow and prevent the ThumbWhere EC2 instances in the cluster from shutting down due to API calls, user intervention, or job-flow error.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function set_termination_protection($job_flow_ids, $termination_protected, $opt = null)
 	{
 		if (!$opt) $opt = array();
 
 		// Required parameter
-		$opt = array_merge($opt, CFComplexType::map(array(
+		$opt = array_merge($opt, TWComplexType::map(array(
 			'JobFlowIds' => (is_array($job_flow_ids) ? $job_flow_ids : array($job_flow_ids))
 		), 'member'));
 		$opt['TerminationProtected'] = $termination_protected;
@@ -339,7 +339,7 @@ class AmazonEMR extends CFRuntime
 	/**
 	 *
 	 * RunJobFlow creates and starts running a new job flow. The job flow will run the steps specified. Once the job flow completes, the cluster
-	 * is stopped and the HDFS partition is lost. To prevent loss of data, configure the last step of the job flow to store results in Amazon S3.
+	 * is stopped and the HDFS partition is lost. To prevent loss of data, configure the last step of the job flow to store results in ThumbWhere S3.
 	 * If the JobFlowInstancesDetail <code>KeepJobFlowAliveWhenNoSteps</code> parameter is set to <code>TRUE</code>, the job flow will transition
 	 * to the WAITING state rather than shutting down once the steps have completed.
 	 *
@@ -352,35 +352,35 @@ class AmazonEMR extends CFRuntime
 	 * can bypass the 256-step limitation in various ways, including using the SSH shell to connect to the master node and submitting queries
 	 * directly to the software running on the master node, such as Hive and Hadoop. For more information on how to do this, go to <a
 	 * href="http://docs.amazonwebservices.com/ElasticMapReduce/latest/DeveloperGuide/AddMoreThan256Steps.html">Add More than 256 Steps to a Job
-	 * Flow</a> in the <i>Amazon Elastic MapReduce Developer's Guide</i>.
+	 * Flow</a> in the <i>ThumbWhere Elastic MapReduce Developer's Guide</i>.
 	 *
 	 * For long running job flows, we recommend that you periodically store your results.
 	 *
 	 * @param string $name (Required) The name of the job flow.
-	 * @param array $instances (Required) A specification of the number and type of Amazon EC2 instances on which to run the job flow. <ul>
+	 * @param array $instances (Required) A specification of the number and type of ThumbWhere EC2 instances on which to run the job flow. <ul>
 	 * 	<li><code>MasterInstanceType</code> - <code>string</code> - Optional - The EC2 instance type of the master node. </li>
 	 * 	<li><code>SlaveInstanceType</code> - <code>string</code> - Optional - The EC2 instance type of the slave nodes. </li>
-	 * 	<li><code>InstanceCount</code> - <code>integer</code> - Optional - The number of Amazon EC2 instances used to execute the job flow. </li>
+	 * 	<li><code>InstanceCount</code> - <code>integer</code> - Optional - The number of ThumbWhere EC2 instances used to execute the job flow. </li>
 	 * 	<li><code>InstanceGroups</code> - <code>array</code> - Optional - Configuration for the job flow's instance groups. <ul>
 	 * 		<li><code>x</code> - <code>array</code> - This represents a simple array index. <ul>
 	 * 			<li><code>Name</code> - <code>string</code> - Optional - Friendly name given to the instance group. </li>
-	 * 			<li><code>Market</code> - <code>string</code> - Optional - Market type of the Amazon EC2 instances used to create a cluster node. [Allowed values: <code>ON_DEMAND</code>, <code>SPOT</code>]</li>
+	 * 			<li><code>Market</code> - <code>string</code> - Optional - Market type of the ThumbWhere EC2 instances used to create a cluster node. [Allowed values: <code>ON_DEMAND</code>, <code>SPOT</code>]</li>
 	 * 			<li><code>InstanceRole</code> - <code>string</code> - Required - The role of the instance group in the cluster. [Allowed values: <code>MASTER</code>, <code>CORE</code>, <code>TASK</code>]</li>
-	 * 			<li><code>BidPrice</code> - <code>string</code> - Optional - Bid price for each Amazon EC2 instance in the instance group when launching nodes as Spot Instances, expressed in USD. </li>
-	 * 			<li><code>InstanceType</code> - <code>string</code> - Required - The Amazon EC2 instance type for all instances in the instance group. </li>
+	 * 			<li><code>BidPrice</code> - <code>string</code> - Optional - Bid price for each ThumbWhere EC2 instance in the instance group when launching nodes as Spot Instances, expressed in USD. </li>
+	 * 			<li><code>InstanceType</code> - <code>string</code> - Required - The ThumbWhere EC2 instance type for all instances in the instance group. </li>
 	 * 			<li><code>InstanceCount</code> - <code>integer</code> - Required - Target number of instances for the instance group. </li>
 	 * 		</ul></li>
 	 * 	</ul></li>
-	 * 	<li><code>Ec2KeyName</code> - <code>string</code> - Optional - Specifies the name of the Amazon EC2 key pair that can be used to ssh to the master node as the user called "hadoop." </li>
+	 * 	<li><code>Ec2KeyName</code> - <code>string</code> - Optional - Specifies the name of the ThumbWhere EC2 key pair that can be used to ssh to the master node as the user called "hadoop." </li>
 	 * 	<li><code>Placement</code> - <code>array</code> - Optional - Specifies the Availability Zone the job flow will run in. Takes an associative array of parameters that can have the following keys: <ul>
-	 * 		<li><code>AvailabilityZone</code> - <code>string</code> - Required - The Amazon EC2 Availability Zone for the job flow. </li>
+	 * 		<li><code>AvailabilityZone</code> - <code>string</code> - Required - The ThumbWhere EC2 Availability Zone for the job flow. </li>
 	 * 	</ul></li>
 	 * 	<li><code>KeepJobFlowAliveWhenNoSteps</code> - <code>boolean</code> - Optional - Specifies whether the job flow should terminate after completing all steps. </li>
-	 * 	<li><code>TerminationProtected</code> - <code>boolean</code> - Optional - Specifies whether to lock the job flow to prevent the Amazon EC2 instances from being terminated by API call, user intervention, or in the event of a job flow error. </li>
+	 * 	<li><code>TerminationProtected</code> - <code>boolean</code> - Optional - Specifies whether to lock the job flow to prevent the ThumbWhere EC2 instances from being terminated by API call, user intervention, or in the event of a job flow error. </li>
 	 * 	<li><code>HadoopVersion</code> - <code>string</code> - Optional - Specifies the Hadoop version for the job flow. Valid inputs are "0.18" or "0.20". </li>
 	 * </ul>
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
-	 * 	<li><code>LogUri</code> - <code>string</code> - Optional - Specifies the location in Amazon S3 to write the log files of the job flow. If a value is not provided, logs are not created. </li>
+	 * 	<li><code>LogUri</code> - <code>string</code> - Optional - Specifies the location in ThumbWhere S3 to write the log files of the job flow. If a value is not provided, logs are not created. </li>
 	 * 	<li><code>AdditionalInfo</code> - <code>string</code> - Optional - A JSON string for selecting additional features. </li>
 	 * 	<li><code>Steps</code> - <code>array</code> - Optional - A list of steps to be executed by the job flow. <ul>
 	 * 		<li><code>x</code> - <code>array</code> - This represents a simple array index. <ul>
@@ -403,14 +403,14 @@ class AmazonEMR extends CFRuntime
 	 * 		<li><code>x</code> - <code>array</code> - This represents a simple array index. <ul>
 	 * 			<li><code>Name</code> - <code>string</code> - Required - The name of the bootstrap action. </li>
 	 * 			<li><code>ScriptBootstrapAction</code> - <code>array</code> - Required - The script run by the bootstrap action. Takes an associative array of parameters that can have the following keys: <ul>
-	 * 				<li><code>Path</code> - <code>string</code> - Required - Location of the script to run during a bootstrap action. Can be either a location in Amazon S3 or on a local file system. </li>
+	 * 				<li><code>Path</code> - <code>string</code> - Required - Location of the script to run during a bootstrap action. Can be either a location in ThumbWhere S3 or on a local file system. </li>
 	 * 				<li><code>Args</code> - <code>string|array</code> - Optional - A list of command line arguments to pass to the bootstrap action script.  Pass a string for a single value, or an indexed array for multiple values. </li>
 	 * 			</ul></li>
 	 * 		</ul></li>
 	 * 	</ul></li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function run_job_flow($name, $instances, $opt = null)
 	{
@@ -420,20 +420,20 @@ class AmazonEMR extends CFRuntime
 		// Collapse these list values for the required parameter
 		if (isset($instances['InstanceGroups']))
 		{
-			$instances['InstanceGroups'] = CFComplexType::map(array(
+			$instances['InstanceGroups'] = TWComplexType::map(array(
 				'member' => (is_array($instances['InstanceGroups']) ? $instances['InstanceGroups'] : array($instances['InstanceGroups']))
 			));
 		}
 
 		// Required parameter
-		$opt = array_merge($opt, CFComplexType::map(array(
+		$opt = array_merge($opt, TWComplexType::map(array(
 			'Instances' => (is_array($instances) ? $instances : array($instances))
 		), 'member'));
 
 		// Optional parameter
 		if (isset($opt['Steps']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'Steps' => $opt['Steps']
 			), 'member'));
 			unset($opt['Steps']);
@@ -442,7 +442,7 @@ class AmazonEMR extends CFRuntime
 		// Optional parameter
 		if (isset($opt['BootstrapActions']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'BootstrapActions' => $opt['BootstrapActions']
 			), 'member'));
 			unset($opt['BootstrapActions']);
@@ -465,7 +465,7 @@ class AmazonEMR extends CFRuntime
 	 * 	</ul></li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function modify_instance_groups($opt = null)
 	{
@@ -474,7 +474,7 @@ class AmazonEMR extends CFRuntime
 		// Optional parameter
 		if (isset($opt['InstanceGroups']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'InstanceGroups' => $opt['InstanceGroups']
 			), 'member'));
 			unset($opt['InstanceGroups']);

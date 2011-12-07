@@ -16,13 +16,13 @@
 
 /**
  *
- * Amazon Elastic Compute Cloud (Amazon EC2) is a web service that provides resizable compute capacity in the cloud. It is designed to make
+ * ThumbWhere Elastic Compute Cloud (ThumbWhere EC2) is a web service that provides resizable compute capacity in the cloud. It is designed to make
  * web-scale computing easier for developers.
  *
- * Amazon EC2's simple web service interface allows you to obtain and configure capacity with minimal friction. It provides you with complete
- * control of your computing resources and lets you run on Amazon's proven computing environment. Amazon EC2 reduces the time required to
+ * ThumbWhere EC2's simple web service interface allows you to obtain and configure capacity with minimal friction. It provides you with complete
+ * control of your computing resources and lets you run on ThumbWhere's proven computing environment. ThumbWhere EC2 reduces the time required to
  * obtain and boot new server instances to minutes, allowing you to quickly scale capacity, both up and down, as your computing requirements
- * change. Amazon EC2 changes the economics of computing by allowing you to pay only for capacity that you actually use. Amazon EC2 provides
+ * change. ThumbWhere EC2 changes the economics of computing by allowing you to pay only for capacity that you actually use. ThumbWhere EC2 provides
  * developers the tools to build failure resilient applications and isolate themselves from common failure scenarios.
  *
  * Visit <a href="http://tw.amazon.com/ec2/">http://tw.amazon.com/ec2/</a> for more information.
@@ -30,10 +30,10 @@
  * @version Tue Aug 23 12:47:35 PDT 2011
  * @license See the included NOTICE.md file for complete information.
  * @copyright See the included NOTICE.md file for complete information.
- * @link http://tw.amazon.com/ec2/Amazon Elastic Compute Cloud
- * @link http://tw.amazon.com/documentation/ec2/Amazon Elastic Compute Cloud documentation
+ * @link http://tw.amazon.com/ec2/ThumbWhere Elastic Compute Cloud
+ * @link http://tw.amazon.com/documentation/ec2/ThumbWhere Elastic Compute Cloud documentation
  */
-class AmazonEC2 extends CFRuntime
+class ThumbWhereEC2 extends TWRuntime
 {
 
 	/*%******************************************************************************************%*/
@@ -130,7 +130,7 @@ class AmazonEC2 extends CFRuntime
 	// CONSTRUCTOR
 
 	/**
-	 * Constructs a new instance of <AmazonEC2>. If the <code>TW_DEFAULT_CACHE_CONFIG</code> configuration
+	 * Constructs a new instance of <ThumbWhereEC2>. If the <code>TW_DEFAULT_CACHE_CONFIG</code> configuration
 	 * option is set, requests will be authenticated using a session token. Otherwise, requests will use
 	 * the older authentication method.
 	 *
@@ -180,14 +180,14 @@ class AmazonEC2 extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function reboot_instances($instance_id, $opt = null)
 	{
 		if (!$opt) $opt = array();
 
 		// Required parameter
-		$opt = array_merge($opt, CFComplexType::map(array(
+		$opt = array_merge($opt, TWComplexType::map(array(
 			'InstanceId' => (is_array($instance_id) ? $instance_id : array($instance_id))
 		)));
 
@@ -200,7 +200,7 @@ class AmazonEC2 extends CFRuntime
 	 *
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>ReservedInstancesId</code> - <code>string|array</code> - Optional - The optional list of Reserved Instance IDs to describe.  Pass a string for a single value, or an indexed array for multiple values. </li>
-	 * 	<li><code>Filter</code> - <code>array</code> - Optional - A list of filters used to match properties for ReservedInstances. For a complete reference to the available filter keys for this operation, see the Amazon EC2 API reference. <ul>
+	 * 	<li><code>Filter</code> - <code>array</code> - Optional - A list of filters used to match properties for ReservedInstances. For a complete reference to the available filter keys for this operation, see the ThumbWhere EC2 API reference. <ul>
 	 * 		<li><code>x</code> - <code>array</code> - This represents a simple array index. <ul>
 	 * 			<li><code>Name</code> - <code>string</code> - Optional - Specifies the name of the filter. </li>
 	 * 			<li><code>Value</code> - <code>string|array</code> - Optional - Contains one or more values for the filter.  Pass a string for a single value, or an indexed array for multiple values. </li>
@@ -208,7 +208,7 @@ class AmazonEC2 extends CFRuntime
 	 * 	</ul></li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_reserved_instances($opt = null)
 	{
@@ -217,7 +217,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['ReservedInstancesId']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'ReservedInstancesId' => (is_array($opt['ReservedInstancesId']) ? $opt['ReservedInstancesId'] : array($opt['ReservedInstancesId']))
 			)));
 			unset($opt['ReservedInstancesId']);
@@ -226,7 +226,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['Filter']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'Filter' => $opt['Filter']
 			)));
 			unset($opt['Filter']);
@@ -244,7 +244,7 @@ class AmazonEC2 extends CFRuntime
 	 *
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>ZoneName</code> - <code>string|array</code> - Optional - A list of the availability zone names to describe.  Pass a string for a single value, or an indexed array for multiple values. </li>
-	 * 	<li><code>Filter</code> - <code>array</code> - Optional - A list of filters used to match properties for AvailabilityZones. For a complete reference to the available filter keys for this operation, see the Amazon EC2 API reference. <ul>
+	 * 	<li><code>Filter</code> - <code>array</code> - Optional - A list of filters used to match properties for AvailabilityZones. For a complete reference to the available filter keys for this operation, see the ThumbWhere EC2 API reference. <ul>
 	 * 		<li><code>x</code> - <code>array</code> - This represents a simple array index. <ul>
 	 * 			<li><code>Name</code> - <code>string</code> - Optional - Specifies the name of the filter. </li>
 	 * 			<li><code>Value</code> - <code>string|array</code> - Optional - Contains one or more values for the filter.  Pass a string for a single value, or an indexed array for multiple values. </li>
@@ -252,7 +252,7 @@ class AmazonEC2 extends CFRuntime
 	 * 	</ul></li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_availability_zones($opt = null)
 	{
@@ -261,7 +261,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['ZoneName']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'ZoneName' => (is_array($opt['ZoneName']) ? $opt['ZoneName'] : array($opt['ZoneName']))
 			)));
 			unset($opt['ZoneName']);
@@ -270,7 +270,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['Filter']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'Filter' => $opt['Filter']
 			)));
 			unset($opt['Filter']);
@@ -290,7 +290,7 @@ class AmazonEC2 extends CFRuntime
 	 * 	<li><code>Force</code> - <code>boolean</code> - Optional - Forces detachment if the previous detachment attempt did not occur cleanly (logging into an instance, unmounting the volume, and detaching normally). This option can lead to data loss or a corrupted file system. Use this option only as a last resort to detach a volume from a failed instance. The instance will not have an opportunity to flush file system caches nor file system meta data. If you use this option, you must perform file system check and repair procedures. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function detach_volume($volume_id, $opt = null)
 	{
@@ -304,11 +304,11 @@ class AmazonEC2 extends CFRuntime
 	 *
 	 * The DeleteKeyPair operation deletes a key pair.
 	 *
-	 * @param string $key_name (Required) The name of the Amazon EC2 key pair to delete.
+	 * @param string $key_name (Required) The name of the ThumbWhere EC2 key pair to delete.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function delete_key_pair($key_name, $opt = null)
 	{
@@ -322,18 +322,18 @@ class AmazonEC2 extends CFRuntime
 	 *
 	 * Disables monitoring for a running instance.
 	 *
-	 * @param string|array $instance_id (Required) The list of Amazon EC2 instances on which to disable monitoring.  Pass a string for a single value, or an indexed array for multiple values.
+	 * @param string|array $instance_id (Required) The list of ThumbWhere EC2 instances on which to disable monitoring.  Pass a string for a single value, or an indexed array for multiple values.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function unmonitor_instances($instance_id, $opt = null)
 	{
 		if (!$opt) $opt = array();
 
 		// Required parameter
-		$opt = array_merge($opt, CFComplexType::map(array(
+		$opt = array_merge($opt, TWComplexType::map(array(
 			'InstanceId' => (is_array($instance_id) ? $instance_id : array($instance_id))
 		)));
 
@@ -343,14 +343,14 @@ class AmazonEC2 extends CFRuntime
 	/**
 	 *
 	 * Attaches a VPN gateway to a VPC. This is the last step required to get your VPC fully connected to your data center before launching
-	 * instances in it. For more information, go to Process for Using Amazon VPC in the Amazon Virtual Private Cloud Developer Guide.
+	 * instances in it. For more information, go to Process for Using ThumbWhere VPC in the ThumbWhere Virtual Private Cloud Developer Guide.
 	 *
 	 * @param string $vpn_gateway_id (Required) The ID of the VPN gateway to attach to the VPC.
 	 * @param string $vpc_id (Required) The ID of the VPC to attach to the VPN gateway.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function attach_vpn_gateway($vpn_gateway_id, $vpc_id, $opt = null)
 	{
@@ -363,17 +363,17 @@ class AmazonEC2 extends CFRuntime
 
 	/**
 	 *
-	 * Creates an Amazon EBS-backed AMI from a "running" or "stopped" instance. AMIs that use an Amazon EBS root device boot faster than AMIs that
+	 * Creates an ThumbWhere EBS-backed AMI from a "running" or "stopped" instance. AMIs that use an ThumbWhere EBS root device boot faster than AMIs that
 	 * use instance stores. They can be up to 1 TiB in size, use storage that persists on instance failure, and can be stopped and started.
 	 *
 	 * @param string $instance_id (Required) The ID of the instance from which to create the new image.
 	 * @param string $name (Required) The name for the new AMI being created.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>Description</code> - <code>string</code> - Optional - The description for the new AMI being created. </li>
-	 * 	<li><code>NoReboot</code> - <code>boolean</code> - Optional - By default this property is set to <code>false</code>, which means Amazon EC2 attempts to cleanly shut down the instance before image creation and reboots the instance afterwards. When set to true, Amazon EC2 will not shut down the instance before creating the image. When this option is used, file system integrity on the created image cannot be guaranteed. </li>
+	 * 	<li><code>NoReboot</code> - <code>boolean</code> - Optional - By default this property is set to <code>false</code>, which means ThumbWhere EC2 attempts to cleanly shut down the instance before image creation and reboots the instance afterwards. When set to true, ThumbWhere EC2 will not shut down the instance before creating the image. When this option is used, file system integrity on the created image cannot be guaranteed. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function create_image($instance_id, $name, $opt = null)
 	{
@@ -394,11 +394,11 @@ class AmazonEC2 extends CFRuntime
 	 * B has a rule that allows access from security group A, security group A cannot be deleted until the allow rule is removed.
 	 *
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
-	 * 	<li><code>GroupName</code> - <code>string</code> - Optional - The name of the Amazon EC2 security group to delete. </li>
-	 * 	<li><code>GroupId</code> - <code>string</code> - Optional - The ID of the Amazon EC2 security group to delete. </li>
+	 * 	<li><code>GroupName</code> - <code>string</code> - Optional - The name of the ThumbWhere EC2 security group to delete. </li>
+	 * 	<li><code>GroupId</code> - <code>string</code> - Optional - The ID of the ThumbWhere EC2 security group to delete. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function delete_security_group($opt = null)
 	{
@@ -409,8 +409,8 @@ class AmazonEC2 extends CFRuntime
 
 	/**
 	 *
-	 * This action applies only to security groups in a VPC; it's not supported for EC2 security groups. For information about Amazon Virtual
-	 * Private Cloud and VPC security groups, go to the Amazon Virtual Private Cloud User Guide.
+	 * This action applies only to security groups in a VPC; it's not supported for EC2 security groups. For information about ThumbWhere Virtual
+	 * Private Cloud and VPC security groups, go to the ThumbWhere Virtual Private Cloud User Guide.
 	 *
 	 * The action adds one or more egress rules to a VPC security group. Specifically, this permits instances in a security group to send traffic
 	 * to either one or more destination CIDR IP address ranges, or to one or more destination security groups in the same VPC.
@@ -442,7 +442,7 @@ class AmazonEC2 extends CFRuntime
 	 * 	</ul></li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function authorize_security_group_egress($group_id, $opt = null)
 	{
@@ -452,7 +452,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['IpPermissions']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'IpPermissions' => $opt['IpPermissions']
 			)));
 			unset($opt['IpPermissions']);
@@ -473,7 +473,7 @@ class AmazonEC2 extends CFRuntime
 	 * 	<li><code>DecryptPasswordWithKey</code> - <code>string</code> - Optional - Enables the decryption of the Administrator password for the given Microsoft Windows instance. Specifies the RSA private key that is associated with the keypair ID which was used to launch the Microsoft Windows instance.</li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 *  <li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This is useful for manually-managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function get_password_data($instance_id, $opt = null)
 	{
@@ -517,7 +517,7 @@ class AmazonEC2 extends CFRuntime
 	 * Associates a set of DHCP options (that you've previously created) with the specified VPC. Or, associates the default DHCP options with the
 	 * VPC. The default set consists of the standard EC2 host name, no domain name, no DNS server, no NTP server, and no NetBIOS server or node
 	 * type. After you associate the options with the VPC, any existing instances and all new instances that you launch in that VPC use the
-	 * options. For more information about the supported DHCP options and using them with Amazon VPC, go to Using DHCP Options in the Amazon
+	 * options. For more information about the supported DHCP options and using them with ThumbWhere VPC, go to Using DHCP Options in the ThumbWhere
 	 * Virtual Private Cloud Developer Guide.
 	 *
 	 * @param string $dhcp_options_id (Required) The ID of the DHCP options to associate with the VPC. Specify "default" to associate the default DHCP options with the VPC.
@@ -525,7 +525,7 @@ class AmazonEC2 extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function associate_dhcp_options($dhcp_options_id, $vpc_id, $opt = null)
 	{
@@ -538,9 +538,9 @@ class AmazonEC2 extends CFRuntime
 
 	/**
 	 *
-	 * Stops an instance that uses an Amazon EBS volume as its root device. Instances that use Amazon EBS volumes as their root devices can be
+	 * Stops an instance that uses an ThumbWhere EBS volume as its root device. Instances that use ThumbWhere EBS volumes as their root devices can be
 	 * quickly stopped and started. When an instance is stopped, the compute resources are released and you are not billed for hourly instance
-	 * usage. However, your root partition Amazon EBS volume remains, continues to persist your data, and you are charged for Amazon EBS volume
+	 * usage. However, your root partition ThumbWhere EBS volume remains, continues to persist your data, and you are charged for ThumbWhere EBS volume
 	 * usage. You can restart your instance at any time.
 	 *
 	 * Before stopping an instance, make sure it is in a state from which it can be restarted. Stopping an instance does not preserve data stored
@@ -548,19 +548,19 @@ class AmazonEC2 extends CFRuntime
 	 *
 	 * Performing this operation on an instance that uses an instance store as its root device returns an error.
 	 *
-	 * @param string|array $instance_id (Required) The list of Amazon EC2 instances to stop.  Pass a string for a single value, or an indexed array for multiple values.
+	 * @param string|array $instance_id (Required) The list of ThumbWhere EC2 instances to stop.  Pass a string for a single value, or an indexed array for multiple values.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>Force</code> - <code>boolean</code> - Optional - Forces the instance to stop. The instance will not have an opportunity to flush file system caches nor file system meta data. If you use this option, you must perform file system check and repair procedures. This option is not recommended for Windows instances. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function stop_instances($instance_id, $opt = null)
 	{
 		if (!$opt) $opt = array();
 
 		// Required parameter
-		$opt = array_merge($opt, CFComplexType::map(array(
+		$opt = array_merge($opt, TWComplexType::map(array(
 			'InstanceId' => (is_array($instance_id) ? $instance_id : array($instance_id))
 		)));
 
@@ -588,7 +588,7 @@ class AmazonEC2 extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 *  <li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This is useful for manually-managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function import_key_pair($key_name, $public_key_material, $opt = null)
 	{
@@ -614,7 +614,7 @@ class AmazonEC2 extends CFRuntime
 	 * 	<li><code>VpcId</code> - <code>string</code> - Optional - ID of the VPC. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function create_security_group($group_name, $group_description, $opt = null)
 	{
@@ -629,10 +629,10 @@ class AmazonEC2 extends CFRuntime
 	 *
 	 * Describes the Spot Price history.
 	 *
-	 * Spot Instances are instances that Amazon EC2 starts on your behalf when the maximum price that you specify exceeds the current Spot Price.
-	 * Amazon EC2 periodically sets the Spot Price based on available Spot Instance capacity and current spot instance requests.
+	 * Spot Instances are instances that ThumbWhere EC2 starts on your behalf when the maximum price that you specify exceeds the current Spot Price.
+	 * ThumbWhere EC2 periodically sets the Spot Price based on available Spot Instance capacity and current spot instance requests.
 	 *
-	 * For conceptual information about Spot Instances, refer to the Amazon Elastic Compute Cloud Developer Guide or Amazon Elastic Compute Cloud
+	 * For conceptual information about Spot Instances, refer to the ThumbWhere Elastic Compute Cloud Developer Guide or ThumbWhere Elastic Compute Cloud
 	 * User Guide.
 	 *
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
@@ -640,7 +640,7 @@ class AmazonEC2 extends CFRuntime
 	 * 	<li><code>EndTime</code> - <code>string</code> - Optional - The end date and time of the Spot Instance price history data. May be passed as a number of seconds since UNIX Epoch, or any string compatible with <php:strtotime()>.</li>
 	 * 	<li><code>InstanceType</code> - <code>string|array</code> - Optional - Specifies the instance type to return.  Pass a string for a single value, or an indexed array for multiple values. </li>
 	 * 	<li><code>ProductDescription</code> - <code>string|array</code> - Optional - The description of the AMI.  Pass a string for a single value, or an indexed array for multiple values. </li>
-	 * 	<li><code>Filter</code> - <code>array</code> - Optional - A list of filters used to match properties for SpotPriceHistory. For a complete reference to the available filter keys for this operation, see the Amazon EC2 API reference. <ul>
+	 * 	<li><code>Filter</code> - <code>array</code> - Optional - A list of filters used to match properties for SpotPriceHistory. For a complete reference to the available filter keys for this operation, see the ThumbWhere EC2 API reference. <ul>
 	 * 		<li><code>x</code> - <code>array</code> - This represents a simple array index. <ul>
 	 * 			<li><code>Name</code> - <code>string</code> - Optional - Specifies the name of the filter. </li>
 	 * 			<li><code>Value</code> - <code>string|array</code> - Optional - Contains one or more values for the filter.  Pass a string for a single value, or an indexed array for multiple values. </li>
@@ -651,7 +651,7 @@ class AmazonEC2 extends CFRuntime
 	 * 	<li><code>NextToken</code> - <code>string</code> - Optional - Specifies the next set of rows to return. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_spot_price_history($opt = null)
 	{
@@ -672,7 +672,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['InstanceType']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'InstanceType' => (is_array($opt['InstanceType']) ? $opt['InstanceType'] : array($opt['InstanceType']))
 			)));
 			unset($opt['InstanceType']);
@@ -681,7 +681,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['ProductDescription']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'ProductDescription' => (is_array($opt['ProductDescription']) ? $opt['ProductDescription'] : array($opt['ProductDescription']))
 			)));
 			unset($opt['ProductDescription']);
@@ -690,7 +690,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['Filter']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'Filter' => $opt['Filter']
 			)));
 			unset($opt['Filter']);
@@ -705,7 +705,7 @@ class AmazonEC2 extends CFRuntime
 	 *
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>RegionName</code> - <code>string|array</code> - Optional - The optional list of regions to describe.  Pass a string for a single value, or an indexed array for multiple values. </li>
-	 * 	<li><code>Filter</code> - <code>array</code> - Optional - A list of filters used to match properties for Regions. For a complete reference to the available filter keys for this operation, see the Amazon EC2 API reference. <ul>
+	 * 	<li><code>Filter</code> - <code>array</code> - Optional - A list of filters used to match properties for Regions. For a complete reference to the available filter keys for this operation, see the ThumbWhere EC2 API reference. <ul>
 	 * 		<li><code>x</code> - <code>array</code> - This represents a simple array index. <ul>
 	 * 			<li><code>Name</code> - <code>string</code> - Optional - Specifies the name of the filter. </li>
 	 * 			<li><code>Value</code> - <code>string|array</code> - Optional - Contains one or more values for the filter.  Pass a string for a single value, or an indexed array for multiple values. </li>
@@ -713,7 +713,7 @@ class AmazonEC2 extends CFRuntime
 	 * 	</ul></li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_regions($opt = null)
 	{
@@ -722,7 +722,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['RegionName']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'RegionName' => (is_array($opt['RegionName']) ? $opt['RegionName'] : array($opt['RegionName']))
 			)));
 			unset($opt['RegionName']);
@@ -731,7 +731,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['Filter']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'Filter' => $opt['Filter']
 			)));
 			unset($opt['Filter']);
@@ -755,14 +755,14 @@ class AmazonEC2 extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function create_dhcp_options($dhcp_configuration, $opt = null)
 	{
 		if (!$opt) $opt = array();
 
 		// Required parameter
-		$opt = array_merge($opt, CFComplexType::map(array(
+		$opt = array_merge($opt, TWComplexType::map(array(
 			'DhcpConfiguration' => (is_array($dhcp_configuration) ? $dhcp_configuration : array($dhcp_configuration))
 		)));
 
@@ -778,7 +778,7 @@ class AmazonEC2 extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function reset_snapshot_attribute($snapshot_id, $attribute, $opt = null)
 	{
@@ -792,7 +792,7 @@ class AmazonEC2 extends CFRuntime
 	/**
 	 *
 	 * Deletes a route from a route table in a VPC. For more information about route tables, go to <a
-	 * href="http://docs.amazonwebservices.com/AmazonVPC/latest/UserGuide/VPC_Route_Tables.html">Route Tables</a> in the Amazon Virtual Private
+	 * href="http://docs.amazonwebservices.com/ThumbWhereVPC/latest/UserGuide/VPC_Route_Tables.html">Route Tables</a> in the ThumbWhere Virtual Private
 	 * Cloud User Guide.
 	 *
 	 * @param string $route_table_id (Required) The ID of the route table where the route will be deleted.
@@ -800,7 +800,7 @@ class AmazonEC2 extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function delete_route($route_table_id, $destination_cidr_block, $opt = null)
 	{
@@ -827,7 +827,7 @@ class AmazonEC2 extends CFRuntime
 	 *
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>InternetGatewayId</code> - <code>string|array</code> - Optional - One or more Internet gateway IDs.  Pass a string for a single value, or an indexed array for multiple values. </li>
-	 * 	<li><code>Filter</code> - <code>array</code> - Optional - A list of filters used to match properties for Internet Gateways. For a complete reference to the available filter keys for this operation, see the Amazon EC2 API reference. <ul>
+	 * 	<li><code>Filter</code> - <code>array</code> - Optional - A list of filters used to match properties for Internet Gateways. For a complete reference to the available filter keys for this operation, see the ThumbWhere EC2 API reference. <ul>
 	 * 		<li><code>x</code> - <code>array</code> - This represents a simple array index. <ul>
 	 * 			<li><code>Name</code> - <code>string</code> - Optional - Specifies the name of the filter. </li>
 	 * 			<li><code>Value</code> - <code>string|array</code> - Optional - Contains one or more values for the filter.  Pass a string for a single value, or an indexed array for multiple values. </li>
@@ -835,7 +835,7 @@ class AmazonEC2 extends CFRuntime
 	 * 	</ul></li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_internet_gateways($opt = null)
 	{
@@ -844,7 +844,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['InternetGatewayId']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'InternetGatewayId' => (is_array($opt['InternetGatewayId']) ? $opt['InternetGatewayId'] : array($opt['InternetGatewayId']))
 			)));
 			unset($opt['InternetGatewayId']);
@@ -853,7 +853,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['Filter']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'Filter' => $opt['Filter']
 			)));
 			unset($opt['Filter']);
@@ -870,9 +870,9 @@ class AmazonEC2 extends CFRuntime
 	 * returned. If you specify a group that does not exist, a fault is returned.
 	 *
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
-	 * 	<li><code>GroupName</code> - <code>string|array</code> - Optional - The optional list of Amazon EC2 security groups to describe.  Pass a string for a single value, or an indexed array for multiple values. </li>
+	 * 	<li><code>GroupName</code> - <code>string|array</code> - Optional - The optional list of ThumbWhere EC2 security groups to describe.  Pass a string for a single value, or an indexed array for multiple values. </li>
 	 * 	<li><code>GroupId</code> - <code>string|array</code> - Optional -   Pass a string for a single value, or an indexed array for multiple values. </li>
-	 * 	<li><code>Filter</code> - <code>array</code> - Optional - A list of filters used to match properties for SecurityGroups. For a complete reference to the available filter keys for this operation, see the Amazon EC2 API reference. <ul>
+	 * 	<li><code>Filter</code> - <code>array</code> - Optional - A list of filters used to match properties for SecurityGroups. For a complete reference to the available filter keys for this operation, see the ThumbWhere EC2 API reference. <ul>
 	 * 		<li><code>x</code> - <code>array</code> - This represents a simple array index. <ul>
 	 * 			<li><code>Name</code> - <code>string</code> - Optional - Specifies the name of the filter. </li>
 	 * 			<li><code>Value</code> - <code>string|array</code> - Optional - Contains one or more values for the filter.  Pass a string for a single value, or an indexed array for multiple values. </li>
@@ -880,7 +880,7 @@ class AmazonEC2 extends CFRuntime
 	 * 	</ul></li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_security_groups($opt = null)
 	{
@@ -889,7 +889,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['GroupName']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'GroupName' => (is_array($opt['GroupName']) ? $opt['GroupName'] : array($opt['GroupName']))
 			)));
 			unset($opt['GroupName']);
@@ -898,7 +898,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['GroupId']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'GroupId' => (is_array($opt['GroupId']) ? $opt['GroupId'] : array($opt['GroupId']))
 			)));
 			unset($opt['GroupId']);
@@ -907,7 +907,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['Filter']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'Filter' => $opt['Filter']
 			)));
 			unset($opt['Filter']);
@@ -928,7 +928,7 @@ class AmazonEC2 extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function detach_vpn_gateway($vpn_gateway_id, $vpc_id, $opt = null)
 	{
@@ -947,7 +947,7 @@ class AmazonEC2 extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function deregister_image($image_id, $opt = null)
 	{
@@ -961,13 +961,13 @@ class AmazonEC2 extends CFRuntime
 	 *
 	 * Describes the data feed for Spot Instances.
 	 *
-	 * For conceptual information about Spot Instances, refer to the Amazon Elastic Compute Cloud Developer Guide or Amazon Elastic Compute Cloud
+	 * For conceptual information about Spot Instances, refer to the ThumbWhere Elastic Compute Cloud Developer Guide or ThumbWhere Elastic Compute Cloud
 	 * User Guide.
 	 *
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_spot_datafeed_subscription($opt = null)
 	{
@@ -978,7 +978,7 @@ class AmazonEC2 extends CFRuntime
 
 	/**
 	 *
-	 * Deletes tags from the specified Amazon EC2 resources.
+	 * Deletes tags from the specified ThumbWhere EC2 resources.
 	 *
 	 * @param string|array $resource_id (Required) A list of one or more resource IDs. This could be the ID of an AMI, an instance, an EBS volume, or snapshot, etc.  Pass a string for a single value, or an indexed array for multiple values.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
@@ -990,21 +990,21 @@ class AmazonEC2 extends CFRuntime
 	 * 	</ul></li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function delete_tags($resource_id, $opt = null)
 	{
 		if (!$opt) $opt = array();
 
 		// Required parameter
-		$opt = array_merge($opt, CFComplexType::map(array(
+		$opt = array_merge($opt, TWComplexType::map(array(
 			'ResourceId' => (is_array($resource_id) ? $resource_id : array($resource_id))
 		)));
 
 		// Optional parameter
 		if (isset($opt['Tag']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'Tag' => $opt['Tag']
 			)));
 			unset($opt['Tag']);
@@ -1015,14 +1015,14 @@ class AmazonEC2 extends CFRuntime
 
 	/**
 	 *
-	 * Deletes a subnet from a VPC. You must terminate all running instances in the subnet before deleting it, otherwise Amazon VPC returns an
+	 * Deletes a subnet from a VPC. You must terminate all running instances in the subnet before deleting it, otherwise ThumbWhere VPC returns an
 	 * error.
 	 *
 	 * @param string $subnet_id (Required) The ID of the subnet you want to delete.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function delete_subnet($subnet_id, $opt = null)
 	{
@@ -1042,7 +1042,7 @@ class AmazonEC2 extends CFRuntime
 	 * 	<li><code>AvailabilityZone</code> - <code>string</code> - Optional - The Availability Zone in which to create the VPN gateway. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function create_vpn_gateway($type, $opt = null)
 	{
@@ -1062,7 +1062,7 @@ class AmazonEC2 extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function delete_vpn_gateway($vpn_gateway_id, $opt = null)
 	{
@@ -1076,13 +1076,13 @@ class AmazonEC2 extends CFRuntime
 	 *
 	 * Attach a previously created volume to a running instance.
 	 *
-	 * @param string $volume_id (Required) The ID of the Amazon EBS volume. The volume and instance must be within the same Availability Zone and the instance must be running.
+	 * @param string $volume_id (Required) The ID of the ThumbWhere EBS volume. The volume and instance must be within the same Availability Zone and the instance must be running.
 	 * @param string $instance_id (Required) The ID of the instance to which the volume attaches. The volume and instance must be within the same Availability Zone and the instance must be running.
 	 * @param string $device (Required) Specifies how the device is exposed to the instance (e.g., <code>/dev/sdh</code>).
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function attach_volume($volume_id, $instance_id, $device, $opt = null)
 	{
@@ -1101,7 +1101,7 @@ class AmazonEC2 extends CFRuntime
 	 *
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>LicenseId</code> - <code>string|array</code> - Optional - Specifies the license registration for which details are to be returned.  Pass a string for a single value, or an indexed array for multiple values. </li>
-	 * 	<li><code>Filter</code> - <code>array</code> - Optional - A list of filters used to match properties for Licenses. For a complete reference to the available filter keys for this operation, see the Amazon EC2 API reference. <ul>
+	 * 	<li><code>Filter</code> - <code>array</code> - Optional - A list of filters used to match properties for Licenses. For a complete reference to the available filter keys for this operation, see the ThumbWhere EC2 API reference. <ul>
 	 * 		<li><code>x</code> - <code>array</code> - This represents a simple array index. <ul>
 	 * 			<li><code>Name</code> - <code>string</code> - Optional - Specifies the name of the filter. </li>
 	 * 			<li><code>Value</code> - <code>string|array</code> - Optional - Contains one or more values for the filter.  Pass a string for a single value, or an indexed array for multiple values. </li>
@@ -1109,7 +1109,7 @@ class AmazonEC2 extends CFRuntime
 	 * 	</ul></li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_licenses($opt = null)
 	{
@@ -1118,7 +1118,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['LicenseId']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'LicenseId' => (is_array($opt['LicenseId']) ? $opt['LicenseId'] : array($opt['LicenseId']))
 			)));
 			unset($opt['LicenseId']);
@@ -1127,7 +1127,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['Filter']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'Filter' => $opt['Filter']
 			)));
 			unset($opt['Filter']);
@@ -1145,7 +1145,7 @@ class AmazonEC2 extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function activate_license($license_id, $capacity, $opt = null)
 	{
@@ -1167,7 +1167,7 @@ class AmazonEC2 extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function reset_image_attribute($image_id, $attribute, $opt = null)
 	{
@@ -1193,7 +1193,7 @@ class AmazonEC2 extends CFRuntime
 	 *
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>VpnConnectionId</code> - <code>string|array</code> - Optional - A VPN connection ID. More than one may be specified per request.  Pass a string for a single value, or an indexed array for multiple values. </li>
-	 * 	<li><code>Filter</code> - <code>array</code> - Optional - A list of filters used to match properties for VPN Connections. For a complete reference to the available filter keys for this operation, see the Amazon EC2 API reference. <ul>
+	 * 	<li><code>Filter</code> - <code>array</code> - Optional - A list of filters used to match properties for VPN Connections. For a complete reference to the available filter keys for this operation, see the ThumbWhere EC2 API reference. <ul>
 	 * 		<li><code>x</code> - <code>array</code> - This represents a simple array index. <ul>
 	 * 			<li><code>Name</code> - <code>string</code> - Optional - Specifies the name of the filter. </li>
 	 * 			<li><code>Value</code> - <code>string|array</code> - Optional - Contains one or more values for the filter.  Pass a string for a single value, or an indexed array for multiple values. </li>
@@ -1201,7 +1201,7 @@ class AmazonEC2 extends CFRuntime
 	 * 	</ul></li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_vpn_connections($opt = null)
 	{
@@ -1210,7 +1210,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['VpnConnectionId']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'VpnConnectionId' => (is_array($opt['VpnConnectionId']) ? $opt['VpnConnectionId'] : array($opt['VpnConnectionId']))
 			)));
 			unset($opt['VpnConnectionId']);
@@ -1219,7 +1219,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['Filter']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'Filter' => $opt['Filter']
 			)));
 			unset($opt['Filter']);
@@ -1241,7 +1241,7 @@ class AmazonEC2 extends CFRuntime
 	 * 	<li><code>Description</code> - <code>string</code> - Optional - The description for the new snapshot. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function create_snapshot($volume_id, $opt = null)
 	{
@@ -1259,7 +1259,7 @@ class AmazonEC2 extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function delete_volume($volume_id, $opt = null)
 	{
@@ -1281,7 +1281,7 @@ class AmazonEC2 extends CFRuntime
 	 *
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>VpcId</code> - <code>string|array</code> - Optional - The ID of a VPC you want information about.  Pass a string for a single value, or an indexed array for multiple values. </li>
-	 * 	<li><code>Filter</code> - <code>array</code> - Optional - A list of filters used to match properties for VPCs. For a complete reference to the available filter keys for this operation, see the Amazon EC2 API reference. <ul>
+	 * 	<li><code>Filter</code> - <code>array</code> - Optional - A list of filters used to match properties for VPCs. For a complete reference to the available filter keys for this operation, see the ThumbWhere EC2 API reference. <ul>
 	 * 		<li><code>x</code> - <code>array</code> - This represents a simple array index. <ul>
 	 * 			<li><code>Name</code> - <code>string</code> - Optional - Specifies the name of the filter. </li>
 	 * 			<li><code>Value</code> - <code>string|array</code> - Optional - Contains one or more values for the filter.  Pass a string for a single value, or an indexed array for multiple values. </li>
@@ -1289,7 +1289,7 @@ class AmazonEC2 extends CFRuntime
 	 * 	</ul></li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_vpcs($opt = null)
 	{
@@ -1298,7 +1298,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['VpcId']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'VpcId' => (is_array($opt['VpcId']) ? $opt['VpcId'] : array($opt['VpcId']))
 			)));
 			unset($opt['VpcId']);
@@ -1307,7 +1307,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['Filter']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'Filter' => $opt['Filter']
 			)));
 			unset($opt['Filter']);
@@ -1326,7 +1326,7 @@ class AmazonEC2 extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function deactivate_license($license_id, $capacity, $opt = null)
 	{
@@ -1342,15 +1342,15 @@ class AmazonEC2 extends CFRuntime
 	 * The AssociateAddress operation associates an elastic IP address with an instance.
 	 *
 	 * If the IP address is currently assigned to another instance, the IP address is assigned to the new instance. This is an idempotent
-	 * operation. If you enter it more than once, Amazon EC2 does not return an error.
+	 * operation. If you enter it more than once, ThumbWhere EC2 does not return an error.
 	 *
 	 * @param string $instance_id (Required) The instance to associate with the IP address.
 	 * @param string $public_ip (Required) IP address that you are assigning to the instance.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
-	 * 	<li><code>AllocationId</code> - <code>string</code> - Optional - The allocation ID that TW returned when you allocated the elastic IP address for use with Amazon VPC. </li>
+	 * 	<li><code>AllocationId</code> - <code>string</code> - Optional - The allocation ID that TW returned when you allocated the elastic IP address for use with ThumbWhere VPC. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function associate_address($instance_id, $public_ip, $opt = null)
 	{
@@ -1372,7 +1372,7 @@ class AmazonEC2 extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function delete_customer_gateway($customer_gateway_id, $opt = null)
 	{
@@ -1386,14 +1386,14 @@ class AmazonEC2 extends CFRuntime
 	 *
 	 * Creates an entry (i.e., rule) in a network ACL with a rule number you specify. Each network ACL has a set of numbered ingress rules and a
 	 * separate set of numbered egress rules. When determining whether a packet should be allowed in or out of a subnet associated with the ACL,
-	 * Amazon VPC processes the entries in the ACL according to the rule numbers, in ascending order.
+	 * ThumbWhere VPC processes the entries in the ACL according to the rule numbers, in ascending order.
 	 *
 	 * <b>Important: </b> We recommend that you leave room between the rules (e.g., 100, 110, 120, etc.), and not number them sequentially (101,
 	 * 102, 103, etc.). This allows you to easily add a new rule between existing ones without having to renumber the rules.
 	 *
 	 * After you add an entry, you can't modify it; you must either replace it, or create a new entry and delete the old one.
 	 *
-	 * For more information about network ACLs, go to Network ACLs in the Amazon Virtual Private Cloud User Guide.
+	 * For more information about network ACLs, go to Network ACLs in the ThumbWhere Virtual Private Cloud User Guide.
 	 *
 	 * @param string $network_acl_id (Required) ID of the ACL where the entry will be created.
 	 * @param integer $rule_number (Required) Rule number to assign to the entry (e.g., 100). ACL entries are processed in ascending order by rule number.
@@ -1410,7 +1410,7 @@ class AmazonEC2 extends CFRuntime
 	 * 		<li><code>To</code> - <code>integer</code> - Optional - The last port in the range. Required if specifying <code>tcp</code> or <code>udp</code> for the protocol. </li></ul></li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function create_network_acl_entry($network_acl_id, $rule_number, $protocol, $rule_action, $egress, $cidr_block, $opt = null)
 	{
@@ -1425,7 +1425,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['Icmp']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'Icmp' => $opt['Icmp']
 			)));
 			unset($opt['Icmp']);
@@ -1434,7 +1434,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['PortRange']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'PortRange' => $opt['PortRange']
 			)));
 			unset($opt['PortRange']);
@@ -1446,17 +1446,17 @@ class AmazonEC2 extends CFRuntime
 	/**
 	 *
 	 * Detaches an Internet gateway from a VPC, disabling connectivity between the Internet and the VPC. The VPC must not contain any running
-	 * instances with elastic IP addresses. For more information about your VPC and Internet gateway, go to Amazon Virtual Private Cloud User
+	 * instances with elastic IP addresses. For more information about your VPC and Internet gateway, go to ThumbWhere Virtual Private Cloud User
 	 * Guide.
 	 *
-	 * For more information about Amazon Virtual Private Cloud and Internet gateways, go to the Amazon Virtual Private Cloud User Guide.
+	 * For more information about ThumbWhere Virtual Private Cloud and Internet gateways, go to the ThumbWhere Virtual Private Cloud User Guide.
 	 *
 	 * @param string $internet_gateway_id (Required) The ID of the Internet gateway to detach.
 	 * @param string $vpc_id (Required) The ID of the VPC.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function detach_internet_gateway($internet_gateway_id, $vpc_id, $opt = null)
 	{
@@ -1471,14 +1471,14 @@ class AmazonEC2 extends CFRuntime
 	 *
 	 * Creates a new route table within a VPC. After you create a new route table, you can add routes and associate the table with a subnet. For
 	 * more information about route tables, go to <a
-	 * href="http://docs.amazonwebservices.com/AmazonVPC/latest/UserGuide/VPC_Route_Tables.html">Route Tables</a> in the Amazon Virtual Private
+	 * href="http://docs.amazonwebservices.com/ThumbWhereVPC/latest/UserGuide/VPC_Route_Tables.html">Route Tables</a> in the ThumbWhere Virtual Private
 	 * Cloud User Guide.
 	 *
 	 * @param string $vpc_id (Required) The ID of the VPC where the route table will be created.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function create_route_table($vpc_id, $opt = null)
 	{
@@ -1495,7 +1495,7 @@ class AmazonEC2 extends CFRuntime
 	 *
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>VolumeId</code> - <code>string|array</code> - Optional - The optional list of EBS volumes to describe.  Pass a string for a single value, or an indexed array for multiple values. </li>
-	 * 	<li><code>Filter</code> - <code>array</code> - Optional - A list of filters used to match properties for Volumes. For a complete reference to the available filter keys for this operation, see the Amazon EC2 API reference. <ul>
+	 * 	<li><code>Filter</code> - <code>array</code> - Optional - A list of filters used to match properties for Volumes. For a complete reference to the available filter keys for this operation, see the ThumbWhere EC2 API reference. <ul>
 	 * 		<li><code>x</code> - <code>array</code> - This represents a simple array index. <ul>
 	 * 			<li><code>Name</code> - <code>string</code> - Optional - Specifies the name of the filter. </li>
 	 * 			<li><code>Value</code> - <code>string|array</code> - Optional - Contains one or more values for the filter.  Pass a string for a single value, or an indexed array for multiple values. </li>
@@ -1503,7 +1503,7 @@ class AmazonEC2 extends CFRuntime
 	 * 	</ul></li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_volumes($opt = null)
 	{
@@ -1512,7 +1512,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['VolumeId']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'VolumeId' => (is_array($opt['VolumeId']) ? $opt['VolumeId'] : array($opt['VolumeId']))
 			)));
 			unset($opt['VolumeId']);
@@ -1521,7 +1521,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['Filter']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'Filter' => $opt['Filter']
 			)));
 			unset($opt['Filter']);
@@ -1546,7 +1546,7 @@ class AmazonEC2 extends CFRuntime
 	 *
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>RouteTableId</code> - <code>string|array</code> - Optional - One or more route table IDs.  Pass a string for a single value, or an indexed array for multiple values. </li>
-	 * 	<li><code>Filter</code> - <code>array</code> - Optional - A list of filters used to match properties for Route Tables. For a complete reference to the available filter keys for this operation, see the Amazon EC2 API reference. <ul>
+	 * 	<li><code>Filter</code> - <code>array</code> - Optional - A list of filters used to match properties for Route Tables. For a complete reference to the available filter keys for this operation, see the ThumbWhere EC2 API reference. <ul>
 	 * 		<li><code>x</code> - <code>array</code> - This represents a simple array index. <ul>
 	 * 			<li><code>Name</code> - <code>string</code> - Optional - Specifies the name of the filter. </li>
 	 * 			<li><code>Value</code> - <code>string|array</code> - Optional - Contains one or more values for the filter.  Pass a string for a single value, or an indexed array for multiple values. </li>
@@ -1554,7 +1554,7 @@ class AmazonEC2 extends CFRuntime
 	 * 	</ul></li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_route_tables($opt = null)
 	{
@@ -1563,7 +1563,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['RouteTableId']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'RouteTableId' => (is_array($opt['RouteTableId']) ? $opt['RouteTableId'] : array($opt['RouteTableId']))
 			)));
 			unset($opt['RouteTableId']);
@@ -1572,7 +1572,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['Filter']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'Filter' => $opt['Filter']
 			)));
 			unset($opt['Filter']);
@@ -1585,18 +1585,18 @@ class AmazonEC2 extends CFRuntime
 	 *
 	 * Enables monitoring for a running instance.
 	 *
-	 * @param string|array $instance_id (Required) The list of Amazon EC2 instances on which to enable monitoring.  Pass a string for a single value, or an indexed array for multiple values.
+	 * @param string|array $instance_id (Required) The list of ThumbWhere EC2 instances on which to enable monitoring.  Pass a string for a single value, or an indexed array for multiple values.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function monitor_instances($instance_id, $opt = null)
 	{
 		if (!$opt) $opt = array();
 
 		// Required parameter
-		$opt = array_merge($opt, CFComplexType::map(array(
+		$opt = array_merge($opt, TWComplexType::map(array(
 			'InstanceId' => (is_array($instance_id) ? $instance_id : array($instance_id))
 		)));
 
@@ -1616,7 +1616,7 @@ class AmazonEC2 extends CFRuntime
 	 *
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>DhcpOptionsId</code> - <code>string|array</code> - Optional -   Pass a string for a single value, or an indexed array for multiple values. </li>
-	 * 	<li><code>Filter</code> - <code>array</code> - Optional - A list of filters used to match properties for DhcpOptions. For a complete reference to the available filter keys for this operation, see the Amazon EC2 API reference. <ul>
+	 * 	<li><code>Filter</code> - <code>array</code> - Optional - A list of filters used to match properties for DhcpOptions. For a complete reference to the available filter keys for this operation, see the ThumbWhere EC2 API reference. <ul>
 	 * 		<li><code>x</code> - <code>array</code> - This represents a simple array index. <ul>
 	 * 			<li><code>Name</code> - <code>string</code> - Optional - Specifies the name of the filter. </li>
 	 * 			<li><code>Value</code> - <code>string|array</code> - Optional - Contains one or more values for the filter.  Pass a string for a single value, or an indexed array for multiple values. </li>
@@ -1624,7 +1624,7 @@ class AmazonEC2 extends CFRuntime
 	 * 	</ul></li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_dhcp_options($opt = null)
 	{
@@ -1633,7 +1633,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['DhcpOptionsId']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'DhcpOptionsId' => (is_array($opt['DhcpOptionsId']) ? $opt['DhcpOptionsId'] : array($opt['DhcpOptionsId']))
 			)));
 			unset($opt['DhcpOptionsId']);
@@ -1642,7 +1642,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['Filter']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'Filter' => $opt['Filter']
 			)));
 			unset($opt['Filter']);
@@ -1667,7 +1667,7 @@ class AmazonEC2 extends CFRuntime
 	 *
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>NetworkAclId</code> - <code>string|array</code> - Optional - One or more network ACL IDs.  Pass a string for a single value, or an indexed array for multiple values. </li>
-	 * 	<li><code>Filter</code> - <code>array</code> - Optional - A list of filters used to match properties for Network ACLs. For a complete reference to the available filter keys for this operation, see the Amazon EC2 API reference. <ul>
+	 * 	<li><code>Filter</code> - <code>array</code> - Optional - A list of filters used to match properties for Network ACLs. For a complete reference to the available filter keys for this operation, see the ThumbWhere EC2 API reference. <ul>
 	 * 		<li><code>x</code> - <code>array</code> - This represents a simple array index. <ul>
 	 * 			<li><code>Name</code> - <code>string</code> - Optional - Specifies the name of the filter. </li>
 	 * 			<li><code>Value</code> - <code>string|array</code> - Optional - Contains one or more values for the filter.  Pass a string for a single value, or an indexed array for multiple values. </li>
@@ -1675,7 +1675,7 @@ class AmazonEC2 extends CFRuntime
 	 * 	</ul></li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_network_acls($opt = null)
 	{
@@ -1684,7 +1684,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['NetworkAclId']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'NetworkAclId' => (is_array($opt['NetworkAclId']) ? $opt['NetworkAclId'] : array($opt['NetworkAclId']))
 			)));
 			unset($opt['NetworkAclId']);
@@ -1693,7 +1693,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['Filter']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'Filter' => $opt['Filter']
 			)));
 			unset($opt['Filter']);
@@ -1709,7 +1709,7 @@ class AmazonEC2 extends CFRuntime
 	 *
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>BundleId</code> - <code>string|array</code> - Optional - The list of bundle task IDs to describe.  Pass a string for a single value, or an indexed array for multiple values. </li>
-	 * 	<li><code>Filter</code> - <code>array</code> - Optional - A list of filters used to match properties for BundleTasks. For a complete reference to the available filter keys for this operation, see the Amazon EC2 API reference. <ul>
+	 * 	<li><code>Filter</code> - <code>array</code> - Optional - A list of filters used to match properties for BundleTasks. For a complete reference to the available filter keys for this operation, see the ThumbWhere EC2 API reference. <ul>
 	 * 		<li><code>x</code> - <code>array</code> - This represents a simple array index. <ul>
 	 * 			<li><code>Name</code> - <code>string</code> - Optional - Specifies the name of the filter. </li>
 	 * 			<li><code>Value</code> - <code>string|array</code> - Optional - Contains one or more values for the filter.  Pass a string for a single value, or an indexed array for multiple values. </li>
@@ -1717,7 +1717,7 @@ class AmazonEC2 extends CFRuntime
 	 * 	</ul></li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_bundle_tasks($opt = null)
 	{
@@ -1726,7 +1726,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['BundleId']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'BundleId' => (is_array($opt['BundleId']) ? $opt['BundleId'] : array($opt['BundleId']))
 			)));
 			unset($opt['BundleId']);
@@ -1735,7 +1735,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['Filter']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'Filter' => $opt['Filter']
 			)));
 			unset($opt['Filter']);
@@ -1749,7 +1749,7 @@ class AmazonEC2 extends CFRuntime
 	 * The RevokeSecurityGroupIngress operation revokes permissions from a security group. The permissions used to revoke must be specified using
 	 * the same values used to grant the permissions.
 	 *
-	 * Permissions are specified by IP protocol (TCP, UDP, or ICMP), the source of the request (by IP range or an Amazon EC2 user-group pair), the
+	 * Permissions are specified by IP protocol (TCP, UDP, or ICMP), the source of the request (by IP range or an ThumbWhere EC2 user-group pair), the
 	 * source and destination port ranges (for TCP and UDP), and the ICMP codes and types (for ICMP).
 	 *
 	 * Permission changes are quickly propagated to instances within the security group. However, depending on the number of instances in the
@@ -1775,7 +1775,7 @@ class AmazonEC2 extends CFRuntime
 	 * 	</ul></li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function revoke_security_group_ingress($opt = null)
 	{
@@ -1784,7 +1784,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['IpPermissions']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'IpPermissions' => $opt['IpPermissions']
 			)));
 			unset($opt['IpPermissions']);
@@ -1797,14 +1797,14 @@ class AmazonEC2 extends CFRuntime
 	 * The GetConsoleOutput operation retrieves console output for the specified instance.
 	 *
 	 * Instance console output is buffered and posted shortly after instance boot, reboot, and
-	 * termination. Amazon EC2 preserves the most recent 64 KB output which will be available for at least
+	 * termination. ThumbWhere EC2 preserves the most recent 64 KB output which will be available for at least
 	 * one hour after the most recent post.
 	 *
 	 * @param string $instance_id (Required) The ID of the instance for which you want console output.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 *  <li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This is useful for manually-managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response. The value of <code>output</code> is automatically Base64-decoded.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response. The value of <code>output</code> is automatically Base64-decoded.
 	 */
 	public function get_console_output($instance_id, $opt = null)
 	{
@@ -1825,12 +1825,12 @@ class AmazonEC2 extends CFRuntime
 	/**
 	 *
 	 * Creates a new Internet gateway in your TW account. After creating the Internet gateway, you then attach it to a VPC using
-	 * <code>AttachInternetGateway</code>. For more information about your VPC and Internet gateway, go to Amazon Virtual Private Cloud User Guide.
+	 * <code>AttachInternetGateway</code>. For more information about your VPC and Internet gateway, go to ThumbWhere Virtual Private Cloud User Guide.
 	 *
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function create_internet_gateway($opt = null)
 	{
@@ -1867,7 +1867,7 @@ class AmazonEC2 extends CFRuntime
 	 * 	<li><code>Description</code> - <code>string</code> - Optional - String value </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function modify_image_attribute($image_id, $opt = null)
 	{
@@ -1877,7 +1877,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['UserId']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'UserId' => (is_array($opt['UserId']) ? $opt['UserId'] : array($opt['UserId']))
 			)));
 			unset($opt['UserId']);
@@ -1886,7 +1886,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['UserGroup']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'UserGroup' => (is_array($opt['UserGroup']) ? $opt['UserGroup'] : array($opt['UserGroup']))
 			)));
 			unset($opt['UserGroup']);
@@ -1895,7 +1895,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['ProductCode']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'ProductCode' => (is_array($opt['ProductCode']) ? $opt['ProductCode'] : array($opt['ProductCode']))
 			)));
 			unset($opt['ProductCode']);
@@ -1904,7 +1904,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['LaunchPermission']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'LaunchPermission' => $opt['LaunchPermission']
 			)));
 			unset($opt['LaunchPermission']);
@@ -1933,7 +1933,7 @@ class AmazonEC2 extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function create_customer_gateway($type, $ip_address, $bgp_asn, $opt = null)
 	{
@@ -1949,15 +1949,15 @@ class AmazonEC2 extends CFRuntime
 	 *
 	 * Creates the data feed for Spot Instances, enabling you to view Spot Instance usage logs. You can create one data feed per account.
 	 *
-	 * For conceptual information about Spot Instances, refer to the Amazon Elastic Compute Cloud Developer Guide or Amazon Elastic Compute Cloud
+	 * For conceptual information about Spot Instances, refer to the ThumbWhere Elastic Compute Cloud Developer Guide or ThumbWhere Elastic Compute Cloud
 	 * User Guide.
 	 *
-	 * @param string $bucket (Required) The Amazon S3 bucket in which to store the Spot Instance datafeed.
+	 * @param string $bucket (Required) The ThumbWhere S3 bucket in which to store the Spot Instance datafeed.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>Prefix</code> - <code>string</code> - Optional - The prefix that is prepended to datafeed files. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function create_spot_datafeed_subscription($bucket, $opt = null)
 	{
@@ -1970,14 +1970,14 @@ class AmazonEC2 extends CFRuntime
 	/**
 	 *
 	 * Attaches an Internet gateway to a VPC, enabling connectivity between the Internet and the VPC. For more information about your VPC and
-	 * Internet gateway, go to the Amazon Virtual Private Cloud User Guide.
+	 * Internet gateway, go to the ThumbWhere Virtual Private Cloud User Guide.
 	 *
 	 * @param string $internet_gateway_id (Required) The ID of the Internet gateway to attach.
 	 * @param string $vpc_id (Required) The ID of the VPC.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function attach_internet_gateway($internet_gateway_id, $vpc_id, $opt = null)
 	{
@@ -2002,7 +2002,7 @@ class AmazonEC2 extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function delete_vpn_connection($vpn_connection_id, $opt = null)
 	{
@@ -2019,7 +2019,7 @@ class AmazonEC2 extends CFRuntime
 	 * The response includes information that you need to configure your customer gateway, in XML format. We recommend you use the command line
 	 * version of this operation (<code>ec2-create-vpn-connection</code>), which takes an <code>-f</code> option (for format) and returns
 	 * configuration information formatted as expected by the vendor you specified, or in a generic, human readable format. For information about
-	 * the command, go to <code>ec2-create-vpn-connection</code> in the Amazon Virtual Private Cloud Command Line Reference.
+	 * the command, go to <code>ec2-create-vpn-connection</code> in the ThumbWhere Virtual Private Cloud Command Line Reference.
 	 *
 	 * We strongly recommend you use HTTPS when calling this operation because the response contains sensitive cryptographic information for
 	 * configuring your customer gateway.
@@ -2033,7 +2033,7 @@ class AmazonEC2 extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function create_vpn_connection($type, $customer_gateway_id, $vpn_gateway_id, $opt = null)
 	{
@@ -2054,7 +2054,7 @@ class AmazonEC2 extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_instance_attribute($instance_id, $attribute, $opt = null)
 	{
@@ -2078,7 +2078,7 @@ class AmazonEC2 extends CFRuntime
 	 *
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>SubnetId</code> - <code>string|array</code> - Optional - A set of one or more subnet IDs.  Pass a string for a single value, or an indexed array for multiple values. </li>
-	 * 	<li><code>Filter</code> - <code>array</code> - Optional - A list of filters used to match properties for Subnets. For a complete reference to the available filter keys for this operation, see the Amazon EC2 API reference. <ul>
+	 * 	<li><code>Filter</code> - <code>array</code> - Optional - A list of filters used to match properties for Subnets. For a complete reference to the available filter keys for this operation, see the ThumbWhere EC2 API reference. <ul>
 	 * 		<li><code>x</code> - <code>array</code> - This represents a simple array index. <ul>
 	 * 			<li><code>Name</code> - <code>string</code> - Optional - Specifies the name of the filter. </li>
 	 * 			<li><code>Value</code> - <code>string|array</code> - Optional - Contains one or more values for the filter.  Pass a string for a single value, or an indexed array for multiple values. </li>
@@ -2086,7 +2086,7 @@ class AmazonEC2 extends CFRuntime
 	 * 	</ul></li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_subnets($opt = null)
 	{
@@ -2095,7 +2095,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['SubnetId']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'SubnetId' => (is_array($opt['SubnetId']) ? $opt['SubnetId'] : array($opt['SubnetId']))
 			)));
 			unset($opt['SubnetId']);
@@ -2104,7 +2104,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['Filter']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'Filter' => $opt['Filter']
 			)));
 			unset($opt['Filter']);
@@ -2117,8 +2117,8 @@ class AmazonEC2 extends CFRuntime
 	 *
 	 * The RunInstances operation launches a specified number of instances.
 	 *
-	 * If Amazon EC2 cannot launch the minimum number AMIs you request, no instances launch. If there is insufficient capacity to launch the
-	 * maximum number of AMIs you request, Amazon EC2 launches as many as possible to satisfy the requested maximum values.
+	 * If ThumbWhere EC2 cannot launch the minimum number AMIs you request, no instances launch. If there is insufficient capacity to launch the
+	 * maximum number of AMIs you request, ThumbWhere EC2 launches as many as possible to satisfy the requested maximum values.
 	 *
 	 * Every instance is launched in a security group. If you do not specify a security group at launch, the instances start in your default
 	 * security group. For more information on creating security groups, see CreateSecurityGroup.
@@ -2127,7 +2127,7 @@ class AmazonEC2 extends CFRuntime
 	 *
 	 * You can provide an optional key pair ID for each image in the launch request (for more information, see CreateKeyPair). All instances that
 	 * are created from images that use this key pair will have access to the associated public key at boot. You can use this key to provide secure
-	 * access to an instance of an image on a per-instance basis. Amazon EC2 public images use this feature to provide secure access without
+	 * access to an instance of an image on a per-instance basis. ThumbWhere EC2 public images use this feature to provide secure access without
 	 * passwords.
 	 *
 	 * Launching public images without a key pair ID will leave them inaccessible.
@@ -2144,12 +2144,12 @@ class AmazonEC2 extends CFRuntime
 	 * If any of the AMIs have a product code attached for which the user has not subscribed, the RunInstances call will fail.
 	 *
 	 * We strongly recommend using the 2.6.18 Xen stock kernel with the <code>c1.medium</code> and <code>c1.xlarge</code> instances. Although the
-	 * default Amazon EC2 kernels will work, the new kernels provide greater stability and performance for these instance types. For more
+	 * default ThumbWhere EC2 kernels will work, the new kernels provide greater stability and performance for these instance types. For more
 	 * information about kernels, see Kernels, RAM Disks, and Block Device Mappings.
 	 *
 	 * @param string $image_id (Required) Unique ID of a machine image, returned by a call to DescribeImages.
-	 * @param integer $min_count (Required) Minimum number of instances to launch. If the value is more than Amazon EC2 can launch, no instances are launched at all.
-	 * @param integer $max_count (Required) Maximum number of instances to launch. If the value is more than Amazon EC2 can launch, the largest possible number above minCount will be launched instead. Between 1 and the maximum number allowed for your account (default: 20).
+	 * @param integer $min_count (Required) Minimum number of instances to launch. If the value is more than ThumbWhere EC2 can launch, no instances are launched at all.
+	 * @param integer $max_count (Required) Maximum number of instances to launch. If the value is more than ThumbWhere EC2 can launch, the largest possible number above minCount will be launched instead. Between 1 and the maximum number allowed for your account (default: 20).
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>KeyName</code> - <code>string</code> - Optional - The name of the key pair. </li>
 	 * 	<li><code>SecurityGroup</code> - <code>string|array</code> - Optional - The names of the security groups into which the instances will be launched.  Pass a string for a single value, or an indexed array for multiple values. </li>
@@ -2157,8 +2157,8 @@ class AmazonEC2 extends CFRuntime
 	 * 	<li><code>UserData</code> - <code>string</code> - Optional - Specifies additional information to make available to the instance(s). </li>
 	 * 	<li><code>InstanceType</code> - <code>string</code> - Optional - Specifies the instance type for the launched instances. [Allowed values: <code>t1.micro</code>, <code>m1.small</code>, <code>m1.large</code>, <code>m1.xlarge</code>, <code>m2.xlarge</code>, <code>m2.2xlarge</code>, <code>m2.4xlarge</code>, <code>c1.medium</code>, <code>c1.xlarge</code>, <code>cc1.4xlarge</code>, <code>cg1.4xlarge</code>]</li>
 	 * 	<li><code>Placement</code> - <code>array</code> - Optional -  Specifies the placement constraints (Availability Zones) for launching the instances. <ul>
-	 * 		<li><code>AvailabilityZone</code> - <code>string</code> - Optional - The availability zone in which an Amazon EC2 instance runs. </li>
-	 * 		<li><code>GroupName</code> - <code>string</code> - Optional - The name of the PlacementGroup in which an Amazon EC2 instance runs. Placement groups are primarily used for launching High Performance Computing instances in the same group to ensure fast connection speeds. </li>
+	 * 		<li><code>AvailabilityZone</code> - <code>string</code> - Optional - The availability zone in which an ThumbWhere EC2 instance runs. </li>
+	 * 		<li><code>GroupName</code> - <code>string</code> - Optional - The name of the PlacementGroup in which an ThumbWhere EC2 instance runs. Placement groups are primarily used for launching High Performance Computing instances in the same group to ensure fast connection speeds. </li>
 	 * 		<li><code>Tenancy</code> - <code>string</code> - Optional - The allowed tenancy of instances launched into the VPC. A value of default means instances can be launched with any tenancy; a value of dedicated means instances must be launched with tenancy as dedicated. </li></ul></li>
 	 * 	<li><code>KernelId</code> - <code>string</code> - Optional - The ID of the kernel with which to launch the instance. </li>
 	 * 	<li><code>RamdiskId</code> - <code>string</code> - Optional - The ID of the RAM disk with which to launch the instance. Some kernels require additional drivers at launch. Check the kernel requirements for information on whether you need to specify a RAM disk. To find kernel requirements, go to the Resource Center and search for the kernel ID. </li>
@@ -2166,26 +2166,26 @@ class AmazonEC2 extends CFRuntime
 	 * 		<li><code>x</code> - <code>array</code> - This represents a simple array index. <ul>
 	 * 			<li><code>VirtualName</code> - <code>string</code> - Optional - Specifies the virtual device name. </li>
 	 * 			<li><code>DeviceName</code> - <code>string</code> - Optional - Specifies the device name (e.g., <code>/dev/sdh</code>). </li>
-	 * 			<li><code>Ebs</code> - <code>array</code> - Optional - Specifies parameters used to automatically setup Amazon EBS volumes when the instance is launched. Takes an associative array of parameters that can have the following keys: <ul>
+	 * 			<li><code>Ebs</code> - <code>array</code> - Optional - Specifies parameters used to automatically setup ThumbWhere EBS volumes when the instance is launched. Takes an associative array of parameters that can have the following keys: <ul>
 	 * 				<li><code>SnapshotId</code> - <code>string</code> - Optional - The ID of the snapshot from which the volume will be created. </li>
 	 * 				<li><code>VolumeSize</code> - <code>integer</code> - Optional - The size of the volume, in gigabytes. </li>
-	 * 				<li><code>DeleteOnTermination</code> - <code>boolean</code> - Optional - Specifies whether the Amazon EBS volume is deleted on instance termination. </li>
+	 * 				<li><code>DeleteOnTermination</code> - <code>boolean</code> - Optional - Specifies whether the ThumbWhere EBS volume is deleted on instance termination. </li>
 	 * 			</ul></li>
 	 * 			<li><code>NoDevice</code> - <code>string</code> - Optional - Specifies the device name to suppress during instance launch. </li>
 	 * 		</ul></li>
 	 * 	</ul></li>
 	 * 	<li><code>Monitoring.Enabled</code> - <code>boolean</code> - Optional - Enables monitoring for the instance. </li>
-	 * 	<li><code>SubnetId</code> - <code>string</code> - Optional - Specifies the subnet ID within which to launch the instance(s) for Amazon Virtual Private Cloud. </li>
+	 * 	<li><code>SubnetId</code> - <code>string</code> - Optional - Specifies the subnet ID within which to launch the instance(s) for ThumbWhere Virtual Private Cloud. </li>
 	 * 	<li><code>DisableApiTermination</code> - <code>boolean</code> - Optional - Specifies whether the instance can be terminated using the APIs. You must modify this attribute before you can terminate any "locked" instances from the APIs. </li>
-	 * 	<li><code>InstanceInitiatedShutdownBehavior</code> - <code>string</code> - Optional - Specifies whether the instance's Amazon EBS volumes are stopped or terminated when the instance is shut down. </li>
-	 * 	<li><code>License</code> - <code>array</code> - Optional -  Specifies active licenses in use and attached to an Amazon EC2 instance. <ul>
-	 * 		<li><code>Pool</code> - <code>string</code> - Optional - The license pool from which to take a license when starting Amazon EC2 instances in the associated <code>RunInstances</code> request. </li></ul></li>
-	 * 	<li><code>PrivateIpAddress</code> - <code>string</code> - Optional - If you're using Amazon Virtual Private Cloud, you can optionally use this parameter to assign the instance a specific available IP address from the subnet. </li>
-	 * 	<li><code>ClientToken</code> - <code>string</code> - Optional - Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, go to How to Ensure Idempotency in the Amazon Elastic Compute Cloud User Guide. </li>
+	 * 	<li><code>InstanceInitiatedShutdownBehavior</code> - <code>string</code> - Optional - Specifies whether the instance's ThumbWhere EBS volumes are stopped or terminated when the instance is shut down. </li>
+	 * 	<li><code>License</code> - <code>array</code> - Optional -  Specifies active licenses in use and attached to an ThumbWhere EC2 instance. <ul>
+	 * 		<li><code>Pool</code> - <code>string</code> - Optional - The license pool from which to take a license when starting ThumbWhere EC2 instances in the associated <code>RunInstances</code> request. </li></ul></li>
+	 * 	<li><code>PrivateIpAddress</code> - <code>string</code> - Optional - If you're using ThumbWhere Virtual Private Cloud, you can optionally use this parameter to assign the instance a specific available IP address from the subnet. </li>
+	 * 	<li><code>ClientToken</code> - <code>string</code> - Optional - Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, go to How to Ensure Idempotency in the ThumbWhere Elastic Compute Cloud User Guide. </li>
 	 * 	<li><code>AdditionalInfo</code> - <code>string</code> - Optional -  </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function run_instances($image_id, $min_count, $max_count, $opt = null)
 	{
@@ -2197,7 +2197,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['SecurityGroup']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'SecurityGroup' => (is_array($opt['SecurityGroup']) ? $opt['SecurityGroup'] : array($opt['SecurityGroup']))
 			)));
 			unset($opt['SecurityGroup']);
@@ -2206,7 +2206,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['SecurityGroupId']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'SecurityGroupId' => (is_array($opt['SecurityGroupId']) ? $opt['SecurityGroupId'] : array($opt['SecurityGroupId']))
 			)));
 			unset($opt['SecurityGroupId']);
@@ -2215,7 +2215,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['Placement']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'Placement' => $opt['Placement']
 			)));
 			unset($opt['Placement']);
@@ -2224,7 +2224,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['BlockDeviceMapping']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'BlockDeviceMapping' => $opt['BlockDeviceMapping']
 			)));
 			unset($opt['BlockDeviceMapping']);
@@ -2233,7 +2233,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['License']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'License' => $opt['License']
 			)));
 			unset($opt['License']);
@@ -2248,7 +2248,7 @@ class AmazonEC2 extends CFRuntime
 	 *
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>GroupName</code> - <code>string|array</code> - Optional - The name of the <code>PlacementGroup</code>.  Pass a string for a single value, or an indexed array for multiple values. </li>
-	 * 	<li><code>Filter</code> - <code>array</code> - Optional - A list of filters used to match properties for Placement Groups. For a complete reference to the available filter keys for this operation, see the Amazon EC2 API reference. <ul>
+	 * 	<li><code>Filter</code> - <code>array</code> - Optional - A list of filters used to match properties for Placement Groups. For a complete reference to the available filter keys for this operation, see the ThumbWhere EC2 API reference. <ul>
 	 * 		<li><code>x</code> - <code>array</code> - This represents a simple array index. <ul>
 	 * 			<li><code>Name</code> - <code>string</code> - Optional - Specifies the name of the filter. </li>
 	 * 			<li><code>Value</code> - <code>string|array</code> - Optional - Contains one or more values for the filter.  Pass a string for a single value, or an indexed array for multiple values. </li>
@@ -2256,7 +2256,7 @@ class AmazonEC2 extends CFRuntime
 	 * 	</ul></li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_placement_groups($opt = null)
 	{
@@ -2265,7 +2265,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['GroupName']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'GroupName' => (is_array($opt['GroupName']) ? $opt['GroupName'] : array($opt['GroupName']))
 			)));
 			unset($opt['GroupName']);
@@ -2274,7 +2274,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['Filter']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'Filter' => $opt['Filter']
 			)));
 			unset($opt['Filter']);
@@ -2290,7 +2290,7 @@ class AmazonEC2 extends CFRuntime
 	 * disassociate the route table from the subnet later. A route table can be associated with multiple subnets.
 	 *
 	 * For more information about route tables, go to <a
-	 * href="http://docs.amazonwebservices.com/AmazonVPC/latest/UserGuide/VPC_Route_Tables.html">Route Tables</a> in the Amazon Virtual Private
+	 * href="http://docs.amazonwebservices.com/ThumbWhereVPC/latest/UserGuide/VPC_Route_Tables.html">Route Tables</a> in the ThumbWhere Virtual Private
 	 * Cloud User Guide.
 	 *
 	 * @param string $subnet_id (Required) The ID of the subnet.
@@ -2298,7 +2298,7 @@ class AmazonEC2 extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function associate_route_table($subnet_id, $route_table_id, $opt = null)
 	{
@@ -2313,7 +2313,7 @@ class AmazonEC2 extends CFRuntime
 	 *
 	 * The DescribeInstances operation returns information about instances that you own.
 	 *
-	 * If you specify one or more instance IDs, Amazon EC2 returns information for those instances. If you do not specify instance IDs, Amazon EC2
+	 * If you specify one or more instance IDs, ThumbWhere EC2 returns information for those instances. If you do not specify instance IDs, ThumbWhere EC2
 	 * returns information for all relevant instances. If you specify an invalid instance ID, a fault is returned. If you specify an instance that
 	 * you do not own, it will not be included in the returned results.
 	 *
@@ -2321,7 +2321,7 @@ class AmazonEC2 extends CFRuntime
 	 *
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>InstanceId</code> - <code>string|array</code> - Optional - An optional list of the instances to describe.  Pass a string for a single value, or an indexed array for multiple values. </li>
-	 * 	<li><code>Filter</code> - <code>array</code> - Optional - A list of filters used to match properties for Instances. For a complete reference to the available filter keys for this operation, see the Amazon EC2 API reference. <ul>
+	 * 	<li><code>Filter</code> - <code>array</code> - Optional - A list of filters used to match properties for Instances. For a complete reference to the available filter keys for this operation, see the ThumbWhere EC2 API reference. <ul>
 	 * 		<li><code>x</code> - <code>array</code> - This represents a simple array index. <ul>
 	 * 			<li><code>Name</code> - <code>string</code> - Optional - Specifies the name of the filter. </li>
 	 * 			<li><code>Value</code> - <code>string|array</code> - Optional - Contains one or more values for the filter.  Pass a string for a single value, or an indexed array for multiple values. </li>
@@ -2329,7 +2329,7 @@ class AmazonEC2 extends CFRuntime
 	 * 	</ul></li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_instances($opt = null)
 	{
@@ -2338,7 +2338,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['InstanceId']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'InstanceId' => (is_array($opt['InstanceId']) ? $opt['InstanceId'] : array($opt['InstanceId']))
 			)));
 			unset($opt['InstanceId']);
@@ -2347,7 +2347,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['Filter']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'Filter' => $opt['Filter']
 			)));
 			unset($opt['Filter']);
@@ -2359,13 +2359,13 @@ class AmazonEC2 extends CFRuntime
 	/**
 	 *
 	 * Deletes a network ACL from a VPC. The ACL must not have any subnets associated with it. You can't delete the default network ACL. For more
-	 * information about network ACLs, go to Network ACLs in the Amazon Virtual Private Cloud User Guide.
+	 * information about network ACLs, go to Network ACLs in the ThumbWhere Virtual Private Cloud User Guide.
 	 *
 	 * @param string $network_acl_id (Required) The ID of the network ACL to be deleted.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function delete_network_acl($network_acl_id, $opt = null)
 	{
@@ -2394,13 +2394,13 @@ class AmazonEC2 extends CFRuntime
 	 * </ul>
 	 *
 	 * The list of AMIs returned can be modified by specifying AMI IDs, AMI owners, or users with launch permissions. If no options are specified,
-	 * Amazon EC2 returns all AMIs for which the user has launch permissions.
+	 * ThumbWhere EC2 returns all AMIs for which the user has launch permissions.
 	 *
 	 * If you specify one or more AMI IDs, only AMIs that have the specified IDs are returned. If you specify an invalid AMI ID, a fault is
 	 * returned. If you specify an AMI ID for which you do not have access, it will not be included in the returned results.
 	 *
 	 * If you specify one or more AMI owners, only AMIs from the specified owners and for which you have access are returned. The results can
-	 * include the account IDs of the specified owners, amazon for AMIs owned by Amazon or self for AMIs that you own.
+	 * include the account IDs of the specified owners, amazon for AMIs owned by ThumbWhere or self for AMIs that you own.
 	 *
 	 * If you specify a list of executable users, only users that have launch permissions for the AMIs are returned. You can specify account IDs
 	 * (if you own the AMI(s)), self for AMIs for which you own or have explicit permissions, or all for public AMIs.
@@ -2409,9 +2409,9 @@ class AmazonEC2 extends CFRuntime
 	 *
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>ImageId</code> - <code>string|array</code> - Optional - An optional list of the AMI IDs to describe. If not specified, all AMIs will be described.  Pass a string for a single value, or an indexed array for multiple values. </li>
-	 * 	<li><code>Owner</code> - <code>string|array</code> - Optional - The optional list of owners for the described AMIs. The IDs amazon, self, and explicit can be used to include AMIs owned by Amazon, AMIs owned by the user, and AMIs for which the user has explicit launch permissions, respectively.  Pass a string for a single value, or an indexed array for multiple values. </li>
+	 * 	<li><code>Owner</code> - <code>string|array</code> - Optional - The optional list of owners for the described AMIs. The IDs amazon, self, and explicit can be used to include AMIs owned by ThumbWhere, AMIs owned by the user, and AMIs for which the user has explicit launch permissions, respectively.  Pass a string for a single value, or an indexed array for multiple values. </li>
 	 * 	<li><code>ExecutableBy</code> - <code>string|array</code> - Optional - The optional list of users with explicit launch permissions for the described AMIs. The user ID can be a user's account ID, 'self' to return AMIs for which the sender of the request has explicit launch permissions, or 'all' to return AMIs with public launch permissions.  Pass a string for a single value, or an indexed array for multiple values. </li>
-	 * 	<li><code>Filter</code> - <code>array</code> - Optional - A list of filters used to match properties for Images. For a complete reference to the available filter keys for this operation, see the Amazon EC2 API reference. <ul>
+	 * 	<li><code>Filter</code> - <code>array</code> - Optional - A list of filters used to match properties for Images. For a complete reference to the available filter keys for this operation, see the ThumbWhere EC2 API reference. <ul>
 	 * 		<li><code>x</code> - <code>array</code> - This represents a simple array index. <ul>
 	 * 			<li><code>Name</code> - <code>string</code> - Optional - Specifies the name of the filter. </li>
 	 * 			<li><code>Value</code> - <code>string|array</code> - Optional - Contains one or more values for the filter.  Pass a string for a single value, or an indexed array for multiple values. </li>
@@ -2419,7 +2419,7 @@ class AmazonEC2 extends CFRuntime
 	 * 	</ul></li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_images($opt = null)
 	{
@@ -2428,7 +2428,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['ImageId']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'ImageId' => (is_array($opt['ImageId']) ? $opt['ImageId'] : array($opt['ImageId']))
 			)));
 			unset($opt['ImageId']);
@@ -2437,7 +2437,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['Owner']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'Owner' => (is_array($opt['Owner']) ? $opt['Owner'] : array($opt['Owner']))
 			)));
 			unset($opt['Owner']);
@@ -2446,7 +2446,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['ExecutableBy']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'ExecutableBy' => (is_array($opt['ExecutableBy']) ? $opt['ExecutableBy'] : array($opt['ExecutableBy']))
 			)));
 			unset($opt['ExecutableBy']);
@@ -2455,7 +2455,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['Filter']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'Filter' => $opt['Filter']
 			)));
 			unset($opt['Filter']);
@@ -2466,25 +2466,25 @@ class AmazonEC2 extends CFRuntime
 
 	/**
 	 *
-	 * Starts an instance that uses an Amazon EBS volume as its root device. Instances that use Amazon EBS volumes as their root devices can be
+	 * Starts an instance that uses an ThumbWhere EBS volume as its root device. Instances that use ThumbWhere EBS volumes as their root devices can be
 	 * quickly stopped and started. When an instance is stopped, the compute resources are released and you are not billed for hourly instance
-	 * usage. However, your root partition Amazon EBS volume remains, continues to persist your data, and you are charged for Amazon EBS volume
+	 * usage. However, your root partition ThumbWhere EBS volume remains, continues to persist your data, and you are charged for ThumbWhere EBS volume
 	 * usage. You can restart your instance at any time.
 	 *
 	 * Performing this operation on an instance that uses an instance store as its root device returns an error.
 	 *
-	 * @param string|array $instance_id (Required) The list of Amazon EC2 instances to start.  Pass a string for a single value, or an indexed array for multiple values.
+	 * @param string|array $instance_id (Required) The list of ThumbWhere EC2 instances to start.  Pass a string for a single value, or an indexed array for multiple values.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function start_instances($instance_id, $opt = null)
 	{
 		if (!$opt) $opt = array();
 
 		// Required parameter
-		$opt = array_merge($opt, CFComplexType::map(array(
+		$opt = array_merge($opt, TWComplexType::map(array(
 			'InstanceId' => (is_array($instance_id) ? $instance_id : array($instance_id))
 		)));
 
@@ -2503,8 +2503,8 @@ class AmazonEC2 extends CFRuntime
 	 * 		<li><code>x</code> - <code>array</code> - This represents a simple array index. <ul>
 	 * 			<li><code>DeviceName</code> - <code>string</code> - Optional - The device name (e.g., <code>/dev/sdh</code>) at which the block device is exposed on the instance. </li>
 	 * 			<li><code>Ebs</code> - <code>array</code> - Optional - The EBS instance block device specification describing the EBS block device to map to the specified device name on a running instance. Takes an associative array of parameters that can have the following keys: <ul>
-	 * 				<li><code>VolumeId</code> - <code>string</code> - Optional - The ID of the EBS volume that should be mounted as a block device on an Amazon EC2 instance. </li>
-	 * 				<li><code>DeleteOnTermination</code> - <code>boolean</code> - Optional - Specifies whether the Amazon EBS volume is deleted on instance termination. </li>
+	 * 				<li><code>VolumeId</code> - <code>string</code> - Optional - The ID of the EBS volume that should be mounted as a block device on an ThumbWhere EC2 instance. </li>
+	 * 				<li><code>DeleteOnTermination</code> - <code>boolean</code> - Optional - Specifies whether the ThumbWhere EBS volume is deleted on instance termination. </li>
 	 * 			</ul></li>
 	 * 			<li><code>VirtualName</code> - <code>string</code> - Optional - The virtual device name. </li>
 	 * 			<li><code>NoDevice</code> - <code>string</code> - Optional - When set to the empty string, specifies that the device name in this object should not be mapped to any real device. </li>
@@ -2520,7 +2520,7 @@ class AmazonEC2 extends CFRuntime
 	 * 	<li><code>GroupId</code> - <code>string|array</code> - Optional -   Pass a string for a single value, or an indexed array for multiple values. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function modify_instance_attribute($instance_id, $opt = null)
 	{
@@ -2530,7 +2530,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['BlockDeviceMapping']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'BlockDeviceMapping' => $opt['BlockDeviceMapping']
 			)));
 			unset($opt['BlockDeviceMapping']);
@@ -2539,7 +2539,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['GroupId']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'GroupId' => (is_array($opt['GroupId']) ? $opt['GroupId'] : array($opt['GroupId']))
 			)));
 			unset($opt['GroupId']);
@@ -2550,14 +2550,14 @@ class AmazonEC2 extends CFRuntime
 
 	/**
 	 *
-	 * Deletes a set of DHCP options that you specify. Amazon VPC returns an error if the set of options you specify is currently associated with
+	 * Deletes a set of DHCP options that you specify. ThumbWhere VPC returns an error if the set of options you specify is currently associated with
 	 * a VPC. You can disassociate the set of options by associating either a new set of options or the default options with the VPC.
 	 *
 	 * @param string $dhcp_options_id (Required) The ID of the DHCP options set to delete.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function delete_dhcp_options($dhcp_options_id, $opt = null)
 	{
@@ -2571,7 +2571,7 @@ class AmazonEC2 extends CFRuntime
 	 *
 	 * The AuthorizeSecurityGroupIngress operation adds permissions to a security group.
 	 *
-	 * Permissions are specified by the IP protocol (TCP, UDP or ICMP), the source of the request (by IP range or an Amazon EC2 user-group pair),
+	 * Permissions are specified by the IP protocol (TCP, UDP or ICMP), the source of the request (by IP range or an ThumbWhere EC2 user-group pair),
 	 * the source and destination port ranges (for TCP and UDP), and the ICMP codes and types (for ICMP). When authorizing ICMP, <code>-1</code>
 	 * can be used as a wildcard in the type and code fields.
 	 *
@@ -2598,7 +2598,7 @@ class AmazonEC2 extends CFRuntime
 	 * 	</ul></li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function authorize_security_group_ingress($opt = null)
 	{
@@ -2607,7 +2607,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['IpPermissions']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'IpPermissions' => $opt['IpPermissions']
 			)));
 			unset($opt['IpPermissions']);
@@ -2618,11 +2618,11 @@ class AmazonEC2 extends CFRuntime
 
 	/**
 	 *
-	 * Describes Spot Instance requests. Spot Instances are instances that Amazon EC2 starts on your behalf when the maximum price that you
-	 * specify exceeds the current Spot Price. Amazon EC2 periodically sets the Spot Price based on available Spot Instance capacity and current
+	 * Describes Spot Instance requests. Spot Instances are instances that ThumbWhere EC2 starts on your behalf when the maximum price that you
+	 * specify exceeds the current Spot Price. ThumbWhere EC2 periodically sets the Spot Price based on available Spot Instance capacity and current
 	 * spot instance requests. For conceptual information about Spot Instances, refer to the <a
-	 * href="http://docs.amazonwebservices.com/TWEC2/2010-08-31/DeveloperGuide/">Amazon Elastic Compute Cloud Developer Guide</a> or <a
-	 * href="http://docs.amazonwebservices.com/TWEC2/2010-08-31/UserGuide/">Amazon Elastic Compute Cloud User Guide</a>.
+	 * href="http://docs.amazonwebservices.com/TWEC2/2010-08-31/DeveloperGuide/">ThumbWhere Elastic Compute Cloud Developer Guide</a> or <a
+	 * href="http://docs.amazonwebservices.com/TWEC2/2010-08-31/UserGuide/">ThumbWhere Elastic Compute Cloud User Guide</a>.
 	 *
 	 * You can filter the results to return information only about Spot Instance requests that match criteria you specify. For example, you could
 	 * get information about requests where the Spot Price you specified is a certain value (you can't use greater than or less than comparison,
@@ -2639,7 +2639,7 @@ class AmazonEC2 extends CFRuntime
 	 *
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>SpotInstanceRequestId</code> - <code>string|array</code> - Optional - The ID of the request.  Pass a string for a single value, or an indexed array for multiple values. </li>
-	 * 	<li><code>Filter</code> - <code>array</code> - Optional - A list of filters used to match properties for SpotInstances. For a complete reference to the available filter keys for this operation, see the Amazon EC2 API reference. <ul>
+	 * 	<li><code>Filter</code> - <code>array</code> - Optional - A list of filters used to match properties for SpotInstances. For a complete reference to the available filter keys for this operation, see the ThumbWhere EC2 API reference. <ul>
 	 * 		<li><code>x</code> - <code>array</code> - This represents a simple array index. <ul>
 	 * 			<li><code>Name</code> - <code>string</code> - Optional - Specifies the name of the filter. </li>
 	 * 			<li><code>Value</code> - <code>string|array</code> - Optional - Contains one or more values for the filter.  Pass a string for a single value, or an indexed array for multiple values. </li>
@@ -2647,7 +2647,7 @@ class AmazonEC2 extends CFRuntime
 	 * 	</ul></li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_spot_instance_requests($opt = null)
 	{
@@ -2656,7 +2656,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['SpotInstanceRequestId']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'SpotInstanceRequestId' => (is_array($opt['SpotInstanceRequestId']) ? $opt['SpotInstanceRequestId'] : array($opt['SpotInstanceRequestId']))
 			)));
 			unset($opt['SpotInstanceRequestId']);
@@ -2665,7 +2665,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['Filter']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'Filter' => $opt['Filter']
 			)));
 			unset($opt['Filter']);
@@ -2678,7 +2678,7 @@ class AmazonEC2 extends CFRuntime
 	 *
 	 * Creates a VPC with the CIDR block you specify. The smallest VPC you can create uses a <code>/28</code> netmask (16 IP addresses), and the
 	 * largest uses a <code>/18</code> netmask (16,384 IP addresses). To help you decide how big to make your VPC, go to the topic about creating
-	 * VPCs in the Amazon Virtual Private Cloud Developer Guide.
+	 * VPCs in the ThumbWhere Virtual Private Cloud Developer Guide.
 	 *
 	 * By default, each instance you launch in the VPC has the default DHCP options (the standard EC2 host name, no domain name, no DNS server, no
 	 * NTP server, and no NetBIOS server or node type).
@@ -2688,7 +2688,7 @@ class AmazonEC2 extends CFRuntime
 	 * 	<li><code>InstanceTenancy</code> - <code>string</code> - Optional - The allowed tenancy of instances launched into the VPC. A value of default means instances can be launched with any tenancy; a value of dedicated means instances must be launched with tenancy as dedicated. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function create_vpc($cidr_block, $opt = null)
 	{
@@ -2709,7 +2709,7 @@ class AmazonEC2 extends CFRuntime
 	 *
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>CustomerGatewayId</code> - <code>string|array</code> - Optional - A set of one or more customer gateway IDs.  Pass a string for a single value, or an indexed array for multiple values. </li>
-	 * 	<li><code>Filter</code> - <code>array</code> - Optional - A list of filters used to match properties for Customer Gateways. For a complete reference to the available filter keys for this operation, see the Amazon EC2 API reference. <ul>
+	 * 	<li><code>Filter</code> - <code>array</code> - Optional - A list of filters used to match properties for Customer Gateways. For a complete reference to the available filter keys for this operation, see the ThumbWhere EC2 API reference. <ul>
 	 * 		<li><code>x</code> - <code>array</code> - This represents a simple array index. <ul>
 	 * 			<li><code>Name</code> - <code>string</code> - Optional - Specifies the name of the filter. </li>
 	 * 			<li><code>Value</code> - <code>string|array</code> - Optional - Contains one or more values for the filter.  Pass a string for a single value, or an indexed array for multiple values. </li>
@@ -2717,7 +2717,7 @@ class AmazonEC2 extends CFRuntime
 	 * 	</ul></li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_customer_gateways($opt = null)
 	{
@@ -2726,7 +2726,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['CustomerGatewayId']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'CustomerGatewayId' => (is_array($opt['CustomerGatewayId']) ? $opt['CustomerGatewayId'] : array($opt['CustomerGatewayId']))
 			)));
 			unset($opt['CustomerGatewayId']);
@@ -2735,7 +2735,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['Filter']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'Filter' => $opt['Filter']
 			)));
 			unset($opt['Filter']);
@@ -2762,7 +2762,7 @@ class AmazonEC2 extends CFRuntime
 	 * that route to determine where to target the traffic.
 	 *
 	 * For more information about route tables, go to <a
-	 * href="http://docs.amazonwebservices.com/AmazonVPC/latest/UserGuide/VPC_Route_Tables.html">Route Tables</a> in the Amazon Virtual Private
+	 * href="http://docs.amazonwebservices.com/ThumbWhereVPC/latest/UserGuide/VPC_Route_Tables.html">Route Tables</a> in the ThumbWhere Virtual Private
 	 * Cloud User Guide.
 	 *
 	 * @param string $route_table_id (Required) The ID of the route table where the route will be added.
@@ -2772,7 +2772,7 @@ class AmazonEC2 extends CFRuntime
 	 * 	<li><code>InstanceId</code> - <code>string</code> - Optional - The ID of a NAT instance in your VPC. You must provide either <code>GatewayId</code> or <code>InstanceId</code>, but not both. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function create_route($route_table_id, $destination_cidr_block, $opt = null)
 	{
@@ -2786,14 +2786,14 @@ class AmazonEC2 extends CFRuntime
 	/**
 	 *
 	 * Deletes a route table from a VPC. The route table must not be associated with a subnet. You can't delete the main route table. For more
-	 * information about route tables, go to <a href="http://docs.amazonwebservices.com/AmazonVPC/latest/UserGuide/VPC_Route_Tables.html">Route
-	 * Tables</a> in the Amazon Virtual Private Cloud User Guide.
+	 * information about route tables, go to <a href="http://docs.amazonwebservices.com/ThumbWhereVPC/latest/UserGuide/VPC_Route_Tables.html">Route
+	 * Tables</a> in the ThumbWhere Virtual Private Cloud User Guide.
 	 *
 	 * @param string $route_table_id (Required) The ID of the route table to be deleted.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function delete_route_table($route_table_id, $opt = null)
 	{
@@ -2807,10 +2807,10 @@ class AmazonEC2 extends CFRuntime
 	 *
 	 * Creates a Spot Instance request.
 	 *
-	 * Spot Instances are instances that Amazon EC2 starts on your behalf when the maximum price that you specify exceeds the current Spot Price.
-	 * Amazon EC2 periodically sets the Spot Price based on available Spot Instance capacity and current spot instance requests.
+	 * Spot Instances are instances that ThumbWhere EC2 starts on your behalf when the maximum price that you specify exceeds the current Spot Price.
+	 * ThumbWhere EC2 periodically sets the Spot Price based on available Spot Instance capacity and current spot instance requests.
 	 *
-	 * For conceptual information about Spot Instances, refer to the Amazon Elastic Compute Cloud Developer Guide or Amazon Elastic Compute Cloud
+	 * For conceptual information about Spot Instances, refer to the ThumbWhere Elastic Compute Cloud Developer Guide or ThumbWhere Elastic Compute Cloud
 	 * User Guide.
 	 *
 	 * @param string $spot_price (Required) Specifies the maximum hourly price for any Spot Instance launched to fulfill the request.
@@ -2834,8 +2834,8 @@ class AmazonEC2 extends CFRuntime
 	 * 		<li><code>UserData</code> - <code>string</code> - Optional - Optional data, specific to a user's application, to provide in the launch request. All instances that collectively comprise the launch request have access to this data. User data is never returned through API responses. </li>
 	 * 		<li><code>InstanceType</code> - <code>string</code> - Optional - Specifies the instance type. [Allowed values: <code>t1.micro</code>, <code>m1.small</code>, <code>m1.large</code>, <code>m1.xlarge</code>, <code>m2.xlarge</code>, <code>m2.2xlarge</code>, <code>m2.4xlarge</code>, <code>c1.medium</code>, <code>c1.xlarge</code>, <code>cc1.4xlarge</code>, <code>cg1.4xlarge</code>]</li>
 	 * 		<li><code>Placement</code> - <code>array</code> - Optional - Defines a placement item. Takes an associative array of parameters that can have the following keys: <ul>
-	 * 			<li><code>AvailabilityZone</code> - <code>string</code> - Optional - The availability zone in which an Amazon EC2 instance runs. </li>
-	 * 			<li><code>GroupName</code> - <code>string</code> - Optional - The name of the PlacementGroup in which an Amazon EC2 instance runs. Placement groups are primarily used for launching High Performance Computing instances in the same group to ensure fast connection speeds. </li>
+	 * 			<li><code>AvailabilityZone</code> - <code>string</code> - Optional - The availability zone in which an ThumbWhere EC2 instance runs. </li>
+	 * 			<li><code>GroupName</code> - <code>string</code> - Optional - The name of the PlacementGroup in which an ThumbWhere EC2 instance runs. Placement groups are primarily used for launching High Performance Computing instances in the same group to ensure fast connection speeds. </li>
 	 * 		</ul></li>
 	 * 		<li><code>KernelId</code> - <code>string</code> - Optional - Specifies the ID of the kernel to select. </li>
 	 * 		<li><code>RamdiskId</code> - <code>string</code> - Optional - Specifies the ID of the RAM disk to select. Some kernels require additional drivers at launch. Check the kernel requirements for information on whether or not you need to specify a RAM disk and search for the kernel ID. </li>
@@ -2843,19 +2843,19 @@ class AmazonEC2 extends CFRuntime
 	 * 			<li><code>x</code> - <code>array</code> - This represents a simple array index. <ul>
 	 * 				<li><code>VirtualName</code> - <code>string</code> - Optional - Specifies the virtual device name. </li>
 	 * 				<li><code>DeviceName</code> - <code>string</code> - Optional - Specifies the device name (e.g., <code>/dev/sdh</code>). </li>
-	 * 				<li><code>Ebs</code> - <code>array</code> - Optional - Specifies parameters used to automatically setup Amazon EBS volumes when the instance is launched. Takes an associative array of parameters that can have the following keys: <ul>
+	 * 				<li><code>Ebs</code> - <code>array</code> - Optional - Specifies parameters used to automatically setup ThumbWhere EBS volumes when the instance is launched. Takes an associative array of parameters that can have the following keys: <ul>
 	 * 					<li><code>SnapshotId</code> - <code>string</code> - Optional - The ID of the snapshot from which the volume will be created. </li>
 	 * 					<li><code>VolumeSize</code> - <code>integer</code> - Optional - The size of the volume, in gigabytes. </li>
-	 * 					<li><code>DeleteOnTermination</code> - <code>boolean</code> - Optional - Specifies whether the Amazon EBS volume is deleted on instance termination. </li>
+	 * 					<li><code>DeleteOnTermination</code> - <code>boolean</code> - Optional - Specifies whether the ThumbWhere EBS volume is deleted on instance termination. </li>
 	 * 				</ul></li>
 	 * 				<li><code>NoDevice</code> - <code>string</code> - Optional - Specifies the device name to suppress during instance launch. </li>
 	 * 			</ul></li>
 	 * 		</ul></li>
 	 * 		<li><code>Monitoring.Enabled</code> - <code>boolean</code> - Optional - Enables monitoring for the instance. </li>
-	 * 		<li><code>SubnetId</code> - <code>string</code> - Optional - Specifies the Amazon VPC subnet ID within which to launch the instance(s) for Amazon Virtual Private Cloud. </li></ul></li>
+	 * 		<li><code>SubnetId</code> - <code>string</code> - Optional - Specifies the ThumbWhere VPC subnet ID within which to launch the instance(s) for ThumbWhere Virtual Private Cloud. </li></ul></li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function request_spot_instances($spot_price, $opt = null)
 	{
@@ -2877,7 +2877,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['LaunchSpecification']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'LaunchSpecification' => $opt['LaunchSpecification']
 			)));
 			unset($opt['LaunchSpecification']);
@@ -2901,19 +2901,19 @@ class AmazonEC2 extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function create_tags($resource_id, $tag, $opt = null)
 	{
 		if (!$opt) $opt = array();
 
 		// Required parameter
-		$opt = array_merge($opt, CFComplexType::map(array(
+		$opt = array_merge($opt, TWComplexType::map(array(
 			'ResourceId' => (is_array($resource_id) ? $resource_id : array($resource_id))
 		)));
 
 		// Required parameter
-		$opt = array_merge($opt, CFComplexType::map(array(
+		$opt = array_merge($opt, TWComplexType::map(array(
 			'Tag' => (is_array($tag) ? $tag : array($tag))
 		)));
 
@@ -2923,7 +2923,7 @@ class AmazonEC2 extends CFRuntime
 	/**
 	 *
 	 * Replaces an existing route within a route table in a VPC. For more information about route tables, go to <a
-	 * href="http://docs.amazonwebservices.com/AmazonVPC/latest/UserGuide/VPC_Route_Tables.html">Route Tables</a> in the Amazon Virtual Private
+	 * href="http://docs.amazonwebservices.com/ThumbWhereVPC/latest/UserGuide/VPC_Route_Tables.html">Route Tables</a> in the ThumbWhere Virtual Private
 	 * Cloud User Guide.
 	 *
 	 * @param string $route_table_id (Required) The ID of the route table where the route will be replaced.
@@ -2933,7 +2933,7 @@ class AmazonEC2 extends CFRuntime
 	 * 	<li><code>InstanceId</code> - <code>string</code> - Optional - The ID of a NAT instance in your VPC. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function replace_route($route_table_id, $destination_cidr_block, $opt = null)
 	{
@@ -2957,7 +2957,7 @@ class AmazonEC2 extends CFRuntime
 	 * 	</ul></li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_tags($opt = null)
 	{
@@ -2966,7 +2966,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['Filter']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'Filter' => $opt['Filter']
 			)));
 			unset($opt['Filter']);
@@ -2985,7 +2985,7 @@ class AmazonEC2 extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function cancel_bundle_task($bundle_id, $opt = null)
 	{
@@ -2999,24 +2999,24 @@ class AmazonEC2 extends CFRuntime
 	 *
 	 * Cancels one or more Spot Instance requests.
 	 *
-	 * Spot Instances are instances that Amazon EC2 starts on your behalf when the maximum price that you specify exceeds the current Spot Price.
-	 * Amazon EC2 periodically sets the Spot Price based on available Spot Instance capacity and current spot instance requests.
+	 * Spot Instances are instances that ThumbWhere EC2 starts on your behalf when the maximum price that you specify exceeds the current Spot Price.
+	 * ThumbWhere EC2 periodically sets the Spot Price based on available Spot Instance capacity and current spot instance requests.
 	 *
-	 * For conceptual information about Spot Instances, refer to the Amazon Elastic Compute Cloud Developer Guide or Amazon Elastic Compute Cloud
+	 * For conceptual information about Spot Instances, refer to the ThumbWhere Elastic Compute Cloud Developer Guide or ThumbWhere Elastic Compute Cloud
 	 * User Guide.
 	 *
 	 * @param string|array $spot_instance_request_id (Required) Specifies the ID of the Spot Instance request.  Pass a string for a single value, or an indexed array for multiple values.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function cancel_spot_instance_requests($spot_instance_request_id, $opt = null)
 	{
 		if (!$opt) $opt = array();
 
 		// Required parameter
-		$opt = array_merge($opt, CFComplexType::map(array(
+		$opt = array_merge($opt, TWComplexType::map(array(
 			'SpotInstanceRequestId' => (is_array($spot_instance_request_id) ? $spot_instance_request_id : array($spot_instance_request_id))
 		)));
 
@@ -3025,8 +3025,8 @@ class AmazonEC2 extends CFRuntime
 
 	/**
 	 *
-	 * The PurchaseReservedInstancesOffering operation purchases a Reserved Instance for use with your account. With Amazon EC2 Reserved
-	 * Instances, you purchase the right to launch Amazon EC2 instances for a period of time (without getting insufficient capacity errors) and pay
+	 * The PurchaseReservedInstancesOffering operation purchases a Reserved Instance for use with your account. With ThumbWhere EC2 Reserved
+	 * Instances, you purchase the right to launch ThumbWhere EC2 instances for a period of time (without getting insufficient capacity errors) and pay
 	 * a lower usage rate for the actual time used.
 	 *
 	 * @param string $reserved_instances_offering_id (Required) The unique ID of the Reserved Instances offering being purchased.
@@ -3034,7 +3034,7 @@ class AmazonEC2 extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function purchase_reserved_instances_offering($reserved_instances_offering_id, $instance_count, $opt = null)
 	{
@@ -3070,7 +3070,7 @@ class AmazonEC2 extends CFRuntime
 	 * 		</ul></li></ul></li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function modify_snapshot_attribute($snapshot_id, $opt = null)
 	{
@@ -3080,7 +3080,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['UserId']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'UserId' => (is_array($opt['UserId']) ? $opt['UserId'] : array($opt['UserId']))
 			)));
 			unset($opt['UserId']);
@@ -3089,7 +3089,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['UserGroup']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'UserGroup' => (is_array($opt['UserGroup']) ? $opt['UserGroup'] : array($opt['UserGroup']))
 			)));
 			unset($opt['UserGroup']);
@@ -3098,7 +3098,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['CreateVolumePermission']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'CreateVolumePermission' => $opt['CreateVolumePermission']
 			)));
 			unset($opt['CreateVolumePermission']);
@@ -3118,14 +3118,14 @@ class AmazonEC2 extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function terminate_instances($instance_id, $opt = null)
 	{
 		if (!$opt) $opt = array();
 
 		// Required parameter
-		$opt = array_merge($opt, CFComplexType::map(array(
+		$opt = array_merge($opt, TWComplexType::map(array(
 			'InstanceId' => (is_array($instance_id) ? $instance_id : array($instance_id))
 		)));
 
@@ -3136,13 +3136,13 @@ class AmazonEC2 extends CFRuntime
 	 *
 	 * Deletes the data feed for Spot Instances.
 	 *
-	 * For conceptual information about Spot Instances, refer to the Amazon Elastic Compute Cloud Developer Guide or Amazon Elastic Compute Cloud
+	 * For conceptual information about Spot Instances, refer to the ThumbWhere Elastic Compute Cloud Developer Guide or ThumbWhere Elastic Compute Cloud
 	 * User Guide.
 	 *
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function delete_spot_datafeed_subscription($opt = null)
 	{
@@ -3154,13 +3154,13 @@ class AmazonEC2 extends CFRuntime
 	/**
 	 *
 	 * Deletes an Internet gateway from your TW account. The gateway must not be attached to a VPC. For more information about your VPC and
-	 * Internet gateway, go to Amazon Virtual Private Cloud User Guide.
+	 * Internet gateway, go to ThumbWhere Virtual Private Cloud User Guide.
 	 *
 	 * @param string $internet_gateway_id (Required) The ID of the Internet gateway to be deleted.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function delete_internet_gateway($internet_gateway_id, $opt = null)
 	{
@@ -3174,7 +3174,7 @@ class AmazonEC2 extends CFRuntime
 	 *
 	 * Changes the route table associated with a given subnet in a VPC. After you execute this action, the subnet uses the routes in the new route
 	 * table it's associated with. For more information about route tables, go to <a
-	 * href="http://docs.amazonwebservices.com/AmazonVPC/latest/UserGuide/VPC_Route_Tables.html">Route Tables</a> in the Amazon Virtual Private
+	 * href="http://docs.amazonwebservices.com/ThumbWhereVPC/latest/UserGuide/VPC_Route_Tables.html">Route Tables</a> in the ThumbWhere Virtual Private
 	 * Cloud User Guide.
 	 *
 	 * You can also use this to change which table is the main route table in the VPC. You just specify the main route table's association ID and
@@ -3185,7 +3185,7 @@ class AmazonEC2 extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function replace_route_table_association($association_id, $route_table_id, $opt = null)
 	{
@@ -3205,7 +3205,7 @@ class AmazonEC2 extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_snapshot_attribute($snapshot_id, $attribute, $opt = null)
 	{
@@ -3222,7 +3222,7 @@ class AmazonEC2 extends CFRuntime
 	 *
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>PublicIp</code> - <code>string|array</code> - Optional - The optional list of Elastic IP addresses to describe.  Pass a string for a single value, or an indexed array for multiple values. </li>
-	 * 	<li><code>Filter</code> - <code>array</code> - Optional - A list of filters used to match properties for Addresses. For a complete reference to the available filter keys for this operation, see the Amazon EC2 API reference. <ul>
+	 * 	<li><code>Filter</code> - <code>array</code> - Optional - A list of filters used to match properties for Addresses. For a complete reference to the available filter keys for this operation, see the ThumbWhere EC2 API reference. <ul>
 	 * 		<li><code>x</code> - <code>array</code> - This represents a simple array index. <ul>
 	 * 			<li><code>Name</code> - <code>string</code> - Optional - Specifies the name of the filter. </li>
 	 * 			<li><code>Value</code> - <code>string|array</code> - Optional - Contains one or more values for the filter.  Pass a string for a single value, or an indexed array for multiple values. </li>
@@ -3231,7 +3231,7 @@ class AmazonEC2 extends CFRuntime
 	 * 	<li><code>AllocationId</code> - <code>string|array</code> - Optional -   Pass a string for a single value, or an indexed array for multiple values. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_addresses($opt = null)
 	{
@@ -3240,7 +3240,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['PublicIp']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'PublicIp' => (is_array($opt['PublicIp']) ? $opt['PublicIp'] : array($opt['PublicIp']))
 			)));
 			unset($opt['PublicIp']);
@@ -3249,7 +3249,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['Filter']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'Filter' => $opt['Filter']
 			)));
 			unset($opt['Filter']);
@@ -3258,7 +3258,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['AllocationId']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'AllocationId' => (is_array($opt['AllocationId']) ? $opt['AllocationId'] : array($opt['AllocationId']))
 			)));
 			unset($opt['AllocationId']);
@@ -3274,7 +3274,7 @@ class AmazonEC2 extends CFRuntime
 	 *
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>KeyName</code> - <code>string|array</code> - Optional - The optional list of key pair names to describe.  Pass a string for a single value, or an indexed array for multiple values. </li>
-	 * 	<li><code>Filter</code> - <code>array</code> - Optional - A list of filters used to match properties for KeyPairs. For a complete reference to the available filter keys for this operation, see the Amazon EC2 API reference. <ul>
+	 * 	<li><code>Filter</code> - <code>array</code> - Optional - A list of filters used to match properties for KeyPairs. For a complete reference to the available filter keys for this operation, see the ThumbWhere EC2 API reference. <ul>
 	 * 		<li><code>x</code> - <code>array</code> - This represents a simple array index. <ul>
 	 * 			<li><code>Name</code> - <code>string</code> - Optional - Specifies the name of the filter. </li>
 	 * 			<li><code>Value</code> - <code>string|array</code> - Optional - Contains one or more values for the filter.  Pass a string for a single value, or an indexed array for multiple values. </li>
@@ -3282,7 +3282,7 @@ class AmazonEC2 extends CFRuntime
 	 * 	</ul></li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_key_pairs($opt = null)
 	{
@@ -3291,7 +3291,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['KeyName']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'KeyName' => (is_array($opt['KeyName']) ? $opt['KeyName'] : array($opt['KeyName']))
 			)));
 			unset($opt['KeyName']);
@@ -3300,7 +3300,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['Filter']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'Filter' => $opt['Filter']
 			)));
 			unset($opt['Filter']);
@@ -3318,7 +3318,7 @@ class AmazonEC2 extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_image_attribute($image_id, $attribute, $opt = null)
 	{
@@ -3335,14 +3335,14 @@ class AmazonEC2 extends CFRuntime
 	 *
 	 * After you perform this action, the subnet no longer uses the routes in the route table. Instead it uses the routes in the VPC's main route
 	 * table. For more information about route tables, go to <a
-	 * href="http://docs.amazonwebservices.com/AmazonVPC/latest/UserGuide/VPC_Route_Tables.html">Route Tables</a> in the Amazon Virtual Private
+	 * href="http://docs.amazonwebservices.com/ThumbWhereVPC/latest/UserGuide/VPC_Route_Tables.html">Route Tables</a> in the ThumbWhere Virtual Private
 	 * Cloud User Guide.
 	 *
 	 * @param string $association_id (Required) The association ID representing the current association between the route table and subnet.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function disassociate_route_table($association_id, $opt = null)
 	{
@@ -3365,7 +3365,7 @@ class AmazonEC2 extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function confirm_product_instance($product_code, $instance_id, $opt = null)
 	{
@@ -3379,7 +3379,7 @@ class AmazonEC2 extends CFRuntime
 	/**
 	 *
 	 * Deletes an ingress or egress entry (i.e., rule) from a network ACL. For more information about network ACLs, go to Network ACLs in the
-	 * Amazon Virtual Private Cloud User Guide.
+	 * ThumbWhere Virtual Private Cloud User Guide.
 	 *
 	 * @param string $network_acl_id (Required) ID of the network ACL.
 	 * @param integer $rule_number (Required) Rule number for the entry to delete.
@@ -3387,7 +3387,7 @@ class AmazonEC2 extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function delete_network_acl_entry($network_acl_id, $rule_number, $egress, $opt = null)
 	{
@@ -3401,8 +3401,8 @@ class AmazonEC2 extends CFRuntime
 
 	/**
 	 *
-	 * This action applies only to security groups in a VPC. It doesn't work with EC2 security groups. For information about Amazon Virtual
-	 * Private Cloud and VPC security groups, go to the Amazon Virtual Private Cloud User Guide.
+	 * This action applies only to security groups in a VPC. It doesn't work with EC2 security groups. For information about ThumbWhere Virtual
+	 * Private Cloud and VPC security groups, go to the ThumbWhere Virtual Private Cloud User Guide.
 	 *
 	 * The action removes one or more egress rules from a VPC security group. The values that you specify in the revoke request (e.g., ports,
 	 * etc.) must match the existing rule's values in order for the rule to be revoked.
@@ -3431,7 +3431,7 @@ class AmazonEC2 extends CFRuntime
 	 * 	</ul></li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function revoke_security_group_egress($group_id, $opt = null)
 	{
@@ -3441,7 +3441,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['IpPermissions']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'IpPermissions' => $opt['IpPermissions']
 			)));
 			unset($opt['IpPermissions']);
@@ -3460,7 +3460,7 @@ class AmazonEC2 extends CFRuntime
 	 * 	<li><code>SnapshotId</code> - <code>string</code> - Optional - The ID of the snapshot from which to create the new volume. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function create_volume($availability_zone, $opt = null)
 	{
@@ -3483,8 +3483,8 @@ class AmazonEC2 extends CFRuntime
 	 * message is returned; the response is simply empty. The following table shows the available filters.
 	 *
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
-	 * 	<li><code>VpnGatewayId</code> - <code>string|array</code> - Optional - A list of filters used to match properties for VPN Gateways. For a complete reference to the available filter keys for this operation, see the Amazon EC2 API reference.  Pass a string for a single value, or an indexed array for multiple values. </li>
-	 * 	<li><code>Filter</code> - <code>array</code> - Optional - A list of filters used to match properties for VPN Gateways. For a complete reference to the available filter keys for this operation, see the Amazon EC2 API reference. <ul>
+	 * 	<li><code>VpnGatewayId</code> - <code>string|array</code> - Optional - A list of filters used to match properties for VPN Gateways. For a complete reference to the available filter keys for this operation, see the ThumbWhere EC2 API reference.  Pass a string for a single value, or an indexed array for multiple values. </li>
+	 * 	<li><code>Filter</code> - <code>array</code> - Optional - A list of filters used to match properties for VPN Gateways. For a complete reference to the available filter keys for this operation, see the ThumbWhere EC2 API reference. <ul>
 	 * 		<li><code>x</code> - <code>array</code> - This represents a simple array index. <ul>
 	 * 			<li><code>Name</code> - <code>string</code> - Optional - Specifies the name of the filter. </li>
 	 * 			<li><code>Value</code> - <code>string|array</code> - Optional - Contains one or more values for the filter.  Pass a string for a single value, or an indexed array for multiple values. </li>
@@ -3492,7 +3492,7 @@ class AmazonEC2 extends CFRuntime
 	 * 	</ul></li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_vpn_gateways($opt = null)
 	{
@@ -3501,7 +3501,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['VpnGatewayId']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'VpnGatewayId' => (is_array($opt['VpnGatewayId']) ? $opt['VpnGatewayId'] : array($opt['VpnGatewayId']))
 			)));
 			unset($opt['VpnGatewayId']);
@@ -3510,7 +3510,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['Filter']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'Filter' => $opt['Filter']
 			)));
 			unset($opt['Filter']);
@@ -3536,7 +3536,7 @@ class AmazonEC2 extends CFRuntime
 	 * 	<li><code>AvailabilityZone</code> - <code>string</code> - Optional - The Availability Zone to create the subnet in. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function create_subnet($vpc_id, $cidr_block, $opt = null)
 	{
@@ -3549,8 +3549,8 @@ class AmazonEC2 extends CFRuntime
 
 	/**
 	 *
-	 * The DescribeReservedInstancesOfferings operation describes Reserved Instance offerings that are available for purchase. With Amazon EC2
-	 * Reserved Instances, you purchase the right to launch Amazon EC2 instances for a period of time (without getting insufficient capacity
+	 * The DescribeReservedInstancesOfferings operation describes Reserved Instance offerings that are available for purchase. With ThumbWhere EC2
+	 * Reserved Instances, you purchase the right to launch ThumbWhere EC2 instances for a period of time (without getting insufficient capacity
 	 * errors) and pay a lower usage rate for the actual time used.
 	 *
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
@@ -3558,7 +3558,7 @@ class AmazonEC2 extends CFRuntime
 	 * 	<li><code>InstanceType</code> - <code>string</code> - Optional - The instance type on which the Reserved Instance can be used. [Allowed values: <code>t1.micro</code>, <code>m1.small</code>, <code>m1.large</code>, <code>m1.xlarge</code>, <code>m2.xlarge</code>, <code>m2.2xlarge</code>, <code>m2.4xlarge</code>, <code>c1.medium</code>, <code>c1.xlarge</code>, <code>cc1.4xlarge</code>, <code>cg1.4xlarge</code>]</li>
 	 * 	<li><code>AvailabilityZone</code> - <code>string</code> - Optional - The Availability Zone in which the Reserved Instance can be used. </li>
 	 * 	<li><code>ProductDescription</code> - <code>string</code> - Optional - The Reserved Instance product description. </li>
-	 * 	<li><code>Filter</code> - <code>array</code> - Optional - A list of filters used to match properties for ReservedInstancesOfferings. For a complete reference to the available filter keys for this operation, see the Amazon EC2 API reference. <ul>
+	 * 	<li><code>Filter</code> - <code>array</code> - Optional - A list of filters used to match properties for ReservedInstancesOfferings. For a complete reference to the available filter keys for this operation, see the ThumbWhere EC2 API reference. <ul>
 	 * 		<li><code>x</code> - <code>array</code> - This represents a simple array index. <ul>
 	 * 			<li><code>Name</code> - <code>string</code> - Optional - Specifies the name of the filter. </li>
 	 * 			<li><code>Value</code> - <code>string|array</code> - Optional - Contains one or more values for the filter.  Pass a string for a single value, or an indexed array for multiple values. </li>
@@ -3567,7 +3567,7 @@ class AmazonEC2 extends CFRuntime
 	 * 	<li><code>InstanceTenancy</code> - <code>string</code> - Optional - The tenancy of the Reserved Instance offering. A Reserved Instance with tenancy of dedicated will run on single-tenant hardware and can only be launched within a VPC. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_reserved_instances_offerings($opt = null)
 	{
@@ -3576,7 +3576,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['ReservedInstancesOfferingId']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'ReservedInstancesOfferingId' => (is_array($opt['ReservedInstancesOfferingId']) ? $opt['ReservedInstancesOfferingId'] : array($opt['ReservedInstancesOfferingId']))
 			)));
 			unset($opt['ReservedInstancesOfferingId']);
@@ -3585,7 +3585,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['Filter']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'Filter' => $opt['Filter']
 			)));
 			unset($opt['Filter']);
@@ -3602,7 +3602,7 @@ class AmazonEC2 extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function delete_snapshot($snapshot_id, $opt = null)
 	{
@@ -3615,14 +3615,14 @@ class AmazonEC2 extends CFRuntime
 	/**
 	 *
 	 * Changes which network ACL a subnet is associated with. By default when you create a subnet, it's automatically associated with the default
-	 * network ACL. For more information about network ACLs, go to Network ACLs in the Amazon Virtual Private Cloud User Guide.
+	 * network ACL. For more information about network ACLs, go to Network ACLs in the ThumbWhere Virtual Private Cloud User Guide.
 	 *
 	 * @param string $association_id (Required) The ID representing the current association between the original network ACL and the subnet.
 	 * @param string $network_acl_id (Required) The ID of the new ACL to associate with the subnet.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function replace_network_acl_association($association_id, $network_acl_id, $opt = null)
 	{
@@ -3636,14 +3636,14 @@ class AmazonEC2 extends CFRuntime
 	/**
 	 *
 	 * The DisassociateAddress operation disassociates the specified elastic IP address from the instance to which it is assigned. This is an
-	 * idempotent operation. If you enter it more than once, Amazon EC2 does not return an error.
+	 * idempotent operation. If you enter it more than once, ThumbWhere EC2 does not return an error.
 	 *
 	 * @param string $public_ip (Required) The elastic IP address that you are disassociating from the instance.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>AssociationId</code> - <code>string</code> - Optional - Association ID corresponding to the VPC elastic IP address you want to disassociate. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function disassociate_address($public_ip, $opt = null)
 	{
@@ -3655,7 +3655,7 @@ class AmazonEC2 extends CFRuntime
 
 	/**
 	 *
-	 * Creates a PlacementGroup into which multiple Amazon EC2 instances can be launched. Users must give the group a name unique within the scope
+	 * Creates a PlacementGroup into which multiple ThumbWhere EC2 instances can be launched. Users must give the group a name unique within the scope
 	 * of the user account.
 	 *
 	 * @param string $group_name (Required) The name of the <code>PlacementGroup</code>.
@@ -3663,7 +3663,7 @@ class AmazonEC2 extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function create_placement_group($group_name, $strategy, $opt = null)
 	{
@@ -3681,22 +3681,22 @@ class AmazonEC2 extends CFRuntime
 	 *
 	 * @param string $instance_id (Required) The ID of the instance to bundle.
 	 * @param array $policy (Required) The details of S3 storage for bundling a Windows instance. Takes an associative array of parameters that can have the following keys: <ul>
-	 * 	<li><code>Bucket</code> - <code>string</code> - Optional - The bucket in which to store the AMI. You can specify a bucket that you already own or a new bucket that Amazon EC2 creates on your behalf. If you specify a bucket that belongs to someone else, Amazon EC2 returns an error.</li>
+	 * 	<li><code>Bucket</code> - <code>string</code> - Optional - The bucket in which to store the AMI. You can specify a bucket that you already own or a new bucket that ThumbWhere EC2 creates on your behalf. If you specify a bucket that belongs to someone else, ThumbWhere EC2 returns an error.</li>
 	 * 	<li><code>Prefix</code> - <code>string</code> - Optional - The prefix to use when storing the AMI in S3.</li>
-	 * 	<li><code>TWAccessKeyId</code> - <code>string</code> - Optional - The Access Key ID of the owner of the Amazon S3 bucket. Use the <CFPolicy::get_key()> method of a <CFPolicy> instance.</li>
-	 * 	<li><code>UploadPolicy</code> - <code>string</code> - Optional - A Base64-encoded Amazon S3 upload policy that gives Amazon EC2 permission to upload items into Amazon S3 on the user's behalf. Use the <CFPolicy::get_policy()> method of a <CFPolicy> instance.</li>
-	 * 	<li><code>UploadPolicySignature</code> - <code>string</code> - Optional - The signature of the Base64 encoded JSON document. Use the <CFPolicy::get_policy_signature()> method of a <CFPolicy> instance.</li></ul>
+	 * 	<li><code>TWAccessKeyId</code> - <code>string</code> - Optional - The Access Key ID of the owner of the ThumbWhere S3 bucket. Use the <TWPolicy::get_key()> method of a <TWPolicy> instance.</li>
+	 * 	<li><code>UploadPolicy</code> - <code>string</code> - Optional - A Base64-encoded ThumbWhere S3 upload policy that gives ThumbWhere EC2 permission to upload items into ThumbWhere S3 on the user's behalf. Use the <TWPolicy::get_policy()> method of a <TWPolicy> instance.</li>
+	 * 	<li><code>UploadPolicySignature</code> - <code>string</code> - Optional - The signature of the Base64 encoded JSON document. Use the <TWPolicy::get_policy_signature()> method of a <TWPolicy> instance.</li></ul>
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 *  <li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This is useful for manually-managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function bundle_instance($instance_id, $policy, $opt = null)
 	{
 		if (!$opt) $opt = array();
 		$opt['InstanceId'] = $instance_id;
 
-		$opt = array_merge($opt, CFComplexType::map(array(
+		$opt = array_merge($opt, TWComplexType::map(array(
 			'Storage.S3' => $policy
 		)));
 
@@ -3705,13 +3705,13 @@ class AmazonEC2 extends CFRuntime
 
 	/**
 	 *
-	 * Deletes a PlacementGroup from a user's account. Terminate all Amazon EC2 instances in the placement group before deletion.
+	 * Deletes a PlacementGroup from a user's account. Terminate all ThumbWhere EC2 instances in the placement group before deletion.
 	 *
 	 * @param string $group_name (Required) The name of the <code>PlacementGroup</code> to delete.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function delete_placement_group($group_name, $opt = null)
 	{
@@ -3730,7 +3730,7 @@ class AmazonEC2 extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function delete_vpc($vpc_id, $opt = null)
 	{
@@ -3748,7 +3748,7 @@ class AmazonEC2 extends CFRuntime
 	 * 	<li><code>Domain</code> - <code>string</code> - Optional - Set to <code>vpc</code> to allocate the address to your VPC. By default, will allocate to EC2. [Allowed values: <code>vpc</code>, <code>standard</code>]</li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function allocate_address($opt = null)
 	{
@@ -3768,14 +3768,14 @@ class AmazonEC2 extends CFRuntime
 	 * update your DNS records and any servers or devices that communicate with the address.
 	 *
 	 * If you run this operation on an elastic IP address that is already released, the address might be assigned to another account which will
-	 * cause Amazon EC2 to return an error.
+	 * cause ThumbWhere EC2 to return an error.
 	 *
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>PublicIp</code> - <code>string</code> - Optional - The elastic IP address that you are releasing from your account. </li>
-	 * 	<li><code>AllocationId</code> - <code>string</code> - Optional - The allocation ID that TW provided when you allocated the address for use with Amazon VPC. </li>
+	 * 	<li><code>AllocationId</code> - <code>string</code> - Optional - The allocation ID that TW provided when you allocated the address for use with ThumbWhere VPC. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function release_address($opt = null)
 	{
@@ -3788,12 +3788,12 @@ class AmazonEC2 extends CFRuntime
 	 *
 	 * Resets an attribute of an instance to its default value.
 	 *
-	 * @param string $instance_id (Required) The ID of the Amazon EC2 instance whose attribute is being reset.
+	 * @param string $instance_id (Required) The ID of the ThumbWhere EC2 instance whose attribute is being reset.
 	 * @param string $attribute (Required) The name of the attribute being reset. Available attribute names: <code>kernel</code>, <code>ramdisk</code>
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function reset_instance_attribute($instance_id, $attribute, $opt = null)
 	{
@@ -3813,7 +3813,7 @@ class AmazonEC2 extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function create_key_pair($key_name, $opt = null)
 	{
@@ -3825,7 +3825,7 @@ class AmazonEC2 extends CFRuntime
 
 	/**
 	 *
-	 * Replaces an entry (i.e., rule) in a network ACL. For more information about network ACLs, go to Network ACLs in the Amazon Virtual Private
+	 * Replaces an entry (i.e., rule) in a network ACL. For more information about network ACLs, go to Network ACLs in the ThumbWhere Virtual Private
 	 * Cloud User Guide.
 	 *
 	 * @param string $network_acl_id (Required) ID of the ACL where the entry will be replaced.
@@ -3843,7 +3843,7 @@ class AmazonEC2 extends CFRuntime
 	 * 		<li><code>To</code> - <code>integer</code> - Optional - The last port in the range. Required if specifying <code>tcp</code> or <code>udp</code> for the protocol. </li></ul></li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function replace_network_acl_entry($network_acl_id, $rule_number, $protocol, $rule_action, $egress, $cidr_block, $opt = null)
 	{
@@ -3858,7 +3858,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['Icmp']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'Icmp' => $opt['Icmp']
 			)));
 			unset($opt['Icmp']);
@@ -3867,7 +3867,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['PortRange']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'PortRange' => $opt['PortRange']
 			)));
 			unset($opt['PortRange']);
@@ -3878,7 +3878,7 @@ class AmazonEC2 extends CFRuntime
 
 	/**
 	 *
-	 * Returns information about the Amazon EBS snapshots available to you. Snapshots available to you include public snapshots available for any
+	 * Returns information about the ThumbWhere EBS snapshots available to you. Snapshots available to you include public snapshots available for any
 	 * TW account to launch, private snapshots you own, and private snapshots owned by another TW account but for which you've been given
 	 * explicit create volume permissions.
 	 *
@@ -3886,7 +3886,7 @@ class AmazonEC2 extends CFRuntime
 	 * 	<li><code>SnapshotId</code> - <code>string|array</code> - Optional - The optional list of EBS snapshot IDs to describe.  Pass a string for a single value, or an indexed array for multiple values. </li>
 	 * 	<li><code>Owner</code> - <code>string|array</code> - Optional - The optional list of EBS snapshot owners.  Pass a string for a single value, or an indexed array for multiple values. </li>
 	 * 	<li><code>RestorableBy</code> - <code>string|array</code> - Optional - The optional list of users who have permission to create volumes from the described EBS snapshots.  Pass a string for a single value, or an indexed array for multiple values. </li>
-	 * 	<li><code>Filter</code> - <code>array</code> - Optional - A list of filters used to match properties for Snapshots. For a complete reference to the available filter keys for this operation, see the Amazon EC2 API reference. <ul>
+	 * 	<li><code>Filter</code> - <code>array</code> - Optional - A list of filters used to match properties for Snapshots. For a complete reference to the available filter keys for this operation, see the ThumbWhere EC2 API reference. <ul>
 	 * 		<li><code>x</code> - <code>array</code> - This represents a simple array index. <ul>
 	 * 			<li><code>Name</code> - <code>string</code> - Optional - Specifies the name of the filter. </li>
 	 * 			<li><code>Value</code> - <code>string|array</code> - Optional - Contains one or more values for the filter.  Pass a string for a single value, or an indexed array for multiple values. </li>
@@ -3894,7 +3894,7 @@ class AmazonEC2 extends CFRuntime
 	 * 	</ul></li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_snapshots($opt = null)
 	{
@@ -3903,7 +3903,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['SnapshotId']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'SnapshotId' => (is_array($opt['SnapshotId']) ? $opt['SnapshotId'] : array($opt['SnapshotId']))
 			)));
 			unset($opt['SnapshotId']);
@@ -3912,7 +3912,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['Owner']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'Owner' => (is_array($opt['Owner']) ? $opt['Owner'] : array($opt['Owner']))
 			)));
 			unset($opt['Owner']);
@@ -3921,7 +3921,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['RestorableBy']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'RestorableBy' => (is_array($opt['RestorableBy']) ? $opt['RestorableBy'] : array($opt['RestorableBy']))
 			)));
 			unset($opt['RestorableBy']);
@@ -3930,7 +3930,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['Filter']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'Filter' => $opt['Filter']
 			)));
 			unset($opt['Filter']);
@@ -3942,13 +3942,13 @@ class AmazonEC2 extends CFRuntime
 	/**
 	 *
 	 * Creates a new network ACL in a VPC. Network ACLs provide an optional layer of security (on top of security groups) for the instances in
-	 * your VPC. For more information about network ACLs, go to Network ACLs in the Amazon Virtual Private Cloud User Guide.
+	 * your VPC. For more information about network ACLs, go to Network ACLs in the ThumbWhere Virtual Private Cloud User Guide.
 	 *
 	 * @param string $vpc_id (Required) The ID of the VPC where the network ACL will be created.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function create_network_acl($vpc_id, $opt = null)
 	{
@@ -3960,20 +3960,20 @@ class AmazonEC2 extends CFRuntime
 
 	/**
 	 *
-	 * The RegisterImage operation registers an AMI with Amazon EC2. Images must be registered before they can be launched. For more information,
+	 * The RegisterImage operation registers an AMI with ThumbWhere EC2. Images must be registered before they can be launched. For more information,
 	 * see RunInstances.
 	 *
-	 * Each AMI is associated with an unique ID which is provided by the Amazon EC2 service through the RegisterImage operation. During
-	 * registration, Amazon EC2 retrieves the specified image manifest from Amazon S3 and verifies that the image is owned by the user registering
+	 * Each AMI is associated with an unique ID which is provided by the ThumbWhere EC2 service through the RegisterImage operation. During
+	 * registration, ThumbWhere EC2 retrieves the specified image manifest from ThumbWhere S3 and verifies that the image is owned by the user registering
 	 * the image.
 	 *
-	 * The image manifest is retrieved once and stored within the Amazon EC2. Any modifications to an image in Amazon S3 invalidates this
+	 * The image manifest is retrieved once and stored within the ThumbWhere EC2. Any modifications to an image in ThumbWhere S3 invalidates this
 	 * registration. If you make changes to an image, deregister the previous image and register the new image. For more information, see
 	 * DeregisterImage.
 	 *
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
-	 * 	<li><code>ImageLocation</code> - <code>string</code> - Optional - The full path to your AMI manifest in Amazon S3 storage. </li>
-	 * 	<li><code>Name</code> - <code>string</code> - Optional - The name to give the new Amazon Machine Image. Constraints: 3-128 alphanumeric characters, parenthesis (<code>()</code>), commas (<code>,</code>), slashes (<code>/</code>), dashes (<code>-</code>), or underscores(<code>_</code>) </li>
+	 * 	<li><code>ImageLocation</code> - <code>string</code> - Optional - The full path to your AMI manifest in ThumbWhere S3 storage. </li>
+	 * 	<li><code>Name</code> - <code>string</code> - Optional - The name to give the new ThumbWhere Machine Image. Constraints: 3-128 alphanumeric characters, parenthesis (<code>()</code>), commas (<code>,</code>), slashes (<code>/</code>), dashes (<code>-</code>), or underscores(<code>_</code>) </li>
 	 * 	<li><code>Description</code> - <code>string</code> - Optional - The description describing the new AMI. </li>
 	 * 	<li><code>Architecture</code> - <code>string</code> - Optional - The architecture of the image. Valid Values: <code>i386</code>, <code>x86_64</code> </li>
 	 * 	<li><code>KernelId</code> - <code>string</code> - Optional - The optional ID of a specific kernel to register with the new AMI. </li>
@@ -3983,17 +3983,17 @@ class AmazonEC2 extends CFRuntime
 	 * 		<li><code>x</code> - <code>array</code> - This represents a simple array index. <ul>
 	 * 			<li><code>VirtualName</code> - <code>string</code> - Optional - Specifies the virtual device name. </li>
 	 * 			<li><code>DeviceName</code> - <code>string</code> - Optional - Specifies the device name (e.g., <code>/dev/sdh</code>). </li>
-	 * 			<li><code>Ebs</code> - <code>array</code> - Optional - Specifies parameters used to automatically setup Amazon EBS volumes when the instance is launched. Takes an associative array of parameters that can have the following keys: <ul>
+	 * 			<li><code>Ebs</code> - <code>array</code> - Optional - Specifies parameters used to automatically setup ThumbWhere EBS volumes when the instance is launched. Takes an associative array of parameters that can have the following keys: <ul>
 	 * 				<li><code>SnapshotId</code> - <code>string</code> - Optional - The ID of the snapshot from which the volume will be created. </li>
 	 * 				<li><code>VolumeSize</code> - <code>integer</code> - Optional - The size of the volume, in gigabytes. </li>
-	 * 				<li><code>DeleteOnTermination</code> - <code>boolean</code> - Optional - Specifies whether the Amazon EBS volume is deleted on instance termination. </li>
+	 * 				<li><code>DeleteOnTermination</code> - <code>boolean</code> - Optional - Specifies whether the ThumbWhere EBS volume is deleted on instance termination. </li>
 	 * 			</ul></li>
 	 * 			<li><code>NoDevice</code> - <code>string</code> - Optional - Specifies the device name to suppress during instance launch. </li>
 	 * 		</ul></li>
 	 * 	</ul></li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function register_image($opt = null)
 	{
@@ -4002,7 +4002,7 @@ class AmazonEC2 extends CFRuntime
 		// Optional parameter
 		if (isset($opt['BlockDeviceMapping']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'BlockDeviceMapping' => $opt['BlockDeviceMapping']
 			)));
 			unset($opt['BlockDeviceMapping']);

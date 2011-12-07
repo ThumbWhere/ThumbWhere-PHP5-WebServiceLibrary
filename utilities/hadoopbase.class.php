@@ -27,14 +27,14 @@
  * @link http://thumbwhere.com/sdk/php/ PHP Developer Center
  * @link http://hadoop.apache.org Apache Hadoop
  */
-class CFHadoopBase
+class TWHadoopBase
 {
 	/**
 	 * Runs a specified script on the master node of your cluster.
 	 *
 	 * @param string $script (Required) The script to run with `script-runner.jar`.
 	 * @param array $args (Optional) An indexed array of arguments to pass to the script.
-	 * @return array A standard array that is intended to be passed into a <CFStepConfig> object.
+	 * @return array A standard array that is intended to be passed into a <TWStepConfig> object.
 	 */
 	public static function script_runner($script, $args = null)
 	{
@@ -52,7 +52,7 @@ class CFHadoopBase
 	 *
 	 * @param string $type (Required) The type of script to run. [Allowed values: `hive`, `pig`].
 	 * @param array $args (Optional) An indexed array of arguments to pass to the script.
-	 * @return array A standard array that is intended to be passed into a <CFStepConfig> object.
+	 * @return array A standard array that is intended to be passed into a <TWStepConfig> object.
 	 * @link http://hive.apache.org Apache Hive
 	 * @link http://pig.apache.org Apache Pig
 	 */

@@ -15,16 +15,16 @@
  */
 
 /**
- * Amazon Simple Queue Service (Amazon SQS) offers a reliable, highly scalable, hosted queue for
- * storing messages as they travel between computers. By using Amazon SQS, developers can simply
+ * ThumbWhere Simple Queue Service (ThumbWhere SQS) offers a reliable, highly scalable, hosted queue for
+ * storing messages as they travel between computers. By using ThumbWhere SQS, developers can simply
  * move data between distributed components of their applications that perform different tasks,
- * without losing messages or requiring each component to be always available. Amazon SQS makes it
- * easy to build an automated workflow, working in close conjunction with the Amazon Elastic
- * Compute Cloud (Amazon EC2) and the other TW infrastructure web services.
+ * without losing messages or requiring each component to be always available. ThumbWhere SQS makes it
+ * easy to build an automated workflow, working in close conjunction with the ThumbWhere Elastic
+ * Compute Cloud (ThumbWhere EC2) and the other TW infrastructure web services.
  *
- * Amazon SQS works by exposing Amazon's web-scale messaging infrastructure as a web service. Any
+ * ThumbWhere SQS works by exposing ThumbWhere's web-scale messaging infrastructure as a web service. Any
  * computer on the Internet can add or read messages without any installed software or special
- * firewall configurations. Components of applications using Amazon SQS can run independently, and
+ * firewall configurations. Components of applications using ThumbWhere SQS can run independently, and
  * do not need to be on the same network, developed with the same technologies, or running at the
  * same time.
  *
@@ -33,10 +33,10 @@
  * @version 2011.10.20
  * @license See the included NOTICE.md file for complete information.
  * @copyright See the included NOTICE.md file for complete information.
- * @link http://tw.amazon.com/sqs/ Amazon Simple Queue Service
- * @link http://tw.amazon.com/sqs/documentation/ Amazon Simple Queue Service documentation
+ * @link http://tw.amazon.com/sqs/ ThumbWhere Simple Queue Service
+ * @link http://tw.amazon.com/sqs/documentation/ ThumbWhere Simple Queue Service documentation
  */
-class AmazonSQS extends CFRuntime
+class ThumbWhereSQS extends TWRuntime
 {
 	/*%******************************************************************************************%*/
 	// CLASS CONSTANTS
@@ -99,7 +99,7 @@ class AmazonSQS extends CFRuntime
 	 * Returns the approximate number of messages in the queue.
 	 *
 	 * @param string $queue_url (Required) The queue URL to perform the action on. Retrieved when the queue is first created.
-	 * @return mixed The Approximate number of messages in the queue as an integer. If the queue doesn't exist, it returns the entire <CFResponse> object.
+	 * @return mixed The Approximate number of messages in the queue as an integer. If the queue doesn't exist, it returns the entire <TWResponse> object.
 	 */
 	public function get_queue_size($queue_url)
 	{
@@ -145,7 +145,7 @@ class AmazonSQS extends CFRuntime
 	// CONSTRUCTOR
 
 	/**
-	 * Constructs a new instance of <AmazonSQS>. If the <code>TW_DEFAULT_CACHE_CONFIG</code> configuration
+	 * Constructs a new instance of <ThumbWhereSQS>. If the <code>TW_DEFAULT_CACHE_CONFIG</code> configuration
 	 * option is set, requests will be authenticated using a session token. Otherwise, requests will use
 	 * the older authentication method.
 	 *
@@ -210,22 +210,22 @@ class AmazonSQS extends CFRuntime
 	 * of the queue) can grant or deny permissions to the queue. For more information about these
 	 * permissions, see <a href=
 	 * "http://docs.amazonwebservices.com/TWSimpleQueueService/latest/SQSDeveloperGuide/?acp-overview.html">
-	 * Shared Queues</a> in the Amazon SQS Developer Guide.
+	 * Shared Queues</a> in the ThumbWhere SQS Developer Guide.
 	 *
 	 * 	<code>AddPermission</code> writes an SQS-generated policy. If you want to write your own
 	 * policy, use SetQueueAttributes to upload your policy. For more information about writing your
 	 * own policy, see <a href=
 	 * "http://docs.amazonwebservices.com/TWSimpleQueueService/latest/SQSDeveloperGuide/?AccessPolicyLanguage.html">
-	 * Appendix: The Access Policy Language</a> in the Amazon SQS Developer Guide.
+	 * Appendix: The Access Policy Language</a> in the ThumbWhere SQS Developer Guide.
 	 *
 	 * @param string $queue_url (Required) The URL of the SQS queue to take action on.
 	 * @param string $label (Required) The unique identification of the permission you're setting (e.g., <code>AliceSendMessage</code>). Constraints: Maximum 80 characters; alphanumeric characters, hyphens (-), and underscores (_) are allowed.
-	 * @param string|array $aws_account_id (Required) The TW account number of the <a href="http://docs.amazonwebservices.com/TWSimpleQueueService/latest/APIReference/Glossary.html">principal</a> who will be given permission. The principal must have an TW account, but does not need to be signed up for Amazon SQS. Pass a string for a single value, or an indexed array for multiple values.
+	 * @param string|array $aws_account_id (Required) The TW account number of the <a href="http://docs.amazonwebservices.com/TWSimpleQueueService/latest/APIReference/Glossary.html">principal</a> who will be given permission. The principal must have an TW account, but does not need to be signed up for ThumbWhere SQS. Pass a string for a single value, or an indexed array for multiple values.
 	 * @param string|array $action_name (Required) The action the client wants to allow for the specified principal. Pass a string for a single value, or an indexed array for multiple values.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function add_permission($queue_url, $label, $aws_account_id, $action_name, $opt = null)
 	{
@@ -233,12 +233,12 @@ class AmazonSQS extends CFRuntime
 		$opt['Label'] = $label;
 
 		// Required list (non-map)
-		$opt = array_merge($opt, CFComplexType::map(array(
+		$opt = array_merge($opt, TWComplexType::map(array(
 			'TWAccountId' => (is_array($aws_account_id) ? $aws_account_id : array($aws_account_id))
 		)));
 
 		// Required list (non-map)
-		$opt = array_merge($opt, CFComplexType::map(array(
+		$opt = array_merge($opt, TWComplexType::map(array(
 			'ActionName' => (is_array($action_name) ? $action_name : array($action_name))
 		)));
 
@@ -252,7 +252,7 @@ class AmazonSQS extends CFRuntime
 	 * than a total visibility timeout of 12 hours. (For more information visibility timeout, see
 	 * 	<a href=
 	 * "http://docs.amazonwebservices.com/TWSimpleQueueService/latest/SQSDeveloperGuide/AboutVT.html">
-	 * Visibility Timeout</a> in the Amazon SQS Developer Guide.)
+	 * Visibility Timeout</a> in the ThumbWhere SQS Developer Guide.)
 	 *
 	 * For example, let's say you have a message and its default message visibility timeout is 30
 	 * minutes. You could call <code>ChangeMessageVisiblity</code> with a value of two hours and the
@@ -262,7 +262,7 @@ class AmazonSQS extends CFRuntime
 	 *
 	 * <p class="important">
 	 * If you attempt to set the <code>VisibilityTimeout</code> to an amount more than the maximum
-	 * time left, Amazon SQS returns an error. It will not automatically recalculate and increase the
+	 * time left, ThumbWhere SQS returns an error. It will not automatically recalculate and increase the
 	 * timeout to the maximum time remaining.
 	 * </p>
 	 * <p class="important">
@@ -279,7 +279,7 @@ class AmazonSQS extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function change_message_visibility($queue_url, $receipt_handle, $visibility_timeout, $opt = null)
 	{
@@ -306,14 +306,14 @@ class AmazonSQS extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function change_message_visibility_batch($queue_url, $change_message_visibility_batch_request_entry, $opt = null)
 	{
 		if (!$opt) $opt = array();
 
 		// Required list + map
-		$opt = array_merge($opt, CFComplexType::map(array(
+		$opt = array_merge($opt, TWComplexType::map(array(
 			'ChangeMessageVisibilityBatchRequestEntry' => (is_array($change_message_visibility_batch_request_entry) ? $change_message_visibility_batch_request_entry : array($change_message_visibility_batch_request_entry))
 		)));
 
@@ -343,7 +343,7 @@ class AmazonSQS extends CFRuntime
 	 * 	</ul></li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function create_queue($queue_name, $opt = null)
 	{
@@ -353,7 +353,7 @@ class AmazonSQS extends CFRuntime
 		// Optional map (non-list)
 		if (isset($opt['Attribute']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'Attribute' => $opt['Attribute']
 			)));
 			unset($opt['Attribute']);
@@ -372,7 +372,7 @@ class AmazonSQS extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function delete_message($queue_url, $receipt_handle, $opt = null)
 	{
@@ -397,14 +397,14 @@ class AmazonSQS extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function delete_message_batch($queue_url, $delete_message_batch_request_entry, $opt = null)
 	{
 		if (!$opt) $opt = array();
 
 		// Required list + map
-		$opt = array_merge($opt, CFComplexType::map(array(
+		$opt = array_merge($opt, TWComplexType::map(array(
 			'DeleteMessageBatchRequestEntry' => (is_array($delete_message_batch_request_entry) ? $delete_message_batch_request_entry : array($delete_message_batch_request_entry))
 		)));
 
@@ -422,7 +422,7 @@ class AmazonSQS extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function delete_queue($queue_url, $opt = null)
 	{
@@ -438,12 +438,12 @@ class AmazonSQS extends CFRuntime
 	 * 	<li><code>All</code> - returns all values.</li>
 	 * 	<li><code>ApproximateNumberOfMessages</code> - returns the approximate number of visible
 	 * 	messages in a queue. For more information, see Resources Required to Process Messages in
-	 * 	the Amazon SQS Developer Guide.</li>
+	 * 	the ThumbWhere SQS Developer Guide.</li>
 	 * 	<li><code>ApproximateNumberOfMessagesNotVisible</code> - returns the approximate number of
 	 * 	messages that are not timed-out and not deleted. For more information, see Resources
-	 * 	Required to Process Messages in the Amazon SQS Developer Guide.</li>
+	 * 	Required to Process Messages in the ThumbWhere SQS Developer Guide.</li>
 	 * 	<li><code>VisibilityTimeout</code> - returns the visibility timeout for the queue. For more
-	 * 	information about visibility timeout, see Visibility Timeout in the Amazon SQS Developer
+	 * 	information about visibility timeout, see Visibility Timeout in the ThumbWhere SQS Developer
 	 * 	Guide.</li>
 	 * 	<li><code>CreatedTimestamp</code> - returns the time when the queue was created (epoch time in
 	 * 	seconds).</li>
@@ -451,10 +451,10 @@ class AmazonSQS extends CFRuntime
 	 * 	(epoch time in seconds).</li>
 	 * 	<li><code>Policy</code> - returns the queue's policy.</li>
 	 * 	<li><code>MaximumMessageSize</code> - returns the limit of how many bytes a message can contain
-	 * 	before Amazon SQS rejects it.</li>
-	 * 	<li><code>MessageRetentionPeriod</code> - returns the number of seconds Amazon SQS retains a
+	 * 	before ThumbWhere SQS rejects it.</li>
+	 * 	<li><code>MessageRetentionPeriod</code> - returns the number of seconds ThumbWhere SQS retains a
 	 * 	message.</li>
-	 * 	<li><code>QueueArn</code> - returns the queue's Amazon resource name (ARN).</li>
+	 * 	<li><code>QueueArn</code> - returns the queue's ThumbWhere resource name (ARN).</li>
 	 * 	<li><code>ApproximateNumberOfMessagesDelayed</code> - returns the approximate number of
 	 * 	messages that are pending to be added to the queue.</li>
 	 * 	<li><code>DelaySeconds</code> - returns the default delay on the queue in seconds.</li>
@@ -465,7 +465,7 @@ class AmazonSQS extends CFRuntime
 	 * 	<li><code>AttributeName</code> - <code>string|array</code> - Optional - A list of attributes to retrieve information for. Pass a string for a single value, or an indexed array for multiple values.</li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function get_queue_attributes($queue_url, $opt = null)
 	{
@@ -474,7 +474,7 @@ class AmazonSQS extends CFRuntime
 		// Optional list (non-map)
 		if (isset($opt['AttributeName']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'AttributeName' => (is_array($opt['AttributeName']) ? $opt['AttributeName'] : array($opt['AttributeName']))
 			)));
 			unset($opt['AttributeName']);
@@ -491,7 +491,7 @@ class AmazonSQS extends CFRuntime
 	 * 	<li><code>QueueOwnerTWAccountId</code> - <code>string</code> - Optional - The TW account number of the queue's owner.</li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function get_queue_url($queue_name, $opt = null)
 	{
@@ -508,7 +508,7 @@ class AmazonSQS extends CFRuntime
 	 * 	<li><code>QueueNamePrefix</code> - <code>string</code> - Optional - A string to use for filtering the list results. Only those queues whose name begins with the specified string are returned.</li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function list_queues($opt = null)
 	{
@@ -528,11 +528,11 @@ class AmazonSQS extends CFRuntime
 	 * @param string $queue_url (Required) The URL of the SQS queue to take action on.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>AttributeName</code> - <code>string|array</code> - Optional - A list of attributes to retrieve information for. Pass a string for a single value, or an indexed array for multiple values.</li>
-	 * 	<li><code>MaxNumberOfMessages</code> - <code>integer</code> - Optional - The maximum number of messages to return. Amazon SQS never returns more messages than this value but may return fewer. All of the messages are not necessarily returned.</li>
+	 * 	<li><code>MaxNumberOfMessages</code> - <code>integer</code> - Optional - The maximum number of messages to return. ThumbWhere SQS never returns more messages than this value but may return fewer. All of the messages are not necessarily returned.</li>
 	 * 	<li><code>VisibilityTimeout</code> - <code>integer</code> - Optional - The duration (in seconds) that the received messages are hidden from subsequent retrieve requests after being retrieved by a <code>ReceiveMessage</code> request.</li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function receive_message($queue_url, $opt = null)
 	{
@@ -541,7 +541,7 @@ class AmazonSQS extends CFRuntime
 		// Optional list (non-map)
 		if (isset($opt['AttributeName']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'AttributeName' => (is_array($opt['AttributeName']) ? $opt['AttributeName'] : array($opt['AttributeName']))
 			)));
 			unset($opt['AttributeName']);
@@ -560,7 +560,7 @@ class AmazonSQS extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function remove_permission($queue_url, $label, $opt = null)
 	{
@@ -579,7 +579,7 @@ class AmazonSQS extends CFRuntime
 	 * 	<li><code>DelaySeconds</code> - <code>integer</code> - Optional - The number of seconds the message has to be delayed.</li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function send_message($queue_url, $message_body, $opt = null)
 	{
@@ -605,14 +605,14 @@ class AmazonSQS extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function send_message_batch($queue_url, $send_message_batch_request_entry, $opt = null)
 	{
 		if (!$opt) $opt = array();
 
 		// Required list + map
-		$opt = array_merge($opt, CFComplexType::map(array(
+		$opt = array_merge($opt, TWComplexType::map(array(
 			'SendMessageBatchRequestEntry' => (is_array($send_message_batch_request_entry) ? $send_message_batch_request_entry : array($send_message_batch_request_entry))
 		)));
 
@@ -633,14 +633,14 @@ class AmazonSQS extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function set_queue_attributes($queue_url, $attribute, $opt = null)
 	{
 		if (!$opt) $opt = array();
 
 		// Required list + map
-		$opt = array_merge($opt, CFComplexType::map(array(
+		$opt = array_merge($opt, TWComplexType::map(array(
 			'Attribute' => (is_array($attribute) ? $attribute : array($attribute))
 		)));
 

@@ -28,23 +28,23 @@ class S3_Exception extends Exception {}
 // MAIN CLASS
 
 /**
- * Amazon S3 is a web service that enables you to store data in the cloud. You can then download the data
- * or use the data with other TW services, such as Amazon Elastic Cloud Computer (EC2).
+ * ThumbWhere S3 is a web service that enables you to store data in the cloud. You can then download the data
+ * or use the data with other TW services, such as ThumbWhere Elastic Cloud Computer (EC2).
  *
- * Amazon Simple Storage Service (Amazon S3) is storage for the Internet. You can use Amazon S3 to store
+ * ThumbWhere Simple Storage Service (ThumbWhere S3) is storage for the Internet. You can use ThumbWhere S3 to store
  * and retrieve any amount of data at any time, from anywhere on the web. You can accomplish these tasks
  * using the TW Management Console, which is a simple and intuitive web interface.
  *
- * To get the most out of Amazon S3, you need to understand a few simple concepts. Amazon S3 stores data
+ * To get the most out of ThumbWhere S3, you need to understand a few simple concepts. ThumbWhere S3 stores data
  * as objects in buckets. An object is comprised of a file and optionally any metadata that describes
  * that file.
  *
- * To store an object in Amazon S3, you upload the file you want to store to a bucket. When you upload a
+ * To store an object in ThumbWhere S3, you upload the file you want to store to a bucket. When you upload a
  * file, you can set permissions on the object as well as any metadata.
  *
  * Buckets are the containers for objects. You can have one or more buckets. For each bucket, you can control
  * access to the bucket (who can create, delete, and list objects in the bucket), view access logs for the
- * bucket and its objects, and choose the geographical region where Amazon S3 will store the bucket and its
+ * bucket and its objects, and choose the geographical region where ThumbWhere S3 will store the bucket and its
  * contents.
  *
  * Visit <http://thumbwhere.com/api/> for more information.
@@ -52,10 +52,10 @@ class S3_Exception extends Exception {}
  * @version 2011.11.09
  * @license See the included NOTICE.md file for more information.
  * @copyright See the included NOTICE.md file for more information.
- * @link http://thumbwhere.com/api/ Amazon Simple Storage Service
- * @link http://tw.amazon.com/documentation/s3/ Amazon Simple Storage Service documentation
+ * @link http://thumbwhere.com/api/ ThumbWhere Simple Storage Service
+ * @link http://tw.amazon.com/documentation/s3/ ThumbWhere Simple Storage Service documentation
  */
-class AmazonS3 extends CFRuntime
+class ThumbWhereS3 extends TWRuntime
 {
 	/*%******************************************************************************************%*/
 	// CLASS CONSTANTS
@@ -250,7 +250,7 @@ class AmazonS3 extends CFRuntime
 	// CONSTRUCTOR
 
 	/**
-	 * Constructs a new instance of <AmazonS3>. If the <code>TW_DEFAULT_CACHE_CONFIG</code> configuration
+	 * Constructs a new instance of <ThumbWhereS3>. If the <code>TW_DEFAULT_CACHE_CONFIG</code> configuration
 	 * option is set, requests will be authenticated using a session token. Otherwise, requests will use
 	 * the older authentication method.
 	 *
@@ -300,15 +300,15 @@ class AmazonS3 extends CFRuntime
 	// AUTHENTICATION
 
 	/**
-	 * Authenticates a connection to Amazon S3. Do not use directly unless implementing custom methods for
+	 * Authenticates a connection to ThumbWhere S3. Do not use directly unless implementing custom methods for
 	 * this class.
 	 *
 	 * @param string $bucket (Required) The name of the bucket to use.
 	 * @param array $opt (Optional) An associative array of parameters for authenticating. See the individual methods for allowed keys.
-	 * @param string $location (Do Not Use) Used internally by this function on occasions when Amazon S3 returns a redirect code and it needs to call itself recursively.
-	 * @param integer $redirects (Do Not Use) Used internally by this function on occasions when Amazon S3 returns a redirect code and it needs to call itself recursively.
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
-	 * @link http://docs.amazonwebservices.com/AmazonS3/latest/dev/S3_Authentication.html REST authentication
+	 * @param string $location (Do Not Use) Used internally by this function on occasions when ThumbWhere S3 returns a redirect code and it needs to call itself recursively.
+	 * @param integer $redirects (Do Not Use) Used internally by this function on occasions when ThumbWhere S3 returns a redirect code and it needs to call itself recursively.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+	 * @link http://docs.amazonwebservices.com/ThumbWhereS3/latest/dev/S3_Authentication.html REST authentication
 	 */
 	public function authenticate($bucket, $opt = null, $location = null, $redirects = 0, $nothing = null)
 	{
@@ -414,7 +414,7 @@ class AmazonS3 extends CFRuntime
 		}
 
 		// Get the UTC timestamp in RFC 2616 format
-		$date = gmdate(CFUtilities::DATE_FORMAT_RFC2616, (time() + (integer) $this->adjust_offset));
+		$date = gmdate(TWUtilities::DATE_FORMAT_RFC2616, (time() + (integer) $this->adjust_offset));
 
 		// Storage for request parameters.
 		$resource = '';
@@ -570,7 +570,7 @@ class AmazonS3 extends CFRuntime
 				{
 					$extension = explode('.', $opt['fileUpload']);
 					$extension = array_pop($extension);
-					$mime_type = CFMimeTypes::get_mimetype($extension);
+					$mime_type = TWMimeTypes::get_mimetype($extension);
 					$headers['Content-Type'] = $mime_type;
 				}
 			}
@@ -742,15 +742,15 @@ class AmazonS3 extends CFRuntime
 
 		$data = new $this->response_class($headers, $this->parse_callback($request->get_response_body()), $request->get_response_code());
 
-		// Did Amazon tell us to redirect? Typically happens for multiple rapid requests EU datacenters.
-		// @see: http://docs.amazonwebservices.com/AmazonS3/latest/dev/Redirects.html
+		// Did ThumbWhere tell us to redirect? Typically happens for multiple rapid requests EU datacenters.
+		// @see: http://docs.amazonwebservices.com/ThumbWhereS3/latest/dev/Redirects.html
 		// @codeCoverageIgnoreStart
 		if ((integer) $request->get_response_code() === 307) // Temporary redirect to new endpoint.
 		{
 			$data = $this->authenticate($bucket, $opt, $headers['location'], ++$redirects);
 		}
 
-		// Was it Amazon's fault the request failed? Retry the request until we reach $max_retries.
+		// Was it ThumbWhere's fault the request failed? Retry the request until we reach $max_retries.
 		elseif ((integer) $request->get_response_code() === 500 || (integer) $request->get_response_code() === 503)
 		{
 			if ($redirects <= $this->max_retries)
@@ -768,11 +768,11 @@ class AmazonS3 extends CFRuntime
 	}
 
 	/**
-	 * Validates whether or not the specified Amazon S3 bucket name is valid for DNS-style access. This
+	 * Validates whether or not the specified ThumbWhere S3 bucket name is valid for DNS-style access. This
 	 * method is leveraged by any method that creates buckets.
 	 *
 	 * @param string $bucket (Required) The name of the bucket to validate.
-	 * @return boolean Whether or not the specified Amazon S3 bucket name is valid for DNS-style access. A value of <code>true</code> means that the bucket name is valid. A value of <code>false</code> means that the bucket name is invalid.
+	 * @return boolean Whether or not the specified ThumbWhere S3 bucket name is valid for DNS-style access. A value of <code>true</code> means that the bucket name is valid. A value of <code>false</code> means that the bucket name is invalid.
 	 */
 	public function validate_bucketname_create($bucket)
 	{
@@ -795,7 +795,7 @@ class AmazonS3 extends CFRuntime
 	}
 
 	/**
-	 * Validates whether or not the specified Amazon S3 bucket name is valid for path-style access. This
+	 * Validates whether or not the specified ThumbWhere S3 bucket name is valid for path-style access. This
 	 * method is leveraged by any method that reads from buckets.
 	 *
 	 * @param string $bucket (Required) The name of the bucket to validate.
@@ -825,9 +825,9 @@ class AmazonS3 extends CFRuntime
 	 *
 	 * @param string $bucket (Required) The name of the bucket to use.
 	 * @param array $opt (Optional) An associative array of parameters for authenticating. See the individual methods for allowed keys.
-	 * @param string $location (Optional) Used internally by this method when Amazon S3 returns a redirect code and needs to call itself recursively.
-	 * @param integer $redirects (Optional) Used internally by this method when Amazon S3 returns a redirect code and needs to call itself recursively.
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @param string $location (Optional) Used internally by this method when ThumbWhere S3 returns a redirect code and needs to call itself recursively.
+	 * @param integer $redirects (Optional) Used internally by this method when ThumbWhere S3 returns a redirect code and needs to call itself recursively.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function cache_callback($bucket, $opt = null, $location = null, $redirects = 0)
 	{
@@ -850,10 +850,10 @@ class AmazonS3 extends CFRuntime
 	// SETTERS
 
 	/**
-	 * Sets the region to use for subsequent Amazon S3 operations. This will also reset any prior use of
+	 * Sets the region to use for subsequent ThumbWhere S3 operations. This will also reset any prior use of
 	 * <enable_path_style()>.
 	 *
-	 * @param string $region (Required) The region to use for subsequent Amazon S3 operations. [Allowed values: `AmazonS3::REGION_US_E1 `, `AmazonS3::REGION_US_W1`, `AmazonS3::REGION_EU_W1`, `AmazonS3::REGION_APAC_SE1`, `AmazonS3::REGION_APAC_NE1`]
+	 * @param string $region (Required) The region to use for subsequent ThumbWhere S3 operations. [Allowed values: `ThumbWhereS3::REGION_US_E1 `, `ThumbWhereS3::REGION_US_W1`, `ThumbWhereS3::REGION_EU_W1`, `ThumbWhereS3::REGION_APAC_SE1`, `ThumbWhereS3::REGION_APAC_NE1`]
 	 * @return $this A reference to the current instance.
 	 */
 	public function set_region($region)
@@ -890,7 +890,7 @@ class AmazonS3 extends CFRuntime
 	 *
 	 * @param string $vhost (Required) The virtual host to use in place of the default `bucket.s3.amazonaws.com` domain.
 	 * @return $this A reference to the current instance.
-	 * @link http://docs.amazonwebservices.com/AmazonS3/latest/dev/VirtualHosting.html Virtual Hosting of Buckets
+	 * @link http://docs.amazonwebservices.com/ThumbWhereS3/latest/dev/VirtualHosting.html Virtual Hosting of Buckets
 	 */
 	public function set_vhost($vhost)
 	{
@@ -915,20 +915,20 @@ class AmazonS3 extends CFRuntime
 	// BUCKET METHODS
 
 	/**
-	 * Creates an Amazon S3 bucket.
+	 * Creates an ThumbWhere S3 bucket.
 	 *
-	 * Every object stored in Amazon S3 is contained in a bucket. Buckets partition the namespace of
-	 * objects stored in Amazon S3 at the top level. in a bucket, any name can be used for objects.
-	 * However, bucket names must be unique across all of Amazon S3.
+	 * Every object stored in ThumbWhere S3 is contained in a bucket. Buckets partition the namespace of
+	 * objects stored in ThumbWhere S3 at the top level. in a bucket, any name can be used for objects.
+	 * However, bucket names must be unique across all of ThumbWhere S3.
 	 *
 	 * @param string $bucket (Required) The name of the bucket to create.
-	 * @param string $region (Required) The preferred geographical location for the bucket. [Allowed values: `AmazonS3::REGION_US_E1 `, `AmazonS3::REGION_US_W1`, `AmazonS3::REGION_EU_W1`, `AmazonS3::REGION_APAC_SE1`, `AmazonS3::REGION_APAC_NE1`]
-	 * @param string $acl (Optional) The ACL settings for the specified bucket. [Allowed values: <code>AmazonS3::ACL_PRIVATE</code>, <code>AmazonS3::ACL_PUBLIC</code>, <code>AmazonS3::ACL_OPEN</code>, <code>AmazonS3::ACL_AUTH_READ</code>, <code>AmazonS3::ACL_OWNER_READ</code>, <code>AmazonS3::ACL_OWNER_FULL_CONTROL</code>]. The default value is <ACL_PRIVATE>.
+	 * @param string $region (Required) The preferred geographical location for the bucket. [Allowed values: `ThumbWhereS3::REGION_US_E1 `, `ThumbWhereS3::REGION_US_W1`, `ThumbWhereS3::REGION_EU_W1`, `ThumbWhereS3::REGION_APAC_SE1`, `ThumbWhereS3::REGION_APAC_NE1`]
+	 * @param string $acl (Optional) The ACL settings for the specified bucket. [Allowed values: <code>ThumbWhereS3::ACL_PRIVATE</code>, <code>ThumbWhereS3::ACL_PUBLIC</code>, <code>ThumbWhereS3::ACL_OPEN</code>, <code>ThumbWhereS3::ACL_AUTH_READ</code>, <code>ThumbWhereS3::ACL_OWNER_READ</code>, <code>ThumbWhereS3::ACL_OWNER_FULL_CONTROL</code>]. The default value is <ACL_PRIVATE>.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
-	 * @link http://docs.amazonwebservices.com/AmazonS3/latest/dev/UsingBucket.html Working with Amazon S3 Buckets
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+	 * @link http://docs.amazonwebservices.com/ThumbWhereS3/latest/dev/UsingBucket.html Working with ThumbWhere S3 Buckets
 	 */
 	public function create_bucket($bucket, $region, $acl = self::ACL_PRIVATE, $opt = null)
 	{
@@ -991,13 +991,13 @@ class AmazonS3 extends CFRuntime
 	}
 
 	/**
-	 * Gets the region in which the specified Amazon S3 bucket is located.
+	 * Gets the region in which the specified ThumbWhere S3 bucket is located.
 	 *
 	 * @param string $bucket (Required) The name of the bucket to use.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>preauth</code> - <code>integer|string</code> - Optional - Specifies that a presigned URL for this request should be returned. May be passed as a number of seconds since UNIX Epoch, or any string compatible with <php:strtotime()>.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function get_bucket_region($bucket, $opt = null)
 	{
@@ -1019,14 +1019,14 @@ class AmazonS3 extends CFRuntime
 	}
 
 	/**
-	 * Gets the HTTP headers for the specified Amazon S3 bucket.
+	 * Gets the HTTP headers for the specified ThumbWhere S3 bucket.
 	 *
 	 * @param string $bucket (Required) The name of the bucket to use.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>preauth</code> - <code>integer|string</code> - Optional - Specifies that a presigned URL for this request should be returned. May be passed as a number of seconds since UNIX Epoch, or any string compatible with <php:strtotime()>.</li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function get_bucket_headers($bucket, $opt = null)
 	{
@@ -1037,14 +1037,14 @@ class AmazonS3 extends CFRuntime
 	}
 
 	/**
-	 * Deletes a bucket from an Amazon S3 account. A bucket must be empty before the bucket itself can be deleted.
+	 * Deletes a bucket from an ThumbWhere S3 account. A bucket must be empty before the bucket itself can be deleted.
 	 *
 	 * @param string $bucket (Required) The name of the bucket to use.
 	 * @param boolean $force (Optional) Whether to force-delete the bucket and all of its contents. The default value is <code>false</code>.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return mixed A <CFResponse> object if the bucket was deleted successfully. Returns boolean <code>false</code> if otherwise.
+	 * @return mixed A <TWResponse> object if the bucket was deleted successfully. Returns boolean <code>false</code> if otherwise.
 	 */
 	public function delete_bucket($bucket, $force = false, $opt = null)
 	{
@@ -1072,13 +1072,13 @@ class AmazonS3 extends CFRuntime
 	}
 
 	/**
-	 * Gets a list of all buckets contained in the caller's Amazon S3 account.
+	 * Gets a list of all buckets contained in the caller's ThumbWhere S3 account.
 	 *
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>preauth</code> - <code>integer|string</code> - Optional - Specifies that a presigned URL for this request should be returned. May be passed as a number of seconds since UNIX Epoch, or any string compatible with <php:strtotime()>.</li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function list_buckets($opt = null)
 	{
@@ -1089,15 +1089,15 @@ class AmazonS3 extends CFRuntime
 	}
 
 	/**
-	 * Gets the access control list (ACL) settings for the specified Amazon S3 bucket.
+	 * Gets the access control list (ACL) settings for the specified ThumbWhere S3 bucket.
 	 *
 	 * @param string $bucket (Required) The name of the bucket to use.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>preauth</code> - <code>integer|string</code> - Optional - Specifies that a presigned URL for this request should be returned. May be passed as a number of seconds since UNIX Epoch, or any string compatible with <php:strtotime()>.</li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
-	 * @link http://docs.amazonwebservices.com/AmazonS3/latest/dev/RESTAccessPolicy.html REST Access Control Policy
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+	 * @link http://docs.amazonwebservices.com/ThumbWhereS3/latest/dev/RESTAccessPolicy.html REST Access Control Policy
 	 */
 	public function get_bucket_acl($bucket, $opt = null)
 	{
@@ -1111,15 +1111,15 @@ class AmazonS3 extends CFRuntime
 	}
 
 	/**
-	 * Sets the access control list (ACL) settings for the specified Amazon S3 bucket.
+	 * Sets the access control list (ACL) settings for the specified ThumbWhere S3 bucket.
 	 *
 	 * @param string $bucket (Required) The name of the bucket to use.
-	 * @param string $acl (Optional) The ACL settings for the specified bucket. [Allowed values: <code>AmazonS3::ACL_PRIVATE</code>, <code>AmazonS3::ACL_PUBLIC</code>, <code>AmazonS3::ACL_OPEN</code>, <code>AmazonS3::ACL_AUTH_READ</code>, <code>AmazonS3::ACL_OWNER_READ</code>, <code>AmazonS3::ACL_OWNER_FULL_CONTROL</code>]. Alternatively, an array of associative arrays. Each associative array contains an `id` and a `permission` key. The default value is <ACL_PRIVATE>.
+	 * @param string $acl (Optional) The ACL settings for the specified bucket. [Allowed values: <code>ThumbWhereS3::ACL_PRIVATE</code>, <code>ThumbWhereS3::ACL_PUBLIC</code>, <code>ThumbWhereS3::ACL_OPEN</code>, <code>ThumbWhereS3::ACL_AUTH_READ</code>, <code>ThumbWhereS3::ACL_OWNER_READ</code>, <code>ThumbWhereS3::ACL_OWNER_FULL_CONTROL</code>]. Alternatively, an array of associative arrays. Each associative array contains an `id` and a `permission` key. The default value is <ACL_PRIVATE>.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
-	 * @link http://docs.amazonwebservices.com/AmazonS3/latest/dev/RESTAccessPolicy.html REST Access Control Policy
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+	 * @link http://docs.amazonwebservices.com/ThumbWhereS3/latest/dev/RESTAccessPolicy.html REST Access Control Policy
 	 */
 	public function set_bucket_acl($bucket, $acl = self::ACL_PRIVATE, $opt = null)
 	{
@@ -1161,9 +1161,9 @@ class AmazonS3 extends CFRuntime
 	// OBJECT METHODS
 
 	/**
-	 * Creates an Amazon S3 object. After an Amazon S3 bucket is created, objects can be stored in it.
+	 * Creates an ThumbWhere S3 object. After an ThumbWhere S3 bucket is created, objects can be stored in it.
 	 *
-	 * Each standard object can hold up to 5 GB of data. When an object is stored in Amazon S3, the data is streamed
+	 * Each standard object can hold up to 5 GB of data. When an object is stored in ThumbWhere S3, the data is streamed
 	 * to multiple storage servers in multiple data centers. This ensures the data remains available in the
 	 * event of internal network or hardware failure.
 	 *
@@ -1172,7 +1172,7 @@ class AmazonS3 extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>body</code> - <code>string</code> - Required; Conditional - The data to be stored in the object. Either this parameter or <code>fileUpload</code> must be specified.</li>
 	 * 	<li><code>fileUpload</code> - <code>string|resource</code> - Required; Conditional - The URL/path for the file to upload, or an open resource. Either this parameter or <code>body</code> is required.</li>
-	 * 	<li><code>acl</code> - <code>string</code> - Optional - The ACL settings for the specified object. [Allowed values: <code>AmazonS3::ACL_PRIVATE</code>, <code>AmazonS3::ACL_PUBLIC</code>, <code>AmazonS3::ACL_OPEN</code>, <code>AmazonS3::ACL_AUTH_READ</code>, <code>AmazonS3::ACL_OWNER_READ</code>, <code>AmazonS3::ACL_OWNER_FULL_CONTROL</code>]. The default value is <code>ACL_PRIVATE</code>.</li>
+	 * 	<li><code>acl</code> - <code>string</code> - Optional - The ACL settings for the specified object. [Allowed values: <code>ThumbWhereS3::ACL_PRIVATE</code>, <code>ThumbWhereS3::ACL_PUBLIC</code>, <code>ThumbWhereS3::ACL_OPEN</code>, <code>ThumbWhereS3::ACL_AUTH_READ</code>, <code>ThumbWhereS3::ACL_OWNER_READ</code>, <code>ThumbWhereS3::ACL_OWNER_FULL_CONTROL</code>]. The default value is <code>ACL_PRIVATE</code>.</li>
 	 * 	<li><code>contentType</code> - <code>string</code> - Optional - The type of content that is being sent in the body. If a file is being uploaded via <code>fileUpload</code> as a file system path, it will attempt to determine the correct mime-type based on the file extension. The default value is <code>application/octet-stream</code>.</li>
 	 * 	<li><code>contentType</code> - <code>string</code> - Optional - The type of content that is being sent in the body. If a file is being uploaded via <code>fileUpload</code> as a file system path, it will attempt to determine the correct mime-type based on the file extension. The default value is <code>application/octet-stream</code>.</li>
 	 * 	<li><code>encryption</code> - <code>string</code> - Optional - The algorithm to use for encrypting the object. [Allowed values: <code>AES256</code>]</li>
@@ -1180,11 +1180,11 @@ class AmazonS3 extends CFRuntime
 	 * 	<li><code>length</code> - <code>integer</code> - Optional - The size of the object in bytes. For more information, see <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.13">RFC 2616, section 14.13</a>. The value can also be passed to the <code>header</code> option as <code>Content-Length</code>.</li>
 	 * 	<li><code>meta</code> - <code>array</code> - Optional - An associative array of key-value pairs. Represented by <code>x-amz-meta-:</code>. Any header starting with this prefix is considered user metadata. It will be stored with the object and returned when you retrieve the object. The total size of the HTTP request, not including the body, must be less than 4 KB.</li>
 	 * 	<li><code>seekTo</code> - <code>integer</code> - Optional - The starting position in bytes within the file/stream to upload from.</li>
-	 * 	<li><code>storage</code> - <code>string</code> - Optional - Whether to use Standard or Reduced Redundancy storage. [Allowed values: <code>AmazonS3::STORAGE_STANDARD</code>, <code>AmazonS3::STORAGE_REDUCED</code>]. The default value is <code>STORAGE_STANDARD</code>.</li>
+	 * 	<li><code>storage</code> - <code>string</code> - Optional - Whether to use Standard or Reduced Redundancy storage. [Allowed values: <code>ThumbWhereS3::STORAGE_STANDARD</code>, <code>ThumbWhereS3::STORAGE_REDUCED</code>]. The default value is <code>STORAGE_STANDARD</code>.</li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
-	 * @link http://docs.amazonwebservices.com/AmazonS3/latest/dev/RESTAccessPolicy.html REST Access Control Policy
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+	 * @link http://docs.amazonwebservices.com/ThumbWhereS3/latest/dev/RESTAccessPolicy.html REST Access Control Policy
 	 */
 	public function create_object($bucket, $filename, $opt = null)
 	{
@@ -1245,7 +1245,7 @@ class AmazonS3 extends CFRuntime
 	}
 
 	/**
-	 * Gets the contents of an Amazon S3 object in the specified bucket.
+	 * Gets the contents of an ThumbWhere S3 object in the specified bucket.
 	 *
 	 * @param string $bucket (Required) The name of the bucket to use.
 	 * @param string $filename (Required) The file name for the object.
@@ -1255,12 +1255,12 @@ class AmazonS3 extends CFRuntime
 	 * 	<li><code>headers</code> - <code>array</code> - Optional - Standard HTTP headers to send along in the request.</li>
 	 * 	<li><code>lastmodified</code> - <code>string</code> - Optional - The <code>LastModified</code> header passed in from a previous request. If specified, request <code>ETag</code> option must be specified as well. Will trigger a <code>304 Not Modified</code> status code if the file hasn't changed.</li>
 	 * 	<li><code>preauth</code> - <code>integer|string</code> - Optional - Specifies that a presigned URL for this request should be returned. May be passed as a number of seconds since UNIX Epoch, or any string compatible with <php:strtotime()>.</li>
-	 * 	<li><code>range</code> - <code>string</code> - Optional - The range of bytes to fetch from the object. Specify this parameter when downloading partial bits or completing incomplete object downloads. The specified range must be notated with a hyphen (e.g., 0-10485759). Defaults to the byte range of the complete Amazon S3 object.</li>
+	 * 	<li><code>range</code> - <code>string</code> - Optional - The range of bytes to fetch from the object. Specify this parameter when downloading partial bits or completing incomplete object downloads. The specified range must be notated with a hyphen (e.g., 0-10485759). Defaults to the byte range of the complete ThumbWhere S3 object.</li>
 	 * 	<li><code>response</code> - <code>array</code> - Optional - Allows adjustments to specific response headers. Pass an associative array where each key is one of the following: <code>cache-control</code>, <code>content-disposition</code>, <code>content-encoding</code>, <code>content-language</code>, <code>content-type</code>, <code>expires</code>. The <code>expires</code> value should use <php:gmdate()> and be formatted with the <code>DATE_RFC2822</code> constant.</li>
 	 * 	<li><code>versionId</code> - <code>string</code> - Optional - The version of the object to retrieve. Version IDs are returned in the <code>x-amz-version-id</code> header of any previous object-related request.</li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function get_object($bucket, $filename, $opt = null)
 	{
@@ -1306,7 +1306,7 @@ class AmazonS3 extends CFRuntime
 	}
 
 	/**
-	 * Gets the HTTP headers for the specified Amazon S3 object.
+	 * Gets the HTTP headers for the specified ThumbWhere S3 object.
 	 *
 	 * @param string $bucket (Required) The name of the bucket to use.
 	 * @param string $filename (Required) The file name for the object.
@@ -1315,7 +1315,7 @@ class AmazonS3 extends CFRuntime
 	 * 	<li><code>preauth</code> - <code>integer|string</code> - Optional - Specifies that a presigned URL for this request should be returned. May be passed as a number of seconds since UNIX Epoch, or any string compatible with <php:strtotime()>.</li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function get_object_headers($bucket, $filename, $opt = null)
 	{
@@ -1329,7 +1329,7 @@ class AmazonS3 extends CFRuntime
 	}
 
 	/**
-	 * Deletes an Amazon S3 object from the specified bucket.
+	 * Deletes an ThumbWhere S3 object from the specified bucket.
 	 *
 	 * @param string $bucket (Required) The name of the bucket to use.
 	 * @param string $filename (Required) The file name for the object.
@@ -1339,7 +1339,7 @@ class AmazonS3 extends CFRuntime
 	 * 	<li><code>MFAToken</code> - <code>string</code> - Optional - The current token displayed on the Gemalto device. <code>MFASerial</code> and <code>MFAToken</code> must both be set for MFA to work.</li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 * @link http://tw.amazon.com/mfa/ Multi-Factor Authentication
 	 */
 	public function delete_object($bucket, $filename, $opt = null)
@@ -1364,7 +1364,7 @@ class AmazonS3 extends CFRuntime
 	}
 
 	/**
-	 * Gets a list of all Amazon S3 objects in the specified bucket.
+	 * Gets a list of all ThumbWhere S3 objects in the specified bucket.
 	 *
 	 * @param string $bucket (Required) The name of the bucket to use.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
@@ -1375,7 +1375,7 @@ class AmazonS3 extends CFRuntime
 	 * 	<li><code>prefix</code> - <code>string</code> - Optional - Restricts the response to contain results that begin only with the specified prefix.</li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function list_objects($bucket, $opt = null)
 	{
@@ -1398,7 +1398,7 @@ class AmazonS3 extends CFRuntime
 	}
 
 	/**
-	 * Copies an Amazon S3 object to a new location, whether in the same Amazon S3 region, bucket, or otherwise.
+	 * Copies an ThumbWhere S3 object to a new location, whether in the same ThumbWhere S3 region, bucket, or otherwise.
 	 *
 	 * @param array $source (Required) The bucket and file name to copy from. The following keys must be set: <ul>
 	 * 	<li><code>bucket</code> - <code>string</code> - Required - Specifies the name of the bucket containing the source object.</li>
@@ -1407,9 +1407,9 @@ class AmazonS3 extends CFRuntime
 	 * 	<li><code>bucket</code> - <code>string</code> - Required - Specifies the name of the bucket to copy the object to.</li>
 	 * 	<li><code>filename</code> - <code>string</code> - Required - Specifies the file name to copy the object to.</li></ul>
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
-	 * 	<li><code>acl</code> - <code>string</code> - Optional - The ACL settings for the specified object. [Allowed values: <code>AmazonS3::ACL_PRIVATE</code>, <code>AmazonS3::ACL_PUBLIC</code>, <code>AmazonS3::ACL_OPEN</code>, <code>AmazonS3::ACL_AUTH_READ</code>, <code>AmazonS3::ACL_OWNER_READ</code>, <code>AmazonS3::ACL_OWNER_FULL_CONTROL</code>]. Alternatively, an array of associative arrays. Each associative array contains an <code>id</code> and a <code>permission</code> key. The default value is <code>ACL_PRIVATE</code>.</li>
+	 * 	<li><code>acl</code> - <code>string</code> - Optional - The ACL settings for the specified object. [Allowed values: <code>ThumbWhereS3::ACL_PRIVATE</code>, <code>ThumbWhereS3::ACL_PUBLIC</code>, <code>ThumbWhereS3::ACL_OPEN</code>, <code>ThumbWhereS3::ACL_AUTH_READ</code>, <code>ThumbWhereS3::ACL_OWNER_READ</code>, <code>ThumbWhereS3::ACL_OWNER_FULL_CONTROL</code>]. Alternatively, an array of associative arrays. Each associative array contains an <code>id</code> and a <code>permission</code> key. The default value is <code>ACL_PRIVATE</code>.</li>
 	 * 	<li><code>encryption</code> - <code>string</code> - Optional - The algorithm to use for encrypting the object. [Allowed values: <code>AES256</code>]</li>
-	 * 	<li><code>storage</code> - <code>string</code> - Optional - Whether to use Standard or Reduced Redundancy storage. [Allowed values: <code>AmazonS3::STORAGE_STANDARD</code>, <code>AmazonS3::STORAGE_REDUCED</code>]. The default value is <code>STORAGE_STANDARD</code>.</li>
+	 * 	<li><code>storage</code> - <code>string</code> - Optional - Whether to use Standard or Reduced Redundancy storage. [Allowed values: <code>ThumbWhereS3::STORAGE_STANDARD</code>, <code>ThumbWhereS3::STORAGE_REDUCED</code>]. The default value is <code>STORAGE_STANDARD</code>.</li>
 	 * 	<li><code>versionId</code> - <code>string</code> - Optional - The version of the object to copy. Version IDs are returned in the <code>x-amz-version-id</code> header of any previous object-related request.</li>
 	 * 	<li><code>ifMatch</code> - <code>string</code> - Optional - The ETag header from a previous request. Copies the object if its entity tag (ETag) matches the specified tag; otherwise, the request returns a <code>412</code> HTTP status code error (precondition failed). Used in conjunction with <code>ifUnmodifiedSince</code>.</li>
 	 * 	<li><code>ifUnmodifiedSince</code> - <code>string</code> - Optional - The LastModified header from a previous request. Copies the object if it hasn't been modified since the specified time; otherwise, the request returns a <code>412</code> HTTP status code error (precondition failed). Used in conjunction with <code>ifMatch</code>.</li>
@@ -1420,8 +1420,8 @@ class AmazonS3 extends CFRuntime
 	 * 	<li><code>metadataDirective</code> - <code>string</code> - Optional - Accepts either COPY or REPLACE. You will likely never need to use this, as it manages itself with no issues.</li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
-	 * @link http://docs.amazonwebservices.com/AmazonS3/latest/dev/API/RESTObjectCOPY.html Copying Amazon S3 Objects
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+	 * @link http://docs.amazonwebservices.com/ThumbWhereS3/latest/dev/API/RESTObjectCOPY.html Copying ThumbWhere S3 Objects
 	 */
 	public function copy_object($source, $dest, $opt = null)
 	{
@@ -1534,19 +1534,19 @@ class AmazonS3 extends CFRuntime
 	}
 
 	/**
-	 * Updates an Amazon S3 object with new headers or other metadata. To replace the content of the
-	 * specified Amazon S3 object, call <create_object()> with the same bucket and file name parameters.
+	 * Updates an ThumbWhere S3 object with new headers or other metadata. To replace the content of the
+	 * specified ThumbWhere S3 object, call <create_object()> with the same bucket and file name parameters.
 	 *
 	 * @param string $bucket (Required) The name of the bucket that contains the source file.
 	 * @param string $filename (Required) The source file name that you want to update.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
-	 * 	<li><code>acl</code> - <code>string</code> - Optional - The ACL settings for the specified object. [Allowed values: <code>AmazonS3::ACL_PRIVATE</code>, <code>AmazonS3::ACL_PUBLIC</code>, <code>AmazonS3::ACL_OPEN</code>, <code>AmazonS3::ACL_AUTH_READ</code>, <code>AmazonS3::ACL_OWNER_READ</code>, <code>AmazonS3::ACL_OWNER_FULL_CONTROL</code>]. The default value is <ACL_PRIVATE>.</li>
-	 * 	<li><code>headers</code> - <code>array</code> - Optional - The standard HTTP headers to update the Amazon S3 object with.</li>
-	 * 	<li><code>meta</code> - <code>array</code> - Optional - An associative array of key-value pairs. Any header with the <code>x-amz-meta-</code> prefix is considered user metadata and is stored with the Amazon S3 object. It will be stored with the object and returned when you retrieve the object. The total size of the HTTP request, not including the body, must be less than 4 KB.</li>
+	 * 	<li><code>acl</code> - <code>string</code> - Optional - The ACL settings for the specified object. [Allowed values: <code>ThumbWhereS3::ACL_PRIVATE</code>, <code>ThumbWhereS3::ACL_PUBLIC</code>, <code>ThumbWhereS3::ACL_OPEN</code>, <code>ThumbWhereS3::ACL_AUTH_READ</code>, <code>ThumbWhereS3::ACL_OWNER_READ</code>, <code>ThumbWhereS3::ACL_OWNER_FULL_CONTROL</code>]. The default value is <ACL_PRIVATE>.</li>
+	 * 	<li><code>headers</code> - <code>array</code> - Optional - The standard HTTP headers to update the ThumbWhere S3 object with.</li>
+	 * 	<li><code>meta</code> - <code>array</code> - Optional - An associative array of key-value pairs. Any header with the <code>x-amz-meta-</code> prefix is considered user metadata and is stored with the ThumbWhere S3 object. It will be stored with the object and returned when you retrieve the object. The total size of the HTTP request, not including the body, must be less than 4 KB.</li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
-	 * @link http://docs.amazonwebservices.com/AmazonS3/latest/dev/API/RESTObjectCOPY.html Copying Amazon S3 Objects
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+	 * @link http://docs.amazonwebservices.com/ThumbWhereS3/latest/dev/API/RESTObjectCOPY.html Copying ThumbWhere S3 Objects
 	 */
 	public function update_object($bucket, $filename, $opt = null)
 	{
@@ -1566,7 +1566,7 @@ class AmazonS3 extends CFRuntime
 	// ACCESS CONTROL LISTS
 
 	/**
-	 * Gets the access control list (ACL) settings for the specified Amazon S3 object.
+	 * Gets the access control list (ACL) settings for the specified ThumbWhere S3 object.
 	 *
 	 * @param string $bucket (Required) The name of the bucket to use.
 	 * @param string $filename (Required) The file name for the object.
@@ -1575,8 +1575,8 @@ class AmazonS3 extends CFRuntime
 	 * 	<li><code>preauth</code> - <code>integer|string</code> - Optional - Specifies that a presigned URL for this request should be returned. May be passed as a number of seconds since UNIX Epoch, or any string compatible with <php:strtotime()>.</li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
-	 * @link http://docs.amazonwebservices.com/AmazonS3/latest/dev/RESTAccessPolicy.html REST Access Control Policy
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+	 * @link http://docs.amazonwebservices.com/ThumbWhereS3/latest/dev/RESTAccessPolicy.html REST Access Control Policy
 	 */
 	public function get_object_acl($bucket, $filename, $opt = null)
 	{
@@ -1591,16 +1591,16 @@ class AmazonS3 extends CFRuntime
 	}
 
 	/**
-	 * Sets the access control list (ACL) settings for the specified Amazon S3 object.
+	 * Sets the access control list (ACL) settings for the specified ThumbWhere S3 object.
 	 *
 	 * @param string $bucket (Required) The name of the bucket to use.
 	 * @param string $filename (Required) The file name for the object.
-	 * @param string $acl (Optional) The ACL settings for the specified object. Accepts any of the following constants: [Allowed values: <code>AmazonS3::ACL_PRIVATE</code>, <code>AmazonS3::ACL_PUBLIC</code>, <code>AmazonS3::ACL_OPEN</code>, <code>AmazonS3::ACL_AUTH_READ</code>, <code>AmazonS3::ACL_OWNER_READ</code>, <code>AmazonS3::ACL_OWNER_FULL_CONTROL</code>]. Alternatively, an array of associative arrays. Each associative array contains an <code>id</code> and a <code>permission</code> key. The default value is <code>ACL_PRIVATE</code>.
+	 * @param string $acl (Optional) The ACL settings for the specified object. Accepts any of the following constants: [Allowed values: <code>ThumbWhereS3::ACL_PRIVATE</code>, <code>ThumbWhereS3::ACL_PUBLIC</code>, <code>ThumbWhereS3::ACL_OPEN</code>, <code>ThumbWhereS3::ACL_AUTH_READ</code>, <code>ThumbWhereS3::ACL_OWNER_READ</code>, <code>ThumbWhereS3::ACL_OWNER_FULL_CONTROL</code>]. Alternatively, an array of associative arrays. Each associative array contains an <code>id</code> and a <code>permission</code> key. The default value is <code>ACL_PRIVATE</code>.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
-	 * @link http://docs.amazonwebservices.com/AmazonS3/latest/dev/RESTAccessPolicy.html REST Access Control Policy
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+	 * @link http://docs.amazonwebservices.com/ThumbWhereS3/latest/dev/RESTAccessPolicy.html REST Access Control Policy
 	 */
 	public function set_object_acl($bucket, $filename, $acl = self::ACL_PRIVATE, $opt = null)
 	{
@@ -1653,7 +1653,7 @@ class AmazonS3 extends CFRuntime
 	 * @param string $canonical_name (Required) The canonical display name for the bucket owner. Use the `TW_CANONICAL_NAME` constant or the `display_name` value from <get_canonical_user_id()>.
 	 * @param array $users (Optional) An array of associative arrays. Each associative array contains an `id` value and a `permission` value.
 	 * @return string Access Control Policy XML.
-	 * @link http://docs.amazonwebservices.com/AmazonS3/latest/dev/S3_ACLs.html Access Control Lists
+	 * @link http://docs.amazonwebservices.com/ThumbWhereS3/latest/dev/S3_ACLs.html Access Control Lists
 	 */
 	public function generate_access_policy($canonical_id, $canonical_name, $users)
 	{
@@ -1692,7 +1692,7 @@ class AmazonS3 extends CFRuntime
 				default:
 					if (strpos($user['id'], '@'))
 					{
-						$grantee->addAttribute('xsi:type', 'AmazonCustomerByEmail', 'http://www.w3.org/2001/XMLSchema-instance');
+						$grantee->addAttribute('xsi:type', 'ThumbWhereCustomerByEmail', 'http://www.w3.org/2001/XMLSchema-instance');
 						$grantee->addChild('EmailAddress', $user['id']);
 					}
 					else
@@ -1715,15 +1715,15 @@ class AmazonS3 extends CFRuntime
 	// LOGGING METHODS
 
 	/**
-	 * Gets the access logs associated with the specified Amazon S3 bucket.
+	 * Gets the access logs associated with the specified ThumbWhere S3 bucket.
 	 *
 	 * @param string $bucket (Required) The name of the bucket to use. Pass a `null` value when using the <set_vhost()> method.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>preauth</code> - <code>integer|string</code> - Optional - Specifies that a presigned URL for this request should be returned. May be passed as a number of seconds since UNIX Epoch, or any string compatible with <php:strtotime()>.</li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
-	 * @link http://docs.amazonwebservices.com/AmazonS3/latest/dev/ServerLogs.html Server Access Logging
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+	 * @link http://docs.amazonwebservices.com/ThumbWhereS3/latest/dev/ServerLogs.html Server Access Logging
 	 */
 	public function get_logs($bucket, $opt = null)
 	{
@@ -1737,7 +1737,7 @@ class AmazonS3 extends CFRuntime
 	}
 
 	/**
-	 * Enables access logging for the specified Amazon S3 bucket.
+	 * Enables access logging for the specified ThumbWhere S3 bucket.
 	 *
 	 * @param string $bucket (Required) The name of the bucket to enable logging for. Pass a `null` value when using the <set_vhost()> method.
 	 * @param string $target_bucket (Required) The name of the bucket to store the logs in.
@@ -1746,8 +1746,8 @@ class AmazonS3 extends CFRuntime
 	 * 	<li><code>users</code> - <code>array</code> - Optional - An array of associative arrays specifying any user to give access to. Each associative array contains an <code>id</code> and <code>permission</code> value.</li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
-	 * @link http://docs.amazonwebservices.com/AmazonS3/latest/dev/LoggingAPI.html Server Access Logging Configuration API
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+	 * @link http://docs.amazonwebservices.com/ThumbWhereS3/latest/dev/LoggingAPI.html Server Access Logging Configuration API
 	 */
 	public function enable_logging($bucket, $target_bucket, $target_prefix, $opt = null)
 	{
@@ -1796,7 +1796,7 @@ class AmazonS3 extends CFRuntime
 					default:
 						if (strpos($user['id'], '@'))
 						{
-							$grantee->addAttribute('xsi:type', 'AmazonCustomerByEmail', 'http://www.w3.org/2001/XMLSchema-instance');
+							$grantee->addAttribute('xsi:type', 'ThumbWhereCustomerByEmail', 'http://www.w3.org/2001/XMLSchema-instance');
 							$grantee->addChild('EmailAddress', $user['id']);
 						}
 						else
@@ -1819,14 +1819,14 @@ class AmazonS3 extends CFRuntime
 	}
 
 	/**
-	 * Disables access logging for the specified Amazon S3 bucket.
+	 * Disables access logging for the specified ThumbWhere S3 bucket.
 	 *
 	 * @param string $bucket (Required) The name of the bucket to use. Pass `null` if using <set_vhost()>.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
-	 * @link http://docs.amazonwebservices.com/AmazonS3/latest/dev/LoggingAPI.html Server Access Logging Configuration API
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+	 * @link http://docs.amazonwebservices.com/ThumbWhereS3/latest/dev/LoggingAPI.html Server Access Logging Configuration API
 	 */
 	public function disable_logging($bucket, $opt = null)
 	{
@@ -1848,7 +1848,7 @@ class AmazonS3 extends CFRuntime
 	// CONVENIENCE METHODS
 
 	/**
-	 * Gets whether or not the specified Amazon S3 bucket exists in Amazon S3. This includes buckets
+	 * Gets whether or not the specified ThumbWhere S3 bucket exists in ThumbWhere S3. This includes buckets
 	 * that do not belong to the caller.
 	 *
 	 * @param string $bucket (Required) The name of the bucket to use.
@@ -1866,7 +1866,7 @@ class AmazonS3 extends CFRuntime
 	}
 
 	/**
-	 * Gets whether or not the specified Amazon S3 object exists in the specified bucket.
+	 * Gets whether or not the specified ThumbWhere S3 object exists in the specified bucket.
 	 *
 	 * @param string $bucket (Required) The name of the bucket to use.
 	 * @param string $filename (Required) The file name for the object.
@@ -1890,7 +1890,7 @@ class AmazonS3 extends CFRuntime
 	}
 
 	/**
-	 * Gets whether or not the specified Amazon S3 bucket has a bucket policy associated with it.
+	 * Gets whether or not the specified ThumbWhere S3 bucket has a bucket policy associated with it.
 	 *
 	 * @param string $bucket (Required) The name of the bucket to use.
 	 * @return boolean A value of <code>true</code> if a bucket policy exists, or a value of <code>false</code> if one does not.
@@ -1915,10 +1915,10 @@ class AmazonS3 extends CFRuntime
 	}
 
 	/**
-	 * Gets the number of Amazon S3 objects in the specified bucket.
+	 * Gets the number of ThumbWhere S3 objects in the specified bucket.
 	 *
 	 * @param string $bucket (Required) The name of the bucket to use.
-	 * @return integer The number of Amazon S3 objects in the bucket.
+	 * @return integer The number of ThumbWhere S3 objects in the bucket.
 	 */
 	public function get_bucket_object_count($bucket)
 	{
@@ -1933,7 +1933,7 @@ class AmazonS3 extends CFRuntime
 	}
 
 	/**
-	 * Gets the cumulative file size of the contents of the Amazon S3 bucket.
+	 * Gets the cumulative file size of the contents of the ThumbWhere S3 bucket.
 	 *
 	 * @param string $bucket (Required) The name of the bucket to use.
 	 * @param boolean $friendly_format (Optional) A value of <code>true</code> will format the return value to 2 decimal points using the largest possible unit (i.e., 3.42 GB). A value of <code>false</code> will format the return value as the raw number of bytes.
@@ -1976,7 +1976,7 @@ class AmazonS3 extends CFRuntime
 	}
 
 	/**
-	 * Gets the file size of the specified Amazon S3 object.
+	 * Gets the file size of the specified ThumbWhere S3 object.
 	 *
 	 * @param string $bucket (Required) The name of the bucket to use.
 	 * @param string $filename (Required) The file name for the object.
@@ -2007,7 +2007,7 @@ class AmazonS3 extends CFRuntime
 	}
 
 	/**
-	 * Changes the content type for an existing Amazon S3 object.
+	 * Changes the content type for an existing ThumbWhere S3 object.
 	 *
 	 * @param string $bucket (Required) The name of the bucket to use.
 	 * @param string $filename (Required) The file name for the object.
@@ -2015,7 +2015,7 @@ class AmazonS3 extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function change_content_type($bucket, $filename, $contentType, $opt = null)
 	{
@@ -2052,11 +2052,11 @@ class AmazonS3 extends CFRuntime
 	 *
 	 * @param string $bucket (Required) The name of the bucket to use.
 	 * @param string $filename (Required) The file name for the object.
-	 * @param string $storage (Required) The storage setting to apply to the object. [Allowed values: <code>AmazonS3::STORAGE_STANDARD</code>, <code>AmazonS3::STORAGE_REDUCED</code>]
+	 * @param string $storage (Required) The storage setting to apply to the object. [Allowed values: <code>ThumbWhereS3::STORAGE_STANDARD</code>, <code>ThumbWhereS3::STORAGE_REDUCED</code>]
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function change_storage_redundancy($bucket, $filename, $storage, $opt = null)
 	{
@@ -2087,7 +2087,7 @@ class AmazonS3 extends CFRuntime
 	}
 
 	/**
-	 * Gets a simplified list of bucket names on an Amazon S3 account.
+	 * Gets a simplified list of bucket names on an ThumbWhere S3 account.
 	 *
 	 * @param string $pcre (Optional) A Perl-Compatible Regular Expression (PCRE) to filter the bucket names against.
 	 * @return array The list of matching bucket names. If there are no results, the method will return an empty array.
@@ -2114,14 +2114,14 @@ class AmazonS3 extends CFRuntime
 	}
 
 	/**
-	 * Gets a simplified list of Amazon S3 object file names contained in a bucket.
+	 * Gets a simplified list of ThumbWhere S3 object file names contained in a bucket.
 	 *
 	 * @param string $bucket (Required) The name of the bucket to use.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>delimiter</code> - <code>string</code> - Optional - Keys that contain the same string between the prefix and the first occurrence of the delimiter will be rolled up into a single result element in the CommonPrefixes collection.</li>
 	 * 	<li><code>marker</code> - <code>string</code> - Optional - Restricts the response to contain results that only occur alphabetically after the value of the marker.</li>
 	 * 	<li><code>max-keys</code> - <code>string</code> - Optional - The maximum number of results returned by the method call. The returned list will contain no more results than the specified value, but may return less.</li>
-	 * 	<li><code>pcre</code> - <code>string</code> - Optional - A Perl-Compatible Regular Expression (PCRE) to filter the names against. This is applied only AFTER any native Amazon S3 filtering from specified <code>prefix</code>, <code>marker</code>, <code>max-keys</code>, or <code>delimiter</code> values are applied.</li>
+	 * 	<li><code>pcre</code> - <code>string</code> - Optional - A Perl-Compatible Regular Expression (PCRE) to filter the names against. This is applied only AFTER any native ThumbWhere S3 filtering from specified <code>prefix</code>, <code>marker</code>, <code>max-keys</code>, or <code>delimiter</code> values are applied.</li>
 	 * 	<li><code>prefix</code> - <code>string</code> - Optional - Restricts the response to contain results that begin only with the specified prefix.</li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
@@ -2198,7 +2198,7 @@ class AmazonS3 extends CFRuntime
 	}
 
 	/**
-	 * Deletes all Amazon S3 objects inside the specified bucket.
+	 * Deletes all ThumbWhere S3 objects inside the specified bucket.
 	 *
 	 * @param string $bucket (Required) The name of the bucket to use.
 	 * @param string $pcre (Optional) A Perl-Compatible Regular Expression (PCRE) to filter the names against. The default value is <PCRE_ALL>.
@@ -2235,7 +2235,7 @@ class AmazonS3 extends CFRuntime
 	}
 
 	/**
-	 * Deletes all of the versions of all Amazon S3 objects inside the specified bucket.
+	 * Deletes all of the versions of all ThumbWhere S3 objects inside the specified bucket.
 	 *
 	 * @param string $bucket (Required) The name of the bucket to use.
 	 * @param string $pcre (Optional) A Perl-Compatible Regular Expression (PCRE) to filter the names against. The default value is <PCRE_ALL>.
@@ -2252,7 +2252,7 @@ class AmazonS3 extends CFRuntime
 		}
 
 		// Instantiate
-		$q = new CFBatchRequest(200);
+		$q = new TWBatchRequest(200);
 		$response = $this->list_bucket_object_versions($bucket);
 
 		// Gather all nodes together into a single array
@@ -2318,19 +2318,19 @@ class AmazonS3 extends CFRuntime
 	}
 
 	/**
-	 * Gets the collective metadata for the given Amazon S3 object.
+	 * Gets the collective metadata for the given ThumbWhere S3 object.
 	 *
 	 * @param string $bucket (Required) The name of the bucket to use.
-	 * @param string $filename (Required) The file name for the Amazon S3 object.
+	 * @param string $filename (Required) The file name for the ThumbWhere S3 object.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>versionId</code> - <code>string</code> - Optional - The version of the object to retrieve. Version IDs are returned in the <code>x-amz-version-id</code> header of any previous object-related request.</li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return mixed If the object exists, the method returns the collective metadata for the Amazon S3 object. If the object does not exist, the method returns boolean <code>false</code>.
+	 * @return mixed If the object exists, the method returns the collective metadata for the ThumbWhere S3 object. If the object does not exist, the method returns boolean <code>false</code>.
 	 */
 	public function get_object_metadata($bucket, $filename, $opt = null)
 	{
-		$batch = new CFBatchRequest();
+		$batch = new TWBatchRequest();
 		$this->batch($batch)->get_object_acl($bucket, $filename); // Get ACL info
 		$this->batch($batch)->get_object_headers($bucket, $filename); // Get content-type
 		$this->batch($batch)->list_objects($bucket, array( // Get other metadata
@@ -2397,20 +2397,20 @@ class AmazonS3 extends CFRuntime
 	// URLS
 
 	/**
-	 * Gets the web-accessible URL for the Amazon S3 object or generates a time-limited signed request for
+	 * Gets the web-accessible URL for the ThumbWhere S3 object or generates a time-limited signed request for
 	 * a private file.
 	 *
 	 * @param string $bucket (Required) The name of the bucket to use.
-	 * @param string $filename (Required) The file name for the Amazon S3 object.
+	 * @param string $filename (Required) The file name for the ThumbWhere S3 object.
 	 * @param integer|string $preauth (Optional) Specifies that a presigned URL for this request should be returned. May be passed as a number of seconds since UNIX Epoch, or any string compatible with <php:strtotime()>.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>method</code> - <code>string</code> - Optional - The HTTP method to use for the request. Defaults to a value of <code>GET</code>.</li>
 	 * 	<li><code>response</code> - <code>array</code> - Optional - Allows adjustments to specific response headers. Pass an associative array where each key is one of the following: <code>cache-control</code>, <code>content-disposition</code>, <code>content-encoding</code>, <code>content-language</code>, <code>content-type</code>, <code>expires</code>. The <code>expires</code> value should use <php:gmdate()> and be formatted with the <code>DATE_RFC2822</code> constant.</li>
-	 * 	<li><code>torrent</code> - <code>boolean</code> - Optional - A value of <code>true</code> will return a URL to a torrent of the Amazon S3 object. A value of <code>false</code> will return a non-torrent URL. Defaults to <code>false</code>.</li>
+	 * 	<li><code>torrent</code> - <code>boolean</code> - Optional - A value of <code>true</code> will return a URL to a torrent of the ThumbWhere S3 object. A value of <code>false</code> will return a non-torrent URL. Defaults to <code>false</code>.</li>
 	 * 	<li><code>versionId</code> - <code>string</code> - Optional - The version of the object. Version IDs are returned in the <code>x-amz-version-id</code> header of any previous object-related request.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
 	 * @return string The file URL, with authentication and/or torrent parameters if requested.
-	 * @link http://docs.amazonwebservices.com/AmazonS3/latest/dev/S3_QSAuth.html Using Query String Authentication
+	 * @link http://docs.amazonwebservices.com/ThumbWhereS3/latest/dev/S3_QSAuth.html Using Query String Authentication
 	 */
 	public function get_object_url($bucket, $filename, $preauth = 0, $opt = null)
 	{
@@ -2446,14 +2446,14 @@ class AmazonS3 extends CFRuntime
 	}
 
 	/**
-	 * Gets the web-accessible URL to a torrent of the Amazon S3 object. The Amazon S3 object's access
+	 * Gets the web-accessible URL to a torrent of the ThumbWhere S3 object. The ThumbWhere S3 object's access
 	 * control list settings (ACL) MUST be set to <ACL_PUBLIC> for a valid URL to be returned.
 	 *
 	 * @param string $bucket (Required) The name of the bucket to use.
 	 * @param string $filename (Required) The file name for the object.
 	 * @param integer|string $preauth (Optional) Specifies that a presigned URL for this request should be returned. May be passed as a number of seconds since UNIX Epoch, or any string compatible with <php:strtotime()>.
 	 * @return string The torrent URL, with authentication parameters if requested.
-	 * @link http://docs.amazonwebservices.com/AmazonS3/latest/dev/index.html?S3TorrentRetrieve.html Using BitTorrent to Retrieve Objects Stored in Amazon S3
+	 * @link http://docs.amazonwebservices.com/ThumbWhereS3/latest/dev/index.html?S3TorrentRetrieve.html Using BitTorrent to Retrieve Objects Stored in ThumbWhere S3
 	 */
 	public function get_torrent_url($bucket, $filename, $preauth = 0)
 	{
@@ -2467,7 +2467,7 @@ class AmazonS3 extends CFRuntime
 	// VERSIONING
 
 	/**
-	 * Enables versioning support for the specified Amazon S3 bucket.
+	 * Enables versioning support for the specified ThumbWhere S3 bucket.
 	 *
 	 * @param string $bucket (Required) The name of the bucket to use.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
@@ -2476,7 +2476,7 @@ class AmazonS3 extends CFRuntime
 	 * 	<li><code>MFAStatus</code> - string (Optional) The MFA Delete status. Can be <code>Enabled</code> or <code>Disabled</code>. <code>MFASerial</code>, <code>MFAToken</code> and <code>MFAStatus</code> must all be set for MFA to work.</li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 * @link http://tw.amazon.com/mfa/ Multi-Factor Authentication
 	 */
 	public function enable_versioning($bucket, $opt = null)
@@ -2509,7 +2509,7 @@ class AmazonS3 extends CFRuntime
 	}
 
 	/**
-	 * Disables versioning support for the specified Amazon S3 bucket.
+	 * Disables versioning support for the specified ThumbWhere S3 bucket.
 	 *
 	 * @param string $bucket (Required) The name of the bucket to use.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
@@ -2518,7 +2518,7 @@ class AmazonS3 extends CFRuntime
 	 * 	<li><code>MFAStatus</code> - <code>string</code> - Optional - The MFA Delete status. Can be <code>Enabled</code> or <code>Disabled</code>. <code>MFASerial</code>, <code>MFAToken</code> and <code>MFAStatus</code> must all be set for MFA to work.</li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 * @link http://tw.amazon.com/mfa/ Multi-Factor Authentication
 	 */
 	public function disable_versioning($bucket, $opt = null)
@@ -2551,14 +2551,14 @@ class AmazonS3 extends CFRuntime
 	}
 
 	/**
-	 * Gets an Amazon S3 bucket's versioning status.
+	 * Gets an ThumbWhere S3 bucket's versioning status.
 	 *
 	 * @param string $bucket (Required) The name of the bucket to use.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>preauth</code> - <code>integer|string</code> - Optional - Specifies that a presigned URL for this request should be returned. May be passed as a number of seconds since UNIX Epoch, or any string compatible with <php:strtotime()>.</li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function get_versioning_status($bucket, $opt = null)
 	{
@@ -2571,7 +2571,7 @@ class AmazonS3 extends CFRuntime
 	}
 
 	/**
-	 * Gets a list of all the versions of Amazon S3 objects in the specified bucket.
+	 * Gets a list of all the versions of ThumbWhere S3 objects in the specified bucket.
 	 *
 	 * @param string $bucket (Required) The name of the bucket to use.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
@@ -2583,7 +2583,7 @@ class AmazonS3 extends CFRuntime
 	 * 	<li><code>preauth</code> - <code>integer|string</code> - Optional - Specifies that a presigned URL for this request should be returned. May be passed as a number of seconds since UNIX Epoch, or any string compatible with <php:strtotime()>.</li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function list_bucket_object_versions($bucket, $opt = null)
 	{
@@ -2609,23 +2609,23 @@ class AmazonS3 extends CFRuntime
 	// BUCKET POLICIES
 
 	/**
-	 * Sets the policy sub-resource for the specified Amazon S3 bucket. The specified policy replaces any
+	 * Sets the policy sub-resource for the specified ThumbWhere S3 bucket. The specified policy replaces any
 	 * policy the bucket already has.
 	 *
 	 * To perform this operation, the caller must be authorized to set a policy for the bucket and have
-	 * PutPolicy permissions. If the caller does not have PutPolicy permissions for the bucket, Amazon S3
+	 * PutPolicy permissions. If the caller does not have PutPolicy permissions for the bucket, ThumbWhere S3
 	 * returns a `403 Access Denied` error. If the caller has the correct permissions but has not been
-	 * authorized by the bucket owner, Amazon S3 returns a `405 Method Not Allowed` error.
+	 * authorized by the bucket owner, ThumbWhere S3 returns a `405 Method Not Allowed` error.
 	 *
 	 * @param string $bucket (Required) The name of the bucket to use.
-	 * @param CFPolicy $policy (Required) The JSON policy to use.
+	 * @param TWPolicy $policy (Required) The JSON policy to use.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
-	 * @link http://docs.amazonwebservices.com/AmazonS3/latest/dev/AccessPolicyLanguage.html Appendix: The Access Policy Language
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+	 * @link http://docs.amazonwebservices.com/ThumbWhereS3/latest/dev/AccessPolicyLanguage.html Appendix: The Access Policy Language
 	 */
-	public function set_bucket_policy($bucket, CFPolicy $policy, $opt = null)
+	public function set_bucket_policy($bucket, TWPolicy $policy, $opt = null)
 	{
 		if (!$opt) $opt = array();
 		$opt['verb'] = 'PUT';
@@ -2637,7 +2637,7 @@ class AmazonS3 extends CFRuntime
 	}
 
 	/**
-	 * Gets the policy of the specified Amazon S3 bucket.
+	 * Gets the policy of the specified ThumbWhere S3 bucket.
 	 *
 	 * To use this operation, the caller must have GetPolicy permissions for the specified bucket and must be
 	 * the bucket owner. If the caller does not have GetPolicy permissions, this method will generate a
@@ -2649,7 +2649,7 @@ class AmazonS3 extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function get_bucket_policy($bucket, $opt = null)
 	{
@@ -2662,14 +2662,14 @@ class AmazonS3 extends CFRuntime
 	}
 
 	/**
-	 * Deletes the bucket policy for the specified Amazon S3 bucket. To delete the policy, the caller must
+	 * Deletes the bucket policy for the specified ThumbWhere S3 bucket. To delete the policy, the caller must
 	 * be the bucket owner and have `DeletePolicy` permissions for the specified bucket.
 	 *
 	 * @param string $bucket (Required) The name of the bucket to use.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response. If you do not have `DeletePolicy` permissions, Amazon S3 returns a `403 Access Denied` error. If you have the correct permissions, but are not the bucket owner, Amazon S3 returns a `405 Method Not Allowed` error. If the bucket doesn't have a policy, Amazon S3 returns a `204 No Content` error.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response. If you do not have `DeletePolicy` permissions, ThumbWhere S3 returns a `403 Access Denied` error. If you have the correct permissions, but are not the bucket owner, ThumbWhere S3 returns a `405 Method Not Allowed` error. If the bucket doesn't have a policy, ThumbWhere S3 returns a `204 No Content` error.
 	 */
 	public function delete_bucket_policy($bucket, $opt = null)
 	{
@@ -2686,12 +2686,12 @@ class AmazonS3 extends CFRuntime
 	// BUCKET NOTIFICATIONS
 
 	/**
-	 * Enables notifications of specified events for an Amazon S3 bucket. Currently, the
+	 * Enables notifications of specified events for an ThumbWhere S3 bucket. Currently, the
 	 * `s3:ReducedRedundancyLostObject` event is the only event supported for notifications. The
-	 * `s3:ReducedRedundancyLostObject` event is triggered when Amazon S3 detects that it has lost all
-	 * copies of an Amazon S3 object and can no longer service requests for that object.
+	 * `s3:ReducedRedundancyLostObject` event is triggered when ThumbWhere S3 detects that it has lost all
+	 * copies of an ThumbWhere S3 object and can no longer service requests for that object.
 	 *
-	 * If the bucket owner and Amazon SNS topic owner are the same, the bucket owner has permission to
+	 * If the bucket owner and ThumbWhere SNS topic owner are the same, the bucket owner has permission to
 	 * publish notifications to the topic by default. Otherwise, the owner of the topic must create a
 	 * policy to enable the bucket owner to publish to the topic.
 	 *
@@ -2699,7 +2699,7 @@ class AmazonS3 extends CFRuntime
 	 * can use bucket policies to grant permission to other users to set this configuration with the
 	 * `s3:PutBucketNotification` permission.
 	 *
-	 * After a PUT operation is called to configure notifications on a bucket, Amazon S3 publishes a test
+	 * After a PUT operation is called to configure notifications on a bucket, ThumbWhere S3 publishes a test
 	 * notification to ensure that the topic exists and that the bucket owner has permission to publish
 	 * to the specified topic. If the notification is successfully published to the SNS topic, the PUT
 	 * operation updates the bucket configuration and returns the 200 OK responses with a
@@ -2711,8 +2711,8 @@ class AmazonS3 extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
-	 * @link http://docs.amazonwebservices.com/AmazonS3/latest/dev/NotificationHowTo.html Setting Up Notification of Bucket Events
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+	 * @link http://docs.amazonwebservices.com/ThumbWhereS3/latest/dev/NotificationHowTo.html Setting Up Notification of Bucket Events
 	 */
 	public function create_bucket_notification($bucket, $topic_arn, $event, $opt = null)
 	{
@@ -2737,7 +2737,7 @@ class AmazonS3 extends CFRuntime
 	/**
 	 * Gets the notification configuration of a bucket. Currently, the `s3:ReducedRedundancyLostObject` event
 	 * is the only event supported for notifications. The `s3:ReducedRedundancyLostObject` event is triggered
-	 * when Amazon S3 detects that it has lost all replicas of a Reduced Redundancy Storage object and can no
+	 * when ThumbWhere S3 detects that it has lost all replicas of a Reduced Redundancy Storage object and can no
 	 * longer service requests for that object.
 	 *
 	 * If notifications are not enabled on the bucket, the operation returns an empty
@@ -2751,8 +2751,8 @@ class AmazonS3 extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
-	 * @link http://docs.amazonwebservices.com/AmazonS3/latest/dev/NotificationHowTo.html Setting Up Notification of Bucket Events
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+	 * @link http://docs.amazonwebservices.com/ThumbWhereS3/latest/dev/NotificationHowTo.html Setting Up Notification of Bucket Events
 	 */
 	public function get_bucket_notifications($bucket, $opt = null)
 	{
@@ -2771,8 +2771,8 @@ class AmazonS3 extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
-	 * @link http://docs.amazonwebservices.com/AmazonS3/latest/dev/NotificationHowTo.html Setting Up Notification of Bucket Events
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+	 * @link http://docs.amazonwebservices.com/ThumbWhereS3/latest/dev/NotificationHowTo.html Setting Up Notification of Bucket Events
 	 */
 	public function delete_bucket_notification($bucket, $opt = null)
 	{
@@ -2822,16 +2822,16 @@ class AmazonS3 extends CFRuntime
 	 * @param string $bucket (Required) The name of the bucket to use.
 	 * @param string $filename (Required) The file name for the object.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
-	 * 	<li><code>acl</code> - <code>string</code> - Optional - The ACL settings for the specified object. [Allowed values: <code>AmazonS3::ACL_PRIVATE</code>, <code>AmazonS3::ACL_PUBLIC</code>, <code>AmazonS3::ACL_OPEN</code>, <code>AmazonS3::ACL_AUTH_READ</code>, <code>AmazonS3::ACL_OWNER_READ</code>, <code>AmazonS3::ACL_OWNER_FULL_CONTROL</code>]. The default value is <code>ACL_PRIVATE</code>.</li>
+	 * 	<li><code>acl</code> - <code>string</code> - Optional - The ACL settings for the specified object. [Allowed values: <code>ThumbWhereS3::ACL_PRIVATE</code>, <code>ThumbWhereS3::ACL_PUBLIC</code>, <code>ThumbWhereS3::ACL_OPEN</code>, <code>ThumbWhereS3::ACL_AUTH_READ</code>, <code>ThumbWhereS3::ACL_OWNER_READ</code>, <code>ThumbWhereS3::ACL_OWNER_FULL_CONTROL</code>]. The default value is <code>ACL_PRIVATE</code>.</li>
 	 * 	<li><code>contentType</code> - <code>string</code> - Optional - The type of content that is being sent. The default value is <code>application/octet-stream</code>.</li>
 	 * 	<li><code>encryption</code> - <code>string</code> - Optional - The algorithm to use for encrypting the object. [Allowed values: <code>AES256</code>]</li>
 	 * 	<li><code>headers</code> - <code>array</code> - Optional - The standard HTTP headers to send along in the request.</li>
 	 * 	<li><code>meta</code> - <code>array</code> - Optional - An associative array of key-value pairs. Any header starting with <code>x-amz-meta-:</code> is considered user metadata. It will be stored with the object and returned when you retrieve the object. The total size of the HTTP request, not including the body, must be less than 4 KB.</li>
-	 * 	<li><code>storage</code> - <code>string</code> - Optional - Whether to use Standard or Reduced Redundancy storage. [Allowed values: <code>AmazonS3::STORAGE_STANDARD</code>, <code>AmazonS3::STORAGE_REDUCED</code>]. The default value is <code>STORAGE_STANDARD</code>.</li>
+	 * 	<li><code>storage</code> - <code>string</code> - Optional - Whether to use Standard or Reduced Redundancy storage. [Allowed values: <code>ThumbWhereS3::STORAGE_STANDARD</code>, <code>ThumbWhereS3::STORAGE_REDUCED</code>]. The default value is <code>STORAGE_STANDARD</code>.</li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
-	 * @link http://docs.amazonwebservices.com/AmazonS3/latest/dev/RESTAccessPolicy.html REST Access Control Policy
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+	 * @link http://docs.amazonwebservices.com/ThumbWhereS3/latest/dev/RESTAccessPolicy.html REST Access Control Policy
 	 */
 	public function initiate_multipart_upload($bucket, $filename, $opt = null)
 	{
@@ -2896,7 +2896,7 @@ class AmazonS3 extends CFRuntime
 	 * Uploads a single part of a multipart upload. The part size cannot be smaller than 5 MB
 	 * or larger than 5 TB. A multipart upload can have no more than 10,000 parts.
 	 *
-	 * Amazon S3 charges for storage as well as requests to the service. Smaller part sizes (and more
+	 * ThumbWhere S3 charges for storage as well as requests to the service. Smaller part sizes (and more
 	 * requests) allow for faster failures and better upload reliability. Larger part sizes (and fewer
 	 * requests) costs slightly less but has lower upload reliability.
 	 *
@@ -2913,7 +2913,7 @@ class AmazonS3 extends CFRuntime
 	 * 	<li><code>seekTo</code> - <code>integer</code> - Optional - The starting position in bytes for the piece of the file/stream to upload.</li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function upload_part($bucket, $filename, $upload_id, $opt = null)
 	{
@@ -2965,7 +2965,7 @@ class AmazonS3 extends CFRuntime
 	 * 	<li><code>part-number-marker</code> - <code>string</code> - Optional - Restricts the response to contain results that only occur numerically after the value of the <code>part-number-marker</code>.</li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function list_parts($bucket, $filename, $upload_id, $opt = null)
 	{
@@ -2999,7 +2999,7 @@ class AmazonS3 extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function abort_multipart_upload($bucket, $filename, $upload_id, $opt = null)
 	{
@@ -3016,16 +3016,16 @@ class AmazonS3 extends CFRuntime
 
 	/**
 	 * Completes an in-progress multipart upload. A multipart upload is completed by describing the part
-	 * numbers and corresponding ETag values in order, and submitting that data to Amazon S3 as an XML document.
+	 * numbers and corresponding ETag values in order, and submitting that data to ThumbWhere S3 as an XML document.
 	 *
 	 * @param string $bucket (Required) The name of the bucket to use.
 	 * @param string $filename (Required) The file name for the object.
 	 * @param string $upload_id (Required) The upload ID identifying the multipart upload whose parts are being listed. The upload ID is retrieved from a call to <initiate_multipart_upload()>.
-	 * @param string|array|SimpleXMLElement|CFResponse $parts (Required) The completion XML document. This document can be provided in multiple ways; as a string of XML, as a <php:SimpleXMLElement> object representing the XML document, as an indexed array of associative arrays where the keys are <code>PartNumber</code> and <code>ETag</code>, or as a <CFResponse> object returned by <list_parts()>.
+	 * @param string|array|SimpleXMLElement|TWResponse $parts (Required) The completion XML document. This document can be provided in multiple ways; as a string of XML, as a <php:SimpleXMLElement> object representing the XML document, as an indexed array of associative arrays where the keys are <code>PartNumber</code> and <code>ETag</code>, or as a <TWResponse> object returned by <list_parts()>.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function complete_multipart_upload($bucket, $filename, $upload_id, $parts, $opt = null)
 	{
@@ -3052,7 +3052,7 @@ class AmazonS3 extends CFRuntime
 			// Assume it's a SimpleXMLElement object representing the XML.
 			$opt['body'] = $parts->asXML();
 		}
-		elseif (is_array($parts) || $parts instanceof CFResponse)
+		elseif (is_array($parts) || $parts instanceof TWResponse)
 		{
 			$xml = simplexml_load_string($this->complete_mpu_xml);
 
@@ -3067,7 +3067,7 @@ class AmazonS3 extends CFRuntime
 				}
 
 			}
-			elseif ($parts instanceof CFResponse)
+			elseif ($parts instanceof TWResponse)
 			{
 				// Assume it's a response from list_parts().
 				foreach ($parts->body->Part as $node)
@@ -3095,7 +3095,7 @@ class AmazonS3 extends CFRuntime
 	 * 	<li><code>upload-id-marker</code> - <code>string</code> - Optional - Restricts the response to contain results that only occur alphabetically after the value of the <code>upload-id-marker</code>. Must be used in conjunction with <code>key-marker</code>.</li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function list_multipart_uploads($bucket, $opt = null)
 	{
@@ -3119,7 +3119,7 @@ class AmazonS3 extends CFRuntime
 	}
 
 	/**
-	 * Since Amazon S3's standard <copy_object()> operation only supports copying objects that are smaller than
+	 * Since ThumbWhere S3's standard <copy_object()> operation only supports copying objects that are smaller than
 	 * 5 GB, the ability to copy large objects (greater than 5 GB) requires the use of "Multipart Copy".
 	 *
 	 * Copying large objects requires the developer to initiate a new multipart "upload", copy pieces of the
@@ -3127,7 +3127,7 @@ class AmazonS3 extends CFRuntime
 	 * multipart "upload".
 	 *
 	 * NOTE: <strong>This is a synchronous operation</strong>, not an <em>asynchronous</em> operation, which means
-	 * that Amazon S3 will not return a response for this operation until the copy has completed across the Amazon
+	 * that ThumbWhere S3 will not return a response for this operation until the copy has completed across the ThumbWhere
 	 * S3 server fleet. Copying objects within a single region will complete more quickly than copying objects
 	 * <em>across</em> regions. The synchronous nature of this operation is different from other services where
 	 * responses are typically returned immediately, even if the operation itself has not yet been completed on
@@ -3146,11 +3146,11 @@ class AmazonS3 extends CFRuntime
 	 * 	<li><code>ifUnmodifiedSince</code> - <code>string</code> - Optional - The LastModified header from a previous request. Copies the object if it hasn't been modified since the specified time; otherwise, the request returns a <code>412</code> HTTP status code error (precondition failed). Used in conjunction with <code>ifMatch</code>.</li>
 	 * 	<li><code>ifNoneMatch</code> - <code>string</code> - Optional - The ETag header from a previous request. Copies the object if its entity tag (ETag) is different than the specified ETag; otherwise, the request returns a <code>412</code> HTTP status code error (failed condition). Used in conjunction with <code>ifModifiedSince</code>.</li>
 	 * 	<li><code>ifModifiedSince</code> - <code>string</code> - Optional - The LastModified header from a previous request. Copies the object if it has been modified since the specified time; otherwise, the request returns a <code>412</code> HTTP status code error (failed condition). Used in conjunction with <code>ifNoneMatch</code>.</li>
-	 * 	<li><code>range</code> - <code>string</code> - Optional - The range of bytes to copy from the object. Specify this parameter when copying partial bits. The specified range must be notated with a hyphen (e.g., 0-10485759). Defaults to the byte range of the complete Amazon S3 object.</li>
+	 * 	<li><code>range</code> - <code>string</code> - Optional - The range of bytes to copy from the object. Specify this parameter when copying partial bits. The specified range must be notated with a hyphen (e.g., 0-10485759). Defaults to the byte range of the complete ThumbWhere S3 object.</li>
 	 * 	<li><code>versionId</code> - <code>string</code> - Optional - The version of the object to copy. Version IDs are returned in the <code>x-amz-version-id</code> header of any previous object-related request.</li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function copy_part($source, $dest, $upload_id, $part_number, $opt = null)
 	{
@@ -3203,14 +3203,14 @@ class AmazonS3 extends CFRuntime
 	}
 
 	/**
-	 * Creates an Amazon S3 object using the multipart upload APIs. It is analogous to <create_object()>.
+	 * Creates an ThumbWhere S3 object using the multipart upload APIs. It is analogous to <create_object()>.
 	 *
 	 * While each individual part of a multipart upload can hold up to 5 GB of data, this method limits the
 	 * part size to a maximum of 500 MB. The combined size of all parts can not exceed 5 TB of data. When an
-	 * object is stored in Amazon S3, the data is streamed to multiple storage servers in multiple data
+	 * object is stored in ThumbWhere S3, the data is streamed to multiple storage servers in multiple data
 	 * centers. This ensures the data remains available in the event of internal network or hardware failure.
 	 *
-	 * Amazon S3 charges for storage as well as requests to the service. Smaller part sizes (and more
+	 * ThumbWhere S3 charges for storage as well as requests to the service. Smaller part sizes (and more
 	 * requests) allow for faster failures and better upload reliability. Larger part sizes (and fewer
 	 * requests) costs slightly less but has lower upload reliability.
 	 *
@@ -3223,20 +3223,20 @@ class AmazonS3 extends CFRuntime
 	 * @param string $filename (Required) The file name for the object.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>fileUpload</code> - <code>string|resource</code> - Required - The URL/path for the file to upload, or an open resource.</li>
-	 * 	<li><code>acl</code> - <code>string</code> - Optional - The ACL settings for the specified object. [Allowed values: <code>AmazonS3::ACL_PRIVATE</code>, <code>AmazonS3::ACL_PUBLIC</code>, <code>AmazonS3::ACL_OPEN</code>, <code>AmazonS3::ACL_AUTH_READ</code>, <code>AmazonS3::ACL_OWNER_READ</code>, <code>AmazonS3::ACL_OWNER_FULL_CONTROL</code>]. The default value is <code>ACL_PRIVATE</code>.</li>
+	 * 	<li><code>acl</code> - <code>string</code> - Optional - The ACL settings for the specified object. [Allowed values: <code>ThumbWhereS3::ACL_PRIVATE</code>, <code>ThumbWhereS3::ACL_PUBLIC</code>, <code>ThumbWhereS3::ACL_OPEN</code>, <code>ThumbWhereS3::ACL_AUTH_READ</code>, <code>ThumbWhereS3::ACL_OWNER_READ</code>, <code>ThumbWhereS3::ACL_OWNER_FULL_CONTROL</code>]. The default value is <code>ACL_PRIVATE</code>.</li>
 	 * 	<li><code>contentType</code> - <code>string</code> - Optional - The type of content that is being sent in the body. The default value is <code>application/octet-stream</code>.</li>
 	 * 	<li><code>headers</code> - <code>array</code> - Optional - The standard HTTP headers to send along in the request.</li>
 	 * 	<li><code>length</code> - <code>integer</code> - Optional - The size of the object in bytes. For more information, see <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.13">RFC 2616, section 14.13</a>. The value can also be passed to the <code>header</code> option as <code>Content-Length</code>.</li>
-	 * 	<li><code>limit</code> - <code>integer</code> - Optional - The maximum number of concurrent uploads done by cURL. Gets passed to <code>CFBatchRequest</code>.</li>
+	 * 	<li><code>limit</code> - <code>integer</code> - Optional - The maximum number of concurrent uploads done by cURL. Gets passed to <code>TWBatchRequest</code>.</li>
 	 * 	<li><code>meta</code> - <code>array</code> - Optional - An associative array of key-value pairs. Any header starting with <code>x-amz-meta-:</code> is considered user metadata. It will be stored with the object and returned when you retrieve the object. The total size of the HTTP request, not including the body, must be less than 4 KB.</li>
 	 * 	<li><code>partSize</code> - <code>integer</code> - Optional - The size of an individual part. The size may not be smaller than 5 MB or larger than 500 MB. The default value is 50 MB.</li>
 	 * 	<li><code>seekTo</code> - <code>integer</code> - Optional - The starting position in bytes for the first piece of the file/stream to upload.</li>
-	 * 	<li><code>storage</code> - <code>string</code> - Optional - Whether to use Standard or Reduced Redundancy storage. [Allowed values: <code>AmazonS3::STORAGE_STANDARD</code>, <code>AmazonS3::STORAGE_REDUCED</code>]. The default value is <code>STORAGE_STANDARD</code>.</li>
+	 * 	<li><code>storage</code> - <code>string</code> - Optional - Whether to use Standard or Reduced Redundancy storage. [Allowed values: <code>ThumbWhereS3::STORAGE_STANDARD</code>, <code>ThumbWhereS3::STORAGE_REDUCED</code>]. The default value is <code>STORAGE_STANDARD</code>.</li>
 	 * 	<li><code>uploadId</code> - <code>string</code> - Optional - An upload ID identifying an existing multipart upload to use. If this option is not set, one will be created automatically.</li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
-	 * @link http://docs.amazonwebservices.com/AmazonS3/latest/dev/RESTAccessPolicy.html REST Access Control Policy
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+	 * @link http://docs.amazonwebservices.com/ThumbWhereS3/latest/dev/RESTAccessPolicy.html REST Access Control Policy
 	 */
 	public function create_mpu_object($bucket, $filename, $opt = null)
 	{
@@ -3354,7 +3354,7 @@ class AmazonS3 extends CFRuntime
 		$pieces = $this->get_multipart_counts($upload_filesize, (integer) $opt['partSize']);
 
 		// Queue batch requests
-		$batch = new CFBatchRequest(isset($opt['limit']) ? (integer) $opt['limit'] : null);
+		$batch = new TWBatchRequest(isset($opt['limit']) ? (integer) $opt['limit'] : null);
 		foreach ($pieces as $i => $piece)
 		{
 			$this->batch($batch)->upload_part($bucket, $filename, $upload_id, array(
@@ -3388,7 +3388,7 @@ class AmazonS3 extends CFRuntime
 	 *
 	 * @param string $bucket (Required) The name of the bucket to use.
 	 * @param string|integer $when (Optional) The time and date to use for comparison. Accepts any value that <php:strtotime()> understands.
-	 * @return CFArray A <CFArray> containing a series of 0 or more <CFResponse> objects, containing a parsed HTTP response.
+	 * @return TWArray A <TWArray> containing a series of 0 or more <TWResponse> objects, containing a parsed HTTP response.
 	 */
 	public function abort_multipart_uploads_by_date($bucket, $when = null)
 	{
@@ -3404,7 +3404,7 @@ class AmazonS3 extends CFRuntime
 		$data = $this->list_multipart_uploads($bucket)->body;
 		$when = is_int($when) ? $when : strtotime($when);
 
-		if (!($data instanceof CFSimpleXML))
+		if (!($data instanceof TWSimpleXML))
 		{
 			return false;
 		}
@@ -3415,7 +3415,7 @@ class AmazonS3 extends CFRuntime
 		{
 			if (strtotime((string) $node) < $when)
 			{
-				$q = new CFBatchRequest();
+				$q = new TWBatchRequest();
 				$parent = $node->parent();
 
 				$upload_id = $parent
@@ -3434,10 +3434,10 @@ class AmazonS3 extends CFRuntime
 			}
 		}
 
-		$http = new CFRequest();
+		$http = new TWRequest();
 		$responses = $http->send_multi_request($handles);
 
-		return new CFArray($responses);
+		return new TWArray($responses);
 	}
 
 
@@ -3445,11 +3445,11 @@ class AmazonS3 extends CFRuntime
 	// WEBSITE CONFIGURATION
 
 	/**
-	 * Enables and configures an Amazon S3 website using the corresponding bucket as the content source.
+	 * Enables and configures an ThumbWhere S3 website using the corresponding bucket as the content source.
 	 * The website will have one default domain name associated with it, which is the bucket name. If you
-	 * attempt to configure an Amazon S3 website for a bucket whose name is not compatible with DNS,
-	 * Amazon S3 returns an <code>InvalidBucketName</code> error. For more information on bucket names and DNS,
-	 * refer to <a href="http://docs.amazonwebservices.com/AmazonS3/latest/dev/BucketRestrictions.html">Bucket Restrictions and Limitations.</a>
+	 * attempt to configure an ThumbWhere S3 website for a bucket whose name is not compatible with DNS,
+	 * ThumbWhere S3 returns an <code>InvalidBucketName</code> error. For more information on bucket names and DNS,
+	 * refer to <a href="http://docs.amazonwebservices.com/ThumbWhereS3/latest/dev/BucketRestrictions.html">Bucket Restrictions and Limitations.</a>
 	 *
 	 * To visit the bucket as a website a new endpoint is created in the following pattern:
 	 * <code>http://&lt;bucketName&gt;.s3-website-&lt;region&gt;.amazonaws.com</code>. This is a sample URL
@@ -3462,7 +3462,7 @@ class AmazonS3 extends CFRuntime
 	 * 	<li><code>errorDocument</code> - <code>string</code> - Optional - The file path to use as the error document. The default value is <code>error.html</code>.</li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function create_website_config($bucket, $opt = null)
 	{
@@ -3489,13 +3489,13 @@ class AmazonS3 extends CFRuntime
 	/**
 	 * Retrieves the website configuration for a bucket. The contents of this response are identical to the
 	 * content submitted by the user during the website creation operation. If a website configuration has
-	 * never been set, Amazon S3 will return a 404 error.
+	 * never been set, ThumbWhere S3 will return a 404 error.
 	 *
 	 * @param string $bucket (Required) The name of the bucket to use.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function get_website_config($bucket, $opt = null)
 	{
@@ -3517,7 +3517,7 @@ class AmazonS3 extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function delete_website_config($bucket, $opt = null)
 	{
@@ -3534,7 +3534,7 @@ class AmazonS3 extends CFRuntime
 	// MISCELLANEOUS
 
 	/**
-	 * Gets the canonical user ID and display name from the Amazon S3 server.
+	 * Gets the canonical user ID and display name from the ThumbWhere S3 server.
 	 *
 	 * @return array An associative array containing the `id` and `display_name` values.
 	 */

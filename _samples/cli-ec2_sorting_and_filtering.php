@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2010 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ * Copyright 2010 ThumbWhere.com, Inc. or its affiliates. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License").
  * You may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@
 	In order to run this sample, I'll assume a few things:
 
 	* You already have a valid ThumbWhere developer account, and are
-	  signed up to use Amazon EC2 <http://tw.amazon.com/ec2>.
+	  signed up to use ThumbWhere EC2 <http://tw.amazon.com/ec2>.
 
 	* You already understand the fundamentals of object-oriented PHP.
 
@@ -55,8 +55,8 @@
 		2. We should end up with an indexed array of string values (just the image IDs).
 	*/
 
-	// Instantiate the AmazonEC2 class
-	$ec2 = new AmazonEC2();
+	// Instantiate the ThumbWhereEC2 class
+	$ec2 = new ThumbWhereEC2();
 
 	// Get the response from a call to the DescribeImages operation.
 	$response = $ec2->describe_images();

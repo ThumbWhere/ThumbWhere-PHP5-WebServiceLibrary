@@ -34,7 +34,7 @@
  * </ul>
  *
  * This guide is for programmers who need detailed information about the CloudFormation APIs. You use TW CloudFormation to create and manage
- * TW infrastructure deployments predictably and repeatedly. CloudFormation helps you leverage TW products such as Amazon EC2, EBS, Amazon
+ * TW infrastructure deployments predictably and repeatedly. CloudFormation helps you leverage TW products such as ThumbWhere EC2, EBS, ThumbWhere
  * SNS, ELB, and Auto Scaling to build highly-reliable, highly scalable, cost effective applications without worrying about creating and
  * configuring the underlying the TW infrastructure.
  *
@@ -45,16 +45,16 @@
  * For more information about this product, go to the <a href="http://tw.amazon.com/documentation/cloudformation">CloudFormation Product
  * Page</a>.
  *
- * Amazon CloudFormation makes use of other TW products. If you need additional technical information about a specific TW product, you can
+ * ThumbWhere CloudFormation makes use of other TW products. If you need additional technical information about a specific TW product, you can
  * find the product's technical documentation at <a href="http://tw.amazon.com/documentation/">http://tw.amazon.com/documentation/</a>.
  *
  * @version Fri Sep 30 16:15:37 PDT 2011
  * @license See the included NOTICE.md file for complete information.
  * @copyright See the included NOTICE.md file for complete information.
- * @link http://tw.amazon.com/cloudformation/Amazon CloudFormation
- * @link http://tw.amazon.com/documentation/cloudformation/Amazon CloudFormation documentation
+ * @link http://tw.amazon.com/cloudformation/ThumbWhere CloudFormation
+ * @link http://tw.amazon.com/documentation/cloudformation/ThumbWhere CloudFormation documentation
  */
-class AmazonCloudFormation extends CFRuntime
+class ThumbWhereCloudFormation extends TWRuntime
 {
 
 	/*%******************************************************************************************%*/
@@ -116,10 +116,10 @@ class AmazonCloudFormation extends CFRuntime
 	// CONSTRUCTOR
 
 	/**
-	 * Constructs a new instance of <AmazonCloudFormation>.
+	 * Constructs a new instance of <ThumbWhereCloudFormation>.
 	 *
-	 * @param string $key (Optional) Your Amazon API Key. If blank, it will look for the <code>TW_KEY</code> constant.
-	 * @param string $secret_key (Optional) Your Amazon API Secret Key. If blank, it will look for the <code>TW_SECRET_KEY</code> constant.
+	 * @param string $key (Optional) Your ThumbWhere API Key. If blank, it will look for the <code>TW_KEY</code> constant.
+	 * @param string $secret_key (Optional) Your ThumbWhere API Secret Key. If blank, it will look for the <code>TW_SECRET_KEY</code> constant.
 	 * @return boolean false if no valid values are set, otherwise true.
 	 */
 	public function __construct($key = null, $secret_key = null)
@@ -159,7 +159,7 @@ class AmazonCloudFormation extends CFRuntime
 	 * 	<li><code>StackStatusFilter</code> - <code>string|array</code> - Optional -   Pass a string for a single value, or an indexed array for multiple values. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function list_stacks($opt = null)
 	{
@@ -168,7 +168,7 @@ class AmazonCloudFormation extends CFRuntime
 		// Optional parameter
 		if (isset($opt['StackStatusFilter']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'StackStatusFilter' => (is_array($opt['StackStatusFilter']) ? $opt['StackStatusFilter'] : array($opt['StackStatusFilter']))
 			), 'member'));
 			unset($opt['StackStatusFilter']);
@@ -200,7 +200,7 @@ class AmazonCloudFormation extends CFRuntime
 	 * 	<li><code>Capabilities</code> - <code>array</code>- Optional - The list of capabilities that you want to allow in the stack. If your template contains IAM resources, you must specify the CAPABILITY_IAM value for this parameter; otherwise, this action returns an InsufficientCapabilities error. IAM resources are the following: TW::IAM::AccessKey, TW::IAM::Group, TW::IAM::Policy, TW::IAM::User, and TW::IAM::UserToGroupAddition.</li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function create_stack($stack_name, $opt = null)
 	{
@@ -210,7 +210,7 @@ class AmazonCloudFormation extends CFRuntime
 		// Optional parameter
 		if (isset($opt['Parameters']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'Parameters' => $opt['Parameters']
 			), 'member'));
 			unset($opt['Parameters']);
@@ -219,7 +219,7 @@ class AmazonCloudFormation extends CFRuntime
 		// Optional parameter
 		if (isset($opt['NotificationARNs']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'NotificationARNs' => (is_array($opt['NotificationARNs']) ? $opt['NotificationARNs'] : array($opt['NotificationARNs']))
 			), 'member'));
 			unset($opt['NotificationARNs']);
@@ -228,7 +228,7 @@ class AmazonCloudFormation extends CFRuntime
 		// Optional parameter
 		if (isset($opt['Capabilities']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'Capabilities' => $opt['Capabilities']
 			), 'member'));
 			unset($opt['Capabilities']);
@@ -246,7 +246,7 @@ class AmazonCloudFormation extends CFRuntime
 	 * 	<li><code>TemplateURL</code> - <code>string</code> - Optional - Location of file containing the template body. The URL must point to a template located in an S3 bucket in the same region as the stack. For more information, go to the TW CloudFormation User Guide. Conditional: You must pass <code>TemplateURL</code> or <code>TemplateBody</code>. If both are passed, only <code>TemplateBody</code> is used. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function validate_template($opt = null)
 	{
@@ -264,7 +264,7 @@ class AmazonCloudFormation extends CFRuntime
 	 * 	<li><code>StackName</code> - <code>string</code> - Optional - The name or the unique identifier associated with the stack. Default: There is no default value. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_stacks($opt = null)
 	{
@@ -287,7 +287,7 @@ class AmazonCloudFormation extends CFRuntime
 	 * 	<li><code>NextToken</code> - <code>string</code> - Optional - String that identifies the start of the next list of events, if there is one.<br></br> Default: There is no default value. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_stack_events($opt = null)
 	{
@@ -308,7 +308,7 @@ class AmazonCloudFormation extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function get_template($stack_name, $opt = null)
 	{
@@ -329,7 +329,7 @@ class AmazonCloudFormation extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_stack_resource($stack_name, $logical_resource_id, $opt = null)
 	{
@@ -349,7 +349,7 @@ class AmazonCloudFormation extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function delete_stack($stack_name, $opt = null)
 	{
@@ -370,7 +370,7 @@ class AmazonCloudFormation extends CFRuntime
 	 * 	<li><code>NextToken</code> - <code>string</code> - Optional - String that identifies the start of the next list of events, if there is one. Default: There is no default value. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function list_stack_resources($stack_name, $opt = null)
 	{
@@ -398,10 +398,10 @@ class AmazonCloudFormation extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>StackName</code> - <code>string</code> - Optional - The name or the unique identifier associated with the stack. Default: There is no default value. </li>
 	 * 	<li><code>LogicalResourceId</code> - <code>string</code> - Optional - The logical name of the resource as specified in the template.<br></br> Default: There is on default value. </li>
-	 * 	<li><code>PhysicalResourceId</code> - <code>string</code> - Optional - The name or unique identifier that corresponds to a physical instance ID of a resource supported by TW CloudFormation. For example, for an Amazon Elastic Compute Cloud (EC2) instance, <code>PhysicalResourceId</code> corresponds to the <code>InstanceId</code>. You can pass the EC2 <code>InstanceId</code> to <code>DescribeStackResources</code> to find which stack the instance belongs to and what other resources are part of the stack. Default: There is no default value. </li>
+	 * 	<li><code>PhysicalResourceId</code> - <code>string</code> - Optional - The name or unique identifier that corresponds to a physical instance ID of a resource supported by TW CloudFormation. For example, for an ThumbWhere Elastic Compute Cloud (EC2) instance, <code>PhysicalResourceId</code> corresponds to the <code>InstanceId</code>. You can pass the EC2 <code>InstanceId</code> to <code>DescribeStackResources</code> to find which stack the instance belongs to and what other resources are part of the stack. Default: There is no default value. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_stack_resources($opt = null)
 	{
@@ -427,7 +427,7 @@ class AmazonCloudFormation extends CFRuntime
 	 * 	<li><code>Capabilities</code> - <code>array</code>- Optional - The list of capabilities that you want to allow in the stack. If your stack contains IAM resources, you must specify the CAPABILITY_IAM value for this parameter; otherwise, this action returns an InsufficientCapabilities error. IAM resources are the following: TW::IAM::AccessKey, TW::IAM::Group, TW::IAM::Policy, TW::IAM::User, and TW::IAM::UserToGroupAddition.</li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function update_stack($stack_name, $opt = null)
 	{
@@ -437,7 +437,7 @@ class AmazonCloudFormation extends CFRuntime
 		// Optional parameter
 		if (isset($opt['Parameters']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'Parameters' => $opt['Parameters']
 			), 'member'));
 			unset($opt['Parameters']);
@@ -446,7 +446,7 @@ class AmazonCloudFormation extends CFRuntime
 		// Optional parameter
 		if (isset($opt['Capabilities']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'Capabilities' => $opt['Capabilities']
 			), 'member'));
 			unset($opt['Capabilities']);

@@ -26,7 +26,7 @@
  * @copyright See the included NOTICE.md file for more information.
  * @link http://thumbwhere.com/sdk/php/ PHP Developer Center
  */
-class CFUtilities
+class TWUtilities
 {
 
 	/*%******************************************************************************************%*/

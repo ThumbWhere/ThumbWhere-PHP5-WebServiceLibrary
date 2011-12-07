@@ -34,9 +34,9 @@ elseif (getenv('HOME') && file_exists(getenv('HOME') . DIRECTORY_SEPARATOR . '.t
 // EXCEPTIONS
 
 /**
- * Default CFRuntime Exception.
+ * Default TWRuntime Exception.
  */
-class CFRuntime_Exception extends Exception {}
+class TWRuntime_Exception extends Exception {}
 
 
 /*%******************************************************************************************%*/
@@ -46,7 +46,7 @@ class CFRuntime_Exception extends Exception {}
 	Define a temporary callback function for this calculation. Get the PHP version and any
 	required/optional extensions that are leveraged.
 
-	Tracking this data gives Amazon better metrics about what configurations are being used
+	Tracking this data gives ThumbWhere better metrics about what configurations are being used
 	so that forward-looking plans for the code can be made with more certainty (e.g. What
 	version of PHP are most people running? Do they tend to have the latest PCRE?).
 */
@@ -124,11 +124,11 @@ function __aws_sdk_ua_callback()
 /*%******************************************************************************************%*/
 // INTERMEDIARY CONSTANTS
 
-define('CFRUNTIME_NAME', 'tw-sdk-php');
-define('CFRUNTIME_VERSION', '1.4.7');
-// define('CFRUNTIME_BUILD', gmdate('YmdHis', filemtime(__FILE__))); // @todo: Hardcode for release.
-define('CFRUNTIME_BUILD', '20111109191027');
-define('CFRUNTIME_USERAGENT', CFRUNTIME_NAME . '/' . CFRUNTIME_VERSION . ' PHP/' . PHP_VERSION . ' ' . str_replace(' ', '_', php_uname('s')) . '/' . str_replace(' ', '_', php_uname('r')) . ' Arch/' . php_uname('m') . ' SAPI/' . php_sapi_name() . ' Integer/' . PHP_INT_MAX . ' Build/' . CFRUNTIME_BUILD . __aws_sdk_ua_callback());
+define('TWRUNTIME_NAME', 'tw-sdk-php');
+define('TWRUNTIME_VERSION', '1.4.7');
+// define('TWRUNTIME_BUILD', gmdate('YmdHis', filemtime(__FILE__))); // @todo: Hardcode for release.
+define('TWRUNTIME_BUILD', '20111109191027');
+define('TWRUNTIME_USERAGENT', TWRUNTIME_NAME . '/' . TWRUNTIME_VERSION . ' PHP/' . PHP_VERSION . ' ' . str_replace(' ', '_', php_uname('s')) . '/' . str_replace(' ', '_', php_uname('r')) . ' Arch/' . php_uname('m') . ' SAPI/' . php_sapi_name() . ' Integer/' . PHP_INT_MAX . ' Build/' . TWRUNTIME_BUILD . __aws_sdk_ua_callback());
 
 
 /*%******************************************************************************************%*/
@@ -143,7 +143,7 @@ define('CFRUNTIME_USERAGENT', CFRUNTIME_NAME . '/' . CFRUNTIME_VERSION . ' PHP/'
  * @copyright See the included NOTICE.md file for more information.
  * @link http://thumbwhere.com/sdk/php/ PHP Developer Center
  */
-class CFRuntime
+class TWRuntime
 {
 	/*%******************************************************************************************%*/
 	// CONSTANTS
@@ -151,49 +151,49 @@ class CFRuntime
 	/**
 	 * Name of the software.
 	 */
-	const NAME = CFRUNTIME_NAME;
+	const NAME = TWRUNTIME_NAME;
 
 	/**
 	 * Version of the software.
 	 */
-	const VERSION = CFRUNTIME_VERSION;
+	const VERSION = TWRUNTIME_VERSION;
 
 	/**
 	 * Build ID of the software.
 	 */
-	const BUILD = CFRUNTIME_BUILD;
+	const BUILD = TWRUNTIME_BUILD;
 
 	/**
 	 * User agent string used to identify the software.
 	 */
-	const USERAGENT = CFRUNTIME_USERAGENT;
+	const USERAGENT = TWRUNTIME_USERAGENT;
 
 
 	/*%******************************************************************************************%*/
 	// PROPERTIES
 
 	/**
-	 * The Amazon API Key.
+	 * The ThumbWhere API Key.
 	 */
 	public $key;
 
 	/**
-	 * The Amazon API Secret Key.
+	 * The ThumbWhere API Secret Key.
 	 */
 	public $secret_key;
 
 	/**
-	 * The Amazon Authentication Token.
+	 * The ThumbWhere Authentication Token.
 	 */
 	public $auth_token;
 
 	/**
-	 * The Amazon Account ID, without hyphens.
+	 * The ThumbWhere Account ID, without hyphens.
 	 */
 	public $account_id;
 
 	/**
-	 * The Amazon Associates ID.
+	 * The ThumbWhere Associates ID.
 	 */
 	public $assoc_id;
 
@@ -218,29 +218,29 @@ class CFRuntime
 	public $use_aws_query = true;
 
 	/**
-	 * The default class to use for utilities (defaults to <CFUtilities>).
+	 * The default class to use for utilities (defaults to <TWUtilities>).
 	 */
-	public $utilities_class = 'CFUtilities';
+	public $utilities_class = 'TWUtilities';
 
 	/**
-	 * The default class to use for HTTP requests (defaults to <CFRequest>).
+	 * The default class to use for HTTP requests (defaults to <TWRequest>).
 	 */
-	public $request_class = 'CFRequest';
+	public $request_class = 'TWRequest';
 
 	/**
-	 * The default class to use for HTTP responses (defaults to <CFResponse>).
+	 * The default class to use for HTTP responses (defaults to <TWResponse>).
 	 */
-	public $response_class = 'CFResponse';
+	public $response_class = 'TWResponse';
 
 	/**
-	 * The default class to use for parsing XML (defaults to <CFSimpleXML>).
+	 * The default class to use for parsing XML (defaults to <TWSimpleXML>).
 	 */
-	public $parser_class = 'CFSimpleXML';
+	public $parser_class = 'TWSimpleXML';
 
 	/**
-	 * The default class to use for handling batch requests (defaults to <CFBatchRequest>).
+	 * The default class to use for handling batch requests (defaults to <TWBatchRequest>).
 	 */
-	public $batch_class = 'CFBatchRequest';
+	public $batch_class = 'TWBatchRequest';
 
 	/**
 	 * The number of seconds to adjust the request timestamp by (defaults to 0).
@@ -396,7 +396,7 @@ class CFRuntime
 		// Otherwise set the values to blank and return false.
 		else
 		{
-			throw new CFRuntime_Exception('No valid credentials were used to authenticate with TW.');
+			throw new TWRuntime_Exception('No valid credentials were used to authenticate with TW.');
 		}
 	}
 
@@ -426,14 +426,14 @@ class CFRuntime
 			if (!$key && !defined('TW_KEY'))
 			{
 				// @codeCoverageIgnoreStart
-				throw new CFRuntime_Exception('No account key was passed into the constructor, nor was it set in the TW_KEY constant.');
+				throw new TWRuntime_Exception('No account key was passed into the constructor, nor was it set in the TW_KEY constant.');
 				// @codeCoverageIgnoreEnd
 			}
 
 			if (!$secret_key && !defined('TW_SECRET_KEY'))
 			{
 				// @codeCoverageIgnoreStart
-				throw new CFRuntime_Exception('No account secret was passed into the constructor, nor was it set in the TW_SECRET_KEY constant.');
+				throw new TWRuntime_Exception('No account secret was passed into the constructor, nor was it set in the TW_SECRET_KEY constant.');
 				// @codeCoverageIgnoreEnd
 			}
 
@@ -469,7 +469,7 @@ class CFRuntime
 			// Otherwise set the values to blank and return false.
 			else
 			{
-				throw new CFRuntime_Exception('No valid credentials were used to authenticate with TW.');
+				throw new TWRuntime_Exception('No valid credentials were used to authenticate with TW.');
 			}
 		}
 	}
@@ -483,7 +483,7 @@ class CFRuntime
 	 */
 	public function cache_token($key, $secret_key)
 	{
-		$token = new AmazonSTS($key, $secret_key);
+		$token = new ThumbWhereSTS($key, $secret_key);
 		$response = $token->get_session_token();
 
 		if ($response->isOK())
@@ -543,7 +543,7 @@ class CFRuntime
 			return call_user_func_array(array($this, $method_name), $arguments);
 		}
 
-		throw new CFRuntime_Exception('The method ' . $name . '() is undefined. Attempted to map to ' . $method_name . '() which is also undefined. Error occurred');
+		throw new TWRuntime_Exception('The method ' . $name . '() is undefined. Attempted to map to ' . $method_name . '() which is also undefined. Error occurred');
 	}
 
 
@@ -551,7 +551,7 @@ class CFRuntime
 	// SET CUSTOM SETTINGS
 
 	/**
-	 * Adjusts the current time. Use this method for occasions when a server is out of sync with Amazon
+	 * Adjusts the current time. Use this method for occasions when a server is out of sync with ThumbWhere
 	 * servers.
 	 *
 	 * @param integer $seconds (Required) The number of seconds to adjust the sent timestamp by.
@@ -730,7 +730,7 @@ class CFRuntime
 
 	/**
 	 * Register a callback function to execute whenever a data stream is read from using
-	 * <CFRequest::streaming_read_callback()>.
+	 * <TWRequest::streaming_read_callback()>.
 	 *
 	 * The user-defined callback function should accept three arguments:
 	 *
@@ -754,7 +754,7 @@ class CFRuntime
 
 	/**
 	 * Register a callback function to execute whenever a data stream is written to using
-	 * <CFRequest::streaming_write_callback()>.
+	 * <TWRequest::streaming_write_callback()>.
 	 *
 	 * The user-defined callback function should accept two arguments:
 	 *
@@ -783,12 +783,12 @@ class CFRuntime
 	 * Set a custom class for this functionality. Use this method when extending/overriding existing classes
 	 * with new functionality.
 	 *
-	 * The replacement class must extend from <CFUtilities>.
+	 * The replacement class must extend from <TWUtilities>.
 	 *
 	 * @param string $class (Optional) The name of the new class to use for this functionality.
 	 * @return $this A reference to the current instance.
 	 */
-	public function set_utilities_class($class = 'CFUtilities')
+	public function set_utilities_class($class = 'TWUtilities')
 	{
 		$this->utilities_class = $class;
 		$this->util = new $this->utilities_class();
@@ -799,12 +799,12 @@ class CFRuntime
 	 * Set a custom class for this functionality. Use this method when extending/overriding existing classes
 	 * with new functionality.
 	 *
-	 * The replacement class must extend from <CFRequest>.
+	 * The replacement class must extend from <TWRequest>.
 	 *
 	 * @param string $class (Optional) The name of the new class to use for this functionality.
 	 * @param $this A reference to the current instance.
 	 */
-	public function set_request_class($class = 'CFRequest')
+	public function set_request_class($class = 'TWRequest')
 	{
 		$this->request_class = $class;
 		return $this;
@@ -814,12 +814,12 @@ class CFRuntime
 	 * Set a custom class for this functionality. Use this method when extending/overriding existing classes
 	 * with new functionality.
 	 *
-	 * The replacement class must extend from <CFResponse>.
+	 * The replacement class must extend from <TWResponse>.
 	 *
 	 * @param string $class (Optional) The name of the new class to use for this functionality.
 	 * @return $this A reference to the current instance.
 	 */
-	public function set_response_class($class = 'CFResponse')
+	public function set_response_class($class = 'TWResponse')
 	{
 		$this->response_class = $class;
 		return $this;
@@ -829,12 +829,12 @@ class CFRuntime
 	 * Set a custom class for this functionality. Use this method when extending/overriding existing classes
 	 * with new functionality.
 	 *
-	 * The replacement class must extend from <CFSimpleXML>.
+	 * The replacement class must extend from <TWSimpleXML>.
 	 *
 	 * @param string $class (Optional) The name of the new class to use for this functionality.
 	 * @return $this A reference to the current instance.
 	 */
-	public function set_parser_class($class = 'CFSimpleXML')
+	public function set_parser_class($class = 'TWSimpleXML')
 	{
 		$this->parser_class = $class;
 		return $this;
@@ -844,12 +844,12 @@ class CFRuntime
 	 * Set a custom class for this functionality. Use this method when extending/overriding existing classes
 	 * with new functionality.
 	 *
-	 * The replacement class must extend from <CFBatchRequest>.
+	 * The replacement class must extend from <TWBatchRequest>.
 	 *
 	 * @param string $class (Optional) The name of the new class to use for this functionality.
 	 * @return $this A reference to the current instance.
 	 */
-	public function set_batch_class($class = 'CFBatchRequest')
+	public function set_batch_class($class = 'TWBatchRequest')
 	{
 		$this->batch_class = $class;
 		return $this;
@@ -867,8 +867,8 @@ class CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters for authenticating. See the individual methods for allowed keys.
 	 * @param string $domain (Optional) The URL of the queue to perform the action on.
 	 * @param integer $signature_version (Optional) The signature version to use. Defaults to 2.
-	 * @param integer $redirects (Do Not Use) Used internally by this function on occasions when Amazon S3 returns a redirect code and it needs to call itself recursively.
-	 * @return CFResponse Object containing a parsed HTTP response.
+	 * @param integer $redirects (Do Not Use) Used internally by this function on occasions when ThumbWhere S3 returns a redirect code and it needs to call itself recursively.
+	 * @return TWResponse Object containing a parsed HTTP response.
 	 */
 	public function authenticate($action, $opt = null, $domain = null, $signature_version = 2, $redirects = 0)
 	{
@@ -919,8 +919,8 @@ class CFRuntime
 
 		// Determine signing values
 		$current_time = time() + $this->adjust_offset;
-		$date = gmdate(CFUtilities::DATE_FORMAT_RFC2616, $current_time);
-		$timestamp = gmdate(CFUtilities::DATE_FORMAT_ISO8601, $current_time);
+		$date = gmdate(TWUtilities::DATE_FORMAT_RFC2616, $current_time);
+		$timestamp = gmdate(TWUtilities::DATE_FORMAT_ISO8601, $current_time);
 		$nonce = $this->util->generate_guid();
 
 		// Do we have an authentication token?
@@ -1192,7 +1192,7 @@ class CFRuntime
 
 		$data = new $this->response_class($headers, $this->parse_callback($request->get_response_body(), $headers), $request->get_response_code());
 
-		// Was it Amazon's fault the request failed? Retry the request until we reach $max_retries.
+		// Was it ThumbWhere's fault the request failed? Retry the request until we reach $max_retries.
 		if ((integer) $request->get_response_code() === 500 || (integer) $request->get_response_code() === 503)
 		{
 			if ($redirects <= $this->max_retries)
@@ -1214,10 +1214,10 @@ class CFRuntime
 	/**
 	 * Specifies that the intended request should be queued for a later batch request.
 	 *
-	 * @param CFBatchRequest $queue (Optional) The <CFBatchRequest> instance to use for managing batch requests. If not available, it generates a new instance of <CFBatchRequest>.
+	 * @param TWBatchRequest $queue (Optional) The <TWBatchRequest> instance to use for managing batch requests. If not available, it generates a new instance of <TWBatchRequest>.
 	 * @return $this A reference to the current instance.
 	 */
-	public function batch(CFBatchRequest &$queue = null)
+	public function batch(TWBatchRequest &$queue = null)
 	{
 		if ($queue)
 		{
@@ -1242,7 +1242,7 @@ class CFRuntime
 	 * Executes the batch request queue by sending all queued requests.
 	 *
 	 * @param boolean $clear_after_send (Optional) Whether or not to clear the batch queue after sending a request. Defaults to `true`. Set this to `false` if you are caching batch responses and want to retrieve results later.
-	 * @return array An array of <CFResponse> objects.
+	 * @return array An array of <TWResponse> objects.
 	 */
 	public function send($clear_after_send = true)
 	{
@@ -1256,7 +1256,7 @@ class CFRuntime
 			{
 				$response = $this->batch_object->send();
 				$parsed_data = array_map(array($this, 'parse_callback'), $response);
-				$parsed_data = new CFArray($parsed_data);
+				$parsed_data = new TWArray($parsed_data);
 
 				// Clear the queue
 				if ($clear_after_send)
@@ -1283,7 +1283,7 @@ class CFRuntime
 			// Invoke the cache callback function to determine whether to pull data from the cache or make a fresh request.
 			$data_set = $this->cache_object->response_manager(array($this, 'cache_callback_batch'), array($this->batch_object));
 			$parsed_data = array_map(array($this, 'parse_callback'), $data_set);
-			$parsed_data = new CFArray($parsed_data);
+			$parsed_data = new TWArray($parsed_data);
 
 			// Clear the queue
 			if ($clear_after_send)
@@ -1296,18 +1296,18 @@ class CFRuntime
 		}
 
 		// Load the class
-		$null = new CFBatchRequest();
+		$null = new TWBatchRequest();
 		unset($null);
 
-		throw new CFBatchRequest_Exception('You must use $object->batch()->send()');
+		throw new TWBatchRequest_Exception('You must use $object->batch()->send()');
 	}
 
 	/**
 	 * Parses a response body into a PHP object if appropriate.
 	 *
-	 * @param CFResponse|string $response (Required) The <CFResponse> object to parse, or an XML string that would otherwise be a response body.
+	 * @param TWResponse|string $response (Required) The <TWResponse> object to parse, or an XML string that would otherwise be a response body.
 	 * @param string $content_type (Optional) The content-type to use when determining how to parse the content.
-	 * @return CFResponse|string A parsed <CFResponse> object, or parsed XML.
+	 * @return TWResponse|string A parsed <TWResponse> object, or parsed XML.
 	 */
 	public function parse_callback($response, $headers = null)
 	{
@@ -1355,7 +1355,7 @@ class CFRuntime
 					else
 					{
 						// Everyone else uses gzip correctly.
-						$decoder = new CFGzipDecode($body);
+						$decoder = new TWGzipDecode($body);
 						if ($decoder->parse())
 						{
 							$body = $decoder->data;
@@ -1403,8 +1403,8 @@ class CFRuntime
 			(!isset($headers['content-type']) && $this->util->is_json($body)) // Sniff for JSON
 		)
 		{
-			// Normalize JSON to a CFSimpleXML object
-			$body = CFJSON::to_xml($body);
+			// Normalize JSON to a TWSimpleXML object
+			$body = TWJSON::to_xml($body);
 		}
 
 		// Put the parsed data back where it goes
@@ -1425,7 +1425,7 @@ class CFRuntime
 	// CACHING LAYER
 
 	/**
-	 * Specifies that the resulting <CFResponse> object should be cached according to the settings from
+	 * Specifies that the resulting <TWResponse> object should be cached according to the settings from
 	 * <set_cache_config()>.
 	 *
 	 * @param string|integer $expires (Required) The time the cache is to expire. Accepts a number of seconds as an integer, or an amount of time, as a string, that is understood by <php:strtotime()> (e.g. "1 hour").
@@ -1437,7 +1437,7 @@ class CFRuntime
 		// Die if they haven't used set_cache_config().
 		if (!$this->cache_class)
 		{
-			throw new CFRuntime_Exception('Must call set_cache_config() before using cache()');
+			throw new TWRuntime_Exception('Must call set_cache_config() before using cache()');
 		}
 
 		if (is_string($expires))
@@ -1464,7 +1464,7 @@ class CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters for authenticating. See the individual methods for allowed keys.
 	 * @param string $domain (Optional) The URL of the queue to perform the action on.
 	 * @param integer $signature_version (Optional) The signature version to use. Defaults to 2.
-	 * @return CFResponse A parsed HTTP response.
+	 * @return TWResponse A parsed HTTP response.
 	 */
 	public function cache_callback($action, $opt = null, $domain = null, $signature_version = 2)
 	{
@@ -1487,16 +1487,16 @@ class CFRuntime
 	 * Used for caching the results of a batch request. Never call this method directly; it is used
 	 * internally by the caching system.
 	 *
-	 * @param CFBatchRequest $batch (Required) The batch request object to send.
-	 * @return CFResponse A parsed HTTP response.
+	 * @param TWBatchRequest $batch (Required) The batch request object to send.
+	 * @return TWResponse A parsed HTTP response.
 	 */
-	public function cache_callback_batch(CFBatchRequest $batch)
+	public function cache_callback_batch(TWBatchRequest $batch)
 	{
 		return $batch->send();
 	}
 
 	/**
-	 * Deletes a cached <CFResponse> object using the specified cache storage type.
+	 * Deletes a cached <TWResponse> object using the specified cache storage type.
 	 *
 	 * @return boolean A value of `true` if cached object exists and is successfully deleted, otherwise `false`.
 	 */
@@ -1513,7 +1513,7 @@ class CFRuntime
 /**
  * Contains the functionality for auto-loading service classes.
  */
-class CFLoader
+class TWLoader
 {
 
 	/*%******************************************************************************************%*/
@@ -1529,16 +1529,16 @@ class CFLoader
 	{
 		$path = dirname(__FILE__) . DIRECTORY_SEPARATOR;
 
-		// Amazon SDK classes
-		if (strstr($class, 'Amazon'))
+		// ThumbWhere SDK classes
+		if (strstr($class, 'ThumbWhere'))
 		{
-			$path .= 'services' . DIRECTORY_SEPARATOR . str_ireplace('Amazon', '', strtolower($class)) . '.class.php';
+			$path .= 'services' . DIRECTORY_SEPARATOR . str_ireplace('ThumbWhere', '', strtolower($class)) . '.class.php';
 		}
 
 		// Utility classes
-		elseif (strstr($class, 'CF'))
+		elseif (strstr($class, 'TW'))
 		{
-			$path .= 'utilities' . DIRECTORY_SEPARATOR . str_ireplace('CF', '', strtolower($class)) . '.class.php';
+			$path .= 'utilities' . DIRECTORY_SEPARATOR . str_ireplace('TW', '', strtolower($class)) . '.class.php';
 		}
 
 		// Load CacheCore
@@ -1580,4 +1580,4 @@ class CFLoader
 }
 
 // Register the autoloader.
-spl_autoload_register(array('CFLoader', 'autoloader'));
+spl_autoload_register(array('TWLoader', 'autoloader'));

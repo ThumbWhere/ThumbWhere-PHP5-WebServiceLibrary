@@ -19,9 +19,9 @@
 // CLASS
 
 /**
- * The <CFArray> object extends PHP's built-in <php:ArrayObject> object by providing convenience methods for
- * rapidly manipulating array data. Specifically, the `CFArray` object is intended for working with
- * <CFResponse> and <CFSimpleXML> objects that are returned by TW services.
+ * The <TWArray> object extends PHP's built-in <php:ArrayObject> object by providing convenience methods for
+ * rapidly manipulating array data. Specifically, the `TWArray` object is intended for working with
+ * <TWResponse> and <TWSimpleXML> objects that are returned by TW services.
  *
  * @version 2011.06.03
  * @license See the included NOTICE.md file for more information.
@@ -29,15 +29,15 @@
  * @link http://thumbwhere.com/sdk/php/ PHP Developer Center
  * @link http://php.net/ArrayObject ArrayObject
  */
-class CFArray extends ArrayObject
+class TWArray extends ArrayObject
 {
 	/**
-	 * Constructs a new instance of <CFArray>.
+	 * Constructs a new instance of <TWArray>.
 	 *
 	 * @param mixed $input (Optional) The input parameter accepts an array or an Object. The default value is an empty array.
 	 * @param integer $flags (Optional) Flags to control the behavior of the ArrayObject object. Defaults to <STD_PROP_LIST>.
 	 * @param string $iterator_class (Optional) Specify the class that will be used for iteration of the <php:ArrayObject> object. <php:ArrayIterator> is the default class used.
-	 * @return mixed Either an array of matches, or a single <CFSimpleXML> element.
+	 * @return mixed Either an array of matches, or a single <TWSimpleXML> element.
 	 */
 	public function __construct($input = array(), $flags = self::STD_PROP_LIST, $iterator_class = 'ArrayIterator')
 	{
@@ -50,7 +50,7 @@ class CFArray extends ArrayObject
 	 * @param mixed $input (Optional) The input parameter accepts an array or an Object. The default value is an empty array.
 	 * @param integer $flags (Optional) Flags to control the behavior of the ArrayObject object. Defaults to <STD_PROP_LIST>.
 	 * @param string $iterator_class (Optional) Specify the class that will be used for iteration of the <php:ArrayObject> object. <php:ArrayIterator> is the default class used.
-	 * @return mixed Either an array of matches, or a single <CFSimpleXML> element.
+	 * @return mixed Either an array of matches, or a single <TWSimpleXML> element.
 	 */
 	public static function init($input = array(), $flags = self::STD_PROP_LIST, $iterator_class = 'ArrayIterator')
 	{
@@ -78,9 +78,9 @@ class CFArray extends ArrayObject
 	// REFORMATTING
 
 	/**
-	 * Maps each element in the <CFArray> object as an integer.
+	 * Maps each element in the <TWArray> object as an integer.
 	 *
-	 * @return array The contents of the <CFArray> object mapped as integers.
+	 * @return array The contents of the <TWArray> object mapped as integers.
 	 */
 	public function map_integer()
 	{
@@ -88,10 +88,10 @@ class CFArray extends ArrayObject
 	}
 
 	/**
-	 * Maps each element in the CFArray object as a string.
+	 * Maps each element in the TWArray object as a string.
 	 *
 	 * @param string $pcre (Optional) A Perl-Compatible Regular Expression (PCRE) to filter the names against.
-	 * @return array The contents of the <CFArray> object mapped as strings. If there are no results, the method will return an empty array.
+	 * @return array The contents of the <TWArray> object mapped as strings. If there are no results, the method will return an empty array.
 	 */
 	public function map_string($pcre = null)
 	{
@@ -116,7 +116,7 @@ class CFArray extends ArrayObject
 	// CONFIRMATION
 
 	/**
-	 * Verifies that _all_ responses were successful. A single failed request will cause <areOK()> to return false. Equivalent to <CFResponse::isOK()>, except it applies to all responses.
+	 * Verifies that _all_ responses were successful. A single failed request will cause <areOK()> to return false. Equivalent to <TWResponse::isOK()>, except it applies to all responses.
 	 *
 	 * @return boolean Whether _all_ requests were successful or not.
 	 */
@@ -127,7 +127,7 @@ class CFArray extends ArrayObject
 
 		foreach ($list as $response)
 		{
-			if ($response instanceof CFResponse)
+			if ($response instanceof TWResponse)
 			{
 				$dlist[] = $response->isOK();
 			}
@@ -141,7 +141,7 @@ class CFArray extends ArrayObject
 	// ITERATING AND EXECUTING
 
 	/**
-	 * Iterates over a <CFArray> object, and executes a function for each matched element.
+	 * Iterates over a <TWArray> object, and executes a function for each matched element.
 	 *
 	 * The callback function takes three parameters: <ul>
 	 * 	<li><code>$item</code> - <code>mixed</code> - Optional - The individual node in the array.</li>
@@ -150,7 +150,7 @@ class CFArray extends ArrayObject
 	 *
 	 * @param string|function $callback (Required) The callback function to execute. PHP 5.3 or newer can use an anonymous function.
 	 * @param mixed $bind (Optional) A variable from the calling scope to pass-by-reference into the local scope of the callback function.
-	 * @return CFArray The original <CFArray> object.
+	 * @return TWArray The original <TWArray> object.
 	 */
 	public function each($callback, &$bind = null)
 	{
@@ -165,7 +165,7 @@ class CFArray extends ArrayObject
 	}
 
 	/**
-	 * Passes each element in the current <CFArray> object through a function, and produces a new <CFArray> object containing the return values.
+	 * Passes each element in the current <TWArray> object through a function, and produces a new <TWArray> object containing the return values.
 	 *
 	 * The callback function takes three parameters: <ul>
 	 * 	<li><code>$item</code> - <code>mixed</code> - Optional - The individual node in the array.</li>
@@ -174,7 +174,7 @@ class CFArray extends ArrayObject
 	 *
 	 * @param string|function $callback (Required) The callback function to execute. PHP 5.3 or newer can use an anonymous function.
 	 * @param mixed $bind (Optional) A variable from the calling scope to pass-by-reference into the local scope of the callback function.
-	 * @return CFArray A new <CFArray> object containing the return values.
+	 * @return TWArray A new <TWArray> object containing the return values.
 	 */
 	public function map($callback, &$bind = null)
 	{
@@ -186,11 +186,11 @@ class CFArray extends ArrayObject
 			$collect[] = $callback($item, $key, $bind);
 		}
 
-		return new CFArray($collect);
+		return new TWArray($collect);
 	}
 
 	/**
-	 * Filters the list of nodes by passing each value in the current <CFArray> object through a function. The node will be removed if the function returns `false`.
+	 * Filters the list of nodes by passing each value in the current <TWArray> object through a function. The node will be removed if the function returns `false`.
 	 *
 	 * The callback function takes three parameters: <ul>
 	 * 	<li><code>$item</code> - <code>mixed</code> - Optional - The individual node in the array.</li>
@@ -199,7 +199,7 @@ class CFArray extends ArrayObject
 	 *
 	 * @param string|function $callback (Required) The callback function to execute. PHP 5.3 or newer can use an anonymous function.
 	 * @param mixed $bind (Optional) A variable from the calling scope to pass-by-reference into the local scope of the callback function.
-	 * @return CFArray A new <CFArray> object containing the return values.
+	 * @return TWArray A new <TWArray> object containing the return values.
 	 */
 	public function filter($callback, &$bind = null)
 	{
@@ -214,7 +214,7 @@ class CFArray extends ArrayObject
 			}
 		}
 
-		return new CFArray($collect);
+		return new TWArray($collect);
 	}
 
 	/**
@@ -222,7 +222,7 @@ class CFArray extends ArrayObject
 	 *
 	 * @param string|function $callback (Required) The callback function to execute. PHP 5.3 or newer can use an anonymous function.
 	 * @param mixed $bind (Optional) A variable from the calling scope to pass-by-reference into the local scope of the callback function.
-	 * @return CFArray A new <CFArray> object containing the return values.
+	 * @return TWArray A new <TWArray> object containing the return values.
 	 */
 	public function reduce($callback, &$bind = null)
 	{
@@ -236,7 +236,7 @@ class CFArray extends ArrayObject
 	/**
 	 * Gets the first result in the array.
 	 *
-	 * @return mixed The first result in the <CFArray> object. Returns `false` if there are no items in the array.
+	 * @return mixed The first result in the <TWArray> object. Returns `false` if there are no items in the array.
 	 */
 	public function first()
 	{
@@ -247,7 +247,7 @@ class CFArray extends ArrayObject
 	/**
 	 * Gets the last result in the array.
 	 *
-	 * @return mixed The last result in the <CFArray> object. Returns `false` if there are no items in the array.
+	 * @return mixed The last result in the <TWArray> object. Returns `false` if there are no items in the array.
 	 */
 	public function last()
 	{
@@ -258,21 +258,21 @@ class CFArray extends ArrayObject
 	/**
 	 * Removes all `null` values from an array.
 	 *
-	 * @return CFArray A new <CFArray> object containing the non-null values.
+	 * @return TWArray A new <TWArray> object containing the non-null values.
 	 */
 	public function compress()
 	{
-		return new CFArray(array_filter($this->getArrayCopy()));
+		return new TWArray(array_filter($this->getArrayCopy()));
 	}
 
 	/**
 	 * Reindexes the array, starting from zero.
 	 *
-	 * @return CFArray A new <CFArray> object with indexes starting at zero.
+	 * @return TWArray A new <TWArray> object with indexes starting at zero.
 	 */
 	public function reindex()
 	{
-		return new CFArray(array_values($this->getArrayCopy()));
+		return new TWArray(array_values($this->getArrayCopy()));
 	}
 
 

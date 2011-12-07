@@ -28,7 +28,7 @@
  * @link http://thumbwhere.com/sdk/php/ PHP Developer Center
  * @link http://php.net/SimpleXML SimpleXML
  */
-class CFSimpleXML extends SimpleXMLIterator
+class TWSimpleXML extends SimpleXMLIterator
 {
 	/**
 	 * Stores the namespace name to use in XPath queries.
@@ -45,7 +45,7 @@ class CFSimpleXML extends SimpleXMLIterator
 	 *
 	 * @param string $name (Required) The name of the method.
 	 * @param array $arguments (Required) The arguments passed to the method.
-	 * @return mixed Either an array of matches, or a single <CFSimpleXML> element.
+	 * @return mixed Either an array of matches, or a single <TWSimpleXML> element.
 	 */
 	public function __call($name, $arguments)
 	{
@@ -53,15 +53,15 @@ class CFSimpleXML extends SimpleXMLIterator
 		$self = $this;
 
 		// Re-base the XML
-		$self = new CFSimpleXML($self->asXML());
+		$self = new TWSimpleXML($self->asXML());
 
 		// Determine XPath query
 		$self->xpath_expression = 'descendant-or-self::' . $name;
 
-		// Get the results and augment with CFArray
+		// Get the results and augment with TWArray
 		$results = $self->xpath($self->xpath_expression);
 		if (!count($results)) return false;
-		$results = new CFArray($results);
+		$results = new TWArray($results);
 
 		// If an integer was passed, return only that result
 		if (isset($arguments[0]) && is_int($arguments[0]))
@@ -85,7 +85,7 @@ class CFSimpleXML extends SimpleXMLIterator
 	 * @param boolean $data_is_url (Optional) Specify a value of <code>true</code> to specify that data is a path or URL to an XML document instead of string data. The default value is <code>false</code>.
 	 * @param string $ns (Optional) The XML namespace to return values for.
 	 * @param boolean $is_prefix (Optional) (No description provided by PHP.net.)
-	 * @return CFSimpleXML Creates a new <CFSimpleXML> element.
+	 * @return TWSimpleXML Creates a new <TWSimpleXML> element.
 	 */
 	public static function init($data, $options = 0, $data_is_url, $ns, $is_prefix = false)
 	{
@@ -103,21 +103,21 @@ class CFSimpleXML extends SimpleXMLIterator
 	// TRAVERSAL
 
 	/**
-	 * Wraps the results of an XPath query in a <CFArray> object.
+	 * Wraps the results of an XPath query in a <TWArray> object.
 	 *
 	 * @param string $expr (Required) The XPath expression to use to query the XML response.
-	 * @return CFArray A <CFArray> object containing the results of the XPath query.
+	 * @return TWArray A <TWArray> object containing the results of the XPath query.
 	 */
 	public function query($expr)
 	{
-		return new CFArray($this->xpath($expr));
+		return new TWArray($this->xpath($expr));
 	}
 
 	/**
 	 * Gets the parent or a preferred ancestor of the current element.
 	 *
 	 * @param string $node (Optional) Name of the ancestor element to match and return.
-	 * @return CFSimpleXML A <CFSimpleXML> object containing the requested node.
+	 * @return TWSimpleXML A <TWSimpleXML> object containing the requested node.
 	 */
 	public function parent($node = null)
 	{
@@ -148,13 +148,13 @@ class CFSimpleXML extends SimpleXMLIterator
 	}
 
 	/**
-	 * Gets the current XML node as <CFArray>, a child class of PHP's <php:ArrayObject> class.
+	 * Gets the current XML node as <TWArray>, a child class of PHP's <php:ArrayObject> class.
 	 *
-	 * @return CFArray The current XML node as a <CFArray> object.
+	 * @return TWArray The current XML node as a <TWArray> object.
 	 */
 	public function to_array()
 	{
-		return new CFArray(json_decode(json_encode($this), true));
+		return new TWArray(json_decode(json_encode($this), true));
 	}
 
 	/**

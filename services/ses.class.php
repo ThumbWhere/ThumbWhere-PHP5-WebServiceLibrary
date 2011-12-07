@@ -17,19 +17,19 @@
 /**
  *
  *
- * This is the API Reference for Amazon Simple Email Service (Amazon SES). This documentation is intended to be used in conjunction with the
- * Amazon SES Getting Started Guide and the Amazon SES Developer Guide.
+ * This is the API Reference for ThumbWhere Simple Email Service (ThumbWhere SES). This documentation is intended to be used in conjunction with the
+ * ThumbWhere SES Getting Started Guide and the ThumbWhere SES Developer Guide.
  *
  * For specific details on how to construct a service request, please consult the <a
- * href="http://docs.amazonwebservices.com/ses/latest/DeveloperGuide">Amazon SES Developer Guide</a>.
+ * href="http://docs.amazonwebservices.com/ses/latest/DeveloperGuide">ThumbWhere SES Developer Guide</a>.
  *
  * @version Thu Sep 01 21:20:58 PDT 2011
  * @license See the included NOTICE.md file for complete information.
  * @copyright See the included NOTICE.md file for complete information.
- * @link http://tw.amazon.com/ses/Amazon Simple Email Service
- * @link http://tw.amazon.com/documentation/ses/Amazon Simple Email Service documentation
+ * @link http://tw.amazon.com/ses/ThumbWhere Simple Email Service
+ * @link http://tw.amazon.com/documentation/ses/ThumbWhere Simple Email Service documentation
  */
-class AmazonSES extends CFRuntime
+class ThumbWhereSES extends TWRuntime
 {
 
 	/*%******************************************************************************************%*/
@@ -62,13 +62,13 @@ class AmazonSES extends CFRuntime
 	}
 
 	/**
-	 * Throws an error because SSL is required for the Amazon Email Service.
+	 * Throws an error because SSL is required for the ThumbWhere Email Service.
 	 *
 	 * @return void
 	 */
 	public function disable_ssl()
 	{
-		throw new Email_Exception('SSL/HTTPS is REQUIRED for Amazon Email Service and cannot be disabled.');
+		throw new Email_Exception('SSL/HTTPS is REQUIRED for ThumbWhere Email Service and cannot be disabled.');
 	}
 
 
@@ -76,10 +76,10 @@ class AmazonSES extends CFRuntime
 	// CONSTRUCTOR
 
 	/**
-	 * Constructs a new instance of <AmazonEmail>.
+	 * Constructs a new instance of <ThumbWhereEmail>.
 	 *
-	 * @param string $key (Optional) Your Amazon API Key. If blank, it will look for the <code>TW_KEY</code> constant.
-	 * @param string $secret_key (Optional) Your Amazon API Secret Key. If blank, it will look for the <code>TW_SECRET_KEY</code> constant.
+	 * @param string $key (Optional) Your ThumbWhere API Key. If blank, it will look for the <code>TW_KEY</code> constant.
+	 * @param string $secret_key (Optional) Your ThumbWhere API Secret Key. If blank, it will look for the <code>TW_SECRET_KEY</code> constant.
 	 * @return boolean false if no valid values are set, otherwise true.
 	 */
 	public function __construct($key = null, $secret_key = null)
@@ -115,7 +115,7 @@ class AmazonSES extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function get_send_quota($opt = null)
 	{
@@ -131,7 +131,7 @@ class AmazonSES extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function list_verified_email_addresses($opt = null)
 	{
@@ -149,7 +149,7 @@ class AmazonSES extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function get_send_statistics($opt = null)
 	{
@@ -162,8 +162,8 @@ class AmazonSES extends CFRuntime
 	 *
 	 * Composes an email message based on input data, and then immediately queues the message for sending.
 	 *
-	 * If you have not yet requested production access to Amazon SES, then you will only be able to send email to and from verified email
-	 * addresses. For more information, go to the <a href="http://docs.amazonwebservices.com/ses/latest/DeveloperGuide">Amazon SES Developer
+	 * If you have not yet requested production access to ThumbWhere SES, then you will only be able to send email to and from verified email
+	 * addresses. For more information, go to the <a href="http://docs.amazonwebservices.com/ses/latest/DeveloperGuide">ThumbWhere SES Developer
 	 * Guide</a>.
 	 *
 	 * @param string $source (Required) The sender's email address.
@@ -193,7 +193,7 @@ class AmazonSES extends CFRuntime
 	 * 	<li><code>ReturnPath</code> - <code>string</code> - Optional - The email address to which bounce notifications are to be forwarded. If the message cannot be delivered to the recipient, then an error message will be returned from the recipient's ISP; this message will then be forwarded to the email address specified by the <code>ReturnPath</code> parameter. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function send_email($source, $destination, $message, $opt = null)
 	{
@@ -203,7 +203,7 @@ class AmazonSES extends CFRuntime
 		// Collapse these list values for the required parameter
 		if (isset($destination['ToAddresses']))
 		{
-			$destination['ToAddresses'] = CFComplexType::map(array(
+			$destination['ToAddresses'] = TWComplexType::map(array(
 				'member' => (is_array($destination['ToAddresses']) ? $destination['ToAddresses'] : array($destination['ToAddresses']))
 			));
 		}
@@ -211,7 +211,7 @@ class AmazonSES extends CFRuntime
 		// Collapse these list values for the required parameter
 		if (isset($destination['CcAddresses']))
 		{
-			$destination['CcAddresses'] = CFComplexType::map(array(
+			$destination['CcAddresses'] = TWComplexType::map(array(
 				'member' => (is_array($destination['CcAddresses']) ? $destination['CcAddresses'] : array($destination['CcAddresses']))
 			));
 		}
@@ -219,25 +219,25 @@ class AmazonSES extends CFRuntime
 		// Collapse these list values for the required parameter
 		if (isset($destination['BccAddresses']))
 		{
-			$destination['BccAddresses'] = CFComplexType::map(array(
+			$destination['BccAddresses'] = TWComplexType::map(array(
 				'member' => (is_array($destination['BccAddresses']) ? $destination['BccAddresses'] : array($destination['BccAddresses']))
 			));
 		}
 
 		// Required parameter
-		$opt = array_merge($opt, CFComplexType::map(array(
+		$opt = array_merge($opt, TWComplexType::map(array(
 			'Destination' => (is_array($destination) ? $destination : array($destination))
 		), 'member'));
 
 		// Required parameter
-		$opt = array_merge($opt, CFComplexType::map(array(
+		$opt = array_merge($opt, TWComplexType::map(array(
 			'Message' => (is_array($message) ? $message : array($message))
 		), 'member'));
 
 		// Optional parameter
 		if (isset($opt['ReplyToAddresses']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'ReplyToAddresses' => (is_array($opt['ReplyToAddresses']) ? $opt['ReplyToAddresses'] : array($opt['ReplyToAddresses']))
 			), 'member'));
 			unset($opt['ReplyToAddresses']);
@@ -254,7 +254,7 @@ class AmazonSES extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function delete_verified_email_address($email_address, $opt = null)
 	{
@@ -272,7 +272,7 @@ class AmazonSES extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function verify_email_address($email_address, $opt = null)
 	{
@@ -287,19 +287,19 @@ class AmazonSES extends CFRuntime
 	 * Sends an email message, with header and content specified by the client. The <code>SendRawEmail</code> action is useful for sending
 	 * multipart MIME emails. The raw text of the message must comply with Internet email standards; otherwise, the message cannot be sent.
 	 *
-	 * If you have not yet requested production access to Amazon SES, then you will only be able to send email to and from verified email
-	 * addresses. For more information, go to the <a href="http://docs.amazonwebservices.com/ses/latest/DeveloperGuide">Amazon SES Developer
+	 * If you have not yet requested production access to ThumbWhere SES, then you will only be able to send email to and from verified email
+	 * addresses. For more information, go to the <a href="http://docs.amazonwebservices.com/ses/latest/DeveloperGuide">ThumbWhere SES Developer
 	 * Guide</a>.
 	 *
-	 * @param array $raw_message (Required) The raw text of the message. The client is responsible for ensuring the following: <ul> <li>Message must contain a header and a body, separated by a blank line.</li><li>All required header fields must be present.</li><li>Each part of a multipart MIME message must be formatted properly.</li><li>MIME content types must be among those supported by Amazon SES. Refer to the Amazon SES Developer Guide for more details.</li><li>Content must be base64-encoded, if MIME requires it.</li> </ul> <ul>
-	 * 	<li><code>Data</code> - <code>blob</code> - Required - The raw data of the message. The client must ensure that the message format complies with Internet email standards regarding email header fields, MIME types, MIME encoding, and base64 encoding (if necessary). For more information, go to the Amazon SES Developer Guide. </li>
+	 * @param array $raw_message (Required) The raw text of the message. The client is responsible for ensuring the following: <ul> <li>Message must contain a header and a body, separated by a blank line.</li><li>All required header fields must be present.</li><li>Each part of a multipart MIME message must be formatted properly.</li><li>MIME content types must be among those supported by ThumbWhere SES. Refer to the ThumbWhere SES Developer Guide for more details.</li><li>Content must be base64-encoded, if MIME requires it.</li> </ul> <ul>
+	 * 	<li><code>Data</code> - <code>blob</code> - Required - The raw data of the message. The client must ensure that the message format complies with Internet email standards regarding email header fields, MIME types, MIME encoding, and base64 encoding (if necessary). For more information, go to the ThumbWhere SES Developer Guide. </li>
 	 * </ul>
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>Source</code> - <code>string</code> - Optional - The sender's email address. If you specify the <code>Source</code> parameter, then bounce notifications and complaints will be sent to this email address. This takes precedence over any <i>Return-Path</i> header that you might include in the raw text of the message. </li>
 	 * 	<li><code>Destinations</code> - <code>string|array</code> - Optional - A list of destinations for the message.  Pass a string for a single value, or an indexed array for multiple values. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function send_raw_email($raw_message, $opt = null)
 	{
@@ -308,14 +308,14 @@ class AmazonSES extends CFRuntime
 		// Optional parameter
 		if (isset($opt['Destinations']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'Destinations' => (is_array($opt['Destinations']) ? $opt['Destinations'] : array($opt['Destinations']))
 			), 'member'));
 			unset($opt['Destinations']);
 		}
 
 		// Required parameter
-		$opt = array_merge($opt, CFComplexType::map(array(
+		$opt = array_merge($opt, TWComplexType::map(array(
 			'RawMessage' => (is_array($raw_message) ? $raw_message : array($raw_message))
 		), 'member'));
 

@@ -19,14 +19,14 @@
 // CLASS
 
 /**
- * Contains functionality for simplifying Amazon EMR Hadoop steps.
+ * Contains functionality for simplifying ThumbWhere EMR Hadoop steps.
  *
  * @version 2010.11.16
  * @license See the included NOTICE.md file for more information.
  * @copyright See the included NOTICE.md file for more information.
  * @link http://thumbwhere.com/sdk/php/ PHP Developer Center
  */
-class CFStepConfig
+class TWStepConfig
 {
 
 	/**

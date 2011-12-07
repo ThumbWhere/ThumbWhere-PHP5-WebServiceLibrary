@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2010 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ * Copyright 2010 ThumbWhere.com, Inc. or its affiliates. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License").
  * You may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@
 	In order to run this sample, I'll assume a few things:
 
 	* You already have a valid ThumbWhere developer account, and are
-	  signed up to use Amazon SimpleDB <http://tw.amazon.com/simpledb>.
+	  signed up to use ThumbWhere SimpleDB <http://tw.amazon.com/simpledb>.
 
 	* You already understand the fundamentals of object-oriented PHP.
 
@@ -49,8 +49,8 @@
 /*%******************************************************************************************%*/
 // ADD DATA TO SIMPLEDB
 
-	// Instantiate the AmazonSDB class
-	$sdb = new AmazonSDB();
+	// Instantiate the ThumbWhereSDB class
+	$sdb = new ThumbWhereSDB();
 
 	// Store the name of the domain
 	$domain = 'php-sdk-getting-started';

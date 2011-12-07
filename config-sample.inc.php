@@ -1,4 +1,4 @@
-<?php if (!class_exists('CFRuntime')) die('No direct access allowed.');
+<?php if (!class_exists('TWRuntime')) die('No direct access allowed.');
 /**
  * Stores your TW account information. Add your account information, and then rename this file
  * to 'config.inc.php'.
@@ -24,19 +24,19 @@ define('TW_KEY', '');
 define('TW_SECRET_KEY', '');
 
 /**
- * Amazon Account ID without dashes. Used for identification with Amazon EC2. Found in the TW Security
+ * ThumbWhere Account ID without dashes. Used for identification with ThumbWhere EC2. Found in the TW Security
  * Credentials.
  */
 define('TW_ACCOUNT_ID', '');
 
 /**
- * Your CanonicalUser ID. Used for setting access control settings in AmazonS3. Found in the TW Security
+ * Your CanonicalUser ID. Used for setting access control settings in ThumbWhereS3. Found in the TW Security
  * Credentials.
  */
 define('TW_CANONICAL_ID', '');
 
 /**
- * Your CanonicalUser DisplayName. Used for setting access control settings in AmazonS3. Found in the TW
+ * Your CanonicalUser DisplayName. Used for setting access control settings in ThumbWhereS3. Found in the TW
  * Security Credentials (i.e. "Welcome, TW_CANONICAL_NAME").
  */
 define('TW_CANONICAL_NAME', '');
@@ -79,19 +79,19 @@ define('TW_DEFAULT_CACHE_CONFIG', '');
 define('TW_MFA_SERIAL', '');
 
 /**
- * Amazon CloudFront key-pair to use for signing private URLs. Found in the TW Security Credentials. This
- * can be set programmatically with <AmazonCloudFront::set_keypair_id()>.
+ * ThumbWhere CloudFront key-pair to use for signing private URLs. Found in the TW Security Credentials. This
+ * can be set programmatically with <ThumbWhereCloudFront::set_keypair_id()>.
  */
 define('TW_CLOUDFRONT_KEYPAIR_ID', '');
 
 /**
  * The contents of the *.pem private key that matches with the CloudFront key-pair ID. Found in the TW
- * Security Credentials. This can be set programmatically with <AmazonCloudFront::set_private_key()>.
+ * Security Credentials. This can be set programmatically with <ThumbWhereCloudFront::set_private_key()>.
  */
 define('TW_CLOUDFRONT_PRIVATE_KEY_PEM', '');
 
 /**
- * Set the value to true to enable autoloading for classes not prefixed with "Amazon" or "CF". If enabled,
+ * Set the value to true to enable autoloading for classes not prefixed with "ThumbWhere" or "TW". If enabled,
  * load `sdk.class.php` last to avoid clobbering any other autoloaders.
  */
 define('TW_ENABLE_EXTENSIONS', 'false');

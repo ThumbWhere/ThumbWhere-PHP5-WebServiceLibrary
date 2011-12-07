@@ -17,16 +17,16 @@
 /**
  *
  *
- * Amazon SimpleDB is a web service providing the core database functions of data indexing and querying in the cloud. By offloading the time
+ * ThumbWhere SimpleDB is a web service providing the core database functions of data indexing and querying in the cloud. By offloading the time
  * and effort associated with building and operating a web-scale database, SimpleDB provides developers the freedom to focus on application
  * development.
  *
  *
  *
  * A traditional, clustered relational database requires a sizable upfront capital outlay, is complex to design, and often requires extensive
- * and repetitive database administration. Amazon SimpleDB is dramatically simpler, requiring no schema, automatically indexing your data and
+ * and repetitive database administration. ThumbWhere SimpleDB is dramatically simpler, requiring no schema, automatically indexing your data and
  * providing a simple API for storage and access. This approach eliminates the administrative burden of data modeling, index maintenance, and
- * performance tuning. Developers gain access to this functionality within Amazon's proven computing environment, are able to scale instantly,
+ * performance tuning. Developers gain access to this functionality within ThumbWhere's proven computing environment, are able to scale instantly,
  * and pay only for what they use.
  *
  * Visit <a href="http://tw.amazon.com/simpledb/">http://tw.amazon.com/simpledb/</a> for more information.
@@ -34,10 +34,10 @@
  * @version Wed Jul 20 13:20:46 PDT 2011
  * @license See the included NOTICE.md file for complete information.
  * @copyright See the included NOTICE.md file for complete information.
- * @link http://tw.amazon.com/simpledb/Amazon SimpleDB
- * @link http://tw.amazon.com/documentation/simpledb/Amazon SimpleDB documentation
+ * @link http://tw.amazon.com/simpledb/ThumbWhere SimpleDB
+ * @link http://tw.amazon.com/documentation/simpledb/ThumbWhere SimpleDB documentation
  */
-class AmazonSDB extends CFRuntime
+class ThumbWhereSDB extends TWRuntime
 {
 
 	/*%******************************************************************************************%*/
@@ -128,7 +128,7 @@ class AmazonSDB extends CFRuntime
 	 *
 	 * @param array $items (Required) The item-key-value format passed by <batch_put_attributes()> and <batch_delete_attributes()>.
 	 * @param boolean|array $replace (Optional) The `$replace` value passed by <batch_put_attributes()> and <batch_delete_attributes()>.
-	 * @return array A <CFComplexType>-compatible mapping of parameters.
+	 * @return array A <TWComplexType>-compatible mapping of parameters.
 	 */
 	public static function remap_batch_items_for_complextype($items, $replace = false)
 	{
@@ -180,7 +180,7 @@ class AmazonSDB extends CFRuntime
 	 *
 	 * @param array $keys (Required) The key-value format passed by <put_attributes()>.
 	 * @param boolean|array $replace (Optional) The `$replace` value passed by <batch_put_attributes()> and <batch_delete_attributes()>.
-	 * @return array A <CFComplexType>-compatible mapping of parameters.
+	 * @return array A <TWComplexType>-compatible mapping of parameters.
 	 */
 	public static function remap_attribute_items_for_complextype($keys, $replace = false)
 	{
@@ -218,10 +218,10 @@ class AmazonSDB extends CFRuntime
 	// CONSTRUCTOR
 
 	/**
-	 * Constructs a new instance of <AmazonSDB>.
+	 * Constructs a new instance of <ThumbWhereSDB>.
 	 *
-	 * @param string $key (Optional) Your Amazon API Key. If blank, it will look for the <code>TW_KEY</code> constant.
-	 * @param string $secret_key (Optional) Your Amazon API Secret Key. If blank, it will look for the <code>TW_SECRET_KEY</code> constant.
+	 * @param string $key (Optional) Your ThumbWhere API Key. If blank, it will look for the <code>TW_KEY</code> constant.
+	 * @param string $secret_key (Optional) Your ThumbWhere API Secret Key. If blank, it will look for the <code>TW_SECRET_KEY</code> constant.
 	 * @return boolean false if no valid values are set, otherwise true.
 	 */
 	public function __construct($key = null, $secret_key = null)
@@ -255,19 +255,19 @@ class AmazonSDB extends CFRuntime
 	 * The <code>Select</code> operation returns a set of attributes for <code>ItemNames</code> that match the select expression.
 	 * <code>Select</code> is similar to the standard SQL SELECT statement.
 	 *
-	 * The total size of the response cannot exceed 1 MB in total size. Amazon SimpleDB automatically adjusts the number of items returned per
+	 * The total size of the response cannot exceed 1 MB in total size. ThumbWhere SimpleDB automatically adjusts the number of items returned per
 	 * page to enforce this limit. For example, if the client asks to retrieve 2500 items, but each individual item is 10 kB in size, the system
 	 * returns 100 items and an appropriate <code>NextToken</code> so the client can access the next page of results.
 	 *
-	 * For information on how to construct select expressions, see Using Select to Create Amazon SimpleDB Queries in the Developer Guide.
+	 * For information on how to construct select expressions, see Using Select to Create ThumbWhere SimpleDB Queries in the Developer Guide.
 	 *
 	 * @param string $select_expression (Required) The expression used to query the domain.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
-	 * 	<li><code>NextToken</code> - <code>string</code> - Optional - A string informing Amazon SimpleDB where to start the next list of <code>ItemNames</code>. </li>
+	 * 	<li><code>NextToken</code> - <code>string</code> - Optional - A string informing ThumbWhere SimpleDB where to start the next list of <code>ItemNames</code>. </li>
 	 * 	<li><code>ConsistentRead</code> - <code>boolean</code> - Optional - Determines whether or not strong consistency should be enforced when data is read from SimpleDB. If <code>true</code>, any data previously written to SimpleDB will be returned. Otherwise, results will be consistent eventually, and the client may not see data that was written immediately before your read. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function select($select_expression, $opt = null)
 	{
@@ -297,7 +297,7 @@ class AmazonSDB extends CFRuntime
 	 *
 	 * You cannot specify an empty string as an attribute name.
 	 *
-	 * Because Amazon SimpleDB makes multiple copies of your data and uses an eventual consistency update
+	 * Because ThumbWhere SimpleDB makes multiple copies of your data and uses an eventual consistency update
 	 * model, an immediate GetAttributes or Select request (read) immediately after a DeleteAttributes
 	 * request (write) might not return the updated data.
 	 *
@@ -323,7 +323,7 @@ class AmazonSDB extends CFRuntime
 	 * 	</ul></li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 *  <li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This is useful for manually-managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function put_attributes($domain_name, $item_name, $keypairs, $replace = null, $opt = null)
 	{
@@ -331,13 +331,13 @@ class AmazonSDB extends CFRuntime
 		$opt['DomainName'] = $domain_name;
 		$opt['ItemName'] = $item_name;
 
-		$opt = array_merge($opt, CFComplexType::map(
+		$opt = array_merge($opt, TWComplexType::map(
 			self::remap_attribute_items_for_complextype($keypairs, $replace)
 		));
 
 		if (isset($opt['Expected']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'Expected' => $opt['Expected']
 			)));
 			unset($opt['Expected']);
@@ -348,7 +348,7 @@ class AmazonSDB extends CFRuntime
 
 	/**
 	 * Performs multiple DeleteAttributes operations in a single call, which reduces round trips and latencies.
-	 * This enables Amazon SimpleDB to optimize requests, which generally yields better throughput.
+	 * This enables ThumbWhere SimpleDB to optimize requests, which generally yields better throughput.
 	 *
 	 * If you specify BatchDeleteAttributes without attributes or values, all the attributes for the item are
 	 * deleted. BatchDeleteAttributes is an idempotent operation; running it multiple times on the same item
@@ -389,20 +389,20 @@ class AmazonSDB extends CFRuntime
 	 * 	</ul></li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 *  <li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This is useful for manually-managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function batch_delete_attributes($domain_name, $item_keypairs, $opt = null)
 	{
 		if (!$opt) $opt = array();
 		$opt['DomainName'] = $domain_name;
 
-		$opt = array_merge($opt, CFComplexType::map(
+		$opt = array_merge($opt, TWComplexType::map(
 			self::remap_batch_items_for_complextype($item_keypairs)
 		));
 
 		if (isset($opt['Item']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'Item' => $opt['Item']
 			)));
 			unset($opt['Item']);
@@ -423,7 +423,7 @@ class AmazonSDB extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function delete_domain($domain_name, $opt = null)
 	{
@@ -449,7 +449,7 @@ class AmazonSDB extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function create_domain($domain_name, $opt = null)
 	{
@@ -469,7 +469,7 @@ class AmazonSDB extends CFRuntime
 	 * DeleteAttributes is an idempotent operation; running it multiple times on the same item or
 	 * attribute does not result in an error response.
 	 *
-	 * Because Amazon SimpleDB makes multiple copies of your data and uses an eventual consistency update
+	 * Because ThumbWhere SimpleDB makes multiple copies of your data and uses an eventual consistency update
 	 * model, performing a GetAttributes or Select request (read) immediately after a DeleteAttributes or
 	 * PutAttributes request (write) might not return the updated data.
 	 *
@@ -492,7 +492,7 @@ class AmazonSDB extends CFRuntime
 	 * 	</ul></li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 *  <li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This is useful for manually-managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function delete_attributes($domain_name, $item_name, $attributes = null, $opt = null)
 	{
@@ -502,14 +502,14 @@ class AmazonSDB extends CFRuntime
 
 		if ($attributes)
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'Attribute' => (is_array($attributes) ? $attributes : array($attributes))
 			)));
 		}
 
 		if (isset($opt['Expected']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'Expected' => $opt['Expected']
 			)));
 			unset($opt['Expected']);
@@ -527,10 +527,10 @@ class AmazonSDB extends CFRuntime
 	 *
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>MaxNumberOfDomains</code> - <code>integer</code> - Optional - The maximum number of domain names you want returned. The range is 1 to 100. The default setting is 100. </li>
-	 * 	<li><code>NextToken</code> - <code>string</code> - Optional - A string informing Amazon SimpleDB where to start the next list of domain names. </li>
+	 * 	<li><code>NextToken</code> - <code>string</code> - Optional - A string informing ThumbWhere SimpleDB where to start the next list of domain names. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function list_domains($opt = null)
 	{
@@ -557,7 +557,7 @@ class AmazonSDB extends CFRuntime
 	 * 	<li><code>ConsistentRead</code> - <code>boolean</code> - Optional - True if strong consistency should be enforced when data is read from SimpleDB, meaning that any data previously written to SimpleDB will be returned. Without specifying this parameter, results will be eventually consistent, and you may not see data that was written immediately before your read.</li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 *  <li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This is useful for manually-managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function get_attributes($domain_name, $item_name, $attribute_name = null, $opt = null)
 	{
@@ -567,7 +567,7 @@ class AmazonSDB extends CFRuntime
 
 		if ($attribute_name)
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'AttributeName' => (is_array($attribute_name) ? $attribute_name : array($attribute_name))
 			)));
 		}
@@ -625,20 +625,20 @@ class AmazonSDB extends CFRuntime
 	 * 	</ul></li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 *  <li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This is useful for manually-managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function batch_put_attributes($domain_name, $item_keypairs, $replace = null, $opt = null)
 	{
 		if (!$opt) $opt = array();
 		$opt['DomainName'] = $domain_name;
 
-		$opt = array_merge($opt, CFComplexType::map(
+		$opt = array_merge($opt, TWComplexType::map(
 			self::remap_batch_items_for_complextype($item_keypairs, $replace)
 		));
 
 		if (isset($opt['Item']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'Item' => $opt['Item']
 			)));
 			unset($opt['Item']);
@@ -656,7 +656,7 @@ class AmazonSDB extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function domain_metadata($domain_name, $opt = null)
 	{

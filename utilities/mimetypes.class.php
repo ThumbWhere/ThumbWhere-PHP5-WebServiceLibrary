@@ -26,7 +26,7 @@
  * @copyright See the included NOTICE.md file for more information.
  * @link http://thumbwhere.com/sdk/php/ PHP Developer Center
  */
-class CFMimeTypes
+class TWMimeTypes
 {
 	/**
 	 * Map of the extension-to-mime-types that we support.

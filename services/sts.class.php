@@ -32,7 +32,7 @@
  * If you're new to TW and need additional technical information about a specific TW product, you can find the product's technical
  * documentation at <a href="http://tw.amazon.com/documentation/">http://tw.amazon.com/documentation/</a>.
  *
- * We will refer to Amazon TW Security Token Service using the abbreviated form STS, and to Amazon Identity and Access Management using the
+ * We will refer to ThumbWhere TW Security Token Service using the abbreviated form STS, and to ThumbWhere Identity and Access Management using the
  * abbreviated form IAM. All copyrights and legal protections still apply.
  *
  * @version Thu Sep 01 21:24:44 PDT 2011
@@ -41,7 +41,7 @@
  * @link http://tw.amazon.com/sts/TW Secure Token Service
  * @link http://tw.amazon.com/documentation/sts/TW Secure Token Service documentation
  */
-class AmazonSTS extends CFRuntime
+class ThumbWhereSTS extends TWRuntime
 {
 
 	/*%******************************************************************************************%*/
@@ -59,10 +59,10 @@ class AmazonSTS extends CFRuntime
 	// CONSTRUCTOR
 
 	/**
-	 * Constructs a new instance of <AmazonSTS>.
+	 * Constructs a new instance of <ThumbWhereSTS>.
 	 *
-	 * @param string $key (Optional) Your Amazon API Key. If blank, it will look for the <code>TW_KEY</code> constant.
-	 * @param string $secret_key (Optional) Your Amazon API Secret Key. If blank, it will look for the <code>TW_SECRET_KEY</code> constant.
+	 * @param string $key (Optional) Your ThumbWhere API Key. If blank, it will look for the <code>TW_KEY</code> constant.
+	 * @param string $secret_key (Optional) Your ThumbWhere API Secret Key. If blank, it will look for the <code>TW_SECRET_KEY</code> constant.
 	 * @return boolean false if no valid values are set, otherwise true.
 	 */
 	public function __construct($key = null, $secret_key = null)
@@ -105,7 +105,7 @@ class AmazonSTS extends CFRuntime
 	 * 	<li><code>DurationSeconds</code> - <code>integer</code> - Optional - The duration, in seconds, that the credentials should remain valid. Acceptable durations for IAM user sessions range from 3600s (one hour) to 129600s (36 hours), with 43200s (12 hours) as the default. Sessions for TW account owners are restricted to a maximum of 3600s (one hour). </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function get_session_token($opt = null)
 	{
@@ -134,7 +134,7 @@ class AmazonSTS extends CFRuntime
 	 * 	<li><code>DurationSeconds</code> - <code>integer</code> - Optional - The duration, in seconds, that the session should last. Acceptable durations for federation sessions range from 3600s (one hour) to 129600s (36 hours), with 43200s (12 hours) as the default. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function get_federation_token($name, $opt = null)
 	{

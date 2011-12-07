@@ -17,13 +17,13 @@
 /**
  *
  *
- * Amazon ElastiCache is a web service that makes it easier to set up, operate, and scale a distributed cache in the cloud.
+ * ThumbWhere ElastiCache is a web service that makes it easier to set up, operate, and scale a distributed cache in the cloud.
  *
- * With Amazon ElastiCache, customers gain all of the benefits of a high-performance, in-memory cache with far less of the administrative
+ * With ThumbWhere ElastiCache, customers gain all of the benefits of a high-performance, in-memory cache with far less of the administrative
  * burden of launching and managing a distributed cache. The service makes set-up, scaling, and cluster failure handling much simpler than in a
  * self-managed cache deployment.
  *
- * In addition, through integration with Amazon CloudWatch, customers get enhanced visibility into the key performance statistics associated
+ * In addition, through integration with ThumbWhere CloudWatch, customers get enhanced visibility into the key performance statistics associated
  * with their cache and can receive alarms if a part of their cache runs hot.
  *
  * @version Thu Sep 01 21:18:49 PDT 2011
@@ -32,7 +32,7 @@
  * @link http://tw.amazon.com/elasticache/TW ElastiCache
  * @link http://tw.amazon.com/documentation/elasticache/TW ElastiCache documentation
  */
-class AmazonElastiCache extends CFRuntime
+class ThumbWhereElastiCache extends TWRuntime
 {
 
 	/*%******************************************************************************************%*/
@@ -69,10 +69,10 @@ class AmazonElastiCache extends CFRuntime
 	// CONSTRUCTOR
 
 	/**
-	 * Constructs a new instance of <AmazonElastiCache>.
+	 * Constructs a new instance of <ThumbWhereElastiCache>.
 	 *
-	 * @param string $key (Optional) Your Amazon API Key. If blank, it will look for the <code>TW_KEY</code> constant.
-	 * @param string $secret_key (Optional) Your Amazon API Secret Key. If blank, it will look for the <code>TW_SECRET_KEY</code> constant.
+	 * @param string $key (Optional) Your ThumbWhere API Key. If blank, it will look for the <code>TW_KEY</code> constant.
+	 * @param string $secret_key (Optional) Your ThumbWhere API Secret Key. If blank, it will look for the <code>TW_SECRET_KEY</code> constant.
 	 * @return boolean false if no valid values are set, otherwise true.
 	 */
 	public function __construct($key = null, $secret_key = null)
@@ -111,7 +111,7 @@ class AmazonElastiCache extends CFRuntime
 	 * 	<li><code>Marker</code> - <code>string</code> - Optional - An optional marker provided in the previous DescribeCacheClusters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by <i>MaxRecords</i>. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_engine_default_parameters($cache_parameter_group_family, $opt = null)
 	{
@@ -136,7 +136,7 @@ class AmazonElastiCache extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function modify_cache_parameter_group($cache_parameter_group_name, $parameter_name_values, $opt = null)
 	{
@@ -144,7 +144,7 @@ class AmazonElastiCache extends CFRuntime
 		$opt['CacheParameterGroupName'] = $cache_parameter_group_name;
 
 		// Required parameter
-		$opt = array_merge($opt, CFComplexType::map(array(
+		$opt = array_merge($opt, TWComplexType::map(array(
 			'ParameterNameValues' => (is_array($parameter_name_values) ? $parameter_name_values : array($parameter_name_values))
 		), 'member'));
 
@@ -166,11 +166,11 @@ class AmazonElastiCache extends CFRuntime
 	 * 	<li><code>PreferredAvailabilityZone</code> - <code>string</code> - Optional - The EC2 Availability Zone that the Cache Cluster will be created in. In normal use, all CacheNodes belonging to a CacheCluster are placed in the preferred availability zone. In rare circumstances, some of the CacheNodes might temporarily be in a different availability zone. Default: System chosen (random) availability zone. </li>
 	 * 	<li><code>PreferredMaintenanceWindow</code> - <code>string</code> - Optional - The weekly time range (in UTC) during which system maintenance can occur. Example: <code>sun:05:00-sun:09:00</code> </li>
 	 * 	<li><code>Port</code> - <code>integer</code> - Optional - The port number on which each of the Cache Nodes will accept connections. </li>
-	 * 	<li><code>NotificationTopicArn</code> - <code>string</code> - Optional - The Amazon Resource Name (ARN) of the SNS topic to which notifications will be sent. The SNS topic owner must be same as the Cache Cluster owner. </li>
+	 * 	<li><code>NotificationTopicArn</code> - <code>string</code> - Optional - The ThumbWhere Resource Name (ARN) of the SNS topic to which notifications will be sent. The SNS topic owner must be same as the Cache Cluster owner. </li>
 	 * 	<li><code>AutoMinorVersionUpgrade</code> - <code>boolean</code> - Optional - Indicates that minor engine upgrades will be applied automatically to the Cache Cluster during the maintenance window. Default: <code>true</code> </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function create_cache_cluster($cache_cluster_id, $num_cache_nodes, $cache_node_type, $engine, $cache_security_group_names, $opt = null)
 	{
@@ -181,7 +181,7 @@ class AmazonElastiCache extends CFRuntime
 		$opt['Engine'] = $engine;
 
 		// Required parameter
-		$opt = array_merge($opt, CFComplexType::map(array(
+		$opt = array_merge($opt, TWComplexType::map(array(
 			'CacheSecurityGroupNames' => (is_array($cache_security_group_names) ? $cache_security_group_names : array($cache_security_group_names))
 		), 'member'));
 
@@ -193,7 +193,7 @@ class AmazonElastiCache extends CFRuntime
 	 * Authorizes ingress to a CacheSecurityGroup using EC2 Security Groups as authorization (therefore the application using the cache must be
 	 * running on EC2 clusters). This API requires the following parameters: EC2SecurityGroupName and EC2SecurityGroupOwnerId.
 	 *
-	 * You cannot authorize ingress from an EC2 security group in one Region to an Amazon Cache Cluster in another.
+	 * You cannot authorize ingress from an EC2 security group in one Region to an ThumbWhere Cache Cluster in another.
 	 *
 	 * @param string $cache_security_group_name (Required) The name of the Cache Security Group to authorize.
 	 * @param string $ec2_security_group_name (Required) Name of the EC2 Security Group to include in the authorization.
@@ -201,7 +201,7 @@ class AmazonElastiCache extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function authorize_cache_security_group_ingress($cache_security_group_name, $ec2_security_group_name, $ec2_security_group_owner_id, $opt = null)
 	{
@@ -222,7 +222,7 @@ class AmazonElastiCache extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function create_cache_security_group($cache_security_group_name, $description, $opt = null)
 	{
@@ -243,7 +243,7 @@ class AmazonElastiCache extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function delete_cache_cluster($cache_cluster_id, $opt = null)
 	{
@@ -264,7 +264,7 @@ class AmazonElastiCache extends CFRuntime
 	 * 	<li><code>Marker</code> - <code>string</code> - Optional - An optional marker provided in the previous DescribeCacheClusters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by <i>MaxRecords</i>. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_cache_security_groups($opt = null)
 	{
@@ -284,7 +284,7 @@ class AmazonElastiCache extends CFRuntime
 	 * 	<li><code>Marker</code> - <code>string</code> - Optional - An optional marker provided in the previous DescribeCacheParameterGroups request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by <i>MaxRecords</i>. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_cache_parameter_groups($opt = null)
 	{
@@ -304,7 +304,7 @@ class AmazonElastiCache extends CFRuntime
 	 * 	<li><code>Marker</code> - <code>string</code> - Optional - An optional marker provided in the previous DescribeCacheClusters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by <i>MaxRecords</i>. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_cache_parameters($cache_parameter_group_name, $opt = null)
 	{
@@ -330,7 +330,7 @@ class AmazonElastiCache extends CFRuntime
 	 * 	<li><code>Marker</code> - <code>string</code> - Optional - An optional marker provided in the previous DescribeCacheClusters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by <i>MaxRecords</i>. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_events($opt = null)
 	{
@@ -362,7 +362,7 @@ class AmazonElastiCache extends CFRuntime
 	 * 	<li><code>CacheNodeIdsToRemove</code> - <code>string|array</code> - Optional - The list of Cache Node IDs to be removed. This parameter is only valid when NumCacheNodes is less than the existing number of Cache Nodes. The number of Cache Node Ids supplied in this parameter must match the difference between the existing number of Cache Nodes in the cluster and the new NumCacheNodes requested.  Pass a string for a single value, or an indexed array for multiple values. </li>
 	 * 	<li><code>CacheSecurityGroupNames</code> - <code>string|array</code> - Optional - A list of Cache Security Group Names to authorize on this Cache Cluster. This change is asynchronously applied as soon as possible. Constraints: Must contain no more than 255 alphanumeric characters. Must not be "Default".  Pass a string for a single value, or an indexed array for multiple values. </li>
 	 * 	<li><code>PreferredMaintenanceWindow</code> - <code>string</code> - Optional - The weekly time range (in UTC) during which system maintenance can occur, which may result in an outage. This change is made immediately. If moving this window to the current time, there must be at least 120 minutes between the current time and end of the window to ensure pending changes are applied. </li>
-	 * 	<li><code>NotificationTopicArn</code> - <code>string</code> - Optional - The Amazon resource name(ARN) of the SNS topic to which notifications will be sent. The SNS topic owner must be same as the Cache Cluster owner. </li>
+	 * 	<li><code>NotificationTopicArn</code> - <code>string</code> - Optional - The ThumbWhere resource name(ARN) of the SNS topic to which notifications will be sent. The SNS topic owner must be same as the Cache Cluster owner. </li>
 	 * 	<li><code>CacheParameterGroupName</code> - <code>string</code> - Optional - The name of the Cache Parameter Group to apply to this Cache Cluster. This change is asynchronously applied as soon as possible for parameters when the <i>ApplyImmediately</i> parameter is specified as <i>true</i> for this request. </li>
 	 * 	<li><code>NotificationTopicStatus</code> - <code>string</code> - Optional - The status of the SNS notification topic. The value can be <i>active</i> or <i>inactive</i>. Notifications are sent only if the status is <i>active</i>. </li>
 	 * 	<li><code>ApplyImmediately</code> - <code>boolean</code> - Optional - Specifies whether or not the modifications in this request and any pending modifications are asynchronously applied as soon as possible, regardless of the <i>PreferredMaintenanceWindow</i> setting for the Cache Cluster. If this parameter is passed as <i>false</i>, changes to the Cache Cluster are applied on the next maintenance reboot, or the next failure reboot, whichever occurs first. The default value for this parameter is <i>false</i>. </li>
@@ -370,7 +370,7 @@ class AmazonElastiCache extends CFRuntime
 	 * 	<li><code>AutoMinorVersionUpgrade</code> - <code>boolean</code> - Optional - Indicates that minor engine upgrades will be applied automatically to the Cache Cluster during the maintenance window. Default: <code>true</code> </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function modify_cache_cluster($cache_cluster_id, $opt = null)
 	{
@@ -380,7 +380,7 @@ class AmazonElastiCache extends CFRuntime
 		// Optional parameter
 		if (isset($opt['CacheNodeIdsToRemove']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'CacheNodeIdsToRemove' => (is_array($opt['CacheNodeIdsToRemove']) ? $opt['CacheNodeIdsToRemove'] : array($opt['CacheNodeIdsToRemove']))
 			), 'member'));
 			unset($opt['CacheNodeIdsToRemove']);
@@ -389,7 +389,7 @@ class AmazonElastiCache extends CFRuntime
 		// Optional parameter
 		if (isset($opt['CacheSecurityGroupNames']))
 		{
-			$opt = array_merge($opt, CFComplexType::map(array(
+			$opt = array_merge($opt, TWComplexType::map(array(
 				'CacheSecurityGroupNames' => (is_array($opt['CacheSecurityGroupNames']) ? $opt['CacheSecurityGroupNames'] : array($opt['CacheSecurityGroupNames']))
 			), 'member'));
 			unset($opt['CacheSecurityGroupNames']);
@@ -414,7 +414,7 @@ class AmazonElastiCache extends CFRuntime
 	 * 	<li><code>ResetAllParameters</code> - <code>boolean</code> - Optional - Specifies whether (<i>true</i>) or not (<i>false</i>) to reset all parameters in the Cache Parameter Group to default values. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function reset_cache_parameter_group($cache_parameter_group_name, $parameter_name_values, $opt = null)
 	{
@@ -422,7 +422,7 @@ class AmazonElastiCache extends CFRuntime
 		$opt['CacheParameterGroupName'] = $cache_parameter_group_name;
 
 		// Required parameter
-		$opt = array_merge($opt, CFComplexType::map(array(
+		$opt = array_merge($opt, TWComplexType::map(array(
 			'ParameterNameValues' => (is_array($parameter_name_values) ? $parameter_name_values : array($parameter_name_values))
 		), 'member'));
 
@@ -437,7 +437,7 @@ class AmazonElastiCache extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function delete_cache_parameter_group($cache_parameter_group_name, $opt = null)
 	{
@@ -473,7 +473,7 @@ class AmazonElastiCache extends CFRuntime
 	 * 	<li><code>ShowCacheNodeInfo</code> - <code>boolean</code> - Optional - An optional flag that can be included in the DescribeCacheCluster request to retrieve Cache Nodes information. </li>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function describe_cache_clusters($opt = null)
 	{
@@ -492,7 +492,7 @@ class AmazonElastiCache extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function delete_cache_security_group($cache_security_group_name, $opt = null)
 	{
@@ -512,7 +512,7 @@ class AmazonElastiCache extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function create_cache_parameter_group($cache_parameter_group_name, $cache_parameter_group_family, $description, $opt = null)
 	{
@@ -537,7 +537,7 @@ class AmazonElastiCache extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function reboot_cache_cluster($cache_cluster_id, $cache_node_ids_to_reboot, $opt = null)
 	{
@@ -545,7 +545,7 @@ class AmazonElastiCache extends CFRuntime
 		$opt['CacheClusterId'] = $cache_cluster_id;
 
 		// Required parameter
-		$opt = array_merge($opt, CFComplexType::map(array(
+		$opt = array_merge($opt, TWComplexType::map(array(
 			'CacheNodeIdsToReboot' => (is_array($cache_node_ids_to_reboot) ? $cache_node_ids_to_reboot : array($cache_node_ids_to_reboot))
 		), 'member'));
 
@@ -562,7 +562,7 @@ class AmazonElastiCache extends CFRuntime
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
-	 * @return CFResponse A <CFResponse> object containing a parsed HTTP response.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
 	 */
 	public function revoke_cache_security_group_ingress($cache_security_group_name, $ec2_security_group_name, $ec2_security_group_owner_id, $opt = null)
 	{

@@ -15,33 +15,33 @@
  */
 
 
-class S3BrowserUpload extends AmazonS3
+class S3BrowserUpload extends ThumbWhereS3
 {
 	/**
 	 * The <code>POST</code> operation adds an object to a specified bucket using HTML forms. POST is an alternate
 	 * form of <code>PUT</code> that enables browser-based uploads as a way of putting objects in buckets.
 	 * Parameters that are passed to <code>PUT</code> via HTTP headers are instead passed as form fields to
 	 * <code>POST</code> in the <code>multipart/form-data</code> encoded message body. You must have
-	 * <code>WRITE</code> access on a bucket to add an object to it. Amazon S3 never stores partial objects: if
+	 * <code>WRITE</code> access on a bucket to add an object to it. ThumbWhere S3 never stores partial objects: if
 	 * you receive a successful response, you can be confident the entire object was stored.
 	 *
 	 * @param string $bucket (Required) The name of the bucket to use.
 	 * @param string|integer $expires (Optional) The point in time when the upload form field should expire. The default value is <code>+1 hour</code>.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
-	 * 	<li><code>acl</code> - <code>string</code> - Optional - The access control setting to apply to the uploaded file. Accepts any of the following constants: [Allowed values: <code>AmazonS3::ACL_PRIVATE</code>, <code>AmazonS3::ACL_PUBLIC</code>, <code>AmazonS3::ACL_OPEN</code>, <code>AmazonS3::ACL_AUTH_READ</code>, <code>AmazonS3::ACL_OWNER_READ</code>, <code>AmazonS3::ACL_OWNER_FULL_CONTROL</code>].</li>
+	 * 	<li><code>acl</code> - <code>string</code> - Optional - The access control setting to apply to the uploaded file. Accepts any of the following constants: [Allowed values: <code>ThumbWhereS3::ACL_PRIVATE</code>, <code>ThumbWhereS3::ACL_PUBLIC</code>, <code>ThumbWhereS3::ACL_OPEN</code>, <code>ThumbWhereS3::ACL_AUTH_READ</code>, <code>ThumbWhereS3::ACL_OWNER_READ</code>, <code>ThumbWhereS3::ACL_OWNER_FULL_CONTROL</code>].</li>
 	 * 	<li><code>Cache-Control</code> - <code>string</code> - Optional - The Cache-Control HTTP header value to apply to the uploaded file. To use a <code>starts-with</code> comparison instead of an <code>equals</code> comparison, prefix the value with a <code>^</code> (carat) character.</li>
 	 * 	<li><code>Content-Disposition</code> - <code>string</code> - Optional - The Content-Disposition HTTP header value to apply to the uploaded file. To use a <code>starts-with</code> comparison instead of an <code>equals</code> comparison, prefix the value with a <code>^</code> (carat) character.</li>
 	 * 	<li><code>Content-Encoding</code> - <code>string</code> - Optional - The Content-Encoding HTTP header value to apply to the uploaded file. To use a <code>starts-with</code> comparison instead of an <code>equals</code> comparison, prefix the value with a <code>^</code> (carat) character.</li>
 	 * 	<li><code>Content-Type</code> - <code>string</code> - Optional - The Content-Type HTTP header value to apply to the uploaded file. The default value is <code>application/octet-stream</code>. To use a <code>starts-with</code> comparison instead of an <code>equals</code> comparison, prefix the value with a <code>^</code> (carat) character.</li>
 	 * 	<li><code>Expires</code> - <code>string</code> - Optional - The Expires HTTP header value to apply to the uploaded file. To use a <code>starts-with</code> comparison instead of an <code>equals</code> comparison, prefix the value with a <code>^</code> (carat) character.</li>
 	 * 	<li><code>key</code> - <code>string</code> - Optional - The location where the file should be uploaded to. The default value is <code>${filename}</code>.</li>
-	 * 	<li><code>success_action_redirect</code> - <code>string</code> - Optional - The URI for Amazon S3 to redirect to upon successful upload.</li>
-	 * 	<li><code>success_action_status</code> - <code>integer</code> - Optional - The status code for Amazon S3 to return upon successful upload.</li>
-	 * 	<li><code>x-amz-storage-class</code> - <code>string</code> - Optional - The storage setting to apply to the object. [Allowed values: <code>AmazonS3::STORAGE_STANDARD</code>, <code>AmazonS3::STORAGE_REDUCED</code>]. The default value is <code>AmazonS3::STORAGE_STANDARD</code>.</li>
+	 * 	<li><code>success_action_redirect</code> - <code>string</code> - Optional - The URI for ThumbWhere S3 to redirect to upon successful upload.</li>
+	 * 	<li><code>success_action_status</code> - <code>integer</code> - Optional - The status code for ThumbWhere S3 to return upon successful upload.</li>
+	 * 	<li><code>x-amz-storage-class</code> - <code>string</code> - Optional - The storage setting to apply to the object. [Allowed values: <code>ThumbWhereS3::STORAGE_STANDARD</code>, <code>ThumbWhereS3::STORAGE_REDUCED</code>]. The default value is <code>ThumbWhereS3::STORAGE_STANDARD</code>.</li>
 	 * 	<li>x-amz-meta-*</li>
 	 * </ul>
 	 * @return array An array of fields that can be converted into markup.
-	 * @link http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTObjectPOST.html POST Object
+	 * @link http://docs.amazonwebservices.com/ThumbWhereS3/latest/API/RESTObjectPOST.html POST Object
 	 */
 	public function generate_upload_parameters($bucket, $expires = '+1 hour', $opt = null)
 	{
