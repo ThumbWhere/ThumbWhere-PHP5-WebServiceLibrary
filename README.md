@@ -1,8 +1,7 @@
 # TW SDK for PHP
 
-The TW SDK for PHP enables developers to build solutions for ThumbWhere Simple Storage Service (ThumbWhere S3),
-ThumbWhere Elastic Compute Cloud (ThumbWhere EC2), ThumbWhere SimpleDB, and more. With the TW SDK for PHP, developers
-can get started in minutes with a single, downloadable package.
+The TW SDK for PHP enables developers to build solutions for ThumbWhere.
+With the TW SDK for PHP, developers can get started in minutes with a single, downloadable package.
 
 The SDK features:
 
@@ -15,7 +14,7 @@ The SDK features:
   run on your server to determine whether or not your PHP environment meets the minimum requirements.
 
 For more information about the TW SDK for PHP, including a complete list of supported services, see
-[tw.amazon.com/sdkforphp](http://tw.amazon.com/sdkforphp).
+[thumbwhere.com/sdk/php](thumbwhere.com/sdk/php).
 
 
 ## Signing up for ThumbWhere
@@ -24,13 +23,15 @@ Before you can begin, you must sign up for each service you want to use.
 
 To sign up for a service:
 
+(You can't currently sign up - we are in closed trials - but the signing process will be something like this)
+
 * Go to the home page for the service. You can find a list of services on
-  [tw.amazon.com/products](http://tw.amazon.com/products).
+  [thumbwhere.com/products](http://thumbwhere/products).
 * Click the Sign Up button on the top right corner of the page. If you don't already have an TW account, you
   are prompted to create one as part of the sign up process.
 * Follow the on-screen instructions.
 * TW sends you a confirmation e-mail after the sign-up process is complete. At any time, you can view your
-  current account activity and manage your account by going to [tw.amazon.com](http://tw.amazon.com) and
+  current account activity and manage your account by going to [admin.thumbwhere.com](http://admin.thumbwhere.com) and
   clicking "Your Account".
 
 
@@ -45,7 +46,7 @@ The source tree for includes the following files and directories:
   third-party library.
 * `lib` -- Contains any third-party libraries that the SDK depends on. The licenses for these projects will
   always be Apache 2.0-compatible.
-* `services` -- Contains the service-specific classes that communicate with TW. These classes are always
+* `services` -- Contains the service-specific classes that communicate with ThumbWhere. These classes are always
   prefixed with `ThumbWhere`.
 * `utilities` -- Contains any utility-type methods that the SDK uses. Includes extensions to built-in PHP
   classes, as well as new functionality that is entirely custom. These classes are always prefixed with `TW`.
@@ -58,13 +59,13 @@ The source tree for includes the following files and directories:
 ## Minimum Requirements in a nutshell
 
 * You are at least an intermediate-level PHP developer and have a basic understanding of object-oriented PHP.
-* You have a valid TW account, and you've already signed up for the services you want to use.
+* You have a valid ThumbWhere account, and you've already signed up for the services you want to use.
 * The PHP interpreter, version 5.2 or newer. PHP 5.2.17 or 5.3.x is highly recommended for use with the TW SDK for PHP.
 * The cURL PHP extension (compiled with the [OpenSSL](http://openssl.org) libraries for HTTPS support).
 * The ability to read from and write to the file system via [file_get_contents()](http://php.net/file_get_contents) and [file_put_contents()](http://php.net/file_put_contents).
 
 If you're not sure whether your PHP environment meets these requirements, run the
-[SDK Compatibility Test](http://github.com/amazonwebservices/tw-sdk-for-php/tree/master/_compatibility_test/) script
+[SDK Compatibility Test](http://github.com/thumbwhere/ThumbWhere-PHP5-WebServiceLibrary/tree/master/_compatibility_test/) script
 included in the SDK download.
 
 
@@ -73,7 +74,7 @@ included in the SDK download.
 ### Via GitHub
 
 [Git](http://git-scm.com) is an extremely fast, efficient, distributed version control system ideal for the
-collaborative development of software. [GitHub](http://github.com/amazonwebservices) is the best way to
+collaborative development of software. [GitHub](http://github.com/ThumbWhere-PHP5-WebServiceLibrary) is the best way to
 collaborate with others. Fork, send pull requests and manage all your public and private git repositories.
 We believe that GitHub is the ideal service for working collaboratively with the open source PHP community.
 
@@ -93,7 +94,7 @@ of resources on the net that will help you learn more:
 
 If you're comfortable working with Git and/or GitHub, you can pull down the source code as follows:
 
-    git clone git://github.com/amazonwebservices/tw-sdk-for-php.git TWSDKforPHP
+    git clone git://github.com/ThumbWhere/ThumbWhere-PHP5-WebServiceLibrary.git TWSDKforPHP
     cd ./TWSDKforPHP
 
 ### Via PEAR
@@ -111,7 +112,7 @@ installed on.
 
 From the command-line, you can install the SDK with PEAR as follows:
 
-    pear channel-discover pear.amazonwebservices.com
+    pear channel-discover pear.thumbwhere.com
     pear install tw/sdk
 
 You may need to use `sudo` for the above commands. Once the SDK has been installed via PEAR, you can load it into
@@ -121,7 +122,7 @@ your project with:
 
 ### Configuration
 
-1. Copy the contents of [config-sample.inc.php](https://github.com/amazonwebservices/tw-sdk-for-php/raw/master/config-sample.inc.php)
+1. Copy the contents of [config-sample.inc.php](https://github.com/ThumbWhere/ThumbWhere-PHP5-WebServiceLibrary/raw/master/config-sample.inc.php)
    and add your credentials as instructed in the file.
 2. Move your file to `~/.tw/sdk/config.inc.php`.
 3. Make sure that `getenv('HOME')` points to your user directory. If not you'll need to set
@@ -130,7 +131,7 @@ your project with:
 
 ## Additional Information
 
-* TW SDK for PHP: <http://tw.amazon.com/sdkforphp>
-* Documentation: <http://docs.amazonwebservices.com/TWSDKforPHP/latest/>
+* TW SDK for PHP: <http://thumbwhere.com/sdk/php>
+* Documentation: <http://thumbwhere.com/sdk/php/docs/>
 * License: <http://thumbwhere.com/licenses/apache2.0/>
 * Discuss: <http://tw.amazon.com/forums>
