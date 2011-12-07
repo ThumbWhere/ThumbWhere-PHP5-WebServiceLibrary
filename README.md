@@ -134,4 +134,3 @@ your project with:
 * TW SDK for PHP: <http://thumbwhere.com/sdk/php>
 * Documentation: <http://thumbwhere.com/sdk/php/docs/>
 * License: <http://thumbwhere.com/licenses/apache2.0/>
-* Discuss: <http://tw.amazon.com/forums>
