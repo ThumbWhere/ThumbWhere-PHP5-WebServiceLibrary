@@ -1,47 +1,146 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.8.0" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
-    http://pear.php.net/dtd/tasks-1.0.xsd
-    http://pear.php.net/dtd/package-2.0
-    http://pear.php.net/dtd/package-2.0.xsd">
- <name>Services_ThumbWhere</name>
- <channel>pear.thumbwhere.com</channel>
- <summary>PHP5 Web Service Library for ThumbWhere.</summary>
- <description>
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.8.0" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0&#xD;&#xA;    http://pear.php.net/dtd/tasks-1.0.xsd&#xD;&#xA;    http://pear.php.net/dtd/package-2.0&#xD;&#xA;    http://pear.php.net/dtd/package-2.0.xsd">
+  <name>Services_ThumbWhere</name>
+  <channel>pear.thumbwhere.com</channel>
+  <summary>PHP5 Web Service Library for ThumbWhere.</summary>
+  <description>
    PHP5 Library to allow developers to make calls against the ThumbWhere Social Media API
  </description>
- <lead>
-  <name>ThumbWhere</name>
-  <user>ThumbWhere</user>
-  <email>sdk@thumbwhere.com</email>
-  <active>yes</active>
- </lead>
- <date>2011-12-08</date>
- <time>16:00:00</time>
- <version>
-  <release>0.0.0</release>
-  <api>0.0.0</api>
- </version>
- <stability>
-  <release>beta</release>
-  <api>beta</api>
- </stability>
- <license uri="http://thumbwhere.com/licenses/apache-2.0">Apache2</license>
- <notes>-</notes>
- <contents>
-   <dir name="/">
-    <file name="LICENSE" role="doc" />
-    <file name="README.md" role="doc" />
-   </dir>
- </contents>
- <dependencies>
-  <required>
-   <php>
-    <min>5.0.0</min>
-   </php>
-   <pearinstaller>
-    <min>1.4.0</min>
-   </pearinstaller>
-  </required>
- </dependencies>
- <phprelease />
+  <lead>
+    <name>ThumbWhere</name>
+    <user>ThumbWhere</user>
+    <email>sdk@thumbwhere.com</email>
+    <active>yes</active>
+  </lead>
+  <date>2011-12-09</date>
+  <time>02:00:21</time>
+  <version>
+    <release>0.15.65</release>
+    <api>1.1</api>
+  </version>
+  <stability>
+    <release>devel</release>
+    <api>devel</api>
+  </stability>
+  <license uri="http://thumbwhere.com/licenses/apache-2.0">Apache2</license>
+  <notes>-</notes>
+  <contents>
+    <dir name="/">
+      <file name="config-sample.inc.php" role="php" />
+      <file name="README.md" role="doc" />
+      <file name="sdk.class.php" role="php" />
+      <dir name="extensions">
+        <file name="s3browserupload.class.php" role="php" />
+      </dir>
+      <dir name="lib">
+        <dir name="cachecore">
+          <file name="cacheapc.class.php" role="php" />
+          <file name="cachecore.class.php" role="php" />
+          <file name="cachefile.class.php" role="php" />
+          <file name="cachemc.class.php" role="php" />
+          <file name="cachepdo.class.php" role="php" />
+          <file name="cachexcache.class.php" role="php" />
+          <file name="icachecore.interface.php" role="php" />
+          <file name="LICENSE" role="doc" />
+          <file name="README" role="doc" />
+          <dir name="_sql">
+            <file name="mysql.sql" role="data" />
+            <file name="pgsql.sql" role="data" />
+            <file name="README" role="doc" />
+            <file name="sqlite3.sql" role="data" />
+          </dir>
+        </dir>
+        <dir name="requestcore">
+          <file name="cacert.pem" role="data" />
+          <file name="LICENSE" role="doc" />
+          <file name="README.md" role="doc" />
+          <file name="requestcore.class.php" role="php" />
+        </dir>
+        <dir name="yaml">
+          <file name="LICENSE" role="doc" />
+          <file name="README.markdown" role="doc" />
+          <dir name="lib">
+            <file name="sfYaml.php" role="php" />
+            <file name="sfYamlDumper.php" role="php" />
+            <file name="sfYamlInline.php" role="php" />
+            <file name="sfYamlParser.php" role="php" />
+          </dir>
+        </dir>
+      </dir>
+      <dir name="services">
+        <file name="as.class.php" role="php" />
+        <file name="cloudformation.class.php" role="php" />
+        <file name="cloudfront.class.php" role="php" />
+        <file name="cloudwatch.class.php" role="php" />
+        <file name="ec2.class.php" role="php" />
+        <file name="elasticache.class.php" role="php" />
+        <file name="elasticbeanstalk.class.php" role="php" />
+        <file name="elb.class.php" role="php" />
+        <file name="emr.class.php" role="php" />
+        <file name="iam.class.php" role="php" />
+        <file name="importexport.class.php" role="php" />
+        <file name="rds.class.php" role="php" />
+        <file name="s3.class.php" role="php" />
+        <file name="sdb.class.php" role="php" />
+        <file name="ses.class.php" role="php" />
+        <file name="sns.class.php" role="php" />
+        <file name="sqs.class.php" role="php" />
+        <file name="sts.class.php" role="php" />
+      </dir>
+      <dir name="utilities">
+        <file name="array.class.php" role="php" />
+        <file name="batchrequest.class.php" role="php" />
+        <file name="complextype.class.php" role="php" />
+        <file name="gzipdecode.class.php" role="php" />
+        <file name="hadoopbase.class.php" role="php" />
+        <file name="hadoopbootstrap.class.php" role="php" />
+        <file name="hadoopstep.class.php" role="php" />
+        <file name="info.class.php" role="php" />
+        <file name="json.class.php" role="php" />
+        <file name="manifest.class.php" role="php" />
+        <file name="mimetypes.class.php" role="php" />
+        <file name="policy.class.php" role="php" />
+        <file name="request.class.php" role="php" />
+        <file name="response.class.php" role="php" />
+        <file name="simplexml.class.php" role="php" />
+        <file name="stacktemplate.class.php" role="php" />
+        <file name="stepconfig.class.php" role="php" />
+        <file name="utilities.class.php" role="php" />
+      </dir>
+      <dir name="_docs">
+        <file name="CHANGELOG.md" role="data" />
+        <file name="CONTRIBUTORS.md" role="data" />
+        <file name="LICENSE.md" role="doc" />
+        <file name="NOTICE.md" role="data" />
+        <file name="WHERE_IS_THE_API_REFERENCE.md" role="data" />
+      </dir>
+      <dir name="_samples">
+        <file name="cli-ec2_sorting_and_filtering.php" role="php" />
+        <file name="cli-s3_get_urls_for_uploads.php" role="php" />
+        <file name="cli-s3_progress_bar.php" role="php" />
+        <file name="html-sdb_create_domain_data.php" role="php" />
+        <file name="README.md" role="doc" />
+        <dir name="lib">
+          <file name="ProgressBar.php" role="php" />
+        </dir>
+        <dir name="test_files">
+          <file name="audio.wav" role="data" />
+          <file name="plain.txt" role="data" />
+          <file name="video.mp4" role="data" />
+          <file name="word.doc" role="data" />
+        </dir>
+      </dir>
+    </dir>
+  </contents>
+  <dependencies>
+    <required>
+      <php>
+        <min>5.0.0</min>
+      </php>
+      <pearinstaller>
+        <min>1.4.0</min>
+      </pearinstaller>
+    </required>
+  </dependencies>
+  <phprelease />
 </package>
