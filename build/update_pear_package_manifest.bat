@@ -25,7 +25,7 @@ REM Checkout if we need to
 IF NOT EXIST ThumbWhere-PHP5-WebServiceLibrary "C:\Program Files\Git\bin\git.exe" clone git@github.com:ThumbWhere/ThumbWhere-PHP5-WebServiceLibrary.git
 IF NOT ERRORLEVEL 0 GOTO ReportError
 
-e:\inetpub\wwwroot\ThumbWhere-Drupal7-Module\tools\DrupalUtil.exe pear ThumbWhere-PHP5-WebServiceLibrary .ThumbWhere-PHP5-WebServiceLibrary\package.xml 1.1 patch %STREAM% %APISTREAM% %BUILD%
+e:\inetpub\wwwroot\ThumbWhere-Drupal7-Module\tools\DrupalUtil.exe pear ThumbWhere-PHP5-WebServiceLibrary ThumbWhere-PHP5-WebServiceLibrary\package.xml 1.1 patch %STREAM% %APISTREAM% %BUILD%
 IF NOT ERRORLEVEL 0 GOTO ReportError
 
 PUSHD ThumbWhere-PHP5-WebServiceLibrary
