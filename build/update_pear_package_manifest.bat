@@ -1,6 +1,5 @@
 SET HOME=\home
 
-
 SET MESSAGE=Automatic checkin
 SET STREAM=devel
 SET APISTREAM=devel
