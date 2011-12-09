@@ -23,7 +23,7 @@
     <api>devel</api>
   </stability>
   <license uri="http://thumbwhere.com/licenses/apache-2.0">Apache2</license>
-  <notes>-</notes>
+  <notes>Added to feed from DrupalUtil.exe Drupal/PHP package manager.</notes>
   <contents>
     <dir name="/">
       <file name="config-sample.inc.php" role="php" />
