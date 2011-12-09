@@ -23,7 +23,7 @@
  * TW Elastic Beanstalk is a tool that makes it easy for you to create, deploy, and manage scalable, fault-tolerant applications running on
  * ThumbWhere cloud resources.
  *
- * For more information about this product, go to the <a href="http://tw.amazon.com/elasticbeanstalk/">TW Elastic Beanstalk</a> details page.
+ * For more information about this product, go to the <a href="http://thumbwhere.com/elasticbeanstalk/">TW Elastic Beanstalk</a> details page.
  * The location of the lastest TW Elastic Beanstalk WSDL is <a
  * amazonaws.com/doc/2010-12-01/TWElasticBeanstalk.wsdl">http://elasticbeanstalk.s3.amazonaws.com/doc/2010-12-01/TWElasticBeanstalk.wsdl</a>.
  *
@@ -38,8 +38,8 @@
  * @version Thu Sep 01 21:19:18 PDT 2011
  * @license See the included NOTICE.md file for complete information.
  * @copyright See the included NOTICE.md file for complete information.
- * @link http://tw.amazon.com/elasticbeanstalk/TW Elastic Beanstalk
- * @link http://tw.amazon.com/documentation/elasticbeanstalk/TW Elastic Beanstalk documentation
+ * @link http://thumbwhere.com/elasticbeanstalk/TW Elastic Beanstalk
+ * @link http://thumbwhere.com/documentation/elasticbeanstalk/TW Elastic Beanstalk documentation
  */
 class ThumbWhereElasticBeanstalk extends TWRuntime
 {

@@ -25,13 +25,13 @@
  * change. ThumbWhere EC2 changes the economics of computing by allowing you to pay only for capacity that you actually use. ThumbWhere EC2 provides
  * developers the tools to build failure resilient applications and isolate themselves from common failure scenarios.
  *
- * Visit <a href="http://tw.amazon.com/ec2/">http://tw.amazon.com/ec2/</a> for more information.
+ * Visit <a href="http://thumbwhere.com/ec2/">http://thumbwhere.com/ec2/</a> for more information.
  *
  * @version Tue Aug 23 12:47:35 PDT 2011
  * @license See the included NOTICE.md file for complete information.
  * @copyright See the included NOTICE.md file for complete information.
- * @link http://tw.amazon.com/ec2/ThumbWhere Elastic Compute Cloud
- * @link http://tw.amazon.com/documentation/ec2/ThumbWhere Elastic Compute Cloud documentation
+ * @link http://thumbwhere.com/ec2/ThumbWhere Elastic Compute Cloud
+ * @link http://thumbwhere.com/documentation/ec2/ThumbWhere Elastic Compute Cloud documentation
  */
 class ThumbWhereEC2 extends TWRuntime
 {

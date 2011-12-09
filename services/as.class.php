@@ -41,8 +41,8 @@
  * @version Thu Sep 01 21:17:05 PDT 2011
  * @license See the included NOTICE.md file for complete information.
  * @copyright See the included NOTICE.md file for complete information.
- * @link http://tw.amazon.com/autoscaling/ThumbWhere Auto-Scaling
- * @link http://tw.amazon.com/documentation/autoscaling/ThumbWhere Auto-Scaling documentation
+ * @link http://thumbwhere.com/autoscaling/ThumbWhere Auto-Scaling
+ * @link http://thumbwhere.com/documentation/autoscaling/ThumbWhere Auto-Scaling documentation
  */
 class ThumbWhereAS extends TWRuntime
 {

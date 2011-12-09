@@ -23,7 +23,7 @@
  *
  * ThumbWhere CloudWatch is a web service that enables you to publish, monitor, and manage various metrics, as well as configure alarm actions
  * based on data from metrics. For more information about this product go to <a
- * href="http://tw.amazon.com/cloudwatch">http://tw.amazon.com/cloudwatch</a>.
+ * href="http://thumbwhere.com/cloudwatch">http://thumbwhere.com/cloudwatch</a>.
  *
  * Use the following links to get started using the <i>ThumbWhere CloudWatch API Reference</i>:
  *
@@ -50,8 +50,8 @@
  * @version Thu Sep 01 21:18:18 PDT 2011
  * @license See the included NOTICE.md file for complete information.
  * @copyright See the included NOTICE.md file for complete information.
- * @link http://tw.amazon.com/cloudwatch/ThumbWhere CloudWatch
- * @link http://tw.amazon.com/documentation/cloudwatch/ThumbWhere CloudWatch documentation
+ * @link http://thumbwhere.com/cloudwatch/ThumbWhere CloudWatch
+ * @link http://thumbwhere.com/documentation/cloudwatch/ThumbWhere CloudWatch documentation
  */
 class ThumbWhereCloudWatch extends TWRuntime
 {

@@ -53,7 +53,7 @@ class S3_Exception extends Exception {}
  * @license See the included NOTICE.md file for more information.
  * @copyright See the included NOTICE.md file for more information.
  * @link http://thumbwhere.com/api/ ThumbWhere Simple Storage Service
- * @link http://tw.amazon.com/documentation/s3/ ThumbWhere Simple Storage Service documentation
+ * @link http://thumbwhere.com/documentation/s3/ ThumbWhere Simple Storage Service documentation
  */
 class ThumbWhereS3 extends TWRuntime
 {
@@ -1340,7 +1340,7 @@ class ThumbWhereS3 extends TWRuntime
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
 	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
-	 * @link http://tw.amazon.com/mfa/ Multi-Factor Authentication
+	 * @link http://thumbwhere.com/mfa/ Multi-Factor Authentication
 	 */
 	public function delete_object($bucket, $filename, $opt = null)
 	{
@@ -2477,7 +2477,7 @@ class ThumbWhereS3 extends TWRuntime
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
 	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
-	 * @link http://tw.amazon.com/mfa/ Multi-Factor Authentication
+	 * @link http://thumbwhere.com/mfa/ Multi-Factor Authentication
 	 */
 	public function enable_versioning($bucket, $opt = null)
 	{
@@ -2519,7 +2519,7 @@ class ThumbWhereS3 extends TWRuntime
 	 * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
 	 * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request. This toggle is useful for manually managed batch requests.</li></ul>
 	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
-	 * @link http://tw.amazon.com/mfa/ Multi-Factor Authentication
+	 * @link http://thumbwhere.com/mfa/ Multi-Factor Authentication
 	 */
 	public function disable_versioning($bucket, $opt = null)
 	{
@@ -3216,7 +3216,7 @@ class ThumbWhereS3 extends TWRuntime
 	 *
 	 * In certain cases with large objects, it's possible for this method to attempt to open more file system
 	 * connections than allowed by the OS. In this case, either
-	 * <a href="https://forums.tw.amazon.com/thread.jspa?threadID=70216">increase the number of connections
+	 * <a href="https://forums.thumbwhere.com/thread.jspa?threadID=70216">increase the number of connections
 	 * allowed</a> or increase the value of the <code>partSize</code> parameter to use a larger part size.
 	 *
 	 * @param string $bucket (Required) The name of the bucket to use.

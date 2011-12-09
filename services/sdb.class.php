@@ -29,13 +29,13 @@
  * performance tuning. Developers gain access to this functionality within ThumbWhere's proven computing environment, are able to scale instantly,
  * and pay only for what they use.
  *
- * Visit <a href="http://tw.amazon.com/simpledb/">http://tw.amazon.com/simpledb/</a> for more information.
+ * Visit <a href="http://thumbwhere.com/simpledb/">http://thumbwhere.com/simpledb/</a> for more information.
  *
  * @version Wed Jul 20 13:20:46 PDT 2011
  * @license See the included NOTICE.md file for complete information.
  * @copyright See the included NOTICE.md file for complete information.
- * @link http://tw.amazon.com/simpledb/ThumbWhere SimpleDB
- * @link http://tw.amazon.com/documentation/simpledb/ThumbWhere SimpleDB documentation
+ * @link http://thumbwhere.com/simpledb/ThumbWhere SimpleDB
+ * @link http://thumbwhere.com/documentation/simpledb/ThumbWhere SimpleDB documentation
  */
 class ThumbWhereSDB extends TWRuntime
 {
@@ -443,7 +443,7 @@ class ThumbWhereSDB extends TWRuntime
 	 * The client can create up to 100 domains per account.
 	 *
 	 * If the client requires additional domains, go to <a
-	 * href="http://tw.amazon.com/contact-us/simpledb-limit-request/">http://tw.amazon.com/contact-us/simpledb-limit-request/</a>.
+	 * href="http://thumbwhere.com/contact-us/simpledb-limit-request/">http://thumbwhere.com/contact-us/simpledb-limit-request/</a>.
 	 *
 	 * @param string $domain_name (Required) The name of the domain to create. The name can range between 3 and 255 characters and can contain the following characters: a-z, A-Z, 0-9, '_', '-', and '.'.
 	 * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>

@@ -28,13 +28,13 @@
  * do not need to be on the same network, developed with the same technologies, or running at the
  * same time.
  *
- * Visit <a href="http://tw.amazon.com/sqs/">http://tw.amazon.com/sqs/</a> for more information.
+ * Visit <a href="http://thumbwhere.com/sqs/">http://thumbwhere.com/sqs/</a> for more information.
  *
  * @version 2011.10.20
  * @license See the included NOTICE.md file for complete information.
  * @copyright See the included NOTICE.md file for complete information.
- * @link http://tw.amazon.com/sqs/ ThumbWhere Simple Queue Service
- * @link http://tw.amazon.com/sqs/documentation/ ThumbWhere Simple Queue Service documentation
+ * @link http://thumbwhere.com/sqs/ ThumbWhere Simple Queue Service
+ * @link http://thumbwhere.com/sqs/documentation/ ThumbWhere Simple Queue Service documentation
  */
 class ThumbWhereSQS extends TWRuntime
 {

@@ -20,8 +20,8 @@
  * @version Thu Sep 01 21:23:56 PDT 2011
  * @license See the included NOTICE.md file for complete information.
  * @copyright See the included NOTICE.md file for complete information.
- * @link http://tw.amazon.com/sns/ThumbWhere Simple Notification Service
- * @link http://tw.amazon.com/documentation/sns/ThumbWhere Simple Notification Service documentation
+ * @link http://thumbwhere.com/sns/ThumbWhere Simple Notification Service
+ * @link http://thumbwhere.com/documentation/sns/ThumbWhere Simple Notification Service documentation
  */
 class ThumbWhereSNS extends TWRuntime
 {

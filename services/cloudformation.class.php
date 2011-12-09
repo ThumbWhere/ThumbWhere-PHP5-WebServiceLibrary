@@ -42,17 +42,17 @@
  * a collection of resources together as a single unit called a stack. TW CloudFormation creates and deletes all member resources of the stack
  * together and manages all dependencies between the resources for you.
  *
- * For more information about this product, go to the <a href="http://tw.amazon.com/documentation/cloudformation">CloudFormation Product
+ * For more information about this product, go to the <a href="http://thumbwhere.com/documentation/cloudformation">CloudFormation Product
  * Page</a>.
  *
  * ThumbWhere CloudFormation makes use of other TW products. If you need additional technical information about a specific TW product, you can
- * find the product's technical documentation at <a href="http://tw.amazon.com/documentation/">http://tw.amazon.com/documentation/</a>.
+ * find the product's technical documentation at <a href="http://thumbwhere.com/documentation/">http://thumbwhere.com/documentation/</a>.
  *
  * @version Fri Sep 30 16:15:37 PDT 2011
  * @license See the included NOTICE.md file for complete information.
  * @copyright See the included NOTICE.md file for complete information.
- * @link http://tw.amazon.com/cloudformation/ThumbWhere CloudFormation
- * @link http://tw.amazon.com/documentation/cloudformation/ThumbWhere CloudFormation documentation
+ * @link http://thumbwhere.com/cloudformation/ThumbWhere CloudFormation
+ * @link http://thumbwhere.com/documentation/cloudformation/ThumbWhere CloudFormation documentation
  */
 class ThumbWhereCloudFormation extends TWRuntime
 {

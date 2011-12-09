@@ -30,8 +30,8 @@
  * @version Thu Sep 01 21:22:55 PDT 2011
  * @license See the included NOTICE.md file for complete information.
  * @copyright See the included NOTICE.md file for complete information.
- * @link http://tw.amazon.com/rds/ThumbWhere Relational Database Service
- * @link http://tw.amazon.com/documentation/rds/ThumbWhere Relational Database Service documentation
+ * @link http://thumbwhere.com/rds/ThumbWhere Relational Database Service
+ * @link http://thumbwhere.com/documentation/rds/ThumbWhere Relational Database Service documentation
  */
 class ThumbWhereRDS extends TWRuntime
 {

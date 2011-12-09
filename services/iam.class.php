@@ -22,15 +22,15 @@
  *
  * IAM is a web service that enables TW customers to manage users and user permissions under
  * their TW account. For more information about this product go to <a href=
- * "http://tw.amazon.com/iam/" target="_blank">TW Identity and Access Management (IAM)</a>. For
+ * "http://thumbwhere.com/iam/" target="_blank">TW Identity and Access Management (IAM)</a>. For
  * specific information about setting up signatures and authorization through the API, go to
  * 	<a href="http://docs.amazonwebservices.com/IAM/latest/UserGuide/IAM_UsingQueryAPI.html" target=
  * "_blank">Making Query Requests</a> in <em>Using TW Identity and Access Management</em>.
  *
  * If you're new to TW and need additional technical information about a specific TW product,
  * you can find the product'stechnical documentation at <a href=
- * "http://tw.amazon.com/documentation/" target=
- * "_blank">http://tw.amazon.com/documentation/</a>.
+ * "http://thumbwhere.com/documentation/" target=
+ * "_blank">http://thumbwhere.com/documentation/</a>.
  *
  * We will refer to ThumbWhere TW Identity and Access Management using the abbreviated form IAM. All
  * copyrights and legal protections still apply.
@@ -38,8 +38,8 @@
  * @version 2011.11.03
  * @license See the included NOTICE.md file for complete information.
  * @copyright See the included NOTICE.md file for complete information.
- * @link http://tw.amazon.com/iam/ TW Identity and Access Management
- * @link http://tw.amazon.com/iam/documentation/ TW Identity and Access Management documentation
+ * @link http://thumbwhere.com/iam/ TW Identity and Access Management
+ * @link http://thumbwhere.com/iam/documentation/ TW Identity and Access Management documentation
  */
 class ThumbWhereIAM extends TWRuntime
 {

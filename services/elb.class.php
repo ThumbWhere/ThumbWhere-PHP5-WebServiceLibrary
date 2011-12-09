@@ -24,8 +24,8 @@
  * @version Thu Sep 01 21:20:23 PDT 2011
  * @license See the included NOTICE.md file for complete information.
  * @copyright See the included NOTICE.md file for complete information.
- * @link http://tw.amazon.com/elasticloadbalancing/ThumbWhere Elastic Load Balancing
- * @link http://tw.amazon.com/documentation/elasticloadbalancing/ThumbWhere Elastic Load Balancing documentation
+ * @link http://thumbwhere.com/elasticloadbalancing/ThumbWhere Elastic Load Balancing
+ * @link http://thumbwhere.com/documentation/elasticloadbalancing/ThumbWhere Elastic Load Balancing documentation
  */
 class ThumbWhereELB extends TWRuntime
 {
