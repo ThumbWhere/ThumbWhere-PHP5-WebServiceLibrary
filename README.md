@@ -1,4 +1,4 @@
-# TW SDK for PHP
+# TW SDK for PHP.
 
 The TW SDK for PHP enables developers to build solutions for ThumbWhere.
 With the TW SDK for PHP, developers can get started in minutes with a single, downloadable package.
