@@ -39,8 +39,8 @@ class CloudFront_Exception extends Exception {}
  * @version 2011.03.11
  * @license See the included NOTICE.md file for more information.
  * @copyright See the included NOTICE.md file for more information.
- * @link http://tw.amazon.com/cloudfront/ ThumbWhere CloudFront
- * @link http://tw.amazon.com/documentation/cloudfront/ ThumbWhere CloudFront documentation
+ * @link http://thumbwhere.com/cloudfront/ ThumbWhere CloudFront
+ * @link http://thumbwhere.com/documentation/cloudfront/ ThumbWhere CloudFront documentation
  */
 class ThumbWhereCloudFront extends TWRuntime
 {

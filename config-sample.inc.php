@@ -7,9 +7,9 @@
  * @license See the included NOTICE.md file for more information.
  * @copyright See the included NOTICE.md file for more information.
  * @link http://thumbwhere.com/sdk/php/ PHP Developer Center
- * @link http://tw.amazon.com/security-credentials TW Security Credentials
+ * @link http://thumbwhere.com/security-credentials TW Security Credentials
  */
-
+	
 
 /**
  * ThumbWhere Key. Found in the TW Security Credentials. You can also pass this value as the first

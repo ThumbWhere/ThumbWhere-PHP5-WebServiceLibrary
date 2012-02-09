@@ -19,7 +19,7 @@
 	In order to run this sample, I'll assume a few things:
 
 	* You already have a valid ThumbWhere developer account, and are
-	  signed up to use ThumbWhere EC2 <http://tw.amazon.com/ec2>.
+	  signed up to use ThumbWhere EC2 <http://thumbwhere.com/ec2>.
 
 	* You already understand the fundamentals of object-oriented PHP.
 

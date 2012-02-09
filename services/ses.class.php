@@ -26,8 +26,8 @@
  * @version Thu Sep 01 21:20:58 PDT 2011
  * @license See the included NOTICE.md file for complete information.
  * @copyright See the included NOTICE.md file for complete information.
- * @link http://tw.amazon.com/ses/ThumbWhere Simple Email Service
- * @link http://tw.amazon.com/documentation/ses/ThumbWhere Simple Email Service documentation
+ * @link http://thumbwhere.com/ses/ThumbWhere Simple Email Service
+ * @link http://thumbwhere.com/documentation/ses/ThumbWhere Simple Email Service documentation
  */
 class ThumbWhereSES extends TWRuntime
 {

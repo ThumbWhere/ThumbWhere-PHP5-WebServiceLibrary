@@ -13,9 +13,9 @@
     <active>yes</active>
   </lead>
   <date>2011-12-09</date>
-  <time>07:38:31</time>
+  <time>02:05:30</time>
   <version>
-    <release>0.16.65</release>
+    <release>0.0.0</release>
     <api>1.1</api>
   </version>
   <stability>
@@ -29,9 +29,6 @@
       <file name="config-sample.inc.php" role="php" />
       <file name="README.md" role="doc" />
       <file name="sdk.class.php" role="php" />
-      <dir name="build">
-        <file name="update_pear_package_manifest.bat" role="data" />
-      </dir>
       <dir name="extensions">
         <file name="s3browserupload.class.php" role="php" />
       </dir>

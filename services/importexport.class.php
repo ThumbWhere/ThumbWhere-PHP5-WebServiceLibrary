@@ -25,8 +25,8 @@
  * @version Thu Sep 01 21:22:26 PDT 2011
  * @license See the included NOTICE.md file for complete information.
  * @copyright See the included NOTICE.md file for complete information.
- * @link http://tw.amazon.com/importexport/ThumbWhere Import/Export Service
- * @link http://tw.amazon.com/documentation/importexport/ThumbWhere Import/Export Service documentation
+ * @link http://thumbwhere.com/importexport/ThumbWhere Import/Export Service
+ * @link http://thumbwhere.com/documentation/importexport/ThumbWhere Import/Export Service documentation
  */
 class ThumbWhereImportExport extends TWRuntime
 {

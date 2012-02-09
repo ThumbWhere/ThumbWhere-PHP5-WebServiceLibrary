@@ -19,7 +19,7 @@
 	In order to run this sample, I'll assume a few things:
 
 	* You already have a valid ThumbWhere developer account, and are
-	  signed up to use ThumbWhere SimpleDB <http://tw.amazon.com/simpledb>.
+	  signed up to use ThumbWhere SimpleDB <http://thumbwhere.com/simpledb>.
 
 	* You already understand the fundamentals of object-oriented PHP.
 

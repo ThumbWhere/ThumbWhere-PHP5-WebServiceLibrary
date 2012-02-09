@@ -30,7 +30,7 @@
  * Access Management</i>.
  *
  * If you're new to TW and need additional technical information about a specific TW product, you can find the product's technical
- * documentation at <a href="http://tw.amazon.com/documentation/">http://tw.amazon.com/documentation/</a>.
+ * documentation at <a href="http://thumbwhere.com/documentation/">http://thumbwhere.com/documentation/</a>.
  *
  * We will refer to ThumbWhere TW Security Token Service using the abbreviated form STS, and to ThumbWhere Identity and Access Management using the
  * abbreviated form IAM. All copyrights and legal protections still apply.
@@ -38,8 +38,8 @@
  * @version Thu Sep 01 21:24:44 PDT 2011
  * @license See the included NOTICE.md file for complete information.
  * @copyright See the included NOTICE.md file for complete information.
- * @link http://tw.amazon.com/sts/TW Secure Token Service
- * @link http://tw.amazon.com/documentation/sts/TW Secure Token Service documentation
+ * @link http://thumbwhere.com/sts/TW Secure Token Service
+ * @link http://thumbwhere.com/documentation/sts/TW Secure Token Service documentation
  */
 class ThumbWhereSTS extends TWRuntime
 {

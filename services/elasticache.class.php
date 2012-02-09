@@ -29,8 +29,8 @@
  * @version Thu Sep 01 21:18:49 PDT 2011
  * @license See the included NOTICE.md file for complete information.
  * @copyright See the included NOTICE.md file for complete information.
- * @link http://tw.amazon.com/elasticache/TW ElastiCache
- * @link http://tw.amazon.com/documentation/elasticache/TW ElastiCache documentation
+ * @link http://thumbwhere.com/elasticache/TW ElastiCache
+ * @link http://thumbwhere.com/documentation/elasticache/TW ElastiCache documentation
  */
 class ThumbWhereElastiCache extends TWRuntime
 {

@@ -26,8 +26,8 @@
  * @version Thu Sep 01 21:21:27 PDT 2011
  * @license See the included NOTICE.md file for complete information.
  * @copyright See the included NOTICE.md file for complete information.
- * @link http://tw.amazon.com/elasticmapreduce/ThumbWhere Elastic MapReduce
- * @link http://tw.amazon.com/documentation/elasticmapreduce/ThumbWhere Elastic MapReduce documentation
+ * @link http://thumbwhere.com/elasticmapreduce/ThumbWhere Elastic MapReduce
+ * @link http://thumbwhere.com/documentation/elasticmapreduce/ThumbWhere Elastic MapReduce documentation
  */
 class ThumbWhereEMR extends TWRuntime
 {
