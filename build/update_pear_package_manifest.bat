@@ -49,7 +49,16 @@ IF NOT ERRORLEVEL 0 GOTO ReportError
 PUSHD ThumbWhere-PHP5-WebServiceLibrary
 IF NOT ERRORLEVEL 0 GOTO ReportError
 
-"C:\Program Files\Git\bin\git.exe" commit -m "Automatic commit by build server for build %BUILD%"
+REM Add the new changes
+"C:\Program Files\Git\bin\git.exe" add .
+IF NOT ERRORLEVEL 0 GOTO ReportError
+
+REM Add the new changes
+"C:\Program Files\Git\bin\git.exe" commit -m "Automatic commit by %BUILD% build."
+IF NOT ERRORLEVEL 0 GOTO ReportError
+
+REM Push the new changes
+"C:\Program Files\Git\bin\git.exe" push origin %BUILD%
 IF NOT ERRORLEVEL 0 GOTO ReportError
 
 POPD
