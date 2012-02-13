@@ -4,11 +4,16 @@ SET MESSAGE=Automatic checkin
 SET STREAM=devel
 SET APISTREAM=devel
 SET BUILD=
+SET BRANCH=master
 
 IF NOT (%1)==("") SET MESSAGE=%1
 IF NOT (%2)==("") SET STREAM=%2
 IF NOT (%3)==("") SET APISTREAM=%3
-IF NOT (%34==("") SET BUILD=%4
+IF NOT (%4)==("") SET BUILD=%4
+
+
+IF (%STREAM%)==("devel") SET BRANCH=dev
+
 
 REM Create Directories
 IF NOT EXIST E:\checkout mkdir E:\checkout
@@ -22,6 +27,20 @@ IF NOT ERRORLEVEL 0 GOTO ReportError
 
 REM Checkout if we need to
 IF NOT EXIST ThumbWhere-PHP5-WebServiceLibrary "C:\Program Files\Git\bin\git.exe" clone git@github.com:ThumbWhere/ThumbWhere-PHP5-WebServiceLibrary.git
+IF NOT ERRORLEVEL 0 GOTO ReportError
+
+PUSHD ThumbWhere-PHP5-WebServiceLibrary
+IF NOT ERRORLEVEL 0 GOTO ReportError
+
+REM Make sure we are up to date
+"C:\Program Files\Git\bin\git.exe" pull
+IF NOT ERRORLEVEL 0 GOTO ReportError
+
+REM Make sure we have the correct branch
+"C:\Program Files\Git\bin\git.exe" checkout %BRANCH%
+IF NOT ERRORLEVEL 0 GOTO ReportError
+
+POPD
 IF NOT ERRORLEVEL 0 GOTO ReportError
 
 e:\inetpub\wwwroot\ThumbWhere-Drupal7-Module\tools\DrupalUtil.exe pear ThumbWhere-PHP5-WebServiceLibrary ThumbWhere-PHP5-WebServiceLibrary\package.xml 1.1 patch %STREAM% %APISTREAM% %BUILD%
