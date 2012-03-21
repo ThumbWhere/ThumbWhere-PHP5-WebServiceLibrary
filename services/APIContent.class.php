@@ -127,7 +127,8 @@ class ThumbWhereAPIContent extends TWRuntime {
    * TODO: Pull in description from resource as part of code-gen
    *
    * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
-   * @param string $title (Required) The 'title' we are uploading. (FIELD).
+   * @param string $title (Required) The 'title' of the conetnet we are uploading. (FIELD).
+   * @param string $url (Required) The 'url' to the content that we are going to pull into ThumbWhere. (FIELD).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
    * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
    * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
@@ -173,10 +174,14 @@ public function create_content_ingest($context = array(), $fields = array(), $op
     if (empty($fields['title'])) {
 	    throw new APIContent_Exception('Field "title" is mandatory.');
     }
+    if (empty($fields['url'])) {
+	    throw new APIContent_Exception('Field "url" is mandatory.');
+    }
     $opt['query_string'] = array(
         '$op' => 'create',
         '$key' => $context['key'],
-        '$title' => $fields['title'],
+        'title' => $fields['title'],
+        'url' => $fields['url'],
     );
 
     //
@@ -257,7 +262,7 @@ public function create_producer($context = array(), $fields = array(), $opt = nu
     $opt['query_string'] = array(
         '$op' => 'create',
         '$key' => $context['key'],
-        '$name' => $fields['name'],
+        'name' => $fields['name'],
     );
 
     //
