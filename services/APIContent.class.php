@@ -116,7 +116,621 @@ class ThumbWhereAPIContent extends TWRuntime {
 
     return $this;
   }
+  
+  
+  /*%******************************************************************************************%*/
+  /*%******************************************************************************************%*/
+  // 
+  // ALL THE RESOURCES
+  
+  
 
+	
+  /*%******************************************************************************************%*/
+  // 'actor' Resource METHODS
+
+  /**
+   * Invokes the CREATE method for the  actor resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $member (Required) 'member' field, which is an embedded 'Member' resource. (FIELD).
+   * @param string $identity (Required) 'identity' field, which is an embedded 'Identity' resource. (FIELD).
+   * @param string $producer (Required) 'producer' field, which is an embedded 'Producer' resource. (FIELD).
+   * @param string $consumer (Required) 'consumer' field, which is an embedded 'Consumer' resource. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
+   */
+						
+public function create_actor($context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.create_actor' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+    /*
+     // If the bucket contains uppercase letters...
+    if (preg_match('/[A-Z]/', $bucket)) {
+	    // Throw a warning
+	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
+	
+	    // Force the bucketname to lowercase
+	    $blah = strtolower($bucket);
+    }
+
+    // Validate the APIContent bucket name for creation
+    if (!$this->validate_bucketname_create($bucket)) {
+	    // @codeCoverageIgnoreStart
+	    throw new APIContent_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
+	    // @codeCoverageIgnoreEnd
+    }
+     */
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    $opt['query_string'] = array(
+        '$op' => 'create',
+        '$key' => $context['key'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+    if (isset($fields['member'])) {
+      $opt['query_string']['member'] = $fields['member'];
+    }
+    if (isset($fields['identity'])) {
+      $opt['query_string']['identity'] = $fields['identity'];
+    }
+    if (isset($fields['producer'])) {
+      $opt['query_string']['producer'] = $fields['producer'];
+    }
+    if (isset($fields['consumer'])) {
+      $opt['query_string']['consumer'] = $fields['consumer'];
+    }
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/actor', $opt);
+
+	  if (!isset($response->body->actor->status)) {
+      $message = 'Error response from server in call to \'create_actor\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+    $status = $response->body->actor->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'create_actor\'. Message \'' . $response->body->actor->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+    return $response;
+  }
+	
+  /*%******************************************************************************************%*/
+  // 'thing' Resource METHODS
+
+  /**
+   * Invokes the CREATE method for the  thing resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $mediaitem (Required) 'mediaitem' field, which is an embedded 'MediaItem' resource. (FIELD).
+   * @param string $content (Required) 'content' field, which is an embedded 'Content' resource. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
+   */
+						
+public function create_thing($context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.create_thing' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+    /*
+     // If the bucket contains uppercase letters...
+    if (preg_match('/[A-Z]/', $bucket)) {
+	    // Throw a warning
+	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
+	
+	    // Force the bucketname to lowercase
+	    $blah = strtolower($bucket);
+    }
+
+    // Validate the APIContent bucket name for creation
+    if (!$this->validate_bucketname_create($bucket)) {
+	    // @codeCoverageIgnoreStart
+	    throw new APIContent_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
+	    // @codeCoverageIgnoreEnd
+    }
+     */
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    $opt['query_string'] = array(
+        '$op' => 'create',
+        '$key' => $context['key'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+    if (isset($fields['mediaitem'])) {
+      $opt['query_string']['mediaitem'] = $fields['mediaitem'];
+    }
+    if (isset($fields['content'])) {
+      $opt['query_string']['content'] = $fields['content'];
+    }
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/thing', $opt);
+
+	  if (!isset($response->body->thing->status)) {
+      $message = 'Error response from server in call to \'create_thing\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+    $status = $response->body->thing->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'create_thing\'. Message \'' . $response->body->thing->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+    return $response;
+  }
+	
+  /*%******************************************************************************************%*/
+  // 'place' Resource METHODS
+
+  /**
+   * Invokes the CREATE method for the  place resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $location (Required) 'location' field, which is an embedded 'Location' resource. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
+   */
+						
+public function create_place($context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.create_place' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+    /*
+     // If the bucket contains uppercase letters...
+    if (preg_match('/[A-Z]/', $bucket)) {
+	    // Throw a warning
+	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
+	
+	    // Force the bucketname to lowercase
+	    $blah = strtolower($bucket);
+    }
+
+    // Validate the APIContent bucket name for creation
+    if (!$this->validate_bucketname_create($bucket)) {
+	    // @codeCoverageIgnoreStart
+	    throw new APIContent_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
+	    // @codeCoverageIgnoreEnd
+    }
+     */
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    $opt['query_string'] = array(
+        '$op' => 'create',
+        '$key' => $context['key'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+    if (isset($fields['location'])) {
+      $opt['query_string']['location'] = $fields['location'];
+    }
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/place', $opt);
+
+	  if (!isset($response->body->place->status)) {
+      $message = 'Error response from server in call to \'create_place\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+    $status = $response->body->place->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'create_place\'. Message \'' . $response->body->place->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+    return $response;
+  }
+	
+  /*%******************************************************************************************%*/
+  // 'action' Resource METHODS
+
+  /**
+   * Invokes the CREATE method for the  action resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $contentingest (Required) 'contentingest' field, which is an embedded 'Like' resource. (FIELD).
+   * @param string $like (Required) 'like' field, which is an embedded 'Like' resource. (FIELD).
+   * @param string $follow (Required) 'follow' field, which is an embedded 'Follow' resource. (FIELD).
+   * @param string $fan (Required) 'fan' field, which is an embedded 'Fan' resource. (FIELD).
+   * @param string $share (Required) 'share' field, which is an embedded 'Share' resource. (FIELD).
+   * @param string $awardedtrophy (Required) 'awardedtrophy' field, which is an embedded 'AwardedTrophy' resource. (FIELD).
+   * @param string $mediaitemrating (Required) 'mediaitemrating' field, which is an embedded 'MediaItemRating' resource. (FIELD).
+   * @param string $booking (Required) 'booking' field, which is an embedded 'Booking' resource. (FIELD).
+   * @param string $checkin (Required) 'checkin' field, which is an embedded 'Checkin' resource. (FIELD).
+   * @param string $consume (Required) 'consume' field, which is an embedded 'Consume' resource. (FIELD).
+   * @param string $consumermember (Required) 'consumermember' field, which is an embedded 'ConsumerMember' resource. (FIELD).
+   * @param string $producermember (Required) 'producermember' field, which is an embedded 'ProducerMember' resource. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
+   */
+						
+public function create_action($context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.create_action' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+    /*
+     // If the bucket contains uppercase letters...
+    if (preg_match('/[A-Z]/', $bucket)) {
+	    // Throw a warning
+	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
+	
+	    // Force the bucketname to lowercase
+	    $blah = strtolower($bucket);
+    }
+
+    // Validate the APIContent bucket name for creation
+    if (!$this->validate_bucketname_create($bucket)) {
+	    // @codeCoverageIgnoreStart
+	    throw new APIContent_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
+	    // @codeCoverageIgnoreEnd
+    }
+     */
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    $opt['query_string'] = array(
+        '$op' => 'create',
+        '$key' => $context['key'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+    if (isset($fields['contentingest'])) {
+      $opt['query_string']['contentingest'] = $fields['contentingest'];
+    }
+    if (isset($fields['like'])) {
+      $opt['query_string']['like'] = $fields['like'];
+    }
+    if (isset($fields['follow'])) {
+      $opt['query_string']['follow'] = $fields['follow'];
+    }
+    if (isset($fields['fan'])) {
+      $opt['query_string']['fan'] = $fields['fan'];
+    }
+    if (isset($fields['share'])) {
+      $opt['query_string']['share'] = $fields['share'];
+    }
+    if (isset($fields['awardedtrophy'])) {
+      $opt['query_string']['awardedtrophy'] = $fields['awardedtrophy'];
+    }
+    if (isset($fields['mediaitemrating'])) {
+      $opt['query_string']['mediaitemrating'] = $fields['mediaitemrating'];
+    }
+    if (isset($fields['booking'])) {
+      $opt['query_string']['booking'] = $fields['booking'];
+    }
+    if (isset($fields['checkin'])) {
+      $opt['query_string']['checkin'] = $fields['checkin'];
+    }
+    if (isset($fields['consume'])) {
+      $opt['query_string']['consume'] = $fields['consume'];
+    }
+    if (isset($fields['consumermember'])) {
+      $opt['query_string']['consumermember'] = $fields['consumermember'];
+    }
+    if (isset($fields['producermember'])) {
+      $opt['query_string']['producermember'] = $fields['producermember'];
+    }
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/action', $opt);
+
+	  if (!isset($response->body->action->status)) {
+      $message = 'Error response from server in call to \'create_action\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+    $status = $response->body->action->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'create_action\'. Message \'' . $response->body->action->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+    return $response;
+  }
+	
+  /*%******************************************************************************************%*/
+  // 'subject' Resource METHODS
+
+  /**
+   * Invokes the CREATE method for the  subject resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $actor (Required) 'actor' field, which is an embedded 'Actor' resource. (FIELD).
+   * @param string $thing (Required) 'thing' field, which is an embedded 'Thing' resource. (FIELD).
+   * @param string $action (Required) 'action' field, which is an embedded 'Action' resource. (FIELD).
+   * @param string $place (Required) 'place' field, which is an embedded 'Place' resource. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
+   */
+						
+public function create_subject($context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.create_subject' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+    /*
+     // If the bucket contains uppercase letters...
+    if (preg_match('/[A-Z]/', $bucket)) {
+	    // Throw a warning
+	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
+	
+	    // Force the bucketname to lowercase
+	    $blah = strtolower($bucket);
+    }
+
+    // Validate the APIContent bucket name for creation
+    if (!$this->validate_bucketname_create($bucket)) {
+	    // @codeCoverageIgnoreStart
+	    throw new APIContent_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
+	    // @codeCoverageIgnoreEnd
+    }
+     */
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    $opt['query_string'] = array(
+        '$op' => 'create',
+        '$key' => $context['key'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+    if (isset($fields['actor'])) {
+      $opt['query_string']['actor'] = $fields['actor'];
+    }
+    if (isset($fields['thing'])) {
+      $opt['query_string']['thing'] = $fields['thing'];
+    }
+    if (isset($fields['action'])) {
+      $opt['query_string']['action'] = $fields['action'];
+    }
+    if (isset($fields['place'])) {
+      $opt['query_string']['place'] = $fields['place'];
+    }
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/subject', $opt);
+
+	  if (!isset($response->body->subject->status)) {
+      $message = 'Error response from server in call to \'create_subject\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+    $status = $response->body->subject->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'create_subject\'. Message \'' . $response->body->subject->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+    return $response;
+  }
+	
+  /*%******************************************************************************************%*/
+  // 'content' Resource METHODS
+
+  /**
+   * Invokes the CREATE method for the  content resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $mediaitem (Required) 'mediaitem' field, which is an embedded 'MediaItem' resource. (FIELD).
+   * @param string $metadata (Required) 'metadata' field, which is an embedded 'Metadata' resource. (FIELD).
+   * @param string $producer (Required) 'producer' field, which is an embedded 'Producer' resource. (FIELD).
+   * @param string $title (Required) 'title' field, which is a 'string' type. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
+   */
+						
+public function create_content($context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.create_content' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+    /*
+     // If the bucket contains uppercase letters...
+    if (preg_match('/[A-Z]/', $bucket)) {
+	    // Throw a warning
+	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
+	
+	    // Force the bucketname to lowercase
+	    $blah = strtolower($bucket);
+    }
+
+    // Validate the APIContent bucket name for creation
+    if (!$this->validate_bucketname_create($bucket)) {
+	    // @codeCoverageIgnoreStart
+	    throw new APIContent_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
+	    // @codeCoverageIgnoreEnd
+    }
+     */
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    $opt['query_string'] = array(
+        '$op' => 'create',
+        '$key' => $context['key'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+    if (isset($fields['mediaitem'])) {
+      $opt['query_string']['mediaitem'] = $fields['mediaitem'];
+    }
+    if (isset($fields['metadata'])) {
+      $opt['query_string']['metadata'] = $fields['metadata'];
+    }
+    if (isset($fields['producer'])) {
+      $opt['query_string']['producer'] = $fields['producer'];
+    }
+    if (isset($fields['title'])) {
+      $opt['query_string']['title'] = $fields['title'];
+    }
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/content', $opt);
+
+	  if (!isset($response->body->content->status)) {
+      $message = 'Error response from server in call to \'create_content\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+    $status = $response->body->content->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'create_content\'. Message \'' . $response->body->content->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+    return $response;
+  }
 	
   /*%******************************************************************************************%*/
   // 'content_ingest' Resource METHODS
@@ -127,8 +741,18 @@ class ThumbWhereAPIContent extends TWRuntime {
    * TODO: Pull in description from resource as part of code-gen
    *
    * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
-   * @param string $title (Required) The 'title' of the conetnet we are uploading. (FIELD).
-   * @param string $url (Required) The 'url' to the content that we are going to pull into ThumbWhere. (FIELD).
+   * @param string $mediaitem (Required) 'mediaitem' field, which is an embedded 'MediaItem' resource. (FIELD).
+   * @param string $content (Required) 'content' field, which is an embedded 'Content' resource. (FIELD).
+   * @param string $member (Required) 'member' field, which is an embedded 'Member' resource. (FIELD).
+   * @param string $url (Required) 'url' field, which is a 'string' type. (FIELD).
+   * @param string $size (Required) 'size' field, which is a 'long' type. (FIELD).
+   * @param string $uploaded (Required) 'uploaded' field, which is a 'boolean' type. (FIELD).
+   * @param string $transcoded (Required) 'transcoded' field, which is a 'boolean' type. (FIELD).
+   * @param string $encrypted (Required) 'encrypted' field, which is a 'boolean' type. (FIELD).
+   * @param string $deployed (Required) 'deployed' field, which is a 'boolean' type. (FIELD).
+   * @param string $ready (Required) 'ready' field, which is a 'boolean' type. (FIELD).
+   * @param string $error (Required) 'error' field, which is a 'boolean' type. (FIELD).
+   * @param string $status (Required) 'status' field, which is a 'string' type. (FIELD).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
    * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
    * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
@@ -171,17 +795,216 @@ public function create_content_ingest($context = array(), $fields = array(), $op
     //
     // Validate Fields
     //
-    if (empty($fields['title'])) {
-	    throw new APIContent_Exception('Field "title" is mandatory.');
-    }
     if (empty($fields['url'])) {
 	    throw new APIContent_Exception('Field "url" is mandatory.');
     }
     $opt['query_string'] = array(
         '$op' => 'create',
         '$key' => $context['key'],
-        'title' => $fields['title'],
         'url' => $fields['url'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+    if (isset($fields['mediaitem'])) {
+      $opt['query_string']['mediaitem'] = $fields['mediaitem'];
+    }
+    if (isset($fields['content'])) {
+      $opt['query_string']['content'] = $fields['content'];
+    }
+    if (isset($fields['member'])) {
+      $opt['query_string']['member'] = $fields['member'];
+    }
+    if (isset($fields['size'])) {
+      $opt['query_string']['size'] = $fields['size'];
+    }
+    if (isset($fields['uploaded'])) {
+      $opt['query_string']['uploaded'] = $fields['uploaded'];
+    }
+    if (isset($fields['transcoded'])) {
+      $opt['query_string']['transcoded'] = $fields['transcoded'];
+    }
+    if (isset($fields['encrypted'])) {
+      $opt['query_string']['encrypted'] = $fields['encrypted'];
+    }
+    if (isset($fields['deployed'])) {
+      $opt['query_string']['deployed'] = $fields['deployed'];
+    }
+    if (isset($fields['ready'])) {
+      $opt['query_string']['ready'] = $fields['ready'];
+    }
+    if (isset($fields['error'])) {
+      $opt['query_string']['error'] = $fields['error'];
+    }
+    if (isset($fields['status'])) {
+      $opt['query_string']['status'] = $fields['status'];
+    }
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/content_ingest', $opt);
+
+	  if (!isset($response->body->content_ingest->status)) {
+      $message = 'Error response from server in call to \'create_content_ingest\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+    $status = $response->body->content_ingest->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'create_content_ingest\'. Message \'' . $response->body->content_ingest->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+    return $response;
+  }
+	
+  /*%******************************************************************************************%*/
+  // 'metadata' Resource METHODS
+
+  /**
+   * Invokes the CREATE method for the  metadata resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $trackmetadata (Required) 'trackmetadata' field, which is an embedded 'TrackMetadata' resource. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
+   */
+						
+public function create_metadata($context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.create_metadata' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+    /*
+     // If the bucket contains uppercase letters...
+    if (preg_match('/[A-Z]/', $bucket)) {
+	    // Throw a warning
+	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
+	
+	    // Force the bucketname to lowercase
+	    $blah = strtolower($bucket);
+    }
+
+    // Validate the APIContent bucket name for creation
+    if (!$this->validate_bucketname_create($bucket)) {
+	    // @codeCoverageIgnoreStart
+	    throw new APIContent_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
+	    // @codeCoverageIgnoreEnd
+    }
+     */
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    $opt['query_string'] = array(
+        '$op' => 'create',
+        '$key' => $context['key'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+    if (isset($fields['trackmetadata'])) {
+      $opt['query_string']['trackmetadata'] = $fields['trackmetadata'];
+    }
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/metadata', $opt);
+
+	  if (!isset($response->body->metadata->status)) {
+      $message = 'Error response from server in call to \'create_metadata\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+    $status = $response->body->metadata->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'create_metadata\'. Message \'' . $response->body->metadata->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+    return $response;
+  }
+	
+  /*%******************************************************************************************%*/
+  // 'track_metadata' Resource METHODS
+
+  /**
+   * Invokes the CREATE method for the  track_metadata resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
+   */
+						
+public function create_track_metadata($context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.create_track_metadata' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+    /*
+     // If the bucket contains uppercase letters...
+    if (preg_match('/[A-Z]/', $bucket)) {
+	    // Throw a warning
+	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
+	
+	    // Force the bucketname to lowercase
+	    $blah = strtolower($bucket);
+    }
+
+    // Validate the APIContent bucket name for creation
+    if (!$this->validate_bucketname_create($bucket)) {
+	    // @codeCoverageIgnoreStart
+	    throw new APIContent_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
+	    // @codeCoverageIgnoreEnd
+    }
+     */
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    $opt['query_string'] = array(
+        '$op' => 'create',
+        '$key' => $context['key'],
     );
 
     //
@@ -192,11 +1015,120 @@ public function create_content_ingest($context = array(), $fields = array(), $op
     //
     // Invoke the service
     //
-    $response = $this->invoke($this->api . '/' . $this->api_version . '/content_ingest', $opt);
-    $status = $response->body->content_ingest->status;
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/track_metadata', $opt);
+
+	  if (!isset($response->body->track_metadata->status)) {
+      $message = 'Error response from server in call to \'create_track_metadata\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+    $status = $response->body->track_metadata->status;
 
 	  if ($status == 'error') {
-      $message = 'Error response from server in call to \'create_content_ingest\'. Message \'' . $response->body->content_ingest->errorMessage . '\'';
+      $message = 'Error response from server in call to \'create_track_metadata\'. Message \'' . $response->body->track_metadata->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+    return $response;
+  }
+	
+  /*%******************************************************************************************%*/
+  // 'activity' Resource METHODS
+
+  /**
+   * Invokes the CREATE method for the  activity resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $actor (Required) 'actor' field, which is an embedded 'Actor' resource. (FIELD).
+   * @param string $action (Required) 'action' field, which is an embedded 'Action' resource. (FIELD).
+   * @param string $subject (Required) 'subject' field, which is an embedded 'Subject' resource. (FIELD).
+   * @param string $place (Required) 'place' field, which is an embedded 'Place' resource. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
+   */
+						
+public function create_activity($context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.create_activity' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+    /*
+     // If the bucket contains uppercase letters...
+    if (preg_match('/[A-Z]/', $bucket)) {
+	    // Throw a warning
+	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
+	
+	    // Force the bucketname to lowercase
+	    $blah = strtolower($bucket);
+    }
+
+    // Validate the APIContent bucket name for creation
+    if (!$this->validate_bucketname_create($bucket)) {
+	    // @codeCoverageIgnoreStart
+	    throw new APIContent_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
+	    // @codeCoverageIgnoreEnd
+    }
+     */
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (empty($fields['actor'])) {
+	    throw new APIContent_Exception('Field "actor" is mandatory.');
+    }
+    if (empty($fields['action'])) {
+	    throw new APIContent_Exception('Field "action" is mandatory.');
+    }
+    if (empty($fields['subject'])) {
+	    throw new APIContent_Exception('Field "subject" is mandatory.');
+    }
+    $opt['query_string'] = array(
+        '$op' => 'create',
+        '$key' => $context['key'],
+        'actor' => $fields['actor'],
+        'action' => $fields['action'],
+        'subject' => $fields['subject'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+    if (isset($fields['place'])) {
+      $opt['query_string']['place'] = $fields['place'];
+    }
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/activity', $opt);
+
+	  if (!isset($response->body->activity->status)) {
+      $message = 'Error response from server in call to \'create_activity\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+    $status = $response->body->activity->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'create_activity\'. Message \'' . $response->body->activity->errorMessage . '\'';
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
 	    throw new APIContent_Exception($message);
     }
@@ -213,7 +1145,9 @@ public function create_content_ingest($context = array(), $fields = array(), $op
    * TODO: Pull in description from resource as part of code-gen
    *
    * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
-   * @param string $name (Required) The name of the producer we are creating. (FIELD).
+   * @param string $place (Required) 'place' field, which is an embedded 'Place' resource. (FIELD).
+   * @param string $reputation (Required) 'reputation' field, which is an embedded 'Reputation' resource. (FIELD).
+   * @param string $name (Required) 'name' field, which is a 'string' type. (FIELD).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
    * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
    * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
@@ -269,11 +1203,24 @@ public function create_producer($context = array(), $fields = array(), $opt = nu
     // Populate the query string with optional parameters.
     //
 
+    if (isset($fields['place'])) {
+      $opt['query_string']['place'] = $fields['place'];
+    }
+    if (isset($fields['reputation'])) {
+      $opt['query_string']['reputation'] = $fields['reputation'];
+    }
 
     //
     // Invoke the service
     //
     $response = $this->invoke($this->api . '/' . $this->api_version . '/producer', $opt);
+
+	  if (!isset($response->body->producer->status)) {
+      $message = 'Error response from server in call to \'create_producer\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
     $status = $response->body->producer->status;
 
 	  if ($status == 'error') {
@@ -286,18 +1233,17 @@ public function create_producer($context = array(), $fields = array(), $opt = nu
   }
 	
   /*%******************************************************************************************%*/
-  // 'content' Resource METHODS
+  // 'producer_member' Resource METHODS
 
   /**
-   * Invokes the CREATE method for the  content resource web service.
+   * Invokes the CREATE method for the  producer_member resource web service.
    *
    * TODO: Pull in description from resource as part of code-gen
    *
    * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
-   * @param string $title (Required) The 'title' we are uploading. (FIELD).
-   * @param string $mediaitem (Required) The mediaitem this content is wrapping. (FIELD).
-   * @param string $metadata (Required) The metadata of this producer. (FIELD).
-   * @param string $producer (Required) The producer of this metadata. (FIELD).
+   * @param string $producer (Required) 'producer' field, which is an embedded 'Producer' resource. (FIELD).
+   * @param string $member (Required) 'member' field, which is an embedded 'Member' resource. (FIELD).
+   * @param string $admin (Required) 'admin' field, which is a 'boolean' type. (FIELD).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
    * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
    * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
@@ -305,8 +1251,8 @@ public function create_producer($context = array(), $fields = array(), $opt = nu
    * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
    */
 						
-public function create_content($context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.create_content' ,array(), WATCHDOG_NOTICE);
+public function create_producer_member($context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.create_producer_member' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -340,40 +1286,827 @@ public function create_content($context = array(), $fields = array(), $opt = nul
     //
     // Validate Fields
     //
+    if (empty($fields['producer'])) {
+	    throw new APIContent_Exception('Field "producer" is mandatory.');
+    }
+    if (empty($fields['member'])) {
+	    throw new APIContent_Exception('Field "member" is mandatory.');
+    }
     $opt['query_string'] = array(
         '$op' => 'create',
         '$key' => $context['key'],
+        'producer' => $fields['producer'],
+        'member' => $fields['member'],
     );
 
     //
     // Populate the query string with optional parameters.
     //
 
-    if (isset($fields['title'])) {
-      $opt['query_string']['title'] = $fields['title'];
-    }
-    if (isset($fields['mediaitem'])) {
-      $opt['query_string']['mediaitem'] = $fields['mediaitem'];
-    }
-    if (isset($fields['metadata'])) {
-      $opt['query_string']['metadata'] = $fields['metadata'];
-    }
-    if (isset($fields['producer'])) {
-      $opt['query_string']['producer'] = $fields['producer'];
+    if (isset($fields['admin'])) {
+      $opt['query_string']['admin'] = $fields['admin'];
     }
 
     //
     // Invoke the service
     //
-    $response = $this->invoke($this->api . '/' . $this->api_version . '/content', $opt);
-    $status = $response->body->content->status;
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/producer_member', $opt);
+
+	  if (!isset($response->body->producer_member->status)) {
+      $message = 'Error response from server in call to \'create_producer_member\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+    $status = $response->body->producer_member->status;
 
 	  if ($status == 'error') {
-      $message = 'Error response from server in call to \'create_content\'. Message \'' . $response->body->content->errorMessage . '\'';
+      $message = 'Error response from server in call to \'create_producer_member\'. Message \'' . $response->body->producer_member->errorMessage . '\'';
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
 	    throw new APIContent_Exception($message);
     }
 
     return $response;
   }
-}
+	
+  /*%******************************************************************************************%*/
+  // 'consumer' Resource METHODS
+
+  /**
+   * Invokes the CREATE method for the  consumer resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $place (Required) 'place' field, which is an embedded 'Place' resource. (FIELD).
+   * @param string $reputation (Required) 'reputation' field, which is an embedded 'Reputation' resource. (FIELD).
+   * @param string $name (Required) 'name' field, which is a 'string' type. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
+   */
+						
+public function create_consumer($context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.create_consumer' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+    /*
+     // If the bucket contains uppercase letters...
+    if (preg_match('/[A-Z]/', $bucket)) {
+	    // Throw a warning
+	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
+	
+	    // Force the bucketname to lowercase
+	    $blah = strtolower($bucket);
+    }
+
+    // Validate the APIContent bucket name for creation
+    if (!$this->validate_bucketname_create($bucket)) {
+	    // @codeCoverageIgnoreStart
+	    throw new APIContent_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
+	    // @codeCoverageIgnoreEnd
+    }
+     */
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (empty($fields['name'])) {
+	    throw new APIContent_Exception('Field "name" is mandatory.');
+    }
+    $opt['query_string'] = array(
+        '$op' => 'create',
+        '$key' => $context['key'],
+        'name' => $fields['name'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+    if (isset($fields['place'])) {
+      $opt['query_string']['place'] = $fields['place'];
+    }
+    if (isset($fields['reputation'])) {
+      $opt['query_string']['reputation'] = $fields['reputation'];
+    }
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/consumer', $opt);
+
+	  if (!isset($response->body->consumer->status)) {
+      $message = 'Error response from server in call to \'create_consumer\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+    $status = $response->body->consumer->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'create_consumer\'. Message \'' . $response->body->consumer->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+    return $response;
+  }
+	
+  /*%******************************************************************************************%*/
+  // 'consumer_member' Resource METHODS
+
+  /**
+   * Invokes the CREATE method for the  consumer_member resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $consumer (Required) 'consumer' field, which is an embedded 'Consumer' resource. (FIELD).
+   * @param string $member (Required) 'member' field, which is an embedded 'Member' resource. (FIELD).
+   * @param string $admin (Required) 'admin' field, which is a 'boolean' type. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
+   */
+						
+public function create_consumer_member($context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.create_consumer_member' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+    /*
+     // If the bucket contains uppercase letters...
+    if (preg_match('/[A-Z]/', $bucket)) {
+	    // Throw a warning
+	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
+	
+	    // Force the bucketname to lowercase
+	    $blah = strtolower($bucket);
+    }
+
+    // Validate the APIContent bucket name for creation
+    if (!$this->validate_bucketname_create($bucket)) {
+	    // @codeCoverageIgnoreStart
+	    throw new APIContent_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
+	    // @codeCoverageIgnoreEnd
+    }
+     */
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (empty($fields['consumer'])) {
+	    throw new APIContent_Exception('Field "consumer" is mandatory.');
+    }
+    if (empty($fields['member'])) {
+	    throw new APIContent_Exception('Field "member" is mandatory.');
+    }
+    $opt['query_string'] = array(
+        '$op' => 'create',
+        '$key' => $context['key'],
+        'consumer' => $fields['consumer'],
+        'member' => $fields['member'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+    if (isset($fields['admin'])) {
+      $opt['query_string']['admin'] = $fields['admin'];
+    }
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/consumer_member', $opt);
+
+	  if (!isset($response->body->consumer_member->status)) {
+      $message = 'Error response from server in call to \'create_consumer_member\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+    $status = $response->body->consumer_member->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'create_consumer_member\'. Message \'' . $response->body->consumer_member->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+    return $response;
+  }
+	
+  /*%******************************************************************************************%*/
+  // 'like' Resource METHODS
+
+  /**
+   * Invokes the CREATE method for the  like resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $actor (Required) 'actor' field, which is an embedded 'Actor' resource. (FIELD).
+   * @param string $thing (Required) 'thing' field, which is an embedded 'Thing' resource. (FIELD).
+   * @param string $place (Required) 'place' field, which is an embedded 'Place' resource. (FIELD).
+   * @param string $documentation (Required) 'documentation' field, which is a 'string' type. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
+   */
+						
+public function create_like($context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.create_like' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+    /*
+     // If the bucket contains uppercase letters...
+    if (preg_match('/[A-Z]/', $bucket)) {
+	    // Throw a warning
+	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
+	
+	    // Force the bucketname to lowercase
+	    $blah = strtolower($bucket);
+    }
+
+    // Validate the APIContent bucket name for creation
+    if (!$this->validate_bucketname_create($bucket)) {
+	    // @codeCoverageIgnoreStart
+	    throw new APIContent_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
+	    // @codeCoverageIgnoreEnd
+    }
+     */
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (empty($fields['actor'])) {
+	    throw new APIContent_Exception('Field "actor" is mandatory.');
+    }
+    if (empty($fields['thing'])) {
+	    throw new APIContent_Exception('Field "thing" is mandatory.');
+    }
+    if (empty($fields['documentation'])) {
+	    throw new APIContent_Exception('Field "documentation" is mandatory.');
+    }
+    $opt['query_string'] = array(
+        '$op' => 'create',
+        '$key' => $context['key'],
+        'actor' => $fields['actor'],
+        'thing' => $fields['thing'],
+        'documentation' => $fields['documentation'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+    if (isset($fields['place'])) {
+      $opt['query_string']['place'] = $fields['place'];
+    }
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/like', $opt);
+
+	  if (!isset($response->body->like->status)) {
+      $message = 'Error response from server in call to \'create_like\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+    $status = $response->body->like->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'create_like\'. Message \'' . $response->body->like->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+    return $response;
+  }
+	
+  /*%******************************************************************************************%*/
+  // 'fan' Resource METHODS
+
+  /**
+   * Invokes the CREATE method for the  fan resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $actor (Required) 'actor' field, which is an embedded 'Actor' resource. (FIELD).
+   * @param string $thing (Required) 'thing' field, which is an embedded 'Thing' resource. (FIELD).
+   * @param string $place (Required) 'place' field, which is an embedded 'Place' resource. (FIELD).
+   * @param string $documentation (Required) 'documentation' field, which is a 'string' type. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
+   */
+						
+public function create_fan($context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.create_fan' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+    /*
+     // If the bucket contains uppercase letters...
+    if (preg_match('/[A-Z]/', $bucket)) {
+	    // Throw a warning
+	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
+	
+	    // Force the bucketname to lowercase
+	    $blah = strtolower($bucket);
+    }
+
+    // Validate the APIContent bucket name for creation
+    if (!$this->validate_bucketname_create($bucket)) {
+	    // @codeCoverageIgnoreStart
+	    throw new APIContent_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
+	    // @codeCoverageIgnoreEnd
+    }
+     */
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (empty($fields['actor'])) {
+	    throw new APIContent_Exception('Field "actor" is mandatory.');
+    }
+    if (empty($fields['thing'])) {
+	    throw new APIContent_Exception('Field "thing" is mandatory.');
+    }
+    if (empty($fields['documentation'])) {
+	    throw new APIContent_Exception('Field "documentation" is mandatory.');
+    }
+    $opt['query_string'] = array(
+        '$op' => 'create',
+        '$key' => $context['key'],
+        'actor' => $fields['actor'],
+        'thing' => $fields['thing'],
+        'documentation' => $fields['documentation'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+    if (isset($fields['place'])) {
+      $opt['query_string']['place'] = $fields['place'];
+    }
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/fan', $opt);
+
+	  if (!isset($response->body->fan->status)) {
+      $message = 'Error response from server in call to \'create_fan\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+    $status = $response->body->fan->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'create_fan\'. Message \'' . $response->body->fan->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+    return $response;
+  }
+	
+  /*%******************************************************************************************%*/
+  // 'follow' Resource METHODS
+
+  /**
+   * Invokes the CREATE method for the  follow resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $actor (Required) 'actor' field, which is an embedded 'Actor' resource. (FIELD).
+   * @param string $thing (Required) 'thing' field, which is an embedded 'Thing' resource. (FIELD).
+   * @param string $place (Required) 'place' field, which is an embedded 'Place' resource. (FIELD).
+   * @param string $documentation (Required) 'documentation' field, which is a 'string' type. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
+   */
+						
+public function create_follow($context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.create_follow' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+    /*
+     // If the bucket contains uppercase letters...
+    if (preg_match('/[A-Z]/', $bucket)) {
+	    // Throw a warning
+	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
+	
+	    // Force the bucketname to lowercase
+	    $blah = strtolower($bucket);
+    }
+
+    // Validate the APIContent bucket name for creation
+    if (!$this->validate_bucketname_create($bucket)) {
+	    // @codeCoverageIgnoreStart
+	    throw new APIContent_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
+	    // @codeCoverageIgnoreEnd
+    }
+     */
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (empty($fields['actor'])) {
+	    throw new APIContent_Exception('Field "actor" is mandatory.');
+    }
+    if (empty($fields['thing'])) {
+	    throw new APIContent_Exception('Field "thing" is mandatory.');
+    }
+    if (empty($fields['documentation'])) {
+	    throw new APIContent_Exception('Field "documentation" is mandatory.');
+    }
+    $opt['query_string'] = array(
+        '$op' => 'create',
+        '$key' => $context['key'],
+        'actor' => $fields['actor'],
+        'thing' => $fields['thing'],
+        'documentation' => $fields['documentation'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+    if (isset($fields['place'])) {
+      $opt['query_string']['place'] = $fields['place'];
+    }
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/follow', $opt);
+
+	  if (!isset($response->body->follow->status)) {
+      $message = 'Error response from server in call to \'create_follow\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+    $status = $response->body->follow->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'create_follow\'. Message \'' . $response->body->follow->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+    return $response;
+  }
+	
+  /*%******************************************************************************************%*/
+  // 'trophy' Resource METHODS
+
+  /**
+   * Invokes the CREATE method for the  trophy resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $singleton (Required) 'singleton' field, which is a 'boolean' type. (FIELD).
+   * @param string $name (Required) 'name' field, which is a 'string' type. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
+   */
+						
+public function create_trophy($context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.create_trophy' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+    /*
+     // If the bucket contains uppercase letters...
+    if (preg_match('/[A-Z]/', $bucket)) {
+	    // Throw a warning
+	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
+	
+	    // Force the bucketname to lowercase
+	    $blah = strtolower($bucket);
+    }
+
+    // Validate the APIContent bucket name for creation
+    if (!$this->validate_bucketname_create($bucket)) {
+	    // @codeCoverageIgnoreStart
+	    throw new APIContent_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
+	    // @codeCoverageIgnoreEnd
+    }
+     */
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (empty($fields['singleton'])) {
+	    throw new APIContent_Exception('Field "singleton" is mandatory.');
+    }
+    if (empty($fields['name'])) {
+	    throw new APIContent_Exception('Field "name" is mandatory.');
+    }
+    $opt['query_string'] = array(
+        '$op' => 'create',
+        '$key' => $context['key'],
+        'singleton' => $fields['singleton'],
+        'name' => $fields['name'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/trophy', $opt);
+
+	  if (!isset($response->body->trophy->status)) {
+      $message = 'Error response from server in call to \'create_trophy\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+    $status = $response->body->trophy->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'create_trophy\'. Message \'' . $response->body->trophy->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+    return $response;
+  }
+	
+  /*%******************************************************************************************%*/
+  // 'awarded_trophy' Resource METHODS
+
+  /**
+   * Invokes the CREATE method for the  awarded_trophy resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $trophy (Required) 'trophy' field, which is an embedded 'Trophy' resource. (FIELD).
+   * @param string $actor (Required) 'actor' field, which is an embedded 'Actor' resource. (FIELD).
+   * @param string $thing (Required) 'thing' field, which is an embedded 'Thing' resource. (FIELD).
+   * @param string $documentation (Required) 'documentation' field, which is a 'string' type. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
+   */
+						
+public function create_awarded_trophy($context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.create_awarded_trophy' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+    /*
+     // If the bucket contains uppercase letters...
+    if (preg_match('/[A-Z]/', $bucket)) {
+	    // Throw a warning
+	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
+	
+	    // Force the bucketname to lowercase
+	    $blah = strtolower($bucket);
+    }
+
+    // Validate the APIContent bucket name for creation
+    if (!$this->validate_bucketname_create($bucket)) {
+	    // @codeCoverageIgnoreStart
+	    throw new APIContent_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
+	    // @codeCoverageIgnoreEnd
+    }
+     */
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (empty($fields['trophy'])) {
+	    throw new APIContent_Exception('Field "trophy" is mandatory.');
+    }
+    if (empty($fields['actor'])) {
+	    throw new APIContent_Exception('Field "actor" is mandatory.');
+    }
+    if (empty($fields['thing'])) {
+	    throw new APIContent_Exception('Field "thing" is mandatory.');
+    }
+    if (empty($fields['documentation'])) {
+	    throw new APIContent_Exception('Field "documentation" is mandatory.');
+    }
+    $opt['query_string'] = array(
+        '$op' => 'create',
+        '$key' => $context['key'],
+        'trophy' => $fields['trophy'],
+        'actor' => $fields['actor'],
+        'thing' => $fields['thing'],
+        'documentation' => $fields['documentation'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/awarded_trophy', $opt);
+
+	  if (!isset($response->body->awarded_trophy->status)) {
+      $message = 'Error response from server in call to \'create_awarded_trophy\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+    $status = $response->body->awarded_trophy->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'create_awarded_trophy\'. Message \'' . $response->body->awarded_trophy->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+    return $response;
+  }
+
+		
+ /*%******************************************************************************************%*/
+  /*%******************************************************************************************%*/
+  // 
+  // ALL THE ACTIONS
+  
+  
+
+	
+  /*%******************************************************************************************%*/
+  // 'register_consumer' Resource METHODS
+
+  /**
+   * Invokes the CREATE method for the  register_consumer resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+   * @param string $key (Required) The API key for the campaign or external application. If this is blank, the server will assume the API token for the campaign based on the configuration of the API service and the API's domain name. (PARAMETER).
+   * @param string $name (Required) The full name of this consumer. (PARAMETER).
+   * @param string $member (Required) The member that will be a consumer. (PARAMETER).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
+   */
+						
+public function call_register_consumer($parameters = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.call_register_consumer' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($parameters);
+
+   
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (empty($parameters['key'])) {
+	    throw new APIContent_Exception('Parameter "key" is mandatory.');
+    }
+    if (empty($parameters['name'])) {
+	    throw new APIContent_Exception('Parameter "name" is mandatory.');
+    }
+    $opt['query_string'] = array(
+
+        'key' => $parameters['key'],
+        'name' => $parameters['name'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+    if (isset($parameters['member'])) {
+      $opt['query_string']['member'] = $parameters['member'];
+    }
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/register_consumer', $opt);
+
+	  if (!isset($response->body->register_consumer->status)) {
+      $message = 'Error response from server in call to \'call_register_consumer\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+    $status = $response->body->register_consumer->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'create_register_consumer\'. Message \'' . $response->body->register_consumer->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+    return $response;
+  }}

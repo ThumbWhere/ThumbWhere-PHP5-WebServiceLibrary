@@ -90,7 +90,7 @@ class ThumbWhereAPIAdmin extends TWRuntime {
 
   public function __construct($environment = null) {
     $this->api_version = 'v1.1';
-    $this->api = 'content';
+    $this->api = 'admin';
     $this->hostname = self::DEFAULT_URL;
 
     return parent::__construct();
@@ -116,5 +116,480 @@ class ThumbWhereAPIAdmin extends TWRuntime {
 
     return $this;
   }
+  
+  
+  /*%******************************************************************************************%*/
+  /*%******************************************************************************************%*/
+  // 
+  // ALL THE RESOURCES
+  
+  
 
-}
+
+		
+ /*%******************************************************************************************%*/
+  /*%******************************************************************************************%*/
+  // 
+  // ALL THE ACTIONS
+  
+  
+
+	
+  /*%******************************************************************************************%*/
+  // 'campaign_encrypt' Resource METHODS
+
+  /**
+   * Invokes the CREATE method for the  campaign_encrypt resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+   * @param string $key (Required) The API key for the campaign or external application. (PARAMETER).
+   * @param string $plaintext (Required) The plaintext to be encrypted. (PARAMETER).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
+   */
+						
+public function call_campaign_encrypt($parameters = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.call_campaign_encrypt' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($parameters);
+
+   
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (empty($parameters['key'])) {
+	    throw new APIAdmin_Exception('Parameter "key" is mandatory.');
+    }
+    if (empty($parameters['plaintext'])) {
+	    throw new APIAdmin_Exception('Parameter "plaintext" is mandatory.');
+    }
+    $opt['query_string'] = array(
+
+        'key' => $parameters['key'],
+        'plaintext' => $parameters['plaintext'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/campaign_encrypt', $opt);
+
+	  if (!isset($response->body->campaign_encrypt->status)) {
+      $message = 'Error response from server in call to \'call_campaign_encrypt\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    $status = $response->body->campaign_encrypt->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'create_campaign_encrypt\'. Message \'' . $response->body->campaign_encrypt->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    return $response;
+  }
+	
+  /*%******************************************************************************************%*/
+  // 'campaign_set_key' Resource METHODS
+
+  /**
+   * Invokes the CREATE method for the  campaign_set_key resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+   * @param string $masterkey (Required) The master key. (PARAMETER).
+   * @param string $id (Required) The id of thge campaign. (PARAMETER).
+   * @param string $key (Required) The key for the new campaign. (PARAMETER).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
+   */
+						
+public function call_campaign_set_key($parameters = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.call_campaign_set_key' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($parameters);
+
+   
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (empty($parameters['masterkey'])) {
+	    throw new APIAdmin_Exception('Parameter "masterkey" is mandatory.');
+    }
+    if (empty($parameters['id'])) {
+	    throw new APIAdmin_Exception('Parameter "id" is mandatory.');
+    }
+    if (empty($parameters['key'])) {
+	    throw new APIAdmin_Exception('Parameter "key" is mandatory.');
+    }
+    $opt['query_string'] = array(
+
+        'masterkey' => $parameters['masterkey'],
+        'id' => $parameters['id'],
+        'key' => $parameters['key'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/campaign_set_key', $opt);
+
+	  if (!isset($response->body->campaign_set_key->status)) {
+      $message = 'Error response from server in call to \'call_campaign_set_key\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    $status = $response->body->campaign_set_key->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'create_campaign_set_key\'. Message \'' . $response->body->campaign_set_key->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    return $response;
+  }
+	
+  /*%******************************************************************************************%*/
+  // 'account_create' Resource METHODS
+
+  /**
+   * Invokes the CREATE method for the  account_create resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+   * @param string $masterkey (Required) The master key. (PARAMETER).
+   * @param string $name (Required) The name of the account. (PARAMETER).
+   * @param string $email (Required) Users email. (PARAMETER).
+   * @param string $password (Required) Users password. (PARAMETER).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
+   */
+						
+public function call_account_create($parameters = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.call_account_create' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($parameters);
+
+   
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (empty($parameters['masterkey'])) {
+	    throw new APIAdmin_Exception('Parameter "masterkey" is mandatory.');
+    }
+    if (empty($parameters['name'])) {
+	    throw new APIAdmin_Exception('Parameter "name" is mandatory.');
+    }
+    if (empty($parameters['email'])) {
+	    throw new APIAdmin_Exception('Parameter "email" is mandatory.');
+    }
+    if (empty($parameters['password'])) {
+	    throw new APIAdmin_Exception('Parameter "password" is mandatory.');
+    }
+    $opt['query_string'] = array(
+
+        'masterkey' => $parameters['masterkey'],
+        'name' => $parameters['name'],
+        'email' => $parameters['email'],
+        'password' => $parameters['password'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/account_create', $opt);
+
+	  if (!isset($response->body->account_create->status)) {
+      $message = 'Error response from server in call to \'call_account_create\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    $status = $response->body->account_create->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'create_account_create\'. Message \'' . $response->body->account_create->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    return $response;
+  }
+	
+  /*%******************************************************************************************%*/
+  // 'account_exists' Resource METHODS
+
+  /**
+   * Invokes the CREATE method for the  account_exists resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+   * @param string $masterkey (Required) The master key. (PARAMETER).
+   * @param string $name (Required) The name of the account (PARAMETER).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
+   */
+						
+public function call_account_exists($parameters = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.call_account_exists' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($parameters);
+
+   
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (empty($parameters['masterkey'])) {
+	    throw new APIAdmin_Exception('Parameter "masterkey" is mandatory.');
+    }
+    if (empty($parameters['name'])) {
+	    throw new APIAdmin_Exception('Parameter "name" is mandatory.');
+    }
+    $opt['query_string'] = array(
+
+        'masterkey' => $parameters['masterkey'],
+        'name' => $parameters['name'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/account_exists', $opt);
+
+	  if (!isset($response->body->account_exists->status)) {
+      $message = 'Error response from server in call to \'call_account_exists\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    $status = $response->body->account_exists->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'create_account_exists\'. Message \'' . $response->body->account_exists->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    return $response;
+  }
+	
+  /*%******************************************************************************************%*/
+  // 'user_exists' Resource METHODS
+
+  /**
+   * Invokes the CREATE method for the  user_exists resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+   * @param string $masterkey (Required) The master key. (PARAMETER).
+   * @param string $email (Required) The email of the user (PARAMETER).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
+   */
+						
+public function call_user_exists($parameters = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.call_user_exists' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($parameters);
+
+   
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (empty($parameters['masterkey'])) {
+	    throw new APIAdmin_Exception('Parameter "masterkey" is mandatory.');
+    }
+    if (empty($parameters['email'])) {
+	    throw new APIAdmin_Exception('Parameter "email" is mandatory.');
+    }
+    $opt['query_string'] = array(
+
+        'masterkey' => $parameters['masterkey'],
+        'email' => $parameters['email'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/user_exists', $opt);
+
+	  if (!isset($response->body->user_exists->status)) {
+      $message = 'Error response from server in call to \'call_user_exists\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    $status = $response->body->user_exists->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'create_user_exists\'. Message \'' . $response->body->user_exists->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    return $response;
+  }
+	
+  /*%******************************************************************************************%*/
+  // 'user_recover' Resource METHODS
+
+  /**
+   * Invokes the CREATE method for the  user_recover resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+   * @param string $masterkey (Required) The master key. (PARAMETER).
+   * @param string $email (Required) The email of the user (PARAMETER).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
+   */
+						
+public function call_user_recover($parameters = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.call_user_recover' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($parameters);
+
+   
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (empty($parameters['masterkey'])) {
+	    throw new APIAdmin_Exception('Parameter "masterkey" is mandatory.');
+    }
+    if (empty($parameters['email'])) {
+	    throw new APIAdmin_Exception('Parameter "email" is mandatory.');
+    }
+    $opt['query_string'] = array(
+
+        'masterkey' => $parameters['masterkey'],
+        'email' => $parameters['email'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/user_recover', $opt);
+
+	  if (!isset($response->body->user_recover->status)) {
+      $message = 'Error response from server in call to \'call_user_recover\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    $status = $response->body->user_recover->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'create_user_recover\'. Message \'' . $response->body->user_recover->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    return $response;
+  }}
