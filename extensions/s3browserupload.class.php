@@ -41,7 +41,7 @@ class S3BrowserUpload extends ThumbWhereS3
 	 * 	<li>x-amz-meta-*</li>
 	 * </ul>
 	 * @return array An array of fields that can be converted into markup.
-	 * @link http://docs.amazonwebservices.com/ThumbWhereS3/latest/API/RESTObjectPOST.html POST Object
+	 * @link http://docs.thumbwhere.com/ThumbWhereS3/latest/API/RESTObjectPOST.html POST Object
 	 */
 	public function generate_upload_parameters($bucket, $expires = '+1 hour', $opt = null)
 	{

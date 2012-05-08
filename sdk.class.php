@@ -139,10 +139,10 @@ define('TWRUNTIME_USERAGENT', TWRUNTIME_NAME . '/' . TWRUNTIME_VERSION . ' PHP/'
  * Core functionality and default settings shared across all SDK classes. All methods and properties in this
  * class are inherited by the service-specific classes.
  *
- * @version 2011.07.28
+ * @version v1.1
  * @license See the included NOTICE.md file for more information.
  * @copyright See the included NOTICE.md file for more information.
- * @link http://thumbwhere.com/sdk/php/ PHP Developer Center
+ * @link http://thumbwhere.com/sdk/php/ PHP Developer Area
  */
 class TWRuntime
 {
@@ -173,30 +173,17 @@ class TWRuntime
 	/*%******************************************************************************************%*/
 	// PROPERTIES
 
-	/**
-	 * The ThumbWhere API Key.
-	 */
-	public $key;
 
 	/**
-	 * The ThumbWhere API Secret Key.
+	 * The API we are targeting
 	 */
-	public $secret_key;
+	public $api;
 
 	/**
-	 * The ThumbWhere Authentication Token.
+	 * The version of the API we are targetting
 	 */
-	public $auth_token;
+	public $api_version;
 
-	/**
-	 * The ThumbWhere Account ID, without hyphens.
-	 */
-	public $account_id;
-
-	/**
-	 * The ThumbWhere Associates ID.
-	 */
-	public $assoc_id;
 
 	/**
 	 * Handle for the utility functions.
@@ -206,17 +193,8 @@ class TWRuntime
 	/**
 	 * An identifier for the current TW service.
 	 */
-	public $service = null;
+	public $service;
 
-	/**
-	 * The supported API version.
-	 */
-	public $api_version = null;
-
-	/**
-	 * The state of whether auth should be handled as TW Query.
-	 */
-	public $use_aws_query = true;
 
 	/**
 	 * The default class to use for utilities (defaults to <TWUtilities>).
@@ -251,7 +229,7 @@ class TWRuntime
 	/**
 	 * The state of SSL/HTTPS use.
 	 */
-	public $use_ssl = true;
+	public $use_ssl = false;
 
 	/**
 	 * The state of SSL certificate verification.
@@ -264,7 +242,7 @@ class TWRuntime
 	public $proxy = null;
 
 	/**
-	 * The alternate hostname to use, if any.
+	 * The hostname we are targetting
 	 */
 	public $hostname = null;
 
@@ -366,7 +344,7 @@ class TWRuntime
 	 * @param string $token (optional) An TW session token. If blank, a request will be made to the TW Secure Token Service to fetch a set of session credentials.
 	 * @return boolean A value of `false` if no valid values are set, otherwise `true`.
 	 */
-	public function __construct($key = null, $secret_key = null, $token = null)
+	public function __construct()
 	{
 		// Instantiate the utilities class.
 		$this->util = new $this->utilities_class();
@@ -374,31 +352,6 @@ class TWRuntime
 		// Determine the current service.
 		$this->service = get_class($this);
 
-		// Set default values
-		$this->key = null;
-		$this->secret_key = null;
-		$this->auth_token = $token;
-
-		// If both a key and secret key are passed in, use those.
-		if ($key && $secret_key)
-		{
-			$this->key = $key;
-			$this->secret_key = $secret_key;
-			return true;
-		}
-		// If neither are passed in, look for the constants instead.
-		elseif (defined('TW_KEY') && defined('TW_SECRET_KEY'))
-		{
-			$this->key = TW_KEY;
-			$this->secret_key = TW_SECRET_KEY;
-			return true;
-		}
-
-		// Otherwise set the values to blank and return false.
-		else
-		{
-			throw new TWRuntime_Exception('No valid credentials were used to authenticate with TW.');
-		}
 	}
 
 	/**
@@ -856,356 +809,309 @@ class TWRuntime
 		return $this;
 	}
 
-
 	/*%******************************************************************************************%*/
-	// AUTHENTICATION
+	// INVOKE
 
 	/**
-	 * Default, shared method for authenticating a connection to TW. Overridden on a class-by-class basis
-	 * as necessary.
+	 * Makes a request against the ThumbWhere API
 	 *
-	 * @param string $action (Required) Indicates the action to perform.
+	 * @param string $endpoint (Required) The API endpoint we want to invoke.
 	 * @param array $opt (Optional) An associative array of parameters for authenticating. See the individual methods for allowed keys.
-	 * @param string $domain (Optional) The URL of the queue to perform the action on.
-	 * @param integer $signature_version (Optional) The signature version to use. Defaults to 2.
-	 * @param integer $redirects (Do Not Use) Used internally by this function on occasions when ThumbWhere S3 returns a redirect code and it needs to call itself recursively.
-	 * @return TWResponse Object containing a parsed HTTP response.
+	 * @param string $location (Do Not Use) Used internally by this function on occasions when ThumbWhere APIContent returns a redirect code and it needs to call itself recursively.
+	 * @param integer $redirects (Do Not Use) Used internally by this function on occasions when ThumbWhere APIContent returns a redirect code and it needs to call itself recursively.
+	 * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+	 * @link http://docs.thumbwhere.com/ThumbWhereAPIContent/latest/dev/APIContent_Authentication.html REST authentication
 	 */
-	public function authenticate($action, $opt = null, $domain = null, $signature_version = 2, $redirects = 0)
-	{
-		// Handle nulls
-		if (is_null($signature_version))
-		{
-			$signature_version = 2;
-		}
 
-		$method_arguments = func_get_args();
-		$headers = array();
-		$signed_headers = array();
+	public function invoke($endpoint, $opt = null, $location = null, $redirects = 0, $nothing = null) {
+	  /*
+	   * Overriding or extending this class? You can pass the following "magic" keys into $opt.
+	  *
+	  * ## verb, resource, sub_resource and query_string ##
+	  * 	<verb> /<resource>?<sub_resource>&<query_string>
+	  * 	GET /filename.txt?versions&prefix=abc&max-items=1
+	  *
+	  * ## curlopts ##
+	  * 	These values get passed directly to the cURL methods in RequestCore.
+	  *
+	  * ## fileUpload, fileDownload, seekTo ##
+	  * 	These are slightly modified and then passed to the cURL methods in RequestCore.
+	  *
+	  * ## headers ##
+	  * 	$opt['headers'] is an array, whose keys are HTTP headers to be sent.
+	  *
+	  * ## body ##
+	  * 	This is the request body that is sent to the server via PUT/POST.
+	  *
+	  * ## preauth ##
+	  * 	This is a hook that tells invoke() to generate a pre-authenticated URL.
+	  *
+	  * ## returnCurlHandle ##
+	  * 	Tells invoke() to return the cURL handle for the request instead of executing it.
+	  */
 
-		// Use the caching flow to determine if we need to do a round-trip to the server.
-		if ($this->use_cache_flow)
-		{
-			// Generate an identifier specific to this particular set of arguments.
-			$cache_id = $this->key . '_' . get_class($this) . '_' . $action . '_' . sha1(serialize($method_arguments));
+	  // Determine hostname
+	  $scheme = $this->use_ssl ? 'https://' : 'http://';
 
-			// Instantiate the appropriate caching object.
-			$this->cache_object = new $this->cache_class($cache_id, $this->cache_location, $this->cache_expires, $this->cache_compress);
+	  // The actual domain we want to use
+	  $hostname = 'localhost.thumbwhere.com';
 
-			if ($this->delete_cache)
-			{
-				$this->use_cache_flow = false;
-				$this->delete_cache = false;
-				return $this->cache_object->delete();
-			}
+	  // Get the UTC timestamp in RFC 2616 format
+	  $date = gmdate(TWUtilities::DATE_FORMAT_RFC2616, (time() + (integer) $this->adjust_offset));
 
-			// Invoke the cache callback function to determine whether to pull data from the cache or make a fresh request.
-			$data = $this->cache_object->response_manager(array($this, 'cache_callback'), $method_arguments);
+	  // Storage for request parameters.
+	  $resource = '';
+	  $sub_resource = '';
+	  $querystringparams = array();
+	  $signable_querystringparams = array();
+	  $string_to_sign = '';
+	  $headers = array(
+	  //'Content-Type' => 'application/x-www-form-urlencoded',
+	        'Date' => $date
+	  );
 
-			// Parse the XML body
-			$data = $this->parse_callback($data);
+	  /*%******************************************************************************************%*/
 
-			// End!
-			return $data;
-		}
+	  // Merge query string values
+	  if (isset($opt['query_string'])) {
+	    $querystringparams = array_merge($querystringparams, $opt['query_string']);
+	  }
+	  $query_string = $this->util->to_query_string($querystringparams);
 
-		$return_curl_handle = false;
-		$x_amz_target = null;
+	  // Merge the HTTP headers
+	  if (isset($opt['headers'])) {
+	    $headers = array_merge($headers, $opt['headers']);
+	  }
 
-		// Do we have a custom resource prefix?
-		if ($this->resource_prefix)
-		{
-			$domain .= $this->resource_prefix;
-		}
+	  // Compile the URI to request
+	  $conjunction = '?';
+	  $signable_resource = '/' . str_replace('%2F', '/', rawurlencode($resource));
+	  $non_signable_resource = '';
 
-		// Determine signing values
-		$current_time = time() + $this->adjust_offset;
-		$date = gmdate(TWUtilities::DATE_FORMAT_RFC2616, $current_time);
-		$timestamp = gmdate(TWUtilities::DATE_FORMAT_ISO8601, $current_time);
-		$nonce = $this->util->generate_guid();
+	  if (isset($opt['sub_resource'])) {
+	    $signable_resource .= $conjunction . rawurlencode($opt['sub_resource']);
+	    $conjunction = '&';
+	  }
 
-		// Do we have an authentication token?
-		if ($this->auth_token)
-		{
-			$headers['X-Amz-Security-Token'] = $this->auth_token;
-			$query['SecurityToken'] = $this->auth_token;
-		}
+	  if ($query_string !== '') {
+	    $non_signable_resource .= $conjunction . $query_string;
+	    $conjunction = '&';
+	  }
 
-		// Manage the key-value pairs that are used in the query.
-		if (stripos($action, 'x-amz-target') !== false)
-		{
-			$x_amz_target = trim(str_ireplace('x-amz-target:', '', $action));
-		}
-		else
-		{
-			$query['Action'] = $action;
-		}
+	  $conjunction = '?';
 
-		// Only add it if it exists.
-		if ($this->api_version)
-		{
-			$query['Version'] = $this->api_version;
-		}
+	  $this->request_url = $scheme . $hostname . '/api/' . $endpoint . $conjunction . $query_string;
 
-		// Only Signature v2
-		if ($signature_version === 2)
-		{
-			$query['TWAccessKeyId'] = $this->key;
-			$query['SignatureMethod'] = 'HmacSHA256';
-			$query['SignatureVersion'] = 2;
-			$query['Timestamp'] = $timestamp;
-		}
+	  watchdog('tw_api', 'Making web service request : %uri', array('%uri' => $this->request_url), WATCHDOG_NOTICE);
 
-		$curlopts = array();
+	  if (isset($opt) && variable_get('thumbwhere_api_log_debug',0) =='1')
+	  {
+	    debug($opt);
+	  }
 
-		// Set custom CURLOPT settings
-		if (is_array($opt) && isset($opt['curlopts']))
-		{
-			$curlopts = $opt['curlopts'];
-			unset($opt['curlopts']);
-		}
+	  // Instantiate the request class
+	  $request = new $this->request_class($this->request_url, $this->proxy);
 
-		// Merge in any options that were passed in
-		if (is_array($opt))
-		{
-			$query = array_merge($query, $opt);
-		}
+	  // Update RequestCore settings
+	  $request->request_class = $this->request_class;
+	  $request->response_class = $this->response_class;
 
-		$return_curl_handle = isset($query['returnCurlHandle']) ? $query['returnCurlHandle'] : false;
-		unset($query['returnCurlHandle']);
+	  // Pass along registered stream callbacks
+	  if ($this->registered_streaming_read_callback) {
+	    $request->register_streaming_read_callback($this->registered_streaming_read_callback);
+	  }
 
-		// Do a case-sensitive, natural order sort on the array keys.
-		uksort($query, 'strcmp');
+	  if ($this->registered_streaming_write_callback) {
+	    $request->register_streaming_write_callback($this->registered_streaming_write_callback);
+	  }
 
-		// Normalize JSON input
-		if (isset($query['body']) && $query['body'] === '[]')
-		{
-			$query['body'] = '{}';
-		}
+	  // Streaming uploads
+	  if (isset($opt['fileUpload'])) {
+	    if (is_resource($opt['fileUpload'])) {
+	      // Determine the length to read from the stream
+	      $length = null; // From current position until EOF by default, size determined by set_read_stream()
 
-		if ($this->use_aws_query)
-		{
-			// Create the string that needs to be hashed.
-			$canonical_query_string = $this->util->to_signable_string($query);
-		}
-		else
-		{
-			// Create the string that needs to be hashed.
-			$canonical_query_string = $this->util->encode_signature2($query['body']);
-		}
+	      if (isset($headers['Content-Length'])) {
+	        $length = $headers['Content-Length'];
+	      }
+	      elseif (isset($opt['seekTo'])) {
+	        // Read from seekTo until EOF by default
+	        $stats = fstat($opt['fileUpload']);
 
-		// Remove the default scheme from the domain.
-		$domain = str_replace(array('http://', 'https://'), '', $domain);
+	        if ($stats && $stats['size'] >= 0) {
+	          $length = $stats['size'] - (integer) $opt['seekTo'];
+	        }
+	      }
 
-		// Parse our request.
-		$parsed_url = parse_url('http://' . $domain);
+	      $request->set_read_stream($opt['fileUpload'], $length);
 
-		// Set the proper host header.
-		if (isset($parsed_url['port']) && (integer) $parsed_url['port'] !== 80 && (integer) $parsed_url['port'] !== 443)
-		{
-			$host_header = strtolower($parsed_url['host']) . ':' . $parsed_url['port'];
-		}
-		else
-		{
-			$host_header = strtolower($parsed_url['host']);
-		}
+	      if ($headers['Content-Type'] === 'application/x-www-form-urlencoded') {
+	        $headers['Content-Type'] = 'application/octet-stream';
+	      }
+	    }
+	    else {
+	      $request->set_read_file($opt['fileUpload']);
 
-		// Set the proper request URI.
-		$request_uri = isset($parsed_url['path']) ? $parsed_url['path'] : '/';
+	      // Determine the length to read from the file
+	      $length = $request->read_stream_size; // The file size by default
 
-		if ($signature_version === 2)
-		{
-			// Prepare the string to sign
-			$string_to_sign = "POST\n$host_header\n$request_uri\n$canonical_query_string";
+	      if (isset($headers['Content-Length'])) {
+	        $length = $headers['Content-Length'];
+	      }
+	      elseif (isset($opt['seekTo']) && isset($length)) {
+	        // Read from seekTo until EOF by default
+	        $length -= (integer) $opt['seekTo'];
+	      }
 
-			// Hash the TW secret key and generate a signature for the request.
-			$query['Signature'] = base64_encode(hash_hmac('sha256', $string_to_sign, $this->secret_key, true));
-		}
+	      $request->set_read_stream_size($length);
 
-		// Generate the querystring from $query
-		$querystring = $this->util->to_query_string($query);
+	      // Attempt to guess the correct mime-type
+	      if ($headers['Content-Type'] === 'application/x-www-form-urlencoded') {
+	        $extension = explode('.', $opt['fileUpload']);
+	        $extension = array_pop($extension);
+	        $mime_type = TWMimeTypes::get_mimetype($extension);
+	        $headers['Content-Type'] = $mime_type;
+	      }
+	    }
 
-		// Gather information to pass along to other classes.
-		$helpers = array(
-			'utilities' => $this->utilities_class,
-			'request' => $this->request_class,
-			'response' => $this->response_class,
-		);
+	    $headers['Content-Length'] = $request->read_stream_size;
+	    $headers['Content-MD5'] = '';
+	  }
 
-		// Compose the request.
-		$request_url = ($this->use_ssl ? 'https://' : 'http://') . $domain;
-		$request_url .= !isset($parsed_url['path']) ? '/' : '';
+	  // Handle streaming file offsets
+	  if (isset($opt['seekTo'])) {
+	    // Pass the seek position to RequestCore
+	    $request->set_seek_position((integer) $opt['seekTo']);
+	  }
 
-		// Instantiate the request class
-		$request = new $this->request_class($request_url, $this->proxy, $helpers);
-		$request->set_method('POST');
-		$request->set_body($querystring);
-		$headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=utf-8';
+	  // Streaming downloads
+	  if (isset($opt['fileDownload'])) {
+	    if (is_resource($opt['fileDownload'])) {
+	      $request->set_write_stream($opt['fileDownload']);
+	    }
+	    else {
+	      $request->set_write_file($opt['fileDownload']);
+	    }
+	  }
 
-		// Signing using X-Amz-Target is handled differently.
-		if ($signature_version === 3 && $x_amz_target)
-		{
-			$headers['X-Amz-Target'] = $x_amz_target;
-			$headers['Content-Type'] = 'application/json; amzn-1.0';
-			$headers['Content-Encoding'] = 'amz-1.0';
+	  $curlopts = array();
 
-			$request->set_body($query['body']);
-			$querystring = $query['body'];
-		}
+	  // Set custom CURLOPT settings
+	  if (isset($opt['curlopts'])) {
+	    $curlopts = $opt['curlopts'];
+	    unset($opt['curlopts']);
+	  }
 
-		// Pass along registered stream callbacks
-		if ($this->registered_streaming_read_callback)
-		{
-			$request->register_streaming_read_callback($this->registered_streaming_read_callback);
-		}
+	  // Debug mode
+	  if ($this->debug_mode) {
+	    $curlopts[CURLOPT_VERBOSE] = true;
+	  }
 
-		if ($this->registered_streaming_write_callback)
-		{
-			$request->register_streaming_write_callback($this->registered_streaming_write_callback);
-		}
+	  // Set the curl options.
+	  if (count($curlopts)) {
+	    $request->set_curlopts($curlopts);
+	  }
 
-		// Add authentication headers
-		if ($signature_version === 3)
-		{
-			$headers['X-Amz-Nonce'] = $nonce;
-			$headers['Date'] = $date;
-			$headers['Content-Length'] = strlen($querystring);
-			$headers['Content-MD5'] = $this->util->hex_to_base64(md5($querystring));
-			$headers['Host'] = $host_header;
-		}
+	  // Do we have a verb?
+	  if (isset($opt['verb'])) {
+	    $request->set_method($opt['verb']);
+	    $string_to_sign .= $opt['verb'] . "\n";
+	  }
 
-		// Sort headers
-		uksort($headers, 'strnatcasecmp');
+	  // Add headers and content when we have a body
+	  if (isset($opt['body'])) {
+	    $request->set_body($opt['body']);
+	    $headers['Content-Length'] = strlen($opt['body']);
 
-		if ($signature_version === 3 && $this->use_ssl)
-		{
-			// Prepare the string to sign (HTTPS)
-			$string_to_sign = $date . $nonce;
-		}
-		elseif ($signature_version === 3 && !$this->use_ssl)
-		{
-			// Prepare the string to sign (HTTP)
-			$string_to_sign = "POST\n$request_uri\n\n";
-		}
+	    if ($headers['Content-Type'] === 'application/x-www-form-urlencoded') {
+	      $headers['Content-Type'] = 'application/octet-stream';
+	    }
 
-		// Add headers to request and compute the string to sign
-		foreach ($headers as $header_key => $header_value)
-		{
-			// Strip linebreaks from header values as they're illegal and can allow for security issues
-			$header_value = str_replace(array("\r", "\n"), '', $header_value);
+	    if (!isset($opt['NoContentMD5']) || $opt['NoContentMD5'] !== true) {
+	      $headers['Content-MD5'] = $this->util->hex_to_base64(md5($opt['body']));
+	    }
+	  }
 
-			// Add the header if it has a value
-			if ($header_value !== '')
-			{
-				$request->add_header($header_key, $header_value);
-			}
+	  // Handle query-string authentication
+	  if (isset($opt['preauth']) && (integer) $opt['preauth'] > 0) {
+	    unset($headers['Date']);
+	    $headers['Content-Type'] = '';
+	    $headers['Expires'] = is_int($opt['preauth']) ? $opt['preauth'] : strtotime($opt['preauth']);
+	  }
 
-			// Signature v3 over HTTP
-			if ($signature_version === 3 && !$this->use_ssl)
-			{
-				// Generate the string to sign
-				if (
-					substr(strtolower($header_key), 0, 8) === 'content-' ||
-					strtolower($header_key) === 'date' ||
-					strtolower($header_key) === 'expires' ||
-					strtolower($header_key) === 'host' ||
-					substr(strtolower($header_key), 0, 6) === 'x-amz-'
-				)
-				{
-					$string_to_sign .= strtolower($header_key) . ':' . $header_value . "\n";
-					$signed_headers[] = $header_key;
-				}
-			}
-		}
+	  // Sort headers
+	  uksort($headers, 'strnatcasecmp');
 
-		if ($signature_version === 3)
-		{
-			if (!$this->use_ssl)
-			{
-				$string_to_sign .= "\n";
+	  // Add headers to request and compute the string to sign
+	  foreach ($headers as $header_key => $header_value) {
+	    // Strip linebreaks from header values as they're illegal and can allow for security issues
+	    $header_value = str_replace(array(
+	          "\r",
+	          "\n"
+	    ), '', $header_value);
 
-				if (isset($query['body']) && $query['body'] !== '')
-				{
-					$string_to_sign .= $query['body'];
-				}
+	    // Add the header if it has a value
+	    if ($header_value !== '') {
+	      $request->add_header($header_key, $header_value);
+	    }
 
-				// Convert from string-to-sign to bytes-to-sign
-				$bytes_to_sign = hash('sha256', $string_to_sign, true);
+	    // Generate the string to sign
+	    if (strtolower($header_key) === 'content-md5' || strtolower($header_key) === 'content-type' || strtolower($header_key) === 'date' || (strtolower($header_key) === 'expires' && isset($opt['preauth']) && (integer) $opt['preauth'] > 0)) {
+	      $string_to_sign .= $header_value . "\n";
+	    }
+	    elseif (substr(strtolower($header_key), 0, 6) === 'x-amz-') {
+	      $string_to_sign .= strtolower($header_key) . ':' . $header_value . "\n";
+	    }
+	  }
 
-				// Hash the TW secret key and generate a signature for the request.
-				$signature = base64_encode(hash_hmac('sha256', $bytes_to_sign, $this->secret_key, true));
-			}
-			else
-			{
-				// Hash the TW secret key and generate a signature for the request.
-				$signature = base64_encode(hash_hmac('sha256', $string_to_sign, $this->secret_key, true));
-			}
+	  /*%******************************************************************************************%*/
 
-			$headers['X-Amzn-Authorization'] = 'TW3' . ($this->use_ssl ? '-HTTPS' : '')
-				. ' TWAccessKeyId=' . $this->key
-				. ',Algorithm=HmacSHA256'
-				. ',SignedHeaders=' . implode(';', $signed_headers)
-				. ',Signature=' . $signature;
+	  // If our changes were temporary, reset them.
+	  if ($this->temporary_prefix) {
+	    $this->temporary_prefix = false;
+	    $this->resource_prefix = null;
+	  }
 
-			$request->add_header('X-Amzn-Authorization', $headers['X-Amzn-Authorization']);
-		}
+	  // Manage the (newer) batch request API or the (older) returnCurlHandle setting.
+	  if ($this->use_batch_flow) {
+	    $handle = $request->prep_request();
+	    $this->batch_object->add($handle);
+	    $this->use_batch_flow = false;
 
-		// Update RequestCore settings
-		$request->request_class = $this->request_class;
-		$request->response_class = $this->response_class;
-		$request->ssl_verification = $this->ssl_verification;
+	    return $handle;
+	  }
+	  elseif (isset($opt['returnCurlHandle']) && $opt['returnCurlHandle'] === true) {
+	    return $request->prep_request();
+	  }
 
-		// Debug mode
-		if ($this->debug_mode)
-		{
-			$request->debug_mode = $this->debug_mode;
-		}
+	  // Send!
+	  $request->send_request();
 
-		if (count($curlopts))
-		{
-			$request->set_curlopts($curlopts);
-		}
+	  // Prepare the response
+	  $headers = $request->get_response_header();
 
-		// Manage the (newer) batch request API or the (older) returnCurlHandle setting.
-		if ($this->use_batch_flow)
-		{
-			$handle = $request->prep_request();
-			$this->batch_object->add($handle);
-			$this->use_batch_flow = false;
+	  $data = new $this->response_class($headers, $this->parse_callback($request->get_response_body()), $request->get_response_code());
 
-			return $handle;
-		}
-		elseif ($return_curl_handle)
-		{
-			return $request->prep_request();
-		}
+	  // Did ThumbWhere tell us to redirect? Typically happens for multiple rapid requests EU datacenters.
+	  // @see: http://docs.thumbwhere.com/ThumbWhereAPIContent/latest/dev/Redirects.html
+	  // @codeCoverageIgnoreStart
+	  if ((integer) $request->get_response_code() === 307) // Temporary redirect to new endpoint.
+	  {
+	    $data = $this->invoke($bucket, $opt, $headers['location'], ++$redirects);
+	  }
+	  // Was it ThumbWhere's fault the request failed? Retry the request until we reach $max_retries.
+	  elseif ((integer) $request->get_response_code() === 500 || (integer) $request->get_response_code() === 503) {
+	    if ($redirects <= $this->max_retries) {
+	      // Exponential backoff
+	      $delay = (integer) (pow(4, $redirects) * 100000);
+	      usleep($delay);
+	      $data = $this->invoke($bucket, $opt, null, ++$redirects);
+	    }
+	  }
+	  // @codeCoverageIgnoreEnd
 
-		// Send!
-		$request->send_request();
-
-		$request_headers = $headers;
-
-		// Prepare the response.
-		$headers = $request->get_response_header();
-		$headers['x-tw-stringtosign'] = $string_to_sign;
-		$headers['x-tw-request-headers'] = $request_headers;
-		$headers['x-tw-body'] = $querystring;
-
-		$data = new $this->response_class($headers, $this->parse_callback($request->get_response_body(), $headers), $request->get_response_code());
-
-		// Was it ThumbWhere's fault the request failed? Retry the request until we reach $max_retries.
-		if ((integer) $request->get_response_code() === 500 || (integer) $request->get_response_code() === 503)
-		{
-			if ($redirects <= $this->max_retries)
-			{
-				// Exponential backoff
-				$delay = (integer) (pow(4, $redirects) * 100000);
-				usleep($delay);
-				$data = $this->authenticate($action, $opt, $domain, $signature_version, ++$redirects);
-			}
-		}
-
-		return $data;
+	  // Return!
+	  return $data;
 	}
 
 
