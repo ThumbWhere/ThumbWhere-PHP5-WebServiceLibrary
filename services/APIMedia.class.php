@@ -116,25 +116,25 @@ class ThumbWhereAPIMedia extends TWRuntime {
 
     return $this;
   }
-  
-  
+
+
   /*%******************************************************************************************%*/
   /*%******************************************************************************************%*/
-  // 
+  //
   // ALL THE RESOURCES
-  
-  
 
 
-		
+
+
+
  /*%******************************************************************************************%*/
   /*%******************************************************************************************%*/
-  // 
+  //
   // ALL THE ACTIONS
-  
-  
 
-	
+
+
+
   /*%******************************************************************************************%*/
   // 'get_url' Resource METHODS
 
@@ -152,12 +152,12 @@ class ThumbWhereAPIMedia extends TWRuntime {
    * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
    * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
    */
-						
+
 public function call_get_url($parameters = array(), $opt = null) {
 	    watchdog('tw_api', 'call to TWAPI.call_get_url' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($parameters);
 
-   
+
 
     if (!$opt) {
       $opt = array();
@@ -167,7 +167,7 @@ public function call_get_url($parameters = array(), $opt = null) {
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
-    
+
     //
     // Validate Fields
     //
