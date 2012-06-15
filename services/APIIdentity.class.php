@@ -125,6 +125,142 @@ class ThumbWhereAPIIdentity extends TWRuntime {
   
   
 
+	
+  /*%******************************************************************************************%*/
+  // 'identity' Resource METHODS
+
+  /**
+   * Invokes the CREATE method for the  identity resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $identitytype (Required) 'identitytype' field, which is an embedded 'IdentityType' resource. (FIELD).
+   * @param string $member (Required) 'member' field, which is an embedded 'Member' resource. (FIELD).
+   * @param string $id (Required) 'id' field, which is a 'string' type. (FIELD).
+   * @param string $secret (Required) 'secret' field, which is a 'string' type. (FIELD).
+   * @param string $secret_hash (Required) 'secret_hash' field, which is a 'string' type. (FIELD).
+   * @param string $secret_hash_salt (Required) 'secret_hash_salt' field, which is a 'string' type. (FIELD).
+   * @param string $secret_hash_itterations (Required) 'secret_hash_itterations' field, which is a 'int' type. (FIELD).
+   * @param string $label (Required) 'label' field, which is a 'string' type. (FIELD).
+   * @param string $last_login (Required) 'last_login' field, which is a 'datetime' type. (FIELD).
+   * @param string $total_logins (Required) 'total_logins' field, which is a 'long' type. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
+   */
+						
+public function create_identity($context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.create_identity' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+    /*
+     // If the bucket contains uppercase letters...
+    if (preg_match('/[A-Z]/', $bucket)) {
+	    // Throw a warning
+	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
+	
+	    // Force the bucketname to lowercase
+	    $blah = strtolower($bucket);
+    }
+
+    // Validate the APIContent bucket name for creation
+    if (!$this->validate_bucketname_create($bucket)) {
+	    // @codeCoverageIgnoreStart
+	    throw new APIIdentity_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
+	    // @codeCoverageIgnoreEnd
+    }
+     */
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (empty($fields['identitytype'])) {
+	    throw new APIIdentity_Exception('Field "identitytype" is mandatory.');
+    }
+    $opt['query_string'] = array(
+        '$op' => 'create',
+        '$key' => $context['key'],
+        'identitytype' => $fields['identitytype'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+    if (isset($fields['member'])) {
+      $opt['query_string']['member'] = $fields['member'];
+    }
+    if (isset($fields['id'])) {
+      $opt['query_string']['id'] = $fields['id'];
+    }
+    if (isset($fields['secret'])) {
+      $opt['query_string']['secret'] = $fields['secret'];
+    }
+    if (isset($fields['secret_hash'])) {
+      $opt['query_string']['secret_hash'] = $fields['secret_hash'];
+    }
+    if (isset($fields['secret_hash_salt'])) {
+      $opt['query_string']['secret_hash_salt'] = $fields['secret_hash_salt'];
+    }
+    if (isset($fields['secret_hash_itterations'])) {
+      $opt['query_string']['secret_hash_itterations'] = $fields['secret_hash_itterations'];
+    }
+    if (isset($fields['label'])) {
+      $opt['query_string']['label'] = $fields['label'];
+    }
+    if (isset($fields['last_login'])) {
+      $opt['query_string']['last_login'] = $fields['last_login'];
+    }
+    if (isset($fields['total_logins'])) {
+      $opt['query_string']['total_logins'] = $fields['total_logins'];
+    }
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/identity', $opt);
+
+	  if (!isset($response->body)) {
+      $message = 'Error response from server in call to \'create_identity\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIIdentity_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'create_identity\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIIdentity_Exception($message);
+    }
+
+	  if (!isset($response->body->identity->status)) {
+      $message = 'Error response from server in call to \'create_identity\'. Response to \'identity\' was expected but was not present';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIIdentity_Exception($message);
+    }
+
+    $status = $response->body->identity->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'create_identity\'. Message \'' . $response->body->identity->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIIdentity_Exception($message);
+    }
+
+    return $response;
+  }
 
 		
  /*%******************************************************************************************%*/
@@ -136,14 +272,17 @@ class ThumbWhereAPIIdentity extends TWRuntime {
 
 	
   /*%******************************************************************************************%*/
-  // 'validate' Resource METHODS
+  // 'authenticate' Resource METHODS
 
   /**
-   * Invokes the CREATE method for the  validate resource web service.
+   * Invokes the CREATE method for the  authenticate resource web service.
    *
    * TODO: Pull in description from resource as part of code-gen
    *
-   * @param string $code (Required) The Identity Token to validate. (PARAMETER).
+   * @param string $key (Required) The API Key to provide context for this request. (PARAMETER).
+   * @param string $type (Required) The identity type (PARAMETER).
+   * @param string $id (Required) The id you want to validate against. (PARAMETER).
+   * @param string $secret (Required) The secret you want to supply to complete your validation. (PARAMETER).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
    * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
    * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
@@ -151,8 +290,8 @@ class ThumbWhereAPIIdentity extends TWRuntime {
    * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
    */
 						
-public function call_validate($parameters = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.call_validate' ,array(), WATCHDOG_NOTICE);
+public function call_authenticate($parameters = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.call_authenticate' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($parameters);
 
    
@@ -169,12 +308,24 @@ public function call_validate($parameters = array(), $opt = null) {
     //
     // Validate Fields
     //
-    if (empty($parameters['code'])) {
-	    throw new APIIdentity_Exception('Parameter "code" is mandatory.');
+    if (empty($parameters['key'])) {
+	    throw new APIIdentity_Exception('Parameter "key" is mandatory.');
+    }
+    if (empty($parameters['type'])) {
+	    throw new APIIdentity_Exception('Parameter "type" is mandatory.');
+    }
+    if (empty($parameters['id'])) {
+	    throw new APIIdentity_Exception('Parameter "id" is mandatory.');
+    }
+    if (empty($parameters['secret'])) {
+	    throw new APIIdentity_Exception('Parameter "secret" is mandatory.');
     }
     $opt['query_string'] = array(
 
-        'code' => $parameters['code'],
+        'key' => $parameters['key'],
+        'type' => $parameters['type'],
+        'id' => $parameters['id'],
+        'secret' => $parameters['secret'],
     );
 
     //
@@ -185,18 +336,128 @@ public function call_validate($parameters = array(), $opt = null) {
     //
     // Invoke the service
     //
-    $response = $this->invoke($this->api . '/' . $this->api_version . '/validate', $opt);
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/authenticate', $opt);
 
-	  if (!isset($response->body->validate->status)) {
-      $message = 'Error response from server in call to \'call_validate\'. Response was not XML? Missing XML header?';
+	  if (!isset($response->body)) {
+      $message = 'Error response from server in call to \'call_authenticate\'. Response was not XML? Missing XML header?';
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
 	    throw new APIIdentity_Exception($message);
     }
 
-    $status = $response->body->validate->status;
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'call_authenticate\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIIdentity_Exception($message);
+    }
+
+	  if (!isset($response->body->authenticate->status)) {
+      $message = 'Error response from server in call to \'call_authenticate\'. Response to \'authenticate\' was expected but was not present';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIIdentity_Exception($message);
+    }
+
+    $status = $response->body->authenticate->status;
 
 	  if ($status == 'error') {
-      $message = 'Error response from server in call to \'create_validate\'. Message \'' . $response->body->validate->errorMessage . '\'';
+      $message = 'Error response from server in call to \'create_authenticate\'. Message \'' . $response->body->authenticate->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIIdentity_Exception($message);
+    }
+
+    return $response;
+  }
+	
+  /*%******************************************************************************************%*/
+  // 'authenticate_request' Resource METHODS
+
+  /**
+   * Invokes the CREATE method for the  authenticate_request resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+   * @param string $key (Required) The API Key that a Identity Token request has been made against. If this is blank, the server will assume the API token for the campaign based on the configuration of the API service and the API's domain name. (PARAMETER).
+   * @param string $code (Required) The code that was returned by a previous call to ^request^. This code should have been sent via SMS or MMS to the number also returned by ^request^. (PARAMETER).
+   * @param string $id (Required) The id you want to validate against. (PARAMETER).
+   * @param string $secret (Required) The secret you want to supply to complete your validation. (PARAMETER).
+   * @param string $label (Required) Optional label you want to apply to the new identity. (PARAMETER).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
+   */
+						
+public function call_authenticate_request($parameters = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.call_authenticate_request' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($parameters);
+
+   
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (empty($parameters['key'])) {
+	    throw new APIIdentity_Exception('Parameter "key" is mandatory.');
+    }
+    if (empty($parameters['code'])) {
+	    throw new APIIdentity_Exception('Parameter "code" is mandatory.');
+    }
+    $opt['query_string'] = array(
+
+        'key' => $parameters['key'],
+        'code' => $parameters['code'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+    if (isset($parameters['id'])) {
+      $opt['query_string']['id'] = $parameters['id'];
+    }
+    if (isset($parameters['secret'])) {
+      $opt['query_string']['secret'] = $parameters['secret'];
+    }
+    if (isset($parameters['label'])) {
+      $opt['query_string']['label'] = $parameters['label'];
+    }
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/authenticate_request', $opt);
+
+	  if (!isset($response->body)) {
+      $message = 'Error response from server in call to \'call_authenticate_request\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIIdentity_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'call_authenticate_request\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIIdentity_Exception($message);
+    }
+
+	  if (!isset($response->body->authenticate_request->status)) {
+      $message = 'Error response from server in call to \'call_authenticate_request\'. Response to \'authenticate_request\' was expected but was not present';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIIdentity_Exception($message);
+    }
+
+    $status = $response->body->authenticate_request->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'create_authenticate_request\'. Message \'' . $response->body->authenticate_request->errorMessage . '\'';
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
 	    throw new APIIdentity_Exception($message);
     }
@@ -261,8 +522,20 @@ public function call_query_request($parameters = array(), $opt = null) {
     //
     $response = $this->invoke($this->api . '/' . $this->api_version . '/query_request', $opt);
 
-	  if (!isset($response->body->query_request->status)) {
+	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'call_query_request\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIIdentity_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'call_query_request\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIIdentity_Exception($message);
+    }
+
+	  if (!isset($response->body->query_request->status)) {
+      $message = 'Error response from server in call to \'call_query_request\'. Response to \'query_request\' was expected but was not present';
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
 	    throw new APIIdentity_Exception($message);
     }
@@ -343,8 +616,20 @@ public function call_request($parameters = array(), $opt = null) {
     //
     $response = $this->invoke($this->api . '/' . $this->api_version . '/request', $opt);
 
-	  if (!isset($response->body->request->status)) {
+	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'call_request\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIIdentity_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'call_request\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIIdentity_Exception($message);
+    }
+
+	  if (!isset($response->body->request->status)) {
+      $message = 'Error response from server in call to \'call_request\'. Response to \'request\' was expected but was not present';
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
 	    throw new APIIdentity_Exception($message);
     }
@@ -361,17 +646,16 @@ public function call_request($parameters = array(), $opt = null) {
   }
 	
   /*%******************************************************************************************%*/
-  // 'authenticate_request' Resource METHODS
+  // 'set_label' Resource METHODS
 
   /**
-   * Invokes the CREATE method for the  authenticate_request resource web service.
+   * Invokes the CREATE method for the  set_label resource web service.
    *
    * TODO: Pull in description from resource as part of code-gen
    *
-   * @param string $key (Required) The API Key that a Identity Token request has been made against. If this is blank, the server will assume the API token for the campaign based on the configuration of the API service and the API's domain name. (PARAMETER).
-   * @param string $code (Required) The code that was returned by a previous call to ^request^. This code should have been sent via SMS or MMS to the number also returned by ^request^. (PARAMETER).
-   * @param string $id (Required) The id you want to validate against. (PARAMETER).
-   * @param string $secret (Required) The secret you want to supply to complete your validation. (PARAMETER).
+   * @param string $key (Required) The api key to provide context for this campaign. (PARAMETER).
+   * @param string $identity (Required) The key to provide context for this campaign. (PARAMETER).
+   * @param string $label (Required) The label we want to set. (PARAMETER).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
    * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
    * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
@@ -379,8 +663,8 @@ public function call_request($parameters = array(), $opt = null) {
    * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
    */
 						
-public function call_authenticate_request($parameters = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.call_authenticate_request' ,array(), WATCHDOG_NOTICE);
+public function call_set_label($parameters = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.call_set_label' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($parameters);
 
    
@@ -400,12 +684,97 @@ public function call_authenticate_request($parameters = array(), $opt = null) {
     if (empty($parameters['key'])) {
 	    throw new APIIdentity_Exception('Parameter "key" is mandatory.');
     }
+    if (empty($parameters['identity'])) {
+	    throw new APIIdentity_Exception('Parameter "identity" is mandatory.');
+    }
+    if (empty($parameters['label'])) {
+	    throw new APIIdentity_Exception('Parameter "label" is mandatory.');
+    }
+    $opt['query_string'] = array(
+
+        'key' => $parameters['key'],
+        'identity' => $parameters['identity'],
+        'label' => $parameters['label'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/set_label', $opt);
+
+	  if (!isset($response->body)) {
+      $message = 'Error response from server in call to \'call_set_label\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIIdentity_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'call_set_label\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIIdentity_Exception($message);
+    }
+
+	  if (!isset($response->body->set_label->status)) {
+      $message = 'Error response from server in call to \'call_set_label\'. Response to \'set_label\' was expected but was not present';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIIdentity_Exception($message);
+    }
+
+    $status = $response->body->set_label->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'create_set_label\'. Message \'' . $response->body->set_label->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIIdentity_Exception($message);
+    }
+
+    return $response;
+  }
+	
+  /*%******************************************************************************************%*/
+  // 'validate' Resource METHODS
+
+  /**
+   * Invokes the CREATE method for the  validate resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+   * @param string $code (Required) The Identity Token to validate. (PARAMETER).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
+   */
+						
+public function call_validate($parameters = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.call_validate' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($parameters);
+
+   
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
     if (empty($parameters['code'])) {
 	    throw new APIIdentity_Exception('Parameter "code" is mandatory.');
     }
     $opt['query_string'] = array(
 
-        'key' => $parameters['key'],
         'code' => $parameters['code'],
     );
 
@@ -413,28 +782,34 @@ public function call_authenticate_request($parameters = array(), $opt = null) {
     // Populate the query string with optional parameters.
     //
 
-    if (isset($parameters['id'])) {
-      $opt['query_string']['id'] = $parameters['id'];
-    }
-    if (isset($parameters['secret'])) {
-      $opt['query_string']['secret'] = $parameters['secret'];
-    }
 
     //
     // Invoke the service
     //
-    $response = $this->invoke($this->api . '/' . $this->api_version . '/authenticate_request', $opt);
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/validate', $opt);
 
-	  if (!isset($response->body->authenticate_request->status)) {
-      $message = 'Error response from server in call to \'call_authenticate_request\'. Response was not XML? Missing XML header?';
+	  if (!isset($response->body)) {
+      $message = 'Error response from server in call to \'call_validate\'. Response was not XML? Missing XML header?';
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
 	    throw new APIIdentity_Exception($message);
     }
 
-    $status = $response->body->authenticate_request->status;
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'call_validate\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIIdentity_Exception($message);
+    }
+
+	  if (!isset($response->body->validate->status)) {
+      $message = 'Error response from server in call to \'call_validate\'. Response to \'validate\' was expected but was not present';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIIdentity_Exception($message);
+    }
+
+    $status = $response->body->validate->status;
 
 	  if ($status == 'error') {
-      $message = 'Error response from server in call to \'create_authenticate_request\'. Message \'' . $response->body->authenticate_request->errorMessage . '\'';
+      $message = 'Error response from server in call to \'create_validate\'. Message \'' . $response->body->validate->errorMessage . '\'';
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
 	    throw new APIIdentity_Exception($message);
     }

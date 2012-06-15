@@ -908,6 +908,8 @@ class TWRuntime
 	    debug($opt);
 	  }
 
+	  debug('REQUEST ' . $this->request_url);
+
 	  // Instantiate the request class
 	  $request = new $this->request_class($this->request_url, $this->proxy);
 
@@ -1091,12 +1093,14 @@ class TWRuntime
 
 	  $data = new $this->response_class($headers, $this->parse_callback($request->get_response_body()), $request->get_response_code());
 
+
+
 	  // Did ThumbWhere tell us to redirect? Typically happens for multiple rapid requests EU datacenters.
 	  // @see: http://docs.thumbwhere.com/ThumbWhereAPIContent/latest/dev/Redirects.html
 	  // @codeCoverageIgnoreStart
 	  if ((integer) $request->get_response_code() === 307) // Temporary redirect to new endpoint.
 	  {
-	    $data = $this->invoke($bucket, $opt, $headers['location'], ++$redirects);
+	    $data = $this->invoke($this->request_url, $opt, $headers['location'], ++$redirects);
 	  }
 	  // Was it ThumbWhere's fault the request failed? Retry the request until we reach $max_retries.
 	  elseif ((integer) $request->get_response_code() === 500 || (integer) $request->get_response_code() === 503) {
@@ -1104,10 +1108,16 @@ class TWRuntime
 	      // Exponential backoff
 	      $delay = (integer) (pow(4, $redirects) * 100000);
 	      usleep($delay);
-	      $data = $this->invoke($bucket, $opt, null, ++$redirects);
+	      $data = $this->invoke($this->request_url, $opt, null, ++$redirects);
 	    }
 	  }
 	  // @codeCoverageIgnoreEnd
+
+	  debug($data);
+
+	  debug('RESPONSE');
+
+	  //debug('RESPONSE ' . serialize($data));
 
 	  // Return!
 	  return $data;
