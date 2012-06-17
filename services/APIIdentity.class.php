@@ -116,16 +116,16 @@ class ThumbWhereAPIIdentity extends TWRuntime {
 
     return $this;
   }
-  
-  
-  /*%******************************************************************************************%*/
-  /*%******************************************************************************************%*/
-  // 
-  // ALL THE RESOURCES
-  
-  
 
-	
+
+  /*%******************************************************************************************%*/
+  /*%******************************************************************************************%*/
+  //
+  // ALL THE RESOURCES
+
+
+
+
   /*%******************************************************************************************%*/
   // 'identity' Resource METHODS
 
@@ -151,7 +151,7 @@ class ThumbWhereAPIIdentity extends TWRuntime {
    * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
    * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
    */
-						
+
 public function create_identity($context = array(), $fields = array(), $opt = null) {
 	    watchdog('tw_api', 'call to TWAPI.create_identity' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
@@ -162,7 +162,7 @@ public function create_identity($context = array(), $fields = array(), $opt = nu
     if (preg_match('/[A-Z]/', $bucket)) {
 	    // Throw a warning
 	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
-	
+
 	    // Force the bucketname to lowercase
 	    $blah = strtolower($bucket);
     }
@@ -183,7 +183,7 @@ public function create_identity($context = array(), $fields = array(), $opt = nu
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
-    
+
     //
     // Validate Fields
     //
@@ -262,15 +262,15 @@ public function create_identity($context = array(), $fields = array(), $opt = nu
     return $response;
   }
 
-		
+
  /*%******************************************************************************************%*/
   /*%******************************************************************************************%*/
-  // 
+  //
   // ALL THE ACTIONS
-  
-  
 
-	
+
+
+
   /*%******************************************************************************************%*/
   // 'authenticate' Resource METHODS
 
@@ -289,12 +289,12 @@ public function create_identity($context = array(), $fields = array(), $opt = nu
    * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
    * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
    */
-						
+
 public function call_authenticate($parameters = array(), $opt = null) {
 	    watchdog('tw_api', 'call to TWAPI.call_authenticate' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($parameters);
 
-   
+
 
     if (!$opt) {
       $opt = array();
@@ -304,7 +304,7 @@ public function call_authenticate($parameters = array(), $opt = null) {
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
-    
+
     //
     // Validate Fields
     //
@@ -366,7 +366,7 @@ public function call_authenticate($parameters = array(), $opt = null) {
 
     return $response;
   }
-	
+
   /*%******************************************************************************************%*/
   // 'authenticate_request' Resource METHODS
 
@@ -386,12 +386,12 @@ public function call_authenticate($parameters = array(), $opt = null) {
    * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
    * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
    */
-						
+
 public function call_authenticate_request($parameters = array(), $opt = null) {
 	    watchdog('tw_api', 'call to TWAPI.call_authenticate_request' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($parameters);
 
-   
+
 
     if (!$opt) {
       $opt = array();
@@ -401,7 +401,7 @@ public function call_authenticate_request($parameters = array(), $opt = null) {
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
-    
+
     //
     // Validate Fields
     //
@@ -464,7 +464,7 @@ public function call_authenticate_request($parameters = array(), $opt = null) {
 
     return $response;
   }
-	
+
   /*%******************************************************************************************%*/
   // 'query_request' Resource METHODS
 
@@ -481,12 +481,12 @@ public function call_authenticate_request($parameters = array(), $opt = null) {
    * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
    * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
    */
-						
+
 public function call_query_request($parameters = array(), $opt = null) {
 	    watchdog('tw_api', 'call to TWAPI.call_query_request' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($parameters);
 
-   
+
 
     if (!$opt) {
       $opt = array();
@@ -496,7 +496,7 @@ public function call_query_request($parameters = array(), $opt = null) {
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
-    
+
     //
     // Validate Fields
     //
@@ -550,7 +550,7 @@ public function call_query_request($parameters = array(), $opt = null) {
 
     return $response;
   }
-	
+
   /*%******************************************************************************************%*/
   // 'request' Resource METHODS
 
@@ -569,12 +569,12 @@ public function call_query_request($parameters = array(), $opt = null) {
    * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
    * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
    */
-						
+
 public function call_request($parameters = array(), $opt = null) {
 	    watchdog('tw_api', 'call to TWAPI.call_request' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($parameters);
 
-   
+
 
     if (!$opt) {
       $opt = array();
@@ -584,7 +584,7 @@ public function call_request($parameters = array(), $opt = null) {
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
-    
+
     //
     // Validate Fields
     //
@@ -622,6 +622,13 @@ public function call_request($parameters = array(), $opt = null) {
 	    throw new APIIdentity_Exception($message);
     }
 
+    if (!is_object($response->body)) {
+      $message = 'Body was not an object \'call_request\'. ' . $response->body->attributes()->errorMessage ;
+      watchdog('tw_api', $message , WATCHDOG_ERROR);
+      throw new APIIdentity_Exception($message);
+    }
+
+
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'call_request\'. ' . $response->body->attributes()->errorMessage ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
@@ -644,7 +651,7 @@ public function call_request($parameters = array(), $opt = null) {
 
     return $response;
   }
-	
+
   /*%******************************************************************************************%*/
   // 'set_label' Resource METHODS
 
@@ -662,12 +669,12 @@ public function call_request($parameters = array(), $opt = null) {
    * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
    * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
    */
-						
+
 public function call_set_label($parameters = array(), $opt = null) {
 	    watchdog('tw_api', 'call to TWAPI.call_set_label' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($parameters);
 
-   
+
 
     if (!$opt) {
       $opt = array();
@@ -677,7 +684,7 @@ public function call_set_label($parameters = array(), $opt = null) {
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
-    
+
     //
     // Validate Fields
     //
@@ -735,7 +742,7 @@ public function call_set_label($parameters = array(), $opt = null) {
 
     return $response;
   }
-	
+
   /*%******************************************************************************************%*/
   // 'validate' Resource METHODS
 
@@ -751,12 +758,12 @@ public function call_set_label($parameters = array(), $opt = null) {
    * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
    * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
    */
-						
+
 public function call_validate($parameters = array(), $opt = null) {
 	    watchdog('tw_api', 'call to TWAPI.call_validate' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($parameters);
 
-   
+
 
     if (!$opt) {
       $opt = array();
@@ -766,7 +773,7 @@ public function call_validate($parameters = array(), $opt = null) {
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
-    
+
     //
     // Validate Fields
     //
