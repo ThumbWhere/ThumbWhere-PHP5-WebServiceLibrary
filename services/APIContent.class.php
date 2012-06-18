@@ -246,6 +246,12 @@ public function create_action($context = array(), $fields = array(), $opt = null
 	    throw new APIContent_Exception($message);
     }
 
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object when calling \'create_action\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'create_action\'. ' . $response->body->attributes()->errorMessage ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
@@ -360,6 +366,12 @@ public function create_activity($context = array(), $fields = array(), $opt = nu
 	    throw new APIContent_Exception($message);
     }
 
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object when calling \'create_activity\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'create_activity\'. ' . $response->body->attributes()->errorMessage ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
@@ -467,6 +479,12 @@ public function create_actor($context = array(), $fields = array(), $opt = null)
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'create_actor\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object when calling \'create_actor\'. ' . $response->body ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
 	    throw new APIContent_Exception($message);
     }
@@ -586,6 +604,12 @@ public function create_awarded_trophy($context = array(), $fields = array(), $op
 	    throw new APIContent_Exception($message);
     }
 
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object when calling \'create_awarded_trophy\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'create_awarded_trophy\'. ' . $response->body->attributes()->errorMessage ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
@@ -690,6 +714,12 @@ public function create_consumer($context = array(), $fields = array(), $opt = nu
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'create_consumer\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object when calling \'create_consumer\'. ' . $response->body ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
 	    throw new APIContent_Exception($message);
     }
@@ -799,6 +829,12 @@ public function create_consumer_member($context = array(), $fields = array(), $o
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'create_consumer_member\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object when calling \'create_consumer_member\'. ' . $response->body ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
 	    throw new APIContent_Exception($message);
     }
@@ -914,6 +950,12 @@ public function create_content($context = array(), $fields = array(), $opt = nul
 	    throw new APIContent_Exception($message);
     }
 
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object when calling \'create_content\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'create_content\'. ' . $response->body->attributes()->errorMessage ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
@@ -1014,6 +1056,12 @@ public function create_content_collection($context = array(), $fields = array(),
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'create_content_collection\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object when calling \'create_content_collection\'. ' . $response->body ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
 	    throw new APIContent_Exception($message);
     }
@@ -1123,6 +1171,12 @@ public function create_content_collection_item($context = array(), $fields = arr
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'create_content_collection_item\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object when calling \'create_content_collection_item\'. ' . $response->body ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
 	    throw new APIContent_Exception($message);
     }
@@ -1283,6 +1337,12 @@ public function create_content_ingest($context = array(), $fields = array(), $op
 	    throw new APIContent_Exception($message);
     }
 
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object when calling \'create_content_ingest\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'create_content_ingest\'. ' . $response->body->attributes()->errorMessage ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
@@ -1393,6 +1453,12 @@ public function create_fan($context = array(), $fields = array(), $opt = null) {
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'create_fan\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object when calling \'create_fan\'. ' . $response->body ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
 	    throw new APIContent_Exception($message);
     }
@@ -1511,6 +1577,12 @@ public function create_follow($context = array(), $fields = array(), $opt = null
 	    throw new APIContent_Exception($message);
     }
 
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object when calling \'create_follow\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'create_follow\'. ' . $response->body->attributes()->errorMessage ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
@@ -1625,6 +1697,12 @@ public function create_like($context = array(), $fields = array(), $opt = null) 
 	    throw new APIContent_Exception($message);
     }
 
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object when calling \'create_like\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'create_like\'. ' . $response->body->attributes()->errorMessage ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
@@ -1724,6 +1802,12 @@ public function create_metadata($context = array(), $fields = array(), $opt = nu
 	    throw new APIContent_Exception($message);
     }
 
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object when calling \'create_metadata\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'create_metadata\'. ' . $response->body->attributes()->errorMessage ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
@@ -1819,6 +1903,12 @@ public function create_place($context = array(), $fields = array(), $opt = null)
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'create_place\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object when calling \'create_place\'. ' . $response->body ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
 	    throw new APIContent_Exception($message);
     }
@@ -1931,6 +2021,12 @@ public function create_producer($context = array(), $fields = array(), $opt = nu
 	    throw new APIContent_Exception($message);
     }
 
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object when calling \'create_producer\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'create_producer\'. ' . $response->body->attributes()->errorMessage ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
@@ -2036,6 +2132,12 @@ public function create_producer_member($context = array(), $fields = array(), $o
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'create_producer_member\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object when calling \'create_producer_member\'. ' . $response->body ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
 	    throw new APIContent_Exception($message);
     }
@@ -2151,6 +2253,12 @@ public function create_subject($context = array(), $fields = array(), $opt = nul
 	    throw new APIContent_Exception($message);
     }
 
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object when calling \'create_subject\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'create_subject\'. ' . $response->body->attributes()->errorMessage ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
@@ -2258,6 +2366,12 @@ public function create_thing($context = array(), $fields = array(), $opt = null)
 	    throw new APIContent_Exception($message);
     }
 
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object when calling \'create_thing\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'create_thing\'. ' . $response->body->attributes()->errorMessage ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
@@ -2349,6 +2463,12 @@ public function create_track_metadata($context = array(), $fields = array(), $op
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'create_track_metadata\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object when calling \'create_track_metadata\'. ' . $response->body ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
 	    throw new APIContent_Exception($message);
     }
@@ -2458,6 +2578,12 @@ public function create_trophy($context = array(), $fields = array(), $opt = null
 	    throw new APIContent_Exception($message);
     }
 
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object when calling \'create_trophy\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'create_trophy\'. ' . $response->body->attributes()->errorMessage ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
@@ -2557,6 +2683,12 @@ public function call_add_to_producer($parameters = array(), $opt = null) {
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'call_add_to_producer\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object when calling \'call_add_to_producer\'. ' . $response->body ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
 	    throw new APIContent_Exception($message);
     }
@@ -2671,6 +2803,12 @@ public function call_ingest($parameters = array(), $opt = null) {
 	    throw new APIContent_Exception($message);
     }
 
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object when calling \'call_ingest\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'call_ingest\'. ' . $response->body->attributes()->errorMessage ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
@@ -2758,6 +2896,12 @@ public function call_register_consumer($parameters = array(), $opt = null) {
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'call_register_consumer\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object when calling \'call_register_consumer\'. ' . $response->body ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
 	    throw new APIContent_Exception($message);
     }
@@ -2856,6 +3000,12 @@ public function call_register_producer($parameters = array(), $opt = null) {
 	    throw new APIContent_Exception($message);
     }
 
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object when calling \'call_register_producer\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'call_register_producer\'. ' . $response->body->attributes()->errorMessage ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
@@ -2946,6 +3096,12 @@ public function call_remove_from_producer($parameters = array(), $opt = null) {
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'call_remove_from_producer\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object when calling \'call_remove_from_producer\'. ' . $response->body ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
 	    throw new APIContent_Exception($message);
     }

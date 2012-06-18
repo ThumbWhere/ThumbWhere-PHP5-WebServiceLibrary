@@ -218,6 +218,12 @@ public function create_member($context = array(), $fields = array(), $opt = null
 	    throw new APIMember_Exception($message);
     }
 
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object when calling \'create_member\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIMember_Exception($message);
+    }
+
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'create_member\'. ' . $response->body->attributes()->errorMessage ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
@@ -319,6 +325,12 @@ public function call_create($parameters = array(), $opt = null) {
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'call_create\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIMember_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object when calling \'call_create\'. ' . $response->body ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
 	    throw new APIMember_Exception($message);
     }

@@ -279,6 +279,12 @@ public function create_mediaitem($context = array(), $fields = array(), $opt = n
 	    throw new APIMedia_Exception($message);
     }
 
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object when calling \'create_mediaitem\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIMedia_Exception($message);
+    }
+
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'create_mediaitem\'. ' . $response->body->attributes()->errorMessage ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
@@ -374,6 +380,12 @@ public function call_get_url($parameters = array(), $opt = null) {
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'call_get_url\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIMedia_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object when calling \'call_get_url\'. ' . $response->body ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
 	    throw new APIMedia_Exception($message);
     }

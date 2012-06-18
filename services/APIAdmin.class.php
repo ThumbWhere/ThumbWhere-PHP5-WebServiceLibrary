@@ -208,6 +208,12 @@ public function call_account_create($parameters = array(), $opt = null) {
 	    throw new APIAdmin_Exception($message);
     }
 
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object when calling \'call_account_create\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'call_account_create\'. ' . $response->body->attributes()->errorMessage ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
@@ -294,6 +300,12 @@ public function call_account_exists($parameters = array(), $opt = null) {
 	    throw new APIAdmin_Exception($message);
     }
 
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object when calling \'call_account_exists\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'call_account_exists\'. ' . $response->body->attributes()->errorMessage ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
@@ -376,6 +388,12 @@ public function call_campaign_encrypt($parameters = array(), $opt = null) {
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'call_campaign_encrypt\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object when calling \'call_campaign_encrypt\'. ' . $response->body ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
@@ -467,6 +485,12 @@ public function call_campaign_set_key($parameters = array(), $opt = null) {
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'call_campaign_set_key\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object when calling \'call_campaign_set_key\'. ' . $response->body ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
@@ -577,6 +601,12 @@ public function call_new_audio_target($parameters = array(), $opt = null) {
 	    throw new APIAdmin_Exception($message);
     }
 
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object when calling \'call_new_audio_target\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'call_new_audio_target\'. ' . $response->body->attributes()->errorMessage ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
@@ -675,6 +705,12 @@ public function call_new_campaign($parameters = array(), $opt = null) {
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'call_new_campaign\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object when calling \'call_new_campaign\'. ' . $response->body ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
@@ -780,6 +816,12 @@ public function call_new_server($parameters = array(), $opt = null) {
 	    throw new APIAdmin_Exception($message);
     }
 
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object when calling \'call_new_server\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'call_new_server\'. ' . $response->body->attributes()->errorMessage ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
@@ -866,6 +908,12 @@ public function call_user_exists($parameters = array(), $opt = null) {
 	    throw new APIAdmin_Exception($message);
     }
 
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object when calling \'call_user_exists\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'call_user_exists\'. ' . $response->body->attributes()->errorMessage ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
@@ -948,6 +996,12 @@ public function call_user_recover($parameters = array(), $opt = null) {
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'call_user_recover\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object when calling \'call_user_recover\'. ' . $response->body ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
