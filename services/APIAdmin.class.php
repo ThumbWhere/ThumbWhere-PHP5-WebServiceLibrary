@@ -137,9 +137,10 @@ class ThumbWhereAPIAdmin extends TWRuntime {
 	
   /*%******************************************************************************************%*/
   // 'account_create' Resource METHODS
+  
 
   /**
-   * Invokes the CREATE method for the  account_create resource web service.
+   * Invokes the CALL method for the  account_create resource web service.
    *
    * TODO: Pull in description from resource as part of code-gen
    *
@@ -209,7 +210,7 @@ public function call_account_create($parameters = array(), $opt = null) {
     }
 
 	  if (!is_object($response->body)) {
-      $message = 'Response body was not an object when calling \'call_account_create\'. ' . $response->body ;
+      $message = 'Response body was not an object. Error when calling \'call_account_create\'. ' . $response->body ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
@@ -239,9 +240,10 @@ public function call_account_create($parameters = array(), $opt = null) {
 	
   /*%******************************************************************************************%*/
   // 'account_exists' Resource METHODS
+  
 
   /**
-   * Invokes the CREATE method for the  account_exists resource web service.
+   * Invokes the CALL method for the  account_exists resource web service.
    *
    * TODO: Pull in description from resource as part of code-gen
    *
@@ -301,7 +303,7 @@ public function call_account_exists($parameters = array(), $opt = null) {
     }
 
 	  if (!is_object($response->body)) {
-      $message = 'Response body was not an object when calling \'call_account_exists\'. ' . $response->body ;
+      $message = 'Response body was not an object. Error when calling \'call_account_exists\'. ' . $response->body ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
@@ -331,9 +333,10 @@ public function call_account_exists($parameters = array(), $opt = null) {
 	
   /*%******************************************************************************************%*/
   // 'campaign_encrypt' Resource METHODS
+  
 
   /**
-   * Invokes the CREATE method for the  campaign_encrypt resource web service.
+   * Invokes the CALL method for the  campaign_encrypt resource web service.
    *
    * TODO: Pull in description from resource as part of code-gen
    *
@@ -393,7 +396,7 @@ public function call_campaign_encrypt($parameters = array(), $opt = null) {
     }
 
 	  if (!is_object($response->body)) {
-      $message = 'Response body was not an object when calling \'call_campaign_encrypt\'. ' . $response->body ;
+      $message = 'Response body was not an object. Error when calling \'call_campaign_encrypt\'. ' . $response->body ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
@@ -423,9 +426,10 @@ public function call_campaign_encrypt($parameters = array(), $opt = null) {
 	
   /*%******************************************************************************************%*/
   // 'campaign_set_key' Resource METHODS
+  
 
   /**
-   * Invokes the CREATE method for the  campaign_set_key resource web service.
+   * Invokes the CALL method for the  campaign_set_key resource web service.
    *
    * TODO: Pull in description from resource as part of code-gen
    *
@@ -490,7 +494,7 @@ public function call_campaign_set_key($parameters = array(), $opt = null) {
     }
 
 	  if (!is_object($response->body)) {
-      $message = 'Response body was not an object when calling \'call_campaign_set_key\'. ' . $response->body ;
+      $message = 'Response body was not an object. Error when calling \'call_campaign_set_key\'. ' . $response->body ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
@@ -520,9 +524,10 @@ public function call_campaign_set_key($parameters = array(), $opt = null) {
 	
   /*%******************************************************************************************%*/
   // 'new_audio_target' Resource METHODS
+  
 
   /**
-   * Invokes the CREATE method for the  new_audio_target resource web service.
+   * Invokes the CALL method for the  new_audio_target resource web service.
    *
    * TODO: Pull in description from resource as part of code-gen
    *
@@ -602,7 +607,7 @@ public function call_new_audio_target($parameters = array(), $opt = null) {
     }
 
 	  if (!is_object($response->body)) {
-      $message = 'Response body was not an object when calling \'call_new_audio_target\'. ' . $response->body ;
+      $message = 'Response body was not an object. Error when calling \'call_new_audio_target\'. ' . $response->body ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
@@ -632,9 +637,10 @@ public function call_new_audio_target($parameters = array(), $opt = null) {
 	
   /*%******************************************************************************************%*/
   // 'new_campaign' Resource METHODS
+  
 
   /**
-   * Invokes the CREATE method for the  new_campaign resource web service.
+   * Invokes the CALL method for the  new_campaign resource web service.
    *
    * TODO: Pull in description from resource as part of code-gen
    *
@@ -710,7 +716,7 @@ public function call_new_campaign($parameters = array(), $opt = null) {
     }
 
 	  if (!is_object($response->body)) {
-      $message = 'Response body was not an object when calling \'call_new_campaign\'. ' . $response->body ;
+      $message = 'Response body was not an object. Error when calling \'call_new_campaign\'. ' . $response->body ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
@@ -740,9 +746,10 @@ public function call_new_campaign($parameters = array(), $opt = null) {
 	
   /*%******************************************************************************************%*/
   // 'new_server' Resource METHODS
+  
 
   /**
-   * Invokes the CREATE method for the  new_server resource web service.
+   * Invokes the CALL method for the  new_server resource web service.
    *
    * TODO: Pull in description from resource as part of code-gen
    *
@@ -817,7 +824,7 @@ public function call_new_server($parameters = array(), $opt = null) {
     }
 
 	  if (!is_object($response->body)) {
-      $message = 'Response body was not an object when calling \'call_new_server\'. ' . $response->body ;
+      $message = 'Response body was not an object. Error when calling \'call_new_server\'. ' . $response->body ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
@@ -847,9 +854,10 @@ public function call_new_server($parameters = array(), $opt = null) {
 	
   /*%******************************************************************************************%*/
   // 'user_exists' Resource METHODS
+  
 
   /**
-   * Invokes the CREATE method for the  user_exists resource web service.
+   * Invokes the CALL method for the  user_exists resource web service.
    *
    * TODO: Pull in description from resource as part of code-gen
    *
@@ -909,7 +917,7 @@ public function call_user_exists($parameters = array(), $opt = null) {
     }
 
 	  if (!is_object($response->body)) {
-      $message = 'Response body was not an object when calling \'call_user_exists\'. ' . $response->body ;
+      $message = 'Response body was not an object. Error when calling \'call_user_exists\'. ' . $response->body ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
@@ -939,9 +947,10 @@ public function call_user_exists($parameters = array(), $opt = null) {
 	
   /*%******************************************************************************************%*/
   // 'user_recover' Resource METHODS
+  
 
   /**
-   * Invokes the CREATE method for the  user_recover resource web service.
+   * Invokes the CALL method for the  user_recover resource web service.
    *
    * TODO: Pull in description from resource as part of code-gen
    *
@@ -1001,7 +1010,7 @@ public function call_user_recover($parameters = array(), $opt = null) {
     }
 
 	  if (!is_object($response->body)) {
-      $message = 'Response body was not an object when calling \'call_user_recover\'. ' . $response->body ;
+      $message = 'Response body was not an object. Error when calling \'call_user_recover\'. ' . $response->body ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }

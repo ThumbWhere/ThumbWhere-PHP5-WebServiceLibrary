@@ -129,6 +129,7 @@ class ThumbWhereAPIIdentity extends TWRuntime {
   /*%******************************************************************************************%*/
   // 'identity' Resource METHODS
 
+  
   /**
    * Invokes the CREATE method for the  identity resource web service.
    *
@@ -240,7 +241,7 @@ public function create_identity($context = array(), $fields = array(), $opt = nu
     }
 
 	  if (!is_object($response->body)) {
-      $message = 'Response body was not an object when calling \'create_identity\'. ' . $response->body ;
+      $message = 'Response body was not an object. Error when calling \'create_identity\'. ' . $response->body ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
 	    throw new APIIdentity_Exception($message);
     }
@@ -266,6 +267,146 @@ public function create_identity($context = array(), $fields = array(), $opt = nu
     }
 
     return $response;
+  }					
+					
+ /**
+   * Invokes the UPDATE method for the  identity resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+      * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $identitytype (Required) 'identitytype' field, which is an embedded 'IdentityType' resource. (FIELD).
+   * @param string $member (Required) 'member' field, which is an embedded 'Member' resource. (FIELD).
+   * @param string $id (Required) 'id' field, which is a 'string' type. (FIELD).
+   * @param string $secret (Required) 'secret' field, which is a 'string' type. (FIELD).
+   * @param string $secret_hash (Required) 'secret_hash' field, which is a 'string' type. (FIELD).
+   * @param string $secret_hash_salt (Required) 'secret_hash_salt' field, which is a 'string' type. (FIELD).
+   * @param string $secret_hash_itterations (Required) 'secret_hash_itterations' field, which is a 'int' type. (FIELD).
+   * @param string $label (Required) 'label' field, which is a 'string' type. (FIELD).
+   * @param string $last_login (Required) 'last_login' field, which is a 'datetime' type. (FIELD).
+   * @param string $total_logins (Required) 'total_logins' field, which is a 'long' type. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.update Working with ThumbWhere APIContent Buckets
+   */
+						
+public function update_identity($id,$context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.update_identity' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+    /*
+     // If the bucket contains uppercase letters...
+    if (preg_match('/[A-Z]/', $bucket)) {
+	    // Throw a warning
+	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
+	
+	    // Force the bucketname to lowercase
+	    $blah = strtolower($bucket);
+    }
+
+    // Validate the APIContent bucket name for creation
+    if (!$this->validate_bucketname_update($bucket)) {
+	    // @codeCoverageIgnoreStart
+	    throw new APIIdentity_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
+	    // @codeCoverageIgnoreEnd
+    }
+     */
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (empty($fields['identitytype'])) {
+	    throw new APIIdentity_Exception('Field "identitytype" is mandatory.');
+    }
+    $opt['query_string'] = array(
+        '$op' => 'update',
+        '$id' => $id,
+        '$key' => $context['key'],
+        'identitytype' => $fields['identitytype'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+    if (isset($fields['member'])) {
+      $opt['query_string']['member'] = $fields['member'];
+    }
+    if (isset($fields['id'])) {
+      $opt['query_string']['id'] = $fields['id'];
+    }
+    if (isset($fields['secret'])) {
+      $opt['query_string']['secret'] = $fields['secret'];
+    }
+    if (isset($fields['secret_hash'])) {
+      $opt['query_string']['secret_hash'] = $fields['secret_hash'];
+    }
+    if (isset($fields['secret_hash_salt'])) {
+      $opt['query_string']['secret_hash_salt'] = $fields['secret_hash_salt'];
+    }
+    if (isset($fields['secret_hash_itterations'])) {
+      $opt['query_string']['secret_hash_itterations'] = $fields['secret_hash_itterations'];
+    }
+    if (isset($fields['label'])) {
+      $opt['query_string']['label'] = $fields['label'];
+    }
+    if (isset($fields['last_login'])) {
+      $opt['query_string']['last_login'] = $fields['last_login'];
+    }
+    if (isset($fields['total_logins'])) {
+      $opt['query_string']['total_logins'] = $fields['total_logins'];
+    }
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/identity', $opt);
+
+	  if (!isset($response->body)) {
+      $message = 'Error response from server in call to \'update_identity\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIIdentity_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object. Error when calling \'update_identity\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIIdentity_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'update_identity\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIIdentity_Exception($message);
+    }
+
+	  if (!isset($response->body->identity->status)) {
+      $message = 'Error response from server in call to \'update_identity\'. Response to \'identity\' was expected but was not present';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIIdentity_Exception($message);
+    }
+
+    $status = $response->body->identity->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'update_identity\'. Message \'' . $response->body->identity->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIIdentity_Exception($message);
+    }
+
+    return $response;
   }
 
 		
@@ -279,9 +420,10 @@ public function create_identity($context = array(), $fields = array(), $opt = nu
 	
   /*%******************************************************************************************%*/
   // 'authenticate' Resource METHODS
+  
 
   /**
-   * Invokes the CREATE method for the  authenticate resource web service.
+   * Invokes the CALL method for the  authenticate resource web service.
    *
    * TODO: Pull in description from resource as part of code-gen
    *
@@ -351,7 +493,7 @@ public function call_authenticate($parameters = array(), $opt = null) {
     }
 
 	  if (!is_object($response->body)) {
-      $message = 'Response body was not an object when calling \'call_authenticate\'. ' . $response->body ;
+      $message = 'Response body was not an object. Error when calling \'call_authenticate\'. ' . $response->body ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
 	    throw new APIIdentity_Exception($message);
     }
@@ -381,9 +523,10 @@ public function call_authenticate($parameters = array(), $opt = null) {
 	
   /*%******************************************************************************************%*/
   // 'authenticate_request' Resource METHODS
+  
 
   /**
-   * Invokes the CREATE method for the  authenticate_request resource web service.
+   * Invokes the CALL method for the  authenticate_request resource web service.
    *
    * TODO: Pull in description from resource as part of code-gen
    *
@@ -455,7 +598,7 @@ public function call_authenticate_request($parameters = array(), $opt = null) {
     }
 
 	  if (!is_object($response->body)) {
-      $message = 'Response body was not an object when calling \'call_authenticate_request\'. ' . $response->body ;
+      $message = 'Response body was not an object. Error when calling \'call_authenticate_request\'. ' . $response->body ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
 	    throw new APIIdentity_Exception($message);
     }
@@ -485,9 +628,10 @@ public function call_authenticate_request($parameters = array(), $opt = null) {
 	
   /*%******************************************************************************************%*/
   // 'query_request' Resource METHODS
+  
 
   /**
-   * Invokes the CREATE method for the  query_request resource web service.
+   * Invokes the CALL method for the  query_request resource web service.
    *
    * TODO: Pull in description from resource as part of code-gen
    *
@@ -547,7 +691,7 @@ public function call_query_request($parameters = array(), $opt = null) {
     }
 
 	  if (!is_object($response->body)) {
-      $message = 'Response body was not an object when calling \'call_query_request\'. ' . $response->body ;
+      $message = 'Response body was not an object. Error when calling \'call_query_request\'. ' . $response->body ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
 	    throw new APIIdentity_Exception($message);
     }
@@ -577,9 +721,10 @@ public function call_query_request($parameters = array(), $opt = null) {
 	
   /*%******************************************************************************************%*/
   // 'request' Resource METHODS
+  
 
   /**
-   * Invokes the CREATE method for the  request resource web service.
+   * Invokes the CALL method for the  request resource web service.
    *
    * TODO: Pull in description from resource as part of code-gen
    *
@@ -647,7 +792,7 @@ public function call_request($parameters = array(), $opt = null) {
     }
 
 	  if (!is_object($response->body)) {
-      $message = 'Response body was not an object when calling \'call_request\'. ' . $response->body ;
+      $message = 'Response body was not an object. Error when calling \'call_request\'. ' . $response->body ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
 	    throw new APIIdentity_Exception($message);
     }
@@ -677,9 +822,10 @@ public function call_request($parameters = array(), $opt = null) {
 	
   /*%******************************************************************************************%*/
   // 'set_label' Resource METHODS
+  
 
   /**
-   * Invokes the CREATE method for the  set_label resource web service.
+   * Invokes the CALL method for the  set_label resource web service.
    *
    * TODO: Pull in description from resource as part of code-gen
    *
@@ -744,7 +890,7 @@ public function call_set_label($parameters = array(), $opt = null) {
     }
 
 	  if (!is_object($response->body)) {
-      $message = 'Response body was not an object when calling \'call_set_label\'. ' . $response->body ;
+      $message = 'Response body was not an object. Error when calling \'call_set_label\'. ' . $response->body ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
 	    throw new APIIdentity_Exception($message);
     }
@@ -774,9 +920,10 @@ public function call_set_label($parameters = array(), $opt = null) {
 	
   /*%******************************************************************************************%*/
   // 'validate' Resource METHODS
+  
 
   /**
-   * Invokes the CREATE method for the  validate resource web service.
+   * Invokes the CALL method for the  validate resource web service.
    *
    * TODO: Pull in description from resource as part of code-gen
    *
@@ -831,7 +978,7 @@ public function call_validate($parameters = array(), $opt = null) {
     }
 
 	  if (!is_object($response->body)) {
-      $message = 'Response body was not an object when calling \'call_validate\'. ' . $response->body ;
+      $message = 'Response body was not an object. Error when calling \'call_validate\'. ' . $response->body ;
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
 	    throw new APIIdentity_Exception($message);
     }
