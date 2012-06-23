@@ -136,163 +136,11 @@ class ThumbWhereAPIAdmin extends TWRuntime {
 
 	
   /*%******************************************************************************************%*/
-  // 'campaign_encrypt' Resource METHODS
-
-  /**
-   * Invokes the CREATE method for the  campaign_encrypt resource web service.
-   *
-   * TODO: Pull in description from resource as part of code-gen
-   *
-   * @param string $key (Required) The API key for the campaign or external application. (PARAMETER).
-   * @param string $plaintext (Required) The plaintext to be encrypted. (PARAMETER).
-   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
-   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
-   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
-   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
-   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
-   */
-						
-public function call_campaign_encrypt($parameters = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.call_campaign_encrypt' ,array(), WATCHDOG_NOTICE);
-	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($parameters);
-
-   
-
-    if (!$opt) {
-      $opt = array();
-    }
-
-    $opt['verb'] = 'GET';
-    $opt['headers'] = array(
-        'Content-Type' => 'application/xml',
-    );
-    
-    //
-    // Validate Fields
-    //
-    if (empty($parameters['key'])) {
-	    throw new APIAdmin_Exception('Parameter "key" is mandatory.');
-    }
-    if (empty($parameters['plaintext'])) {
-	    throw new APIAdmin_Exception('Parameter "plaintext" is mandatory.');
-    }
-    $opt['query_string'] = array(
-
-        'key' => $parameters['key'],
-        'plaintext' => $parameters['plaintext'],
-    );
-
-    //
-    // Populate the query string with optional parameters.
-    //
-
-
-    //
-    // Invoke the service
-    //
-    $response = $this->invoke($this->api . '/' . $this->api_version . '/campaign_encrypt', $opt);
-
-	  if (!isset($response->body->campaign_encrypt->status)) {
-      $message = 'Error response from server in call to \'call_campaign_encrypt\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
-	    throw new APIAdmin_Exception($message);
-    }
-
-    $status = $response->body->campaign_encrypt->status;
-
-	  if ($status == 'error') {
-      $message = 'Error response from server in call to \'create_campaign_encrypt\'. Message \'' . $response->body->campaign_encrypt->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
-	    throw new APIAdmin_Exception($message);
-    }
-
-    return $response;
-  }
-	
-  /*%******************************************************************************************%*/
-  // 'campaign_set_key' Resource METHODS
-
-  /**
-   * Invokes the CREATE method for the  campaign_set_key resource web service.
-   *
-   * TODO: Pull in description from resource as part of code-gen
-   *
-   * @param string $masterkey (Required) The master key. (PARAMETER).
-   * @param string $id (Required) The id of thge campaign. (PARAMETER).
-   * @param string $key (Required) The key for the new campaign. (PARAMETER).
-   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
-   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
-   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
-   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
-   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
-   */
-						
-public function call_campaign_set_key($parameters = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.call_campaign_set_key' ,array(), WATCHDOG_NOTICE);
-	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($parameters);
-
-   
-
-    if (!$opt) {
-      $opt = array();
-    }
-
-    $opt['verb'] = 'GET';
-    $opt['headers'] = array(
-        'Content-Type' => 'application/xml',
-    );
-    
-    //
-    // Validate Fields
-    //
-    if (empty($parameters['masterkey'])) {
-	    throw new APIAdmin_Exception('Parameter "masterkey" is mandatory.');
-    }
-    if (empty($parameters['id'])) {
-	    throw new APIAdmin_Exception('Parameter "id" is mandatory.');
-    }
-    if (empty($parameters['key'])) {
-	    throw new APIAdmin_Exception('Parameter "key" is mandatory.');
-    }
-    $opt['query_string'] = array(
-
-        'masterkey' => $parameters['masterkey'],
-        'id' => $parameters['id'],
-        'key' => $parameters['key'],
-    );
-
-    //
-    // Populate the query string with optional parameters.
-    //
-
-
-    //
-    // Invoke the service
-    //
-    $response = $this->invoke($this->api . '/' . $this->api_version . '/campaign_set_key', $opt);
-
-	  if (!isset($response->body->campaign_set_key->status)) {
-      $message = 'Error response from server in call to \'call_campaign_set_key\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
-	    throw new APIAdmin_Exception($message);
-    }
-
-    $status = $response->body->campaign_set_key->status;
-
-	  if ($status == 'error') {
-      $message = 'Error response from server in call to \'create_campaign_set_key\'. Message \'' . $response->body->campaign_set_key->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
-	    throw new APIAdmin_Exception($message);
-    }
-
-    return $response;
-  }
-	
-  /*%******************************************************************************************%*/
   // 'account_create' Resource METHODS
+  
 
   /**
-   * Invokes the CREATE method for the  account_create resource web service.
+   * Invokes the CALL method for the  account_create resource web service.
    *
    * TODO: Pull in description from resource as part of code-gen
    *
@@ -355,8 +203,26 @@ public function call_account_create($parameters = array(), $opt = null) {
     //
     $response = $this->invoke($this->api . '/' . $this->api_version . '/account_create', $opt);
 
-	  if (!isset($response->body->account_create->status)) {
+	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'call_account_create\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object. Error when calling \'call_account_create\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'call_account_create\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!isset($response->body->account_create->status)) {
+      $message = 'Error response from server in call to \'call_account_create\'. Response to \'account_create\' was expected but was not present';
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
@@ -374,9 +240,10 @@ public function call_account_create($parameters = array(), $opt = null) {
 	
   /*%******************************************************************************************%*/
   // 'account_exists' Resource METHODS
+  
 
   /**
-   * Invokes the CREATE method for the  account_exists resource web service.
+   * Invokes the CALL method for the  account_exists resource web service.
    *
    * TODO: Pull in description from resource as part of code-gen
    *
@@ -429,8 +296,26 @@ public function call_account_exists($parameters = array(), $opt = null) {
     //
     $response = $this->invoke($this->api . '/' . $this->api_version . '/account_exists', $opt);
 
-	  if (!isset($response->body->account_exists->status)) {
+	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'call_account_exists\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object. Error when calling \'call_account_exists\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'call_account_exists\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!isset($response->body->account_exists->status)) {
+      $message = 'Error response from server in call to \'call_account_exists\'. Response to \'account_exists\' was expected but was not present';
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
@@ -447,10 +332,532 @@ public function call_account_exists($parameters = array(), $opt = null) {
   }
 	
   /*%******************************************************************************************%*/
-  // 'user_exists' Resource METHODS
+  // 'campaign_encrypt' Resource METHODS
+  
 
   /**
-   * Invokes the CREATE method for the  user_exists resource web service.
+   * Invokes the CALL method for the  campaign_encrypt resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+   * @param string $key (Required) The API key for the campaign or external application. (PARAMETER).
+   * @param string $plaintext (Required) The plaintext to be encrypted. (PARAMETER).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
+   */
+						
+public function call_campaign_encrypt($parameters = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.call_campaign_encrypt' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($parameters);
+
+   
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (empty($parameters['key'])) {
+	    throw new APIAdmin_Exception('Parameter "key" is mandatory.');
+    }
+    if (empty($parameters['plaintext'])) {
+	    throw new APIAdmin_Exception('Parameter "plaintext" is mandatory.');
+    }
+    $opt['query_string'] = array(
+
+        'key' => $parameters['key'],
+        'plaintext' => $parameters['plaintext'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/campaign_encrypt', $opt);
+
+	  if (!isset($response->body)) {
+      $message = 'Error response from server in call to \'call_campaign_encrypt\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object. Error when calling \'call_campaign_encrypt\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'call_campaign_encrypt\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!isset($response->body->campaign_encrypt->status)) {
+      $message = 'Error response from server in call to \'call_campaign_encrypt\'. Response to \'campaign_encrypt\' was expected but was not present';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    $status = $response->body->campaign_encrypt->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'create_campaign_encrypt\'. Message \'' . $response->body->campaign_encrypt->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    return $response;
+  }
+	
+  /*%******************************************************************************************%*/
+  // 'campaign_set_key' Resource METHODS
+  
+
+  /**
+   * Invokes the CALL method for the  campaign_set_key resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+   * @param string $masterkey (Required) The master key. (PARAMETER).
+   * @param string $id (Required) The id of thge campaign. (PARAMETER).
+   * @param string $key (Required) The key for the new campaign. (PARAMETER).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
+   */
+						
+public function call_campaign_set_key($parameters = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.call_campaign_set_key' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($parameters);
+
+   
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (empty($parameters['masterkey'])) {
+	    throw new APIAdmin_Exception('Parameter "masterkey" is mandatory.');
+    }
+    if (empty($parameters['id'])) {
+	    throw new APIAdmin_Exception('Parameter "id" is mandatory.');
+    }
+    if (empty($parameters['key'])) {
+	    throw new APIAdmin_Exception('Parameter "key" is mandatory.');
+    }
+    $opt['query_string'] = array(
+
+        'masterkey' => $parameters['masterkey'],
+        'id' => $parameters['id'],
+        'key' => $parameters['key'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/campaign_set_key', $opt);
+
+	  if (!isset($response->body)) {
+      $message = 'Error response from server in call to \'call_campaign_set_key\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object. Error when calling \'call_campaign_set_key\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'call_campaign_set_key\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!isset($response->body->campaign_set_key->status)) {
+      $message = 'Error response from server in call to \'call_campaign_set_key\'. Response to \'campaign_set_key\' was expected but was not present';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    $status = $response->body->campaign_set_key->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'create_campaign_set_key\'. Message \'' . $response->body->campaign_set_key->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    return $response;
+  }
+	
+  /*%******************************************************************************************%*/
+  // 'new_audio_target' Resource METHODS
+  
+
+  /**
+   * Invokes the CALL method for the  new_audio_target resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+   * @param string $key (Required) The API key for the campaign or external application. (PARAMETER).
+   * @param string $name (Required) The name of the audio target. (PARAMETER).
+   * @param string $format (Required) The audio format (PARAMETER).
+   * @param string $channels (Required) The number of audio channels (PARAMETER).
+   * @param string $bitrate (Required) The audio bitrate in bits per second (PARAMETER).
+   * @param string $samplerate (Required) The audio samplerate in Hz. (PARAMETER).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
+   */
+						
+public function call_new_audio_target($parameters = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.call_new_audio_target' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($parameters);
+
+   
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (empty($parameters['key'])) {
+	    throw new APIAdmin_Exception('Parameter "key" is mandatory.');
+    }
+    if (empty($parameters['name'])) {
+	    throw new APIAdmin_Exception('Parameter "name" is mandatory.');
+    }
+    if (empty($parameters['format'])) {
+	    throw new APIAdmin_Exception('Parameter "format" is mandatory.');
+    }
+    if (empty($parameters['channels'])) {
+	    throw new APIAdmin_Exception('Parameter "channels" is mandatory.');
+    }
+    if (empty($parameters['bitrate'])) {
+	    throw new APIAdmin_Exception('Parameter "bitrate" is mandatory.');
+    }
+    if (empty($parameters['samplerate'])) {
+	    throw new APIAdmin_Exception('Parameter "samplerate" is mandatory.');
+    }
+    $opt['query_string'] = array(
+
+        'key' => $parameters['key'],
+        'name' => $parameters['name'],
+        'format' => $parameters['format'],
+        'channels' => $parameters['channels'],
+        'bitrate' => $parameters['bitrate'],
+        'samplerate' => $parameters['samplerate'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/new_audio_target', $opt);
+
+	  if (!isset($response->body)) {
+      $message = 'Error response from server in call to \'call_new_audio_target\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object. Error when calling \'call_new_audio_target\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'call_new_audio_target\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!isset($response->body->new_audio_target->status)) {
+      $message = 'Error response from server in call to \'call_new_audio_target\'. Response to \'new_audio_target\' was expected but was not present';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    $status = $response->body->new_audio_target->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'create_new_audio_target\'. Message \'' . $response->body->new_audio_target->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    return $response;
+  }
+	
+  /*%******************************************************************************************%*/
+  // 'new_campaign' Resource METHODS
+  
+
+  /**
+   * Invokes the CALL method for the  new_campaign resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+   * @param string $masterkey (Required) The master key. (PARAMETER).
+   * @param string $key (Required) The API key for the campaign. If this is not supplied, one will be created for you. (PARAMETER).
+   * @param string $name (Required) The name of the campaign. (PARAMETER).
+   * @param string $description (Required) The description of the campaign. (PARAMETER).
+   * @param string $url (Required) The url for the campaign website. We will use the domain of this as the basis for all the other public urls. If this is not supplied, then we will use the http://%THUMBWHEREBASEDOMAIN%/%campaign.name% as the base. (PARAMETER).
+   * @param string $email (Required) Email that the campaign can send notifications to. (PARAMETER).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
+   */
+						
+public function call_new_campaign($parameters = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.call_new_campaign' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($parameters);
+
+   
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (empty($parameters['masterkey'])) {
+	    throw new APIAdmin_Exception('Parameter "masterkey" is mandatory.');
+    }
+    if (empty($parameters['name'])) {
+	    throw new APIAdmin_Exception('Parameter "name" is mandatory.');
+    }
+    $opt['query_string'] = array(
+
+        'masterkey' => $parameters['masterkey'],
+        'name' => $parameters['name'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+    if (isset($parameters['key'])) {
+      $opt['query_string']['key'] = $parameters['key'];
+    }
+    if (isset($parameters['description'])) {
+      $opt['query_string']['description'] = $parameters['description'];
+    }
+    if (isset($parameters['url'])) {
+      $opt['query_string']['url'] = $parameters['url'];
+    }
+    if (isset($parameters['email'])) {
+      $opt['query_string']['email'] = $parameters['email'];
+    }
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/new_campaign', $opt);
+
+	  if (!isset($response->body)) {
+      $message = 'Error response from server in call to \'call_new_campaign\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object. Error when calling \'call_new_campaign\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'call_new_campaign\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!isset($response->body->new_campaign->status)) {
+      $message = 'Error response from server in call to \'call_new_campaign\'. Response to \'new_campaign\' was expected but was not present';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    $status = $response->body->new_campaign->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'create_new_campaign\'. Message \'' . $response->body->new_campaign->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    return $response;
+  }
+	
+  /*%******************************************************************************************%*/
+  // 'new_server' Resource METHODS
+  
+
+  /**
+   * Invokes the CALL method for the  new_server resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+   * @param string $key (Required) The API key for the campaign or external application. (PARAMETER).
+   * @param string $name (Required) The name of the server. (PARAMETER).
+   * @param string $public_url (Required) The public facing url that uploded content will be accessible on. (PARAMETER).
+   * @param string $upload_url (Required) Where we upload our content to. (PARAMETER).
+   * @param string $media (Required) The media that we will store on this server. (PARAMETER).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
+   */
+						
+public function call_new_server($parameters = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.call_new_server' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($parameters);
+
+   
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (empty($parameters['key'])) {
+	    throw new APIAdmin_Exception('Parameter "key" is mandatory.');
+    }
+    if (empty($parameters['name'])) {
+	    throw new APIAdmin_Exception('Parameter "name" is mandatory.');
+    }
+    if (empty($parameters['public_url'])) {
+	    throw new APIAdmin_Exception('Parameter "public_url" is mandatory.');
+    }
+    if (empty($parameters['upload_url'])) {
+	    throw new APIAdmin_Exception('Parameter "upload_url" is mandatory.');
+    }
+    if (empty($parameters['media'])) {
+	    throw new APIAdmin_Exception('Parameter "media" is mandatory.');
+    }
+    $opt['query_string'] = array(
+
+        'key' => $parameters['key'],
+        'name' => $parameters['name'],
+        'public_url' => $parameters['public_url'],
+        'upload_url' => $parameters['upload_url'],
+        'media' => $parameters['media'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/new_server', $opt);
+
+	  if (!isset($response->body)) {
+      $message = 'Error response from server in call to \'call_new_server\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object. Error when calling \'call_new_server\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'call_new_server\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!isset($response->body->new_server->status)) {
+      $message = 'Error response from server in call to \'call_new_server\'. Response to \'new_server\' was expected but was not present';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    $status = $response->body->new_server->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'create_new_server\'. Message \'' . $response->body->new_server->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    return $response;
+  }
+	
+  /*%******************************************************************************************%*/
+  // 'user_exists' Resource METHODS
+  
+
+  /**
+   * Invokes the CALL method for the  user_exists resource web service.
    *
    * TODO: Pull in description from resource as part of code-gen
    *
@@ -503,8 +910,26 @@ public function call_user_exists($parameters = array(), $opt = null) {
     //
     $response = $this->invoke($this->api . '/' . $this->api_version . '/user_exists', $opt);
 
-	  if (!isset($response->body->user_exists->status)) {
+	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'call_user_exists\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object. Error when calling \'call_user_exists\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'call_user_exists\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!isset($response->body->user_exists->status)) {
+      $message = 'Error response from server in call to \'call_user_exists\'. Response to \'user_exists\' was expected but was not present';
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
@@ -522,9 +947,10 @@ public function call_user_exists($parameters = array(), $opt = null) {
 	
   /*%******************************************************************************************%*/
   // 'user_recover' Resource METHODS
+  
 
   /**
-   * Invokes the CREATE method for the  user_recover resource web service.
+   * Invokes the CALL method for the  user_recover resource web service.
    *
    * TODO: Pull in description from resource as part of code-gen
    *
@@ -577,8 +1003,26 @@ public function call_user_recover($parameters = array(), $opt = null) {
     //
     $response = $this->invoke($this->api . '/' . $this->api_version . '/user_recover', $opt);
 
-	  if (!isset($response->body->user_recover->status)) {
+	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'call_user_recover\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object. Error when calling \'call_user_recover\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'call_user_recover\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!isset($response->body->user_recover->status)) {
+      $message = 'Error response from server in call to \'call_user_recover\'. Response to \'user_recover\' was expected but was not present';
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
