@@ -167,23 +167,6 @@ public function create_mediaitem($context = array(), $fields = array(), $opt = n
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
-    /*
-     // If the bucket contains uppercase letters...
-    if (preg_match('/[A-Z]/', $bucket)) {
-	    // Throw a warning
-	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
-	
-	    // Force the bucketname to lowercase
-	    $blah = strtolower($bucket);
-    }
-
-    // Validate the APIContent bucket name for creation
-    if (!$this->validate_bucketname_create($bucket)) {
-	    // @codeCoverageIgnoreStart
-	    throw new APIMedia_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
-	    // @codeCoverageIgnoreEnd
-    }
-     */
 
     if (!$opt) {
       $opt = array();
@@ -197,16 +180,16 @@ public function create_mediaitem($context = array(), $fields = array(), $opt = n
     //
     // Validate Fields
     //
-    if (empty($fields['code'])) {
+    if (!isset($fields['code'])) {
 	    throw new APIMedia_Exception('Field "code" is mandatory.');
     }
-    if (empty($fields['identity'])) {
+    if (!isset($fields['identity'])) {
 	    throw new APIMedia_Exception('Field "identity" is mandatory.');
     }
-    if (empty($fields['format'])) {
+    if (!isset($fields['format'])) {
 	    throw new APIMedia_Exception('Field "format" is mandatory.');
     }
-    if (empty($fields['server'])) {
+    if (!isset($fields['server'])) {
 	    throw new APIMedia_Exception('Field "server" is mandatory.');
     }
     if (empty($fields['digest'])) {
@@ -376,16 +359,16 @@ public function update_mediaitem($id,$context = array(), $fields = array(), $opt
     //
     // Validate Fields
     //
-    if (empty($fields['code'])) {
+    if (!isset($fields['code'])) {
 	    throw new APIMedia_Exception('Field "code" is mandatory.');
     }
-    if (empty($fields['identity'])) {
+    if (!isset($fields['identity'])) {
 	    throw new APIMedia_Exception('Field "identity" is mandatory.');
     }
-    if (empty($fields['format'])) {
+    if (!isset($fields['format'])) {
 	    throw new APIMedia_Exception('Field "format" is mandatory.');
     }
-    if (empty($fields['server'])) {
+    if (!isset($fields['server'])) {
 	    throw new APIMedia_Exception('Field "server" is mandatory.');
     }
     if (empty($fields['digest'])) {
@@ -535,10 +518,10 @@ public function call_get_url($parameters = array(), $opt = null) {
     //
     // Validate Fields
     //
-    if (empty($parameters['key'])) {
+    if (!isset($parameters['key'])) {
 	    throw new APIMedia_Exception('Parameter "key" is mandatory.');
     }
-    if (empty($parameters['mediaitem'])) {
+    if (!isset($parameters['mediaitem'])) {
 	    throw new APIMedia_Exception('Parameter "mediaitem" is mandatory.');
     }
     $opt['query_string'] = array(

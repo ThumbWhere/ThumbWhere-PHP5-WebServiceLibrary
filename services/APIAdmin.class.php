@@ -153,23 +153,6 @@ public function create_host_command($context = array(), $fields = array(), $opt 
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
-    /*
-     // If the bucket contains uppercase letters...
-    if (preg_match('/[A-Z]/', $bucket)) {
-	    // Throw a warning
-	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
-	
-	    // Force the bucketname to lowercase
-	    $blah = strtolower($bucket);
-    }
-
-    // Validate the APIContent bucket name for creation
-    if (!$this->validate_bucketname_create($bucket)) {
-	    // @codeCoverageIgnoreStart
-	    throw new APIAdmin_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
-	    // @codeCoverageIgnoreEnd
-    }
-     */
 
     if (!$opt) {
       $opt = array();
@@ -183,19 +166,19 @@ public function create_host_command($context = array(), $fields = array(), $opt 
     //
     // Validate Fields
     //
-    if (empty($fields['host'])) {
+    if (!isset($fields['host'])) {
 	    throw new APIAdmin_Exception('Field "host" is mandatory.');
     }
-    if (empty($fields['hostcommandtemplate'])) {
+    if (!isset($fields['hostcommandtemplate'])) {
 	    throw new APIAdmin_Exception('Field "hostcommandtemplate" is mandatory.');
     }
     if (empty($fields['command'])) {
 	    throw new APIAdmin_Exception('Field "command" is mandatory.');
     }
-    if (empty($fields['running'])) {
+    if (!isset($fields['running'])) {
 	    throw new APIAdmin_Exception('Field "running" is mandatory.');
     }
-    if (empty($fields['completed'])) {
+    if (!isset($fields['completed'])) {
 	    throw new APIAdmin_Exception('Field "completed" is mandatory.');
     }
     $opt['query_string'] = array(
@@ -306,19 +289,19 @@ public function update_host_command($id,$context = array(), $fields = array(), $
     //
     // Validate Fields
     //
-    if (empty($fields['host'])) {
+    if (!isset($fields['host'])) {
 	    throw new APIAdmin_Exception('Field "host" is mandatory.');
     }
-    if (empty($fields['hostcommandtemplate'])) {
+    if (!isset($fields['hostcommandtemplate'])) {
 	    throw new APIAdmin_Exception('Field "hostcommandtemplate" is mandatory.');
     }
     if (empty($fields['command'])) {
 	    throw new APIAdmin_Exception('Field "command" is mandatory.');
     }
-    if (empty($fields['running'])) {
+    if (!isset($fields['running'])) {
 	    throw new APIAdmin_Exception('Field "running" is mandatory.');
     }
-    if (empty($fields['completed'])) {
+    if (!isset($fields['completed'])) {
 	    throw new APIAdmin_Exception('Field "completed" is mandatory.');
     }
     $opt['query_string'] = array(
@@ -424,7 +407,7 @@ public function call_account_create($parameters = array(), $opt = null) {
     //
     // Validate Fields
     //
-    if (empty($parameters['masterkey'])) {
+    if (!isset($parameters['masterkey'])) {
 	    throw new APIAdmin_Exception('Parameter "masterkey" is mandatory.');
     }
     if (empty($parameters['name'])) {
@@ -525,7 +508,7 @@ public function call_account_exists($parameters = array(), $opt = null) {
     //
     // Validate Fields
     //
-    if (empty($parameters['masterkey'])) {
+    if (!isset($parameters['masterkey'])) {
 	    throw new APIAdmin_Exception('Parameter "masterkey" is mandatory.');
     }
     if (empty($parameters['name'])) {
@@ -618,7 +601,7 @@ public function call_campaign_encrypt($parameters = array(), $opt = null) {
     //
     // Validate Fields
     //
-    if (empty($parameters['key'])) {
+    if (!isset($parameters['key'])) {
 	    throw new APIAdmin_Exception('Parameter "key" is mandatory.');
     }
     if (empty($parameters['plaintext'])) {
@@ -712,7 +695,7 @@ public function call_campaign_set_key($parameters = array(), $opt = null) {
     //
     // Validate Fields
     //
-    if (empty($parameters['masterkey'])) {
+    if (!isset($parameters['masterkey'])) {
 	    throw new APIAdmin_Exception('Parameter "masterkey" is mandatory.');
     }
     if (empty($parameters['id'])) {
@@ -813,22 +796,22 @@ public function call_new_audio_target($parameters = array(), $opt = null) {
     //
     // Validate Fields
     //
-    if (empty($parameters['key'])) {
+    if (!isset($parameters['key'])) {
 	    throw new APIAdmin_Exception('Parameter "key" is mandatory.');
     }
     if (empty($parameters['name'])) {
 	    throw new APIAdmin_Exception('Parameter "name" is mandatory.');
     }
-    if (empty($parameters['format'])) {
+    if (!isset($parameters['format'])) {
 	    throw new APIAdmin_Exception('Parameter "format" is mandatory.');
     }
-    if (empty($parameters['channels'])) {
+    if (!isset($parameters['channels'])) {
 	    throw new APIAdmin_Exception('Parameter "channels" is mandatory.');
     }
-    if (empty($parameters['bitrate'])) {
+    if (!isset($parameters['bitrate'])) {
 	    throw new APIAdmin_Exception('Parameter "bitrate" is mandatory.');
     }
-    if (empty($parameters['samplerate'])) {
+    if (!isset($parameters['samplerate'])) {
 	    throw new APIAdmin_Exception('Parameter "samplerate" is mandatory.');
     }
     $opt['query_string'] = array(
@@ -926,7 +909,7 @@ public function call_new_campaign($parameters = array(), $opt = null) {
     //
     // Validate Fields
     //
-    if (empty($parameters['masterkey'])) {
+    if (!isset($parameters['masterkey'])) {
 	    throw new APIAdmin_Exception('Parameter "masterkey" is mandatory.');
     }
     if (empty($parameters['name'])) {
@@ -1034,7 +1017,7 @@ public function call_new_server($parameters = array(), $opt = null) {
     //
     // Validate Fields
     //
-    if (empty($parameters['key'])) {
+    if (!isset($parameters['key'])) {
 	    throw new APIAdmin_Exception('Parameter "key" is mandatory.');
     }
     if (empty($parameters['name'])) {
@@ -1139,7 +1122,7 @@ public function call_user_exists($parameters = array(), $opt = null) {
     //
     // Validate Fields
     //
-    if (empty($parameters['masterkey'])) {
+    if (!isset($parameters['masterkey'])) {
 	    throw new APIAdmin_Exception('Parameter "masterkey" is mandatory.');
     }
     if (empty($parameters['email'])) {
@@ -1232,7 +1215,7 @@ public function call_user_recover($parameters = array(), $opt = null) {
     //
     // Validate Fields
     //
-    if (empty($parameters['masterkey'])) {
+    if (!isset($parameters['masterkey'])) {
 	    throw new APIAdmin_Exception('Parameter "masterkey" is mandatory.');
     }
     if (empty($parameters['email'])) {

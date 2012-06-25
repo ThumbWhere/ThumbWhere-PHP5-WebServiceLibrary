@@ -158,23 +158,6 @@ public function create_identity($context = array(), $fields = array(), $opt = nu
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
-    /*
-     // If the bucket contains uppercase letters...
-    if (preg_match('/[A-Z]/', $bucket)) {
-	    // Throw a warning
-	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
-	
-	    // Force the bucketname to lowercase
-	    $blah = strtolower($bucket);
-    }
-
-    // Validate the APIContent bucket name for creation
-    if (!$this->validate_bucketname_create($bucket)) {
-	    // @codeCoverageIgnoreStart
-	    throw new APIIdentity_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
-	    // @codeCoverageIgnoreEnd
-    }
-     */
 
     if (!$opt) {
       $opt = array();
@@ -188,7 +171,7 @@ public function create_identity($context = array(), $fields = array(), $opt = nu
     //
     // Validate Fields
     //
-    if (empty($fields['identitytype'])) {
+    if (!isset($fields['identitytype'])) {
 	    throw new APIIdentity_Exception('Field "identitytype" is mandatory.');
     }
     $opt['query_string'] = array(
@@ -327,7 +310,7 @@ public function update_identity($id,$context = array(), $fields = array(), $opt 
     //
     // Validate Fields
     //
-    if (empty($fields['identitytype'])) {
+    if (!isset($fields['identitytype'])) {
 	    throw new APIIdentity_Exception('Field "identitytype" is mandatory.');
     }
     $opt['query_string'] = array(
@@ -456,13 +439,13 @@ public function call_authenticate($parameters = array(), $opt = null) {
     //
     // Validate Fields
     //
-    if (empty($parameters['key'])) {
+    if (!isset($parameters['key'])) {
 	    throw new APIIdentity_Exception('Parameter "key" is mandatory.');
     }
-    if (empty($parameters['type'])) {
+    if (!isset($parameters['type'])) {
 	    throw new APIIdentity_Exception('Parameter "type" is mandatory.');
     }
-    if (empty($parameters['id'])) {
+    if (!isset($parameters['id'])) {
 	    throw new APIIdentity_Exception('Parameter "id" is mandatory.');
     }
     if (empty($parameters['secret'])) {
@@ -560,10 +543,10 @@ public function call_authenticate_request($parameters = array(), $opt = null) {
     //
     // Validate Fields
     //
-    if (empty($parameters['key'])) {
+    if (!isset($parameters['key'])) {
 	    throw new APIIdentity_Exception('Parameter "key" is mandatory.');
     }
-    if (empty($parameters['code'])) {
+    if (!isset($parameters['code'])) {
 	    throw new APIIdentity_Exception('Parameter "code" is mandatory.');
     }
     $opt['query_string'] = array(
@@ -662,10 +645,10 @@ public function call_query_request($parameters = array(), $opt = null) {
     //
     // Validate Fields
     //
-    if (empty($parameters['key'])) {
+    if (!isset($parameters['key'])) {
 	    throw new APIIdentity_Exception('Parameter "key" is mandatory.');
     }
-    if (empty($parameters['code'])) {
+    if (!isset($parameters['code'])) {
 	    throw new APIIdentity_Exception('Parameter "code" is mandatory.');
     }
     $opt['query_string'] = array(
@@ -757,10 +740,10 @@ public function call_request($parameters = array(), $opt = null) {
     //
     // Validate Fields
     //
-    if (empty($parameters['key'])) {
+    if (!isset($parameters['key'])) {
 	    throw new APIIdentity_Exception('Parameter "key" is mandatory.');
     }
-    if (empty($parameters['type'])) {
+    if (!isset($parameters['type'])) {
 	    throw new APIIdentity_Exception('Parameter "type" is mandatory.');
     }
     $opt['query_string'] = array(
@@ -857,10 +840,10 @@ public function call_set_label($parameters = array(), $opt = null) {
     //
     // Validate Fields
     //
-    if (empty($parameters['key'])) {
+    if (!isset($parameters['key'])) {
 	    throw new APIIdentity_Exception('Parameter "key" is mandatory.');
     }
-    if (empty($parameters['identity'])) {
+    if (!isset($parameters['identity'])) {
 	    throw new APIIdentity_Exception('Parameter "identity" is mandatory.');
     }
     if (empty($parameters['label'])) {
@@ -953,7 +936,7 @@ public function call_validate($parameters = array(), $opt = null) {
     //
     // Validate Fields
     //
-    if (empty($parameters['code'])) {
+    if (!isset($parameters['code'])) {
 	    throw new APIIdentity_Exception('Parameter "code" is mandatory.');
     }
     $opt['query_string'] = array(
