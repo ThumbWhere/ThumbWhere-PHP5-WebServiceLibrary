@@ -160,23 +160,6 @@ public function create_action($context = array(), $fields = array(), $opt = null
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
-    /*
-     // If the bucket contains uppercase letters...
-    if (preg_match('/[A-Z]/', $bucket)) {
-	    // Throw a warning
-	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
-	
-	    // Force the bucketname to lowercase
-	    $blah = strtolower($bucket);
-    }
-
-    // Validate the APIContent bucket name for creation
-    if (!$this->validate_bucketname_create($bucket)) {
-	    // @codeCoverageIgnoreStart
-	    throw new APIContent_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
-	    // @codeCoverageIgnoreEnd
-    }
-     */
 
     if (!$opt) {
       $opt = array();
@@ -449,23 +432,6 @@ public function create_activity($context = array(), $fields = array(), $opt = nu
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
-    /*
-     // If the bucket contains uppercase letters...
-    if (preg_match('/[A-Z]/', $bucket)) {
-	    // Throw a warning
-	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
-	
-	    // Force the bucketname to lowercase
-	    $blah = strtolower($bucket);
-    }
-
-    // Validate the APIContent bucket name for creation
-    if (!$this->validate_bucketname_create($bucket)) {
-	    // @codeCoverageIgnoreStart
-	    throw new APIContent_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
-	    // @codeCoverageIgnoreEnd
-    }
-     */
 
     if (!$opt) {
       $opt = array();
@@ -479,13 +445,13 @@ public function create_activity($context = array(), $fields = array(), $opt = nu
     //
     // Validate Fields
     //
-    if (empty($fields['actor'])) {
+    if (!isset($fields['actor'])) {
 	    throw new APIContent_Exception('Field "actor" is mandatory.');
     }
-    if (empty($fields['action'])) {
+    if (!isset($fields['action'])) {
 	    throw new APIContent_Exception('Field "action" is mandatory.');
     }
-    if (empty($fields['subject'])) {
+    if (!isset($fields['subject'])) {
 	    throw new APIContent_Exception('Field "subject" is mandatory.');
     }
     $opt['query_string'] = array(
@@ -596,13 +562,13 @@ public function update_activity($id,$context = array(), $fields = array(), $opt 
     //
     // Validate Fields
     //
-    if (empty($fields['actor'])) {
+    if (!isset($fields['actor'])) {
 	    throw new APIContent_Exception('Field "actor" is mandatory.');
     }
-    if (empty($fields['action'])) {
+    if (!isset($fields['action'])) {
 	    throw new APIContent_Exception('Field "action" is mandatory.');
     }
-    if (empty($fields['subject'])) {
+    if (!isset($fields['subject'])) {
 	    throw new APIContent_Exception('Field "subject" is mandatory.');
     }
     $opt['query_string'] = array(
@@ -688,23 +654,6 @@ public function create_actor($context = array(), $fields = array(), $opt = null)
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
-    /*
-     // If the bucket contains uppercase letters...
-    if (preg_match('/[A-Z]/', $bucket)) {
-	    // Throw a warning
-	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
-	
-	    // Force the bucketname to lowercase
-	    $blah = strtolower($bucket);
-    }
-
-    // Validate the APIContent bucket name for creation
-    if (!$this->validate_bucketname_create($bucket)) {
-	    // @codeCoverageIgnoreStart
-	    throw new APIContent_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
-	    // @codeCoverageIgnoreEnd
-    }
-     */
 
     if (!$opt) {
       $opt = array();
@@ -921,23 +870,6 @@ public function create_awarded_trophy($context = array(), $fields = array(), $op
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
-    /*
-     // If the bucket contains uppercase letters...
-    if (preg_match('/[A-Z]/', $bucket)) {
-	    // Throw a warning
-	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
-	
-	    // Force the bucketname to lowercase
-	    $blah = strtolower($bucket);
-    }
-
-    // Validate the APIContent bucket name for creation
-    if (!$this->validate_bucketname_create($bucket)) {
-	    // @codeCoverageIgnoreStart
-	    throw new APIContent_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
-	    // @codeCoverageIgnoreEnd
-    }
-     */
 
     if (!$opt) {
       $opt = array();
@@ -951,13 +883,13 @@ public function create_awarded_trophy($context = array(), $fields = array(), $op
     //
     // Validate Fields
     //
-    if (empty($fields['trophy'])) {
+    if (!isset($fields['trophy'])) {
 	    throw new APIContent_Exception('Field "trophy" is mandatory.');
     }
-    if (empty($fields['actor'])) {
+    if (!isset($fields['actor'])) {
 	    throw new APIContent_Exception('Field "actor" is mandatory.');
     }
-    if (empty($fields['thing'])) {
+    if (!isset($fields['thing'])) {
 	    throw new APIContent_Exception('Field "thing" is mandatory.');
     }
     if (empty($fields['documentation'])) {
@@ -1069,13 +1001,13 @@ public function update_awarded_trophy($id,$context = array(), $fields = array(),
     //
     // Validate Fields
     //
-    if (empty($fields['trophy'])) {
+    if (!isset($fields['trophy'])) {
 	    throw new APIContent_Exception('Field "trophy" is mandatory.');
     }
-    if (empty($fields['actor'])) {
+    if (!isset($fields['actor'])) {
 	    throw new APIContent_Exception('Field "actor" is mandatory.');
     }
-    if (empty($fields['thing'])) {
+    if (!isset($fields['thing'])) {
 	    throw new APIContent_Exception('Field "thing" is mandatory.');
     }
     if (empty($fields['documentation'])) {
@@ -1161,23 +1093,6 @@ public function create_consumer($context = array(), $fields = array(), $opt = nu
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
-    /*
-     // If the bucket contains uppercase letters...
-    if (preg_match('/[A-Z]/', $bucket)) {
-	    // Throw a warning
-	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
-	
-	    // Force the bucketname to lowercase
-	    $blah = strtolower($bucket);
-    }
-
-    // Validate the APIContent bucket name for creation
-    if (!$this->validate_bucketname_create($bucket)) {
-	    // @codeCoverageIgnoreStart
-	    throw new APIContent_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
-	    // @codeCoverageIgnoreEnd
-    }
-     */
 
     if (!$opt) {
       $opt = array();
@@ -1388,23 +1303,6 @@ public function create_consumer_member($context = array(), $fields = array(), $o
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
-    /*
-     // If the bucket contains uppercase letters...
-    if (preg_match('/[A-Z]/', $bucket)) {
-	    // Throw a warning
-	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
-	
-	    // Force the bucketname to lowercase
-	    $blah = strtolower($bucket);
-    }
-
-    // Validate the APIContent bucket name for creation
-    if (!$this->validate_bucketname_create($bucket)) {
-	    // @codeCoverageIgnoreStart
-	    throw new APIContent_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
-	    // @codeCoverageIgnoreEnd
-    }
-     */
 
     if (!$opt) {
       $opt = array();
@@ -1418,10 +1316,10 @@ public function create_consumer_member($context = array(), $fields = array(), $o
     //
     // Validate Fields
     //
-    if (empty($fields['consumer'])) {
+    if (!isset($fields['consumer'])) {
 	    throw new APIContent_Exception('Field "consumer" is mandatory.');
     }
-    if (empty($fields['member'])) {
+    if (!isset($fields['member'])) {
 	    throw new APIContent_Exception('Field "member" is mandatory.');
     }
     $opt['query_string'] = array(
@@ -1530,10 +1428,10 @@ public function update_consumer_member($id,$context = array(), $fields = array()
     //
     // Validate Fields
     //
-    if (empty($fields['consumer'])) {
+    if (!isset($fields['consumer'])) {
 	    throw new APIContent_Exception('Field "consumer" is mandatory.');
     }
-    if (empty($fields['member'])) {
+    if (!isset($fields['member'])) {
 	    throw new APIContent_Exception('Field "member" is mandatory.');
     }
     $opt['query_string'] = array(
@@ -1618,23 +1516,6 @@ public function create_content($context = array(), $fields = array(), $opt = nul
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
-    /*
-     // If the bucket contains uppercase letters...
-    if (preg_match('/[A-Z]/', $bucket)) {
-	    // Throw a warning
-	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
-	
-	    // Force the bucketname to lowercase
-	    $blah = strtolower($bucket);
-    }
-
-    // Validate the APIContent bucket name for creation
-    if (!$this->validate_bucketname_create($bucket)) {
-	    // @codeCoverageIgnoreStart
-	    throw new APIContent_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
-	    // @codeCoverageIgnoreEnd
-    }
-     */
 
     if (!$opt) {
       $opt = array();
@@ -1826,6 +1707,200 @@ public function update_content($id,$context = array(), $fields = array(), $opt =
   }
 	
   /*%******************************************************************************************%*/
+  // 'content_classification' Resource METHODS
+
+  
+  /**
+   * Invokes the CREATE method for the  content_classification resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $name (Required) 'name' field, which is a 'string' type. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
+   */
+						
+public function create_content_classification($context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.create_content_classification' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (empty($fields['name'])) {
+	    throw new APIContent_Exception('Field "name" is mandatory.');
+    }
+    $opt['query_string'] = array(
+        '$op' => 'create',
+        '$key' => $context['key'],
+        'name' => $fields['name'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/content_classification', $opt);
+
+	  if (!isset($response->body)) {
+      $message = 'Error response from server in call to \'create_content_classification\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object. Error when calling \'create_content_classification\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'create_content_classification\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+	  if (!isset($response->body->content_classification->status)) {
+      $message = 'Error response from server in call to \'create_content_classification\'. Response to \'content_classification\' was expected but was not present';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+    $status = $response->body->content_classification->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'create_content_classification\'. Message \'' . $response->body->content_classification->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+    return $response;
+  }					
+					
+ /**
+   * Invokes the UPDATE method for the  content_classification resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+      * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $name (Required) 'name' field, which is a 'string' type. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.update Working with ThumbWhere APIContent Buckets
+   */
+						
+public function update_content_classification($id,$context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.update_content_classification' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+    /*
+     // If the bucket contains uppercase letters...
+    if (preg_match('/[A-Z]/', $bucket)) {
+	    // Throw a warning
+	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
+	
+	    // Force the bucketname to lowercase
+	    $blah = strtolower($bucket);
+    }
+
+    // Validate the APIContent bucket name for creation
+    if (!$this->validate_bucketname_update($bucket)) {
+	    // @codeCoverageIgnoreStart
+	    throw new APIContent_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
+	    // @codeCoverageIgnoreEnd
+    }
+     */
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (empty($fields['name'])) {
+	    throw new APIContent_Exception('Field "name" is mandatory.');
+    }
+    $opt['query_string'] = array(
+        '$op' => 'update',
+        '$id' => $id,
+        '$key' => $context['key'],
+        'name' => $fields['name'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/content_classification', $opt);
+
+	  if (!isset($response->body)) {
+      $message = 'Error response from server in call to \'update_content_classification\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object. Error when calling \'update_content_classification\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'update_content_classification\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+	  if (!isset($response->body->content_classification->status)) {
+      $message = 'Error response from server in call to \'update_content_classification\'. Response to \'content_classification\' was expected but was not present';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+    $status = $response->body->content_classification->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'update_content_classification\'. Message \'' . $response->body->content_classification->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+    return $response;
+  }
+	
+  /*%******************************************************************************************%*/
   // 'content_collection' Resource METHODS
 
   
@@ -1849,23 +1924,6 @@ public function create_content_collection($context = array(), $fields = array(),
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
-    /*
-     // If the bucket contains uppercase letters...
-    if (preg_match('/[A-Z]/', $bucket)) {
-	    // Throw a warning
-	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
-	
-	    // Force the bucketname to lowercase
-	    $blah = strtolower($bucket);
-    }
-
-    // Validate the APIContent bucket name for creation
-    if (!$this->validate_bucketname_create($bucket)) {
-	    // @codeCoverageIgnoreStart
-	    throw new APIContent_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
-	    // @codeCoverageIgnoreEnd
-    }
-     */
 
     if (!$opt) {
       $opt = array();
@@ -1879,7 +1937,7 @@ public function create_content_collection($context = array(), $fields = array(),
     //
     // Validate Fields
     //
-    if (empty($fields['actor'])) {
+    if (!isset($fields['actor'])) {
 	    throw new APIContent_Exception('Field "actor" is mandatory.');
     }
     $opt['query_string'] = array(
@@ -1986,7 +2044,7 @@ public function update_content_collection($id,$context = array(), $fields = arra
     //
     // Validate Fields
     //
-    if (empty($fields['actor'])) {
+    if (!isset($fields['actor'])) {
 	    throw new APIContent_Exception('Field "actor" is mandatory.');
     }
     $opt['query_string'] = array(
@@ -2069,23 +2127,6 @@ public function create_content_collection_item($context = array(), $fields = arr
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
-    /*
-     // If the bucket contains uppercase letters...
-    if (preg_match('/[A-Z]/', $bucket)) {
-	    // Throw a warning
-	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
-	
-	    // Force the bucketname to lowercase
-	    $blah = strtolower($bucket);
-    }
-
-    // Validate the APIContent bucket name for creation
-    if (!$this->validate_bucketname_create($bucket)) {
-	    // @codeCoverageIgnoreStart
-	    throw new APIContent_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
-	    // @codeCoverageIgnoreEnd
-    }
-     */
 
     if (!$opt) {
       $opt = array();
@@ -2099,10 +2140,10 @@ public function create_content_collection_item($context = array(), $fields = arr
     //
     // Validate Fields
     //
-    if (empty($fields['contentcollection'])) {
+    if (!isset($fields['contentcollection'])) {
 	    throw new APIContent_Exception('Field "contentcollection" is mandatory.');
     }
-    if (empty($fields['content'])) {
+    if (!isset($fields['content'])) {
 	    throw new APIContent_Exception('Field "content" is mandatory.');
     }
     $opt['query_string'] = array(
@@ -2211,10 +2252,10 @@ public function update_content_collection_item($id,$context = array(), $fields =
     //
     // Validate Fields
     //
-    if (empty($fields['contentcollection'])) {
+    if (!isset($fields['contentcollection'])) {
 	    throw new APIContent_Exception('Field "contentcollection" is mandatory.');
     }
-    if (empty($fields['content'])) {
+    if (!isset($fields['content'])) {
 	    throw new APIContent_Exception('Field "content" is mandatory.');
     }
     $opt['query_string'] = array(
@@ -2274,6 +2315,200 @@ public function update_content_collection_item($id,$context = array(), $fields =
   }
 	
   /*%******************************************************************************************%*/
+  // 'content_genre' Resource METHODS
+
+  
+  /**
+   * Invokes the CREATE method for the  content_genre resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $name (Required) 'name' field, which is a 'string' type. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
+   */
+						
+public function create_content_genre($context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.create_content_genre' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (empty($fields['name'])) {
+	    throw new APIContent_Exception('Field "name" is mandatory.');
+    }
+    $opt['query_string'] = array(
+        '$op' => 'create',
+        '$key' => $context['key'],
+        'name' => $fields['name'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/content_genre', $opt);
+
+	  if (!isset($response->body)) {
+      $message = 'Error response from server in call to \'create_content_genre\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object. Error when calling \'create_content_genre\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'create_content_genre\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+	  if (!isset($response->body->content_genre->status)) {
+      $message = 'Error response from server in call to \'create_content_genre\'. Response to \'content_genre\' was expected but was not present';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+    $status = $response->body->content_genre->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'create_content_genre\'. Message \'' . $response->body->content_genre->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+    return $response;
+  }					
+					
+ /**
+   * Invokes the UPDATE method for the  content_genre resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+      * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $name (Required) 'name' field, which is a 'string' type. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.update Working with ThumbWhere APIContent Buckets
+   */
+						
+public function update_content_genre($id,$context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.update_content_genre' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+    /*
+     // If the bucket contains uppercase letters...
+    if (preg_match('/[A-Z]/', $bucket)) {
+	    // Throw a warning
+	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
+	
+	    // Force the bucketname to lowercase
+	    $blah = strtolower($bucket);
+    }
+
+    // Validate the APIContent bucket name for creation
+    if (!$this->validate_bucketname_update($bucket)) {
+	    // @codeCoverageIgnoreStart
+	    throw new APIContent_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
+	    // @codeCoverageIgnoreEnd
+    }
+     */
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (empty($fields['name'])) {
+	    throw new APIContent_Exception('Field "name" is mandatory.');
+    }
+    $opt['query_string'] = array(
+        '$op' => 'update',
+        '$id' => $id,
+        '$key' => $context['key'],
+        'name' => $fields['name'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/content_genre', $opt);
+
+	  if (!isset($response->body)) {
+      $message = 'Error response from server in call to \'update_content_genre\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object. Error when calling \'update_content_genre\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'update_content_genre\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+	  if (!isset($response->body->content_genre->status)) {
+      $message = 'Error response from server in call to \'update_content_genre\'. Response to \'content_genre\' was expected but was not present';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+    $status = $response->body->content_genre->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'update_content_genre\'. Message \'' . $response->body->content_genre->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+    return $response;
+  }
+	
+  /*%******************************************************************************************%*/
   // 'content_ingest' Resource METHODS
 
   
@@ -2310,23 +2545,6 @@ public function create_content_ingest($context = array(), $fields = array(), $op
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
-    /*
-     // If the bucket contains uppercase letters...
-    if (preg_match('/[A-Z]/', $bucket)) {
-	    // Throw a warning
-	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
-	
-	    // Force the bucketname to lowercase
-	    $blah = strtolower($bucket);
-    }
-
-    // Validate the APIContent bucket name for creation
-    if (!$this->validate_bucketname_create($bucket)) {
-	    // @codeCoverageIgnoreStart
-	    throw new APIContent_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
-	    // @codeCoverageIgnoreEnd
-    }
-     */
 
     if (!$opt) {
       $opt = array();
@@ -2597,6 +2815,246 @@ public function update_content_ingest($id,$context = array(), $fields = array(),
   }
 	
   /*%******************************************************************************************%*/
+  // 'content_metadata' Resource METHODS
+
+  
+  /**
+   * Invokes the CREATE method for the  content_metadata resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $contentgenre (Required) 'contentgenre' field, which is an embedded 'ContentGenre' resource. (FIELD).
+   * @param string $contentclassification (Required) 'contentclassification' field, which is an embedded 'ContentClassification' resource. (FIELD).
+   * @param string $description (Required) 'description' field, which is a 'string' type. (FIELD).
+   * @param string $comment (Required) 'comment' field, which is a 'string' type. (FIELD).
+   * @param string $year (Required) 'year' field, which is a 'string' type. (FIELD).
+   * @param string $compilation (Required) 'compilation' field, which is a 'boolean' type. (FIELD).
+   * @param string $advisory (Required) 'advisory' field, which is a 'string' type. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
+   */
+						
+public function create_content_metadata($context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.create_content_metadata' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    $opt['query_string'] = array(
+        '$op' => 'create',
+        '$key' => $context['key'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+    if (isset($fields['contentgenre'])) {
+      $opt['query_string']['contentgenre'] = $fields['contentgenre'];
+    }
+    if (isset($fields['contentclassification'])) {
+      $opt['query_string']['contentclassification'] = $fields['contentclassification'];
+    }
+    if (isset($fields['description'])) {
+      $opt['query_string']['description'] = $fields['description'];
+    }
+    if (isset($fields['comment'])) {
+      $opt['query_string']['comment'] = $fields['comment'];
+    }
+    if (isset($fields['year'])) {
+      $opt['query_string']['year'] = $fields['year'];
+    }
+    if (isset($fields['compilation'])) {
+      $opt['query_string']['compilation'] = $fields['compilation'];
+    }
+    if (isset($fields['advisory'])) {
+      $opt['query_string']['advisory'] = $fields['advisory'];
+    }
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/content_metadata', $opt);
+
+	  if (!isset($response->body)) {
+      $message = 'Error response from server in call to \'create_content_metadata\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object. Error when calling \'create_content_metadata\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'create_content_metadata\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+	  if (!isset($response->body->content_metadata->status)) {
+      $message = 'Error response from server in call to \'create_content_metadata\'. Response to \'content_metadata\' was expected but was not present';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+    $status = $response->body->content_metadata->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'create_content_metadata\'. Message \'' . $response->body->content_metadata->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+    return $response;
+  }					
+					
+ /**
+   * Invokes the UPDATE method for the  content_metadata resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+      * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $contentgenre (Required) 'contentgenre' field, which is an embedded 'ContentGenre' resource. (FIELD).
+   * @param string $contentclassification (Required) 'contentclassification' field, which is an embedded 'ContentClassification' resource. (FIELD).
+   * @param string $description (Required) 'description' field, which is a 'string' type. (FIELD).
+   * @param string $comment (Required) 'comment' field, which is a 'string' type. (FIELD).
+   * @param string $year (Required) 'year' field, which is a 'string' type. (FIELD).
+   * @param string $compilation (Required) 'compilation' field, which is a 'boolean' type. (FIELD).
+   * @param string $advisory (Required) 'advisory' field, which is a 'string' type. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.update Working with ThumbWhere APIContent Buckets
+   */
+						
+public function update_content_metadata($id,$context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.update_content_metadata' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+    /*
+     // If the bucket contains uppercase letters...
+    if (preg_match('/[A-Z]/', $bucket)) {
+	    // Throw a warning
+	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
+	
+	    // Force the bucketname to lowercase
+	    $blah = strtolower($bucket);
+    }
+
+    // Validate the APIContent bucket name for creation
+    if (!$this->validate_bucketname_update($bucket)) {
+	    // @codeCoverageIgnoreStart
+	    throw new APIContent_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
+	    // @codeCoverageIgnoreEnd
+    }
+     */
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    $opt['query_string'] = array(
+        '$op' => 'update',
+        '$id' => $id,
+        '$key' => $context['key'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+    if (isset($fields['contentgenre'])) {
+      $opt['query_string']['contentgenre'] = $fields['contentgenre'];
+    }
+    if (isset($fields['contentclassification'])) {
+      $opt['query_string']['contentclassification'] = $fields['contentclassification'];
+    }
+    if (isset($fields['description'])) {
+      $opt['query_string']['description'] = $fields['description'];
+    }
+    if (isset($fields['comment'])) {
+      $opt['query_string']['comment'] = $fields['comment'];
+    }
+    if (isset($fields['year'])) {
+      $opt['query_string']['year'] = $fields['year'];
+    }
+    if (isset($fields['compilation'])) {
+      $opt['query_string']['compilation'] = $fields['compilation'];
+    }
+    if (isset($fields['advisory'])) {
+      $opt['query_string']['advisory'] = $fields['advisory'];
+    }
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/content_metadata', $opt);
+
+	  if (!isset($response->body)) {
+      $message = 'Error response from server in call to \'update_content_metadata\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object. Error when calling \'update_content_metadata\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'update_content_metadata\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+	  if (!isset($response->body->content_metadata->status)) {
+      $message = 'Error response from server in call to \'update_content_metadata\'. Response to \'content_metadata\' was expected but was not present';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+    $status = $response->body->content_metadata->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'update_content_metadata\'. Message \'' . $response->body->content_metadata->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+    return $response;
+  }
+	
+  /*%******************************************************************************************%*/
   // 'fan' Resource METHODS
 
   
@@ -2622,23 +3080,6 @@ public function create_fan($context = array(), $fields = array(), $opt = null) {
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
-    /*
-     // If the bucket contains uppercase letters...
-    if (preg_match('/[A-Z]/', $bucket)) {
-	    // Throw a warning
-	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
-	
-	    // Force the bucketname to lowercase
-	    $blah = strtolower($bucket);
-    }
-
-    // Validate the APIContent bucket name for creation
-    if (!$this->validate_bucketname_create($bucket)) {
-	    // @codeCoverageIgnoreStart
-	    throw new APIContent_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
-	    // @codeCoverageIgnoreEnd
-    }
-     */
 
     if (!$opt) {
       $opt = array();
@@ -2652,10 +3093,10 @@ public function create_fan($context = array(), $fields = array(), $opt = null) {
     //
     // Validate Fields
     //
-    if (empty($fields['actor'])) {
+    if (!isset($fields['actor'])) {
 	    throw new APIContent_Exception('Field "actor" is mandatory.');
     }
-    if (empty($fields['thing'])) {
+    if (!isset($fields['thing'])) {
 	    throw new APIContent_Exception('Field "thing" is mandatory.');
     }
     if (empty($fields['documentation'])) {
@@ -2769,10 +3210,10 @@ public function update_fan($id,$context = array(), $fields = array(), $opt = nul
     //
     // Validate Fields
     //
-    if (empty($fields['actor'])) {
+    if (!isset($fields['actor'])) {
 	    throw new APIContent_Exception('Field "actor" is mandatory.');
     }
-    if (empty($fields['thing'])) {
+    if (!isset($fields['thing'])) {
 	    throw new APIContent_Exception('Field "thing" is mandatory.');
     }
     if (empty($fields['documentation'])) {
@@ -2861,23 +3302,6 @@ public function create_follow($context = array(), $fields = array(), $opt = null
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
-    /*
-     // If the bucket contains uppercase letters...
-    if (preg_match('/[A-Z]/', $bucket)) {
-	    // Throw a warning
-	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
-	
-	    // Force the bucketname to lowercase
-	    $blah = strtolower($bucket);
-    }
-
-    // Validate the APIContent bucket name for creation
-    if (!$this->validate_bucketname_create($bucket)) {
-	    // @codeCoverageIgnoreStart
-	    throw new APIContent_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
-	    // @codeCoverageIgnoreEnd
-    }
-     */
 
     if (!$opt) {
       $opt = array();
@@ -2891,10 +3315,10 @@ public function create_follow($context = array(), $fields = array(), $opt = null
     //
     // Validate Fields
     //
-    if (empty($fields['actor'])) {
+    if (!isset($fields['actor'])) {
 	    throw new APIContent_Exception('Field "actor" is mandatory.');
     }
-    if (empty($fields['thing'])) {
+    if (!isset($fields['thing'])) {
 	    throw new APIContent_Exception('Field "thing" is mandatory.');
     }
     if (empty($fields['documentation'])) {
@@ -3008,10 +3432,10 @@ public function update_follow($id,$context = array(), $fields = array(), $opt = 
     //
     // Validate Fields
     //
-    if (empty($fields['actor'])) {
+    if (!isset($fields['actor'])) {
 	    throw new APIContent_Exception('Field "actor" is mandatory.');
     }
-    if (empty($fields['thing'])) {
+    if (!isset($fields['thing'])) {
 	    throw new APIContent_Exception('Field "thing" is mandatory.');
     }
     if (empty($fields['documentation'])) {
@@ -3100,23 +3524,6 @@ public function create_like($context = array(), $fields = array(), $opt = null) 
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
-    /*
-     // If the bucket contains uppercase letters...
-    if (preg_match('/[A-Z]/', $bucket)) {
-	    // Throw a warning
-	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
-	
-	    // Force the bucketname to lowercase
-	    $blah = strtolower($bucket);
-    }
-
-    // Validate the APIContent bucket name for creation
-    if (!$this->validate_bucketname_create($bucket)) {
-	    // @codeCoverageIgnoreStart
-	    throw new APIContent_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
-	    // @codeCoverageIgnoreEnd
-    }
-     */
 
     if (!$opt) {
       $opt = array();
@@ -3130,10 +3537,10 @@ public function create_like($context = array(), $fields = array(), $opt = null) 
     //
     // Validate Fields
     //
-    if (empty($fields['actor'])) {
+    if (!isset($fields['actor'])) {
 	    throw new APIContent_Exception('Field "actor" is mandatory.');
     }
-    if (empty($fields['thing'])) {
+    if (!isset($fields['thing'])) {
 	    throw new APIContent_Exception('Field "thing" is mandatory.');
     }
     if (empty($fields['documentation'])) {
@@ -3247,10 +3654,10 @@ public function update_like($id,$context = array(), $fields = array(), $opt = nu
     //
     // Validate Fields
     //
-    if (empty($fields['actor'])) {
+    if (!isset($fields['actor'])) {
 	    throw new APIContent_Exception('Field "actor" is mandatory.');
     }
-    if (empty($fields['thing'])) {
+    if (!isset($fields['thing'])) {
 	    throw new APIContent_Exception('Field "thing" is mandatory.');
     }
     if (empty($fields['documentation'])) {
@@ -3323,6 +3730,7 @@ public function update_like($id,$context = array(), $fields = array(), $opt = nu
    * TODO: Pull in description from resource as part of code-gen
    *
    * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $contentmetadata (Required) 'contentmetadata' field, which is an embedded 'ContentMetadata' resource. (FIELD).
    * @param string $trackmetadata (Required) 'trackmetadata' field, which is an embedded 'TrackMetadata' resource. (FIELD).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
    * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
@@ -3336,23 +3744,6 @@ public function create_metadata($context = array(), $fields = array(), $opt = nu
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
-    /*
-     // If the bucket contains uppercase letters...
-    if (preg_match('/[A-Z]/', $bucket)) {
-	    // Throw a warning
-	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
-	
-	    // Force the bucketname to lowercase
-	    $blah = strtolower($bucket);
-    }
-
-    // Validate the APIContent bucket name for creation
-    if (!$this->validate_bucketname_create($bucket)) {
-	    // @codeCoverageIgnoreStart
-	    throw new APIContent_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
-	    // @codeCoverageIgnoreEnd
-    }
-     */
 
     if (!$opt) {
       $opt = array();
@@ -3375,6 +3766,9 @@ public function create_metadata($context = array(), $fields = array(), $opt = nu
     // Populate the query string with optional parameters.
     //
 
+    if (isset($fields['contentmetadata'])) {
+      $opt['query_string']['contentmetadata'] = $fields['contentmetadata'];
+    }
     if (isset($fields['trackmetadata'])) {
       $opt['query_string']['trackmetadata'] = $fields['trackmetadata'];
     }
@@ -3425,6 +3819,7 @@ public function create_metadata($context = array(), $fields = array(), $opt = nu
    * TODO: Pull in description from resource as part of code-gen
    *
       * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $contentmetadata (Required) 'contentmetadata' field, which is an embedded 'ContentMetadata' resource. (FIELD).
    * @param string $trackmetadata (Required) 'trackmetadata' field, which is an embedded 'TrackMetadata' resource. (FIELD).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
    * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
@@ -3478,6 +3873,9 @@ public function update_metadata($id,$context = array(), $fields = array(), $opt 
     // Populate the query string with optional parameters.
     //
 
+    if (isset($fields['contentmetadata'])) {
+      $opt['query_string']['contentmetadata'] = $fields['contentmetadata'];
+    }
     if (isset($fields['trackmetadata'])) {
       $opt['query_string']['trackmetadata'] = $fields['trackmetadata'];
     }
@@ -3545,23 +3943,6 @@ public function create_place($context = array(), $fields = array(), $opt = null)
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
-    /*
-     // If the bucket contains uppercase letters...
-    if (preg_match('/[A-Z]/', $bucket)) {
-	    // Throw a warning
-	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
-	
-	    // Force the bucketname to lowercase
-	    $blah = strtolower($bucket);
-    }
-
-    // Validate the APIContent bucket name for creation
-    if (!$this->validate_bucketname_create($bucket)) {
-	    // @codeCoverageIgnoreStart
-	    throw new APIContent_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
-	    // @codeCoverageIgnoreEnd
-    }
-     */
 
     if (!$opt) {
       $opt = array();
@@ -3756,23 +4137,6 @@ public function create_producer($context = array(), $fields = array(), $opt = nu
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
-    /*
-     // If the bucket contains uppercase letters...
-    if (preg_match('/[A-Z]/', $bucket)) {
-	    // Throw a warning
-	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
-	
-	    // Force the bucketname to lowercase
-	    $blah = strtolower($bucket);
-    }
-
-    // Validate the APIContent bucket name for creation
-    if (!$this->validate_bucketname_create($bucket)) {
-	    // @codeCoverageIgnoreStart
-	    throw new APIContent_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
-	    // @codeCoverageIgnoreEnd
-    }
-     */
 
     if (!$opt) {
       $opt = array();
@@ -3983,23 +4347,6 @@ public function create_producer_member($context = array(), $fields = array(), $o
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
-    /*
-     // If the bucket contains uppercase letters...
-    if (preg_match('/[A-Z]/', $bucket)) {
-	    // Throw a warning
-	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
-	
-	    // Force the bucketname to lowercase
-	    $blah = strtolower($bucket);
-    }
-
-    // Validate the APIContent bucket name for creation
-    if (!$this->validate_bucketname_create($bucket)) {
-	    // @codeCoverageIgnoreStart
-	    throw new APIContent_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
-	    // @codeCoverageIgnoreEnd
-    }
-     */
 
     if (!$opt) {
       $opt = array();
@@ -4013,10 +4360,10 @@ public function create_producer_member($context = array(), $fields = array(), $o
     //
     // Validate Fields
     //
-    if (empty($fields['producer'])) {
+    if (!isset($fields['producer'])) {
 	    throw new APIContent_Exception('Field "producer" is mandatory.');
     }
-    if (empty($fields['member'])) {
+    if (!isset($fields['member'])) {
 	    throw new APIContent_Exception('Field "member" is mandatory.');
     }
     $opt['query_string'] = array(
@@ -4125,10 +4472,10 @@ public function update_producer_member($id,$context = array(), $fields = array()
     //
     // Validate Fields
     //
-    if (empty($fields['producer'])) {
+    if (!isset($fields['producer'])) {
 	    throw new APIContent_Exception('Field "producer" is mandatory.');
     }
-    if (empty($fields['member'])) {
+    if (!isset($fields['member'])) {
 	    throw new APIContent_Exception('Field "member" is mandatory.');
     }
     $opt['query_string'] = array(
@@ -4213,23 +4560,6 @@ public function create_subject($context = array(), $fields = array(), $opt = nul
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
-    /*
-     // If the bucket contains uppercase letters...
-    if (preg_match('/[A-Z]/', $bucket)) {
-	    // Throw a warning
-	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
-	
-	    // Force the bucketname to lowercase
-	    $blah = strtolower($bucket);
-    }
-
-    // Validate the APIContent bucket name for creation
-    if (!$this->validate_bucketname_create($bucket)) {
-	    // @codeCoverageIgnoreStart
-	    throw new APIContent_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
-	    // @codeCoverageIgnoreEnd
-    }
-     */
 
     if (!$opt) {
       $opt = array();
@@ -4445,23 +4775,6 @@ public function create_thing($context = array(), $fields = array(), $opt = null)
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
-    /*
-     // If the bucket contains uppercase letters...
-    if (preg_match('/[A-Z]/', $bucket)) {
-	    // Throw a warning
-	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
-	
-	    // Force the bucketname to lowercase
-	    $blah = strtolower($bucket);
-    }
-
-    // Validate the APIContent bucket name for creation
-    if (!$this->validate_bucketname_create($bucket)) {
-	    // @codeCoverageIgnoreStart
-	    throw new APIContent_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
-	    // @codeCoverageIgnoreEnd
-    }
-     */
 
     if (!$opt) {
       $opt = array();
@@ -4655,6 +4968,12 @@ public function update_thing($id,$context = array(), $fields = array(), $opt = n
    * TODO: Pull in description from resource as part of code-gen
    *
    * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $track (Required) 'track' field, which is a 'string' type. (FIELD).
+   * @param string $album (Required) 'album' field, which is a 'string' type. (FIELD).
+   * @param string $disk (Required) 'disk' field, which is a 'string' type. (FIELD).
+   * @param string $bpm (Required) 'bpm' field, which is a 'string' type. (FIELD).
+   * @param string $lyrics (Required) 'lyrics' field, which is a 'string' type. (FIELD).
+   * @param string $composer (Required) 'composer' field, which is a 'string' type. (FIELD).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
    * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
    * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
@@ -4667,23 +4986,6 @@ public function create_track_metadata($context = array(), $fields = array(), $op
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
-    /*
-     // If the bucket contains uppercase letters...
-    if (preg_match('/[A-Z]/', $bucket)) {
-	    // Throw a warning
-	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
-	
-	    // Force the bucketname to lowercase
-	    $blah = strtolower($bucket);
-    }
-
-    // Validate the APIContent bucket name for creation
-    if (!$this->validate_bucketname_create($bucket)) {
-	    // @codeCoverageIgnoreStart
-	    throw new APIContent_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
-	    // @codeCoverageIgnoreEnd
-    }
-     */
 
     if (!$opt) {
       $opt = array();
@@ -4706,6 +5008,24 @@ public function create_track_metadata($context = array(), $fields = array(), $op
     // Populate the query string with optional parameters.
     //
 
+    if (isset($fields['track'])) {
+      $opt['query_string']['track'] = $fields['track'];
+    }
+    if (isset($fields['album'])) {
+      $opt['query_string']['album'] = $fields['album'];
+    }
+    if (isset($fields['disk'])) {
+      $opt['query_string']['disk'] = $fields['disk'];
+    }
+    if (isset($fields['bpm'])) {
+      $opt['query_string']['bpm'] = $fields['bpm'];
+    }
+    if (isset($fields['lyrics'])) {
+      $opt['query_string']['lyrics'] = $fields['lyrics'];
+    }
+    if (isset($fields['composer'])) {
+      $opt['query_string']['composer'] = $fields['composer'];
+    }
 
     //
     // Invoke the service
@@ -4753,6 +5073,12 @@ public function create_track_metadata($context = array(), $fields = array(), $op
    * TODO: Pull in description from resource as part of code-gen
    *
       * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $track (Required) 'track' field, which is a 'string' type. (FIELD).
+   * @param string $album (Required) 'album' field, which is a 'string' type. (FIELD).
+   * @param string $disk (Required) 'disk' field, which is a 'string' type. (FIELD).
+   * @param string $bpm (Required) 'bpm' field, which is a 'string' type. (FIELD).
+   * @param string $lyrics (Required) 'lyrics' field, which is a 'string' type. (FIELD).
+   * @param string $composer (Required) 'composer' field, which is a 'string' type. (FIELD).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
    * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
    * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
@@ -4805,6 +5131,24 @@ public function update_track_metadata($id,$context = array(), $fields = array(),
     // Populate the query string with optional parameters.
     //
 
+    if (isset($fields['track'])) {
+      $opt['query_string']['track'] = $fields['track'];
+    }
+    if (isset($fields['album'])) {
+      $opt['query_string']['album'] = $fields['album'];
+    }
+    if (isset($fields['disk'])) {
+      $opt['query_string']['disk'] = $fields['disk'];
+    }
+    if (isset($fields['bpm'])) {
+      $opt['query_string']['bpm'] = $fields['bpm'];
+    }
+    if (isset($fields['lyrics'])) {
+      $opt['query_string']['lyrics'] = $fields['lyrics'];
+    }
+    if (isset($fields['composer'])) {
+      $opt['query_string']['composer'] = $fields['composer'];
+    }
 
     //
     // Invoke the service
@@ -4870,23 +5214,6 @@ public function create_trophy($context = array(), $fields = array(), $opt = null
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
-    /*
-     // If the bucket contains uppercase letters...
-    if (preg_match('/[A-Z]/', $bucket)) {
-	    // Throw a warning
-	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
-	
-	    // Force the bucketname to lowercase
-	    $blah = strtolower($bucket);
-    }
-
-    // Validate the APIContent bucket name for creation
-    if (!$this->validate_bucketname_create($bucket)) {
-	    // @codeCoverageIgnoreStart
-	    throw new APIContent_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
-	    // @codeCoverageIgnoreEnd
-    }
-     */
 
     if (!$opt) {
       $opt = array();
@@ -4900,7 +5227,7 @@ public function create_trophy($context = array(), $fields = array(), $opt = null
     //
     // Validate Fields
     //
-    if (empty($fields['singleton'])) {
+    if (!isset($fields['singleton'])) {
 	    throw new APIContent_Exception('Field "singleton" is mandatory.');
     }
     if (empty($fields['name'])) {
@@ -5008,7 +5335,7 @@ public function update_trophy($id,$context = array(), $fields = array(), $opt = 
     //
     // Validate Fields
     //
-    if (empty($fields['singleton'])) {
+    if (!isset($fields['singleton'])) {
 	    throw new APIContent_Exception('Field "singleton" is mandatory.');
     }
     if (empty($fields['name'])) {
@@ -5114,10 +5441,10 @@ public function call_add_to_producer($parameters = array(), $opt = null) {
     //
     // Validate Fields
     //
-    if (empty($parameters['key'])) {
+    if (!isset($parameters['key'])) {
 	    throw new APIContent_Exception('Parameter "key" is mandatory.');
     }
-    if (empty($parameters['producer'])) {
+    if (!isset($parameters['producer'])) {
 	    throw new APIContent_Exception('Parameter "producer" is mandatory.');
     }
     $opt['query_string'] = array(
@@ -5219,7 +5546,7 @@ public function call_ingest($parameters = array(), $opt = null) {
     //
     // Validate Fields
     //
-    if (empty($parameters['key'])) {
+    if (!isset($parameters['key'])) {
 	    throw new APIContent_Exception('Parameter "key" is mandatory.');
     }
     if (empty($parameters['url'])) {
@@ -5331,13 +5658,13 @@ public function call_register_consumer($parameters = array(), $opt = null) {
     //
     // Validate Fields
     //
-    if (empty($parameters['key'])) {
+    if (!isset($parameters['key'])) {
 	    throw new APIContent_Exception('Parameter "key" is mandatory.');
     }
     if (empty($parameters['name'])) {
 	    throw new APIContent_Exception('Parameter "name" is mandatory.');
     }
-    if (empty($parameters['member'])) {
+    if (!isset($parameters['member'])) {
 	    throw new APIContent_Exception('Parameter "member" is mandatory.');
     }
     $opt['query_string'] = array(
@@ -5430,7 +5757,7 @@ public function call_register_producer($parameters = array(), $opt = null) {
     //
     // Validate Fields
     //
-    if (empty($parameters['key'])) {
+    if (!isset($parameters['key'])) {
 	    throw new APIContent_Exception('Parameter "key" is mandatory.');
     }
     if (empty($parameters['name'])) {
@@ -5531,10 +5858,10 @@ public function call_remove_from_producer($parameters = array(), $opt = null) {
     //
     // Validate Fields
     //
-    if (empty($parameters['key'])) {
+    if (!isset($parameters['key'])) {
 	    throw new APIContent_Exception('Parameter "key" is mandatory.');
     }
-    if (empty($parameters['producer'])) {
+    if (!isset($parameters['producer'])) {
 	    throw new APIContent_Exception('Parameter "producer" is mandatory.');
     }
     $opt['query_string'] = array(
