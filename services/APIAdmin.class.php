@@ -127,6 +127,512 @@ class ThumbWhereAPIAdmin extends TWRuntime {
 
 	
   /*%******************************************************************************************%*/
+  // 'audio_target' Resource METHODS
+
+  
+  /**
+   * Invokes the CREATE method for the  audio_target resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $format (Required) 'format' field, which is an embedded 'Format' resource. (FIELD).
+   * @param string $campaign (Required) 'campaign' field, which is an embedded 'Campaign' resource. (FIELD).
+   * @param string $server (Required) 'server' field, which is an embedded 'Server' resource. (FIELD).
+   * @param string $servertype (Required) 'servertype' field, which is an embedded 'ServerType' resource. (FIELD).
+   * @param string $name (Required) 'name' field, which is a 'string' type. (FIELD).
+   * @param string $channels (Required) 'channels' field, which is a 'long' type. (FIELD).
+   * @param string $samplerate (Required) 'samplerate' field, which is a 'long' type. (FIELD).
+   * @param string $bitrate (Required) 'bitrate' field, which is a 'long' type. (FIELD).
+   * @param string $target_filesize (Required) 'target_filesize' field, which is a 'long' type. (FIELD).
+   * @param string $secure_filenames (Required) 'secure_filenames' field, which is a 'boolean' type. (FIELD).
+   * @param string $filenamemask (Required) 'filenamemask' field, which is a 'string' type. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
+   */
+						
+public function create_audio_target($context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.create_audio_target' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (!isset($fields['format'])) {
+	    throw new APIAdmin_Exception('Field "format" is mandatory.');
+    }
+    if (!isset($fields['campaign'])) {
+	    throw new APIAdmin_Exception('Field "campaign" is mandatory.');
+    }
+    if (empty($fields['name'])) {
+	    throw new APIAdmin_Exception('Field "name" is mandatory.');
+    }
+    if (!isset($fields['channels'])) {
+	    throw new APIAdmin_Exception('Field "channels" is mandatory.');
+    }
+    if (!isset($fields['samplerate'])) {
+	    throw new APIAdmin_Exception('Field "samplerate" is mandatory.');
+    }
+    if (!isset($fields['bitrate'])) {
+	    throw new APIAdmin_Exception('Field "bitrate" is mandatory.');
+    }
+    $opt['query_string'] = array(
+        '$op' => 'create',
+        '$key' => $context['key'],
+        'format' => $fields['format'],
+        'campaign' => $fields['campaign'],
+        'name' => $fields['name'],
+        'channels' => $fields['channels'],
+        'samplerate' => $fields['samplerate'],
+        'bitrate' => $fields['bitrate'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+    if (isset($fields['server'])) {
+      $opt['query_string']['server'] = $fields['server'];
+    }
+    if (isset($fields['servertype'])) {
+      $opt['query_string']['servertype'] = $fields['servertype'];
+    }
+    if (isset($fields['target_filesize'])) {
+      $opt['query_string']['target_filesize'] = $fields['target_filesize'];
+    }
+    if (isset($fields['secure_filenames'])) {
+      $opt['query_string']['secure_filenames'] = $fields['secure_filenames'];
+    }
+    if (isset($fields['filenamemask'])) {
+      $opt['query_string']['filenamemask'] = $fields['filenamemask'];
+    }
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/audio_target', $opt);
+
+	  if (!isset($response->body)) {
+      $message = 'Error response from server in call to \'create_audio_target\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object. Error when calling \'create_audio_target\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'create_audio_target\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!isset($response->body->audio_target->status)) {
+      $message = 'Error response from server in call to \'create_audio_target\'. Response to \'audio_target\' was expected but was not present';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    $status = $response->body->audio_target->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'create_audio_target\'. Message \'' . $response->body->audio_target->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    return $response;
+  }					
+					
+ /**
+   * Invokes the UPDATE method for the  audio_target resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+      * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $format (Required) 'format' field, which is an embedded 'Format' resource. (FIELD).
+   * @param string $campaign (Required) 'campaign' field, which is an embedded 'Campaign' resource. (FIELD).
+   * @param string $server (Required) 'server' field, which is an embedded 'Server' resource. (FIELD).
+   * @param string $servertype (Required) 'servertype' field, which is an embedded 'ServerType' resource. (FIELD).
+   * @param string $name (Required) 'name' field, which is a 'string' type. (FIELD).
+   * @param string $channels (Required) 'channels' field, which is a 'long' type. (FIELD).
+   * @param string $samplerate (Required) 'samplerate' field, which is a 'long' type. (FIELD).
+   * @param string $bitrate (Required) 'bitrate' field, which is a 'long' type. (FIELD).
+   * @param string $target_filesize (Required) 'target_filesize' field, which is a 'long' type. (FIELD).
+   * @param string $secure_filenames (Required) 'secure_filenames' field, which is a 'boolean' type. (FIELD).
+   * @param string $filenamemask (Required) 'filenamemask' field, which is a 'string' type. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.update Working with ThumbWhere APIContent Buckets
+   */
+						
+public function update_audio_target($id,$context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.update_audio_target' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+    /*
+     // If the bucket contains uppercase letters...
+    if (preg_match('/[A-Z]/', $bucket)) {
+	    // Throw a warning
+	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
+	
+	    // Force the bucketname to lowercase
+	    $blah = strtolower($bucket);
+    }
+
+    // Validate the APIContent bucket name for creation
+    if (!$this->validate_bucketname_update($bucket)) {
+	    // @codeCoverageIgnoreStart
+	    throw new APIAdmin_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
+	    // @codeCoverageIgnoreEnd
+    }
+     */
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (!isset($fields['format'])) {
+	    throw new APIAdmin_Exception('Field "format" is mandatory.');
+    }
+    if (!isset($fields['campaign'])) {
+	    throw new APIAdmin_Exception('Field "campaign" is mandatory.');
+    }
+    if (empty($fields['name'])) {
+	    throw new APIAdmin_Exception('Field "name" is mandatory.');
+    }
+    if (!isset($fields['channels'])) {
+	    throw new APIAdmin_Exception('Field "channels" is mandatory.');
+    }
+    if (!isset($fields['samplerate'])) {
+	    throw new APIAdmin_Exception('Field "samplerate" is mandatory.');
+    }
+    if (!isset($fields['bitrate'])) {
+	    throw new APIAdmin_Exception('Field "bitrate" is mandatory.');
+    }
+    $opt['query_string'] = array(
+        '$op' => 'update',
+        '$id' => $id,
+        '$key' => $context['key'],
+        'format' => $fields['format'],
+        'campaign' => $fields['campaign'],
+        'name' => $fields['name'],
+        'channels' => $fields['channels'],
+        'samplerate' => $fields['samplerate'],
+        'bitrate' => $fields['bitrate'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+    if (isset($fields['server'])) {
+      $opt['query_string']['server'] = $fields['server'];
+    }
+    if (isset($fields['servertype'])) {
+      $opt['query_string']['servertype'] = $fields['servertype'];
+    }
+    if (isset($fields['target_filesize'])) {
+      $opt['query_string']['target_filesize'] = $fields['target_filesize'];
+    }
+    if (isset($fields['secure_filenames'])) {
+      $opt['query_string']['secure_filenames'] = $fields['secure_filenames'];
+    }
+    if (isset($fields['filenamemask'])) {
+      $opt['query_string']['filenamemask'] = $fields['filenamemask'];
+    }
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/audio_target', $opt);
+
+	  if (!isset($response->body)) {
+      $message = 'Error response from server in call to \'update_audio_target\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object. Error when calling \'update_audio_target\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'update_audio_target\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!isset($response->body->audio_target->status)) {
+      $message = 'Error response from server in call to \'update_audio_target\'. Response to \'audio_target\' was expected but was not present';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    $status = $response->body->audio_target->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'update_audio_target\'. Message \'' . $response->body->audio_target->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    return $response;
+  }
+	
+  /*%******************************************************************************************%*/
+  // 'host' Resource METHODS
+
+  
+  /**
+   * Invokes the CREATE method for the  host resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $hosttype (Required) 'hosttype' field, which is an embedded 'HostType' resource. (FIELD).
+   * @param string $hostcredential (Required) 'hostcredential' field, which is an embedded 'HostCredential' resource. (FIELD).
+   * @param string $address (Required) 'address' field, which is a 'string' type. (FIELD).
+   * @param string $online (Required) 'online' field, which is a 'boolean' type. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
+   */
+						
+public function create_host($context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.create_host' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (!isset($fields['hosttype'])) {
+	    throw new APIAdmin_Exception('Field "hosttype" is mandatory.');
+    }
+    if (!isset($fields['hostcredential'])) {
+	    throw new APIAdmin_Exception('Field "hostcredential" is mandatory.');
+    }
+    if (empty($fields['address'])) {
+	    throw new APIAdmin_Exception('Field "address" is mandatory.');
+    }
+    $opt['query_string'] = array(
+        '$op' => 'create',
+        '$key' => $context['key'],
+        'hosttype' => $fields['hosttype'],
+        'hostcredential' => $fields['hostcredential'],
+        'address' => $fields['address'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+    if (isset($fields['online'])) {
+      $opt['query_string']['online'] = $fields['online'];
+    }
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/host', $opt);
+
+	  if (!isset($response->body)) {
+      $message = 'Error response from server in call to \'create_host\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object. Error when calling \'create_host\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'create_host\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!isset($response->body->host->status)) {
+      $message = 'Error response from server in call to \'create_host\'. Response to \'host\' was expected but was not present';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    $status = $response->body->host->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'create_host\'. Message \'' . $response->body->host->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    return $response;
+  }					
+					
+ /**
+   * Invokes the UPDATE method for the  host resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+      * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $hosttype (Required) 'hosttype' field, which is an embedded 'HostType' resource. (FIELD).
+   * @param string $hostcredential (Required) 'hostcredential' field, which is an embedded 'HostCredential' resource. (FIELD).
+   * @param string $address (Required) 'address' field, which is a 'string' type. (FIELD).
+   * @param string $online (Required) 'online' field, which is a 'boolean' type. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.update Working with ThumbWhere APIContent Buckets
+   */
+						
+public function update_host($id,$context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.update_host' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+    /*
+     // If the bucket contains uppercase letters...
+    if (preg_match('/[A-Z]/', $bucket)) {
+	    // Throw a warning
+	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
+	
+	    // Force the bucketname to lowercase
+	    $blah = strtolower($bucket);
+    }
+
+    // Validate the APIContent bucket name for creation
+    if (!$this->validate_bucketname_update($bucket)) {
+	    // @codeCoverageIgnoreStart
+	    throw new APIAdmin_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
+	    // @codeCoverageIgnoreEnd
+    }
+     */
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (!isset($fields['hosttype'])) {
+	    throw new APIAdmin_Exception('Field "hosttype" is mandatory.');
+    }
+    if (!isset($fields['hostcredential'])) {
+	    throw new APIAdmin_Exception('Field "hostcredential" is mandatory.');
+    }
+    if (empty($fields['address'])) {
+	    throw new APIAdmin_Exception('Field "address" is mandatory.');
+    }
+    $opt['query_string'] = array(
+        '$op' => 'update',
+        '$id' => $id,
+        '$key' => $context['key'],
+        'hosttype' => $fields['hosttype'],
+        'hostcredential' => $fields['hostcredential'],
+        'address' => $fields['address'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+    if (isset($fields['online'])) {
+      $opt['query_string']['online'] = $fields['online'];
+    }
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/host', $opt);
+
+	  if (!isset($response->body)) {
+      $message = 'Error response from server in call to \'update_host\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object. Error when calling \'update_host\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'update_host\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!isset($response->body->host->status)) {
+      $message = 'Error response from server in call to \'update_host\'. Response to \'host\' was expected but was not present';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    $status = $response->body->host->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'update_host\'. Message \'' . $response->body->host->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    return $response;
+  }
+	
+  /*%******************************************************************************************%*/
   // 'host_command' Resource METHODS
 
   
@@ -353,6 +859,2494 @@ public function update_host_command($id,$context = array(), $fields = array(), $
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'update_host_command\'. Message \'' . $response->body->host_command->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    return $response;
+  }
+	
+  /*%******************************************************************************************%*/
+  // 'host_command_template' Resource METHODS
+
+  
+  /**
+   * Invokes the CREATE method for the  host_command_template resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $name (Required) 'name' field, which is a 'string' type. (FIELD).
+   * @param string $hostroletype (Required) 'hostroletype' field, which is an embedded 'HostRoleType' resource. (FIELD).
+   * @param string $hostcommandtemplatetype (Required) 'hostcommandtemplatetype' field, which is an embedded 'HostCommandTemplateType' resource. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
+   */
+						
+public function create_host_command_template($context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.create_host_command_template' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (empty($fields['name'])) {
+	    throw new APIAdmin_Exception('Field "name" is mandatory.');
+    }
+    if (!isset($fields['hostroletype'])) {
+	    throw new APIAdmin_Exception('Field "hostroletype" is mandatory.');
+    }
+    if (!isset($fields['hostcommandtemplatetype'])) {
+	    throw new APIAdmin_Exception('Field "hostcommandtemplatetype" is mandatory.');
+    }
+    $opt['query_string'] = array(
+        '$op' => 'create',
+        '$key' => $context['key'],
+        'name' => $fields['name'],
+        'hostroletype' => $fields['hostroletype'],
+        'hostcommandtemplatetype' => $fields['hostcommandtemplatetype'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/host_command_template', $opt);
+
+	  if (!isset($response->body)) {
+      $message = 'Error response from server in call to \'create_host_command_template\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object. Error when calling \'create_host_command_template\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'create_host_command_template\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!isset($response->body->host_command_template->status)) {
+      $message = 'Error response from server in call to \'create_host_command_template\'. Response to \'host_command_template\' was expected but was not present';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    $status = $response->body->host_command_template->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'create_host_command_template\'. Message \'' . $response->body->host_command_template->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    return $response;
+  }					
+					
+ /**
+   * Invokes the UPDATE method for the  host_command_template resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+      * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $name (Required) 'name' field, which is a 'string' type. (FIELD).
+   * @param string $hostroletype (Required) 'hostroletype' field, which is an embedded 'HostRoleType' resource. (FIELD).
+   * @param string $hostcommandtemplatetype (Required) 'hostcommandtemplatetype' field, which is an embedded 'HostCommandTemplateType' resource. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.update Working with ThumbWhere APIContent Buckets
+   */
+						
+public function update_host_command_template($id,$context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.update_host_command_template' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+    /*
+     // If the bucket contains uppercase letters...
+    if (preg_match('/[A-Z]/', $bucket)) {
+	    // Throw a warning
+	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
+	
+	    // Force the bucketname to lowercase
+	    $blah = strtolower($bucket);
+    }
+
+    // Validate the APIContent bucket name for creation
+    if (!$this->validate_bucketname_update($bucket)) {
+	    // @codeCoverageIgnoreStart
+	    throw new APIAdmin_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
+	    // @codeCoverageIgnoreEnd
+    }
+     */
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (empty($fields['name'])) {
+	    throw new APIAdmin_Exception('Field "name" is mandatory.');
+    }
+    if (!isset($fields['hostroletype'])) {
+	    throw new APIAdmin_Exception('Field "hostroletype" is mandatory.');
+    }
+    if (!isset($fields['hostcommandtemplatetype'])) {
+	    throw new APIAdmin_Exception('Field "hostcommandtemplatetype" is mandatory.');
+    }
+    $opt['query_string'] = array(
+        '$op' => 'update',
+        '$id' => $id,
+        '$key' => $context['key'],
+        'name' => $fields['name'],
+        'hostroletype' => $fields['hostroletype'],
+        'hostcommandtemplatetype' => $fields['hostcommandtemplatetype'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/host_command_template', $opt);
+
+	  if (!isset($response->body)) {
+      $message = 'Error response from server in call to \'update_host_command_template\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object. Error when calling \'update_host_command_template\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'update_host_command_template\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!isset($response->body->host_command_template->status)) {
+      $message = 'Error response from server in call to \'update_host_command_template\'. Response to \'host_command_template\' was expected but was not present';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    $status = $response->body->host_command_template->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'update_host_command_template\'. Message \'' . $response->body->host_command_template->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    return $response;
+  }
+	
+  /*%******************************************************************************************%*/
+  // 'host_command_template_type' Resource METHODS
+
+  
+  /**
+   * Invokes the CREATE method for the  host_command_template_type resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $name (Required) 'name' field, which is a 'string' type. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
+   */
+						
+public function create_host_command_template_type($context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.create_host_command_template_type' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (empty($fields['name'])) {
+	    throw new APIAdmin_Exception('Field "name" is mandatory.');
+    }
+    $opt['query_string'] = array(
+        '$op' => 'create',
+        '$key' => $context['key'],
+        'name' => $fields['name'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/host_command_template_type', $opt);
+
+	  if (!isset($response->body)) {
+      $message = 'Error response from server in call to \'create_host_command_template_type\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object. Error when calling \'create_host_command_template_type\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'create_host_command_template_type\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!isset($response->body->host_command_template_type->status)) {
+      $message = 'Error response from server in call to \'create_host_command_template_type\'. Response to \'host_command_template_type\' was expected but was not present';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    $status = $response->body->host_command_template_type->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'create_host_command_template_type\'. Message \'' . $response->body->host_command_template_type->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    return $response;
+  }					
+					
+ /**
+   * Invokes the UPDATE method for the  host_command_template_type resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+      * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $name (Required) 'name' field, which is a 'string' type. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.update Working with ThumbWhere APIContent Buckets
+   */
+						
+public function update_host_command_template_type($id,$context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.update_host_command_template_type' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+    /*
+     // If the bucket contains uppercase letters...
+    if (preg_match('/[A-Z]/', $bucket)) {
+	    // Throw a warning
+	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
+	
+	    // Force the bucketname to lowercase
+	    $blah = strtolower($bucket);
+    }
+
+    // Validate the APIContent bucket name for creation
+    if (!$this->validate_bucketname_update($bucket)) {
+	    // @codeCoverageIgnoreStart
+	    throw new APIAdmin_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
+	    // @codeCoverageIgnoreEnd
+    }
+     */
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (empty($fields['name'])) {
+	    throw new APIAdmin_Exception('Field "name" is mandatory.');
+    }
+    $opt['query_string'] = array(
+        '$op' => 'update',
+        '$id' => $id,
+        '$key' => $context['key'],
+        'name' => $fields['name'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/host_command_template_type', $opt);
+
+	  if (!isset($response->body)) {
+      $message = 'Error response from server in call to \'update_host_command_template_type\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object. Error when calling \'update_host_command_template_type\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'update_host_command_template_type\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!isset($response->body->host_command_template_type->status)) {
+      $message = 'Error response from server in call to \'update_host_command_template_type\'. Response to \'host_command_template_type\' was expected but was not present';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    $status = $response->body->host_command_template_type->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'update_host_command_template_type\'. Message \'' . $response->body->host_command_template_type->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    return $response;
+  }
+	
+  /*%******************************************************************************************%*/
+  // 'host_credential' Resource METHODS
+
+  
+  /**
+   * Invokes the CREATE method for the  host_credential resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $hostprovideraccount (Required) 'hostprovideraccount' field, which is an embedded 'HostProviderAccount' resource. (FIELD).
+   * @param string $username (Required) 'username' field, which is a 'string' type. (FIELD).
+   * @param string $password (Required) 'password' field, which is a 'string' type. (FIELD).
+   * @param string $sshprivatekey (Required) 'sshprivatekey' field, which is a 'string' type. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
+   */
+						
+public function create_host_credential($context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.create_host_credential' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    $opt['query_string'] = array(
+        '$op' => 'create',
+        '$key' => $context['key'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+    if (isset($fields['hostprovideraccount'])) {
+      $opt['query_string']['hostprovideraccount'] = $fields['hostprovideraccount'];
+    }
+    if (isset($fields['username'])) {
+      $opt['query_string']['username'] = $fields['username'];
+    }
+    if (isset($fields['password'])) {
+      $opt['query_string']['password'] = $fields['password'];
+    }
+    if (isset($fields['sshprivatekey'])) {
+      $opt['query_string']['sshprivatekey'] = $fields['sshprivatekey'];
+    }
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/host_credential', $opt);
+
+	  if (!isset($response->body)) {
+      $message = 'Error response from server in call to \'create_host_credential\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object. Error when calling \'create_host_credential\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'create_host_credential\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!isset($response->body->host_credential->status)) {
+      $message = 'Error response from server in call to \'create_host_credential\'. Response to \'host_credential\' was expected but was not present';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    $status = $response->body->host_credential->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'create_host_credential\'. Message \'' . $response->body->host_credential->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    return $response;
+  }					
+					
+ /**
+   * Invokes the UPDATE method for the  host_credential resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+      * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $hostprovideraccount (Required) 'hostprovideraccount' field, which is an embedded 'HostProviderAccount' resource. (FIELD).
+   * @param string $username (Required) 'username' field, which is a 'string' type. (FIELD).
+   * @param string $password (Required) 'password' field, which is a 'string' type. (FIELD).
+   * @param string $sshprivatekey (Required) 'sshprivatekey' field, which is a 'string' type. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.update Working with ThumbWhere APIContent Buckets
+   */
+						
+public function update_host_credential($id,$context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.update_host_credential' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+    /*
+     // If the bucket contains uppercase letters...
+    if (preg_match('/[A-Z]/', $bucket)) {
+	    // Throw a warning
+	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
+	
+	    // Force the bucketname to lowercase
+	    $blah = strtolower($bucket);
+    }
+
+    // Validate the APIContent bucket name for creation
+    if (!$this->validate_bucketname_update($bucket)) {
+	    // @codeCoverageIgnoreStart
+	    throw new APIAdmin_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
+	    // @codeCoverageIgnoreEnd
+    }
+     */
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    $opt['query_string'] = array(
+        '$op' => 'update',
+        '$id' => $id,
+        '$key' => $context['key'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+    if (isset($fields['hostprovideraccount'])) {
+      $opt['query_string']['hostprovideraccount'] = $fields['hostprovideraccount'];
+    }
+    if (isset($fields['username'])) {
+      $opt['query_string']['username'] = $fields['username'];
+    }
+    if (isset($fields['password'])) {
+      $opt['query_string']['password'] = $fields['password'];
+    }
+    if (isset($fields['sshprivatekey'])) {
+      $opt['query_string']['sshprivatekey'] = $fields['sshprivatekey'];
+    }
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/host_credential', $opt);
+
+	  if (!isset($response->body)) {
+      $message = 'Error response from server in call to \'update_host_credential\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object. Error when calling \'update_host_credential\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'update_host_credential\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!isset($response->body->host_credential->status)) {
+      $message = 'Error response from server in call to \'update_host_credential\'. Response to \'host_credential\' was expected but was not present';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    $status = $response->body->host_credential->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'update_host_credential\'. Message \'' . $response->body->host_credential->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    return $response;
+  }
+	
+  /*%******************************************************************************************%*/
+  // 'host_log_entry' Resource METHODS
+
+  
+  /**
+   * Invokes the CREATE method for the  host_log_entry resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $log (Required) 'log' field, which is a 'string' type. (FIELD).
+   * @param string $hostcommand (Required) 'hostcommand' field, which is an embedded 'HostCommand' resource. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
+   */
+						
+public function create_host_log_entry($context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.create_host_log_entry' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (empty($fields['log'])) {
+	    throw new APIAdmin_Exception('Field "log" is mandatory.');
+    }
+    if (!isset($fields['hostcommand'])) {
+	    throw new APIAdmin_Exception('Field "hostcommand" is mandatory.');
+    }
+    $opt['query_string'] = array(
+        '$op' => 'create',
+        '$key' => $context['key'],
+        'log' => $fields['log'],
+        'hostcommand' => $fields['hostcommand'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/host_log_entry', $opt);
+
+	  if (!isset($response->body)) {
+      $message = 'Error response from server in call to \'create_host_log_entry\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object. Error when calling \'create_host_log_entry\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'create_host_log_entry\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!isset($response->body->host_log_entry->status)) {
+      $message = 'Error response from server in call to \'create_host_log_entry\'. Response to \'host_log_entry\' was expected but was not present';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    $status = $response->body->host_log_entry->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'create_host_log_entry\'. Message \'' . $response->body->host_log_entry->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    return $response;
+  }					
+					
+ /**
+   * Invokes the UPDATE method for the  host_log_entry resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+      * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $log (Required) 'log' field, which is a 'string' type. (FIELD).
+   * @param string $hostcommand (Required) 'hostcommand' field, which is an embedded 'HostCommand' resource. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.update Working with ThumbWhere APIContent Buckets
+   */
+						
+public function update_host_log_entry($id,$context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.update_host_log_entry' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+    /*
+     // If the bucket contains uppercase letters...
+    if (preg_match('/[A-Z]/', $bucket)) {
+	    // Throw a warning
+	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
+	
+	    // Force the bucketname to lowercase
+	    $blah = strtolower($bucket);
+    }
+
+    // Validate the APIContent bucket name for creation
+    if (!$this->validate_bucketname_update($bucket)) {
+	    // @codeCoverageIgnoreStart
+	    throw new APIAdmin_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
+	    // @codeCoverageIgnoreEnd
+    }
+     */
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (empty($fields['log'])) {
+	    throw new APIAdmin_Exception('Field "log" is mandatory.');
+    }
+    if (!isset($fields['hostcommand'])) {
+	    throw new APIAdmin_Exception('Field "hostcommand" is mandatory.');
+    }
+    $opt['query_string'] = array(
+        '$op' => 'update',
+        '$id' => $id,
+        '$key' => $context['key'],
+        'log' => $fields['log'],
+        'hostcommand' => $fields['hostcommand'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/host_log_entry', $opt);
+
+	  if (!isset($response->body)) {
+      $message = 'Error response from server in call to \'update_host_log_entry\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object. Error when calling \'update_host_log_entry\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'update_host_log_entry\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!isset($response->body->host_log_entry->status)) {
+      $message = 'Error response from server in call to \'update_host_log_entry\'. Response to \'host_log_entry\' was expected but was not present';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    $status = $response->body->host_log_entry->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'update_host_log_entry\'. Message \'' . $response->body->host_log_entry->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    return $response;
+  }
+	
+  /*%******************************************************************************************%*/
+  // 'host_order' Resource METHODS
+
+  
+  /**
+   * Invokes the CREATE method for the  host_order resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $hostcredential (Required) 'hostcredential' field, which is an embedded 'HostCredential' resource. (FIELD).
+   * @param string $host (Required) 'host' field, which is an embedded 'Host' resource. (FIELD).
+   * @param string $address (Required) 'address' field, which is a 'string' type. (FIELD).
+   * @param string $processing (Required) 'processing' field, which is a 'boolean' type. (FIELD).
+   * @param string $completed (Required) 'completed' field, which is a 'boolean' type. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
+   */
+						
+public function create_host_order($context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.create_host_order' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (!isset($fields['hostcredential'])) {
+	    throw new APIAdmin_Exception('Field "hostcredential" is mandatory.');
+    }
+    if (!isset($fields['processing'])) {
+	    throw new APIAdmin_Exception('Field "processing" is mandatory.');
+    }
+    if (!isset($fields['completed'])) {
+	    throw new APIAdmin_Exception('Field "completed" is mandatory.');
+    }
+    $opt['query_string'] = array(
+        '$op' => 'create',
+        '$key' => $context['key'],
+        'hostcredential' => $fields['hostcredential'],
+        'processing' => $fields['processing'],
+        'completed' => $fields['completed'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+    if (isset($fields['host'])) {
+      $opt['query_string']['host'] = $fields['host'];
+    }
+    if (isset($fields['address'])) {
+      $opt['query_string']['address'] = $fields['address'];
+    }
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/host_order', $opt);
+
+	  if (!isset($response->body)) {
+      $message = 'Error response from server in call to \'create_host_order\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object. Error when calling \'create_host_order\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'create_host_order\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!isset($response->body->host_order->status)) {
+      $message = 'Error response from server in call to \'create_host_order\'. Response to \'host_order\' was expected but was not present';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    $status = $response->body->host_order->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'create_host_order\'. Message \'' . $response->body->host_order->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    return $response;
+  }					
+					
+ /**
+   * Invokes the UPDATE method for the  host_order resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+      * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $hostcredential (Required) 'hostcredential' field, which is an embedded 'HostCredential' resource. (FIELD).
+   * @param string $host (Required) 'host' field, which is an embedded 'Host' resource. (FIELD).
+   * @param string $address (Required) 'address' field, which is a 'string' type. (FIELD).
+   * @param string $processing (Required) 'processing' field, which is a 'boolean' type. (FIELD).
+   * @param string $completed (Required) 'completed' field, which is a 'boolean' type. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.update Working with ThumbWhere APIContent Buckets
+   */
+						
+public function update_host_order($id,$context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.update_host_order' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+    /*
+     // If the bucket contains uppercase letters...
+    if (preg_match('/[A-Z]/', $bucket)) {
+	    // Throw a warning
+	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
+	
+	    // Force the bucketname to lowercase
+	    $blah = strtolower($bucket);
+    }
+
+    // Validate the APIContent bucket name for creation
+    if (!$this->validate_bucketname_update($bucket)) {
+	    // @codeCoverageIgnoreStart
+	    throw new APIAdmin_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
+	    // @codeCoverageIgnoreEnd
+    }
+     */
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (!isset($fields['hostcredential'])) {
+	    throw new APIAdmin_Exception('Field "hostcredential" is mandatory.');
+    }
+    if (!isset($fields['processing'])) {
+	    throw new APIAdmin_Exception('Field "processing" is mandatory.');
+    }
+    if (!isset($fields['completed'])) {
+	    throw new APIAdmin_Exception('Field "completed" is mandatory.');
+    }
+    $opt['query_string'] = array(
+        '$op' => 'update',
+        '$id' => $id,
+        '$key' => $context['key'],
+        'hostcredential' => $fields['hostcredential'],
+        'processing' => $fields['processing'],
+        'completed' => $fields['completed'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+    if (isset($fields['host'])) {
+      $opt['query_string']['host'] = $fields['host'];
+    }
+    if (isset($fields['address'])) {
+      $opt['query_string']['address'] = $fields['address'];
+    }
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/host_order', $opt);
+
+	  if (!isset($response->body)) {
+      $message = 'Error response from server in call to \'update_host_order\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object. Error when calling \'update_host_order\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'update_host_order\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!isset($response->body->host_order->status)) {
+      $message = 'Error response from server in call to \'update_host_order\'. Response to \'host_order\' was expected but was not present';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    $status = $response->body->host_order->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'update_host_order\'. Message \'' . $response->body->host_order->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    return $response;
+  }
+	
+  /*%******************************************************************************************%*/
+  // 'host_provider' Resource METHODS
+
+  
+  /**
+   * Invokes the CREATE method for the  host_provider resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $name (Required) 'name' field, which is a 'string' type. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
+   */
+						
+public function create_host_provider($context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.create_host_provider' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (empty($fields['name'])) {
+	    throw new APIAdmin_Exception('Field "name" is mandatory.');
+    }
+    $opt['query_string'] = array(
+        '$op' => 'create',
+        '$key' => $context['key'],
+        'name' => $fields['name'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/host_provider', $opt);
+
+	  if (!isset($response->body)) {
+      $message = 'Error response from server in call to \'create_host_provider\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object. Error when calling \'create_host_provider\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'create_host_provider\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!isset($response->body->host_provider->status)) {
+      $message = 'Error response from server in call to \'create_host_provider\'. Response to \'host_provider\' was expected but was not present';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    $status = $response->body->host_provider->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'create_host_provider\'. Message \'' . $response->body->host_provider->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    return $response;
+  }					
+					
+ /**
+   * Invokes the UPDATE method for the  host_provider resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+      * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $name (Required) 'name' field, which is a 'string' type. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.update Working with ThumbWhere APIContent Buckets
+   */
+						
+public function update_host_provider($id,$context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.update_host_provider' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+    /*
+     // If the bucket contains uppercase letters...
+    if (preg_match('/[A-Z]/', $bucket)) {
+	    // Throw a warning
+	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
+	
+	    // Force the bucketname to lowercase
+	    $blah = strtolower($bucket);
+    }
+
+    // Validate the APIContent bucket name for creation
+    if (!$this->validate_bucketname_update($bucket)) {
+	    // @codeCoverageIgnoreStart
+	    throw new APIAdmin_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
+	    // @codeCoverageIgnoreEnd
+    }
+     */
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (empty($fields['name'])) {
+	    throw new APIAdmin_Exception('Field "name" is mandatory.');
+    }
+    $opt['query_string'] = array(
+        '$op' => 'update',
+        '$id' => $id,
+        '$key' => $context['key'],
+        'name' => $fields['name'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/host_provider', $opt);
+
+	  if (!isset($response->body)) {
+      $message = 'Error response from server in call to \'update_host_provider\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object. Error when calling \'update_host_provider\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'update_host_provider\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!isset($response->body->host_provider->status)) {
+      $message = 'Error response from server in call to \'update_host_provider\'. Response to \'host_provider\' was expected but was not present';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    $status = $response->body->host_provider->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'update_host_provider\'. Message \'' . $response->body->host_provider->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    return $response;
+  }
+	
+  /*%******************************************************************************************%*/
+  // 'host_provider_account' Resource METHODS
+
+  
+  /**
+   * Invokes the CREATE method for the  host_provider_account resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $name (Required) 'name' field, which is a 'string' type. (FIELD).
+   * @param string $token (Required) 'token' field, which is a 'string' type. (FIELD).
+   * @param string $secret (Required) 'secret' field, which is a 'string' type. (FIELD).
+   * @param string $campaign (Required) 'campaign' field, which is an embedded 'Campaign' resource. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
+   */
+						
+public function create_host_provider_account($context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.create_host_provider_account' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (empty($fields['name'])) {
+	    throw new APIAdmin_Exception('Field "name" is mandatory.');
+    }
+    $opt['query_string'] = array(
+        '$op' => 'create',
+        '$key' => $context['key'],
+        'name' => $fields['name'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+    if (isset($fields['token'])) {
+      $opt['query_string']['token'] = $fields['token'];
+    }
+    if (isset($fields['secret'])) {
+      $opt['query_string']['secret'] = $fields['secret'];
+    }
+    if (isset($fields['campaign'])) {
+      $opt['query_string']['campaign'] = $fields['campaign'];
+    }
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/host_provider_account', $opt);
+
+	  if (!isset($response->body)) {
+      $message = 'Error response from server in call to \'create_host_provider_account\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object. Error when calling \'create_host_provider_account\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'create_host_provider_account\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!isset($response->body->host_provider_account->status)) {
+      $message = 'Error response from server in call to \'create_host_provider_account\'. Response to \'host_provider_account\' was expected but was not present';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    $status = $response->body->host_provider_account->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'create_host_provider_account\'. Message \'' . $response->body->host_provider_account->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    return $response;
+  }					
+					
+ /**
+   * Invokes the UPDATE method for the  host_provider_account resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+      * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $name (Required) 'name' field, which is a 'string' type. (FIELD).
+   * @param string $token (Required) 'token' field, which is a 'string' type. (FIELD).
+   * @param string $secret (Required) 'secret' field, which is a 'string' type. (FIELD).
+   * @param string $campaign (Required) 'campaign' field, which is an embedded 'Campaign' resource. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.update Working with ThumbWhere APIContent Buckets
+   */
+						
+public function update_host_provider_account($id,$context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.update_host_provider_account' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+    /*
+     // If the bucket contains uppercase letters...
+    if (preg_match('/[A-Z]/', $bucket)) {
+	    // Throw a warning
+	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
+	
+	    // Force the bucketname to lowercase
+	    $blah = strtolower($bucket);
+    }
+
+    // Validate the APIContent bucket name for creation
+    if (!$this->validate_bucketname_update($bucket)) {
+	    // @codeCoverageIgnoreStart
+	    throw new APIAdmin_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
+	    // @codeCoverageIgnoreEnd
+    }
+     */
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (empty($fields['name'])) {
+	    throw new APIAdmin_Exception('Field "name" is mandatory.');
+    }
+    $opt['query_string'] = array(
+        '$op' => 'update',
+        '$id' => $id,
+        '$key' => $context['key'],
+        'name' => $fields['name'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+    if (isset($fields['token'])) {
+      $opt['query_string']['token'] = $fields['token'];
+    }
+    if (isset($fields['secret'])) {
+      $opt['query_string']['secret'] = $fields['secret'];
+    }
+    if (isset($fields['campaign'])) {
+      $opt['query_string']['campaign'] = $fields['campaign'];
+    }
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/host_provider_account', $opt);
+
+	  if (!isset($response->body)) {
+      $message = 'Error response from server in call to \'update_host_provider_account\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object. Error when calling \'update_host_provider_account\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'update_host_provider_account\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!isset($response->body->host_provider_account->status)) {
+      $message = 'Error response from server in call to \'update_host_provider_account\'. Response to \'host_provider_account\' was expected but was not present';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    $status = $response->body->host_provider_account->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'update_host_provider_account\'. Message \'' . $response->body->host_provider_account->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    return $response;
+  }
+	
+  /*%******************************************************************************************%*/
+  // 'host_provider_host_type' Resource METHODS
+
+  
+  /**
+   * Invokes the CREATE method for the  host_provider_host_type resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $hostprovider (Required) 'hostprovider' field, which is an embedded 'HostProvider' resource. (FIELD).
+   * @param string $hosttype (Required) 'hosttype' field, which is an embedded 'HostType' resource. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
+   */
+						
+public function create_host_provider_host_type($context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.create_host_provider_host_type' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (!isset($fields['hostprovider'])) {
+	    throw new APIAdmin_Exception('Field "hostprovider" is mandatory.');
+    }
+    if (!isset($fields['hosttype'])) {
+	    throw new APIAdmin_Exception('Field "hosttype" is mandatory.');
+    }
+    $opt['query_string'] = array(
+        '$op' => 'create',
+        '$key' => $context['key'],
+        'hostprovider' => $fields['hostprovider'],
+        'hosttype' => $fields['hosttype'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/host_provider_host_type', $opt);
+
+	  if (!isset($response->body)) {
+      $message = 'Error response from server in call to \'create_host_provider_host_type\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object. Error when calling \'create_host_provider_host_type\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'create_host_provider_host_type\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!isset($response->body->host_provider_host_type->status)) {
+      $message = 'Error response from server in call to \'create_host_provider_host_type\'. Response to \'host_provider_host_type\' was expected but was not present';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    $status = $response->body->host_provider_host_type->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'create_host_provider_host_type\'. Message \'' . $response->body->host_provider_host_type->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    return $response;
+  }					
+					
+ /**
+   * Invokes the UPDATE method for the  host_provider_host_type resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+      * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $hostprovider (Required) 'hostprovider' field, which is an embedded 'HostProvider' resource. (FIELD).
+   * @param string $hosttype (Required) 'hosttype' field, which is an embedded 'HostType' resource. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.update Working with ThumbWhere APIContent Buckets
+   */
+						
+public function update_host_provider_host_type($id,$context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.update_host_provider_host_type' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+    /*
+     // If the bucket contains uppercase letters...
+    if (preg_match('/[A-Z]/', $bucket)) {
+	    // Throw a warning
+	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
+	
+	    // Force the bucketname to lowercase
+	    $blah = strtolower($bucket);
+    }
+
+    // Validate the APIContent bucket name for creation
+    if (!$this->validate_bucketname_update($bucket)) {
+	    // @codeCoverageIgnoreStart
+	    throw new APIAdmin_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
+	    // @codeCoverageIgnoreEnd
+    }
+     */
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (!isset($fields['hostprovider'])) {
+	    throw new APIAdmin_Exception('Field "hostprovider" is mandatory.');
+    }
+    if (!isset($fields['hosttype'])) {
+	    throw new APIAdmin_Exception('Field "hosttype" is mandatory.');
+    }
+    $opt['query_string'] = array(
+        '$op' => 'update',
+        '$id' => $id,
+        '$key' => $context['key'],
+        'hostprovider' => $fields['hostprovider'],
+        'hosttype' => $fields['hosttype'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/host_provider_host_type', $opt);
+
+	  if (!isset($response->body)) {
+      $message = 'Error response from server in call to \'update_host_provider_host_type\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object. Error when calling \'update_host_provider_host_type\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'update_host_provider_host_type\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!isset($response->body->host_provider_host_type->status)) {
+      $message = 'Error response from server in call to \'update_host_provider_host_type\'. Response to \'host_provider_host_type\' was expected but was not present';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    $status = $response->body->host_provider_host_type->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'update_host_provider_host_type\'. Message \'' . $response->body->host_provider_host_type->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    return $response;
+  }
+	
+  /*%******************************************************************************************%*/
+  // 'host_role' Resource METHODS
+
+  
+  /**
+   * Invokes the CREATE method for the  host_role resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $host (Required) 'host' field, which is an embedded 'Host' resource. (FIELD).
+   * @param string $hosttype (Required) 'hosttype' field, which is an embedded 'HostType' resource. (FIELD).
+   * @param string $hostorder (Required) 'hostorder' field, which is an embedded 'HostOrder' resource. (FIELD).
+   * @param string $enabled (Required) 'enabled' field, which is a 'boolean' type. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
+   */
+						
+public function create_host_role($context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.create_host_role' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (!isset($fields['hosttype'])) {
+	    throw new APIAdmin_Exception('Field "hosttype" is mandatory.');
+    }
+    if (!isset($fields['hostorder'])) {
+	    throw new APIAdmin_Exception('Field "hostorder" is mandatory.');
+    }
+    if (!isset($fields['enabled'])) {
+	    throw new APIAdmin_Exception('Field "enabled" is mandatory.');
+    }
+    $opt['query_string'] = array(
+        '$op' => 'create',
+        '$key' => $context['key'],
+        'hosttype' => $fields['hosttype'],
+        'hostorder' => $fields['hostorder'],
+        'enabled' => $fields['enabled'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+    if (isset($fields['host'])) {
+      $opt['query_string']['host'] = $fields['host'];
+    }
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/host_role', $opt);
+
+	  if (!isset($response->body)) {
+      $message = 'Error response from server in call to \'create_host_role\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object. Error when calling \'create_host_role\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'create_host_role\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!isset($response->body->host_role->status)) {
+      $message = 'Error response from server in call to \'create_host_role\'. Response to \'host_role\' was expected but was not present';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    $status = $response->body->host_role->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'create_host_role\'. Message \'' . $response->body->host_role->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    return $response;
+  }					
+					
+ /**
+   * Invokes the UPDATE method for the  host_role resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+      * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $host (Required) 'host' field, which is an embedded 'Host' resource. (FIELD).
+   * @param string $hosttype (Required) 'hosttype' field, which is an embedded 'HostType' resource. (FIELD).
+   * @param string $hostorder (Required) 'hostorder' field, which is an embedded 'HostOrder' resource. (FIELD).
+   * @param string $enabled (Required) 'enabled' field, which is a 'boolean' type. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.update Working with ThumbWhere APIContent Buckets
+   */
+						
+public function update_host_role($id,$context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.update_host_role' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+    /*
+     // If the bucket contains uppercase letters...
+    if (preg_match('/[A-Z]/', $bucket)) {
+	    // Throw a warning
+	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
+	
+	    // Force the bucketname to lowercase
+	    $blah = strtolower($bucket);
+    }
+
+    // Validate the APIContent bucket name for creation
+    if (!$this->validate_bucketname_update($bucket)) {
+	    // @codeCoverageIgnoreStart
+	    throw new APIAdmin_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
+	    // @codeCoverageIgnoreEnd
+    }
+     */
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (!isset($fields['hosttype'])) {
+	    throw new APIAdmin_Exception('Field "hosttype" is mandatory.');
+    }
+    if (!isset($fields['hostorder'])) {
+	    throw new APIAdmin_Exception('Field "hostorder" is mandatory.');
+    }
+    if (!isset($fields['enabled'])) {
+	    throw new APIAdmin_Exception('Field "enabled" is mandatory.');
+    }
+    $opt['query_string'] = array(
+        '$op' => 'update',
+        '$id' => $id,
+        '$key' => $context['key'],
+        'hosttype' => $fields['hosttype'],
+        'hostorder' => $fields['hostorder'],
+        'enabled' => $fields['enabled'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+    if (isset($fields['host'])) {
+      $opt['query_string']['host'] = $fields['host'];
+    }
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/host_role', $opt);
+
+	  if (!isset($response->body)) {
+      $message = 'Error response from server in call to \'update_host_role\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object. Error when calling \'update_host_role\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'update_host_role\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!isset($response->body->host_role->status)) {
+      $message = 'Error response from server in call to \'update_host_role\'. Response to \'host_role\' was expected but was not present';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    $status = $response->body->host_role->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'update_host_role\'. Message \'' . $response->body->host_role->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    return $response;
+  }
+	
+  /*%******************************************************************************************%*/
+  // 'host_role_type' Resource METHODS
+
+  
+  /**
+   * Invokes the CREATE method for the  host_role_type resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $name (Required) 'name' field, which is a 'string' type. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
+   */
+						
+public function create_host_role_type($context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.create_host_role_type' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (empty($fields['name'])) {
+	    throw new APIAdmin_Exception('Field "name" is mandatory.');
+    }
+    $opt['query_string'] = array(
+        '$op' => 'create',
+        '$key' => $context['key'],
+        'name' => $fields['name'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/host_role_type', $opt);
+
+	  if (!isset($response->body)) {
+      $message = 'Error response from server in call to \'create_host_role_type\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object. Error when calling \'create_host_role_type\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'create_host_role_type\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!isset($response->body->host_role_type->status)) {
+      $message = 'Error response from server in call to \'create_host_role_type\'. Response to \'host_role_type\' was expected but was not present';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    $status = $response->body->host_role_type->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'create_host_role_type\'. Message \'' . $response->body->host_role_type->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    return $response;
+  }					
+					
+ /**
+   * Invokes the UPDATE method for the  host_role_type resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+      * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $name (Required) 'name' field, which is a 'string' type. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.update Working with ThumbWhere APIContent Buckets
+   */
+						
+public function update_host_role_type($id,$context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.update_host_role_type' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+    /*
+     // If the bucket contains uppercase letters...
+    if (preg_match('/[A-Z]/', $bucket)) {
+	    // Throw a warning
+	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
+	
+	    // Force the bucketname to lowercase
+	    $blah = strtolower($bucket);
+    }
+
+    // Validate the APIContent bucket name for creation
+    if (!$this->validate_bucketname_update($bucket)) {
+	    // @codeCoverageIgnoreStart
+	    throw new APIAdmin_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
+	    // @codeCoverageIgnoreEnd
+    }
+     */
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (empty($fields['name'])) {
+	    throw new APIAdmin_Exception('Field "name" is mandatory.');
+    }
+    $opt['query_string'] = array(
+        '$op' => 'update',
+        '$id' => $id,
+        '$key' => $context['key'],
+        'name' => $fields['name'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/host_role_type', $opt);
+
+	  if (!isset($response->body)) {
+      $message = 'Error response from server in call to \'update_host_role_type\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object. Error when calling \'update_host_role_type\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'update_host_role_type\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!isset($response->body->host_role_type->status)) {
+      $message = 'Error response from server in call to \'update_host_role_type\'. Response to \'host_role_type\' was expected but was not present';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    $status = $response->body->host_role_type->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'update_host_role_type\'. Message \'' . $response->body->host_role_type->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    return $response;
+  }
+	
+  /*%******************************************************************************************%*/
+  // 'host_type' Resource METHODS
+
+  
+  /**
+   * Invokes the CREATE method for the  host_type resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $name (Required) 'name' field, which is a 'string' type. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
+   */
+						
+public function create_host_type($context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.create_host_type' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (empty($fields['name'])) {
+	    throw new APIAdmin_Exception('Field "name" is mandatory.');
+    }
+    $opt['query_string'] = array(
+        '$op' => 'create',
+        '$key' => $context['key'],
+        'name' => $fields['name'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/host_type', $opt);
+
+	  if (!isset($response->body)) {
+      $message = 'Error response from server in call to \'create_host_type\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object. Error when calling \'create_host_type\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'create_host_type\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!isset($response->body->host_type->status)) {
+      $message = 'Error response from server in call to \'create_host_type\'. Response to \'host_type\' was expected but was not present';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    $status = $response->body->host_type->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'create_host_type\'. Message \'' . $response->body->host_type->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    return $response;
+  }					
+					
+ /**
+   * Invokes the UPDATE method for the  host_type resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+      * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $name (Required) 'name' field, which is a 'string' type. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.update Working with ThumbWhere APIContent Buckets
+   */
+						
+public function update_host_type($id,$context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.update_host_type' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+    /*
+     // If the bucket contains uppercase letters...
+    if (preg_match('/[A-Z]/', $bucket)) {
+	    // Throw a warning
+	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
+	
+	    // Force the bucketname to lowercase
+	    $blah = strtolower($bucket);
+    }
+
+    // Validate the APIContent bucket name for creation
+    if (!$this->validate_bucketname_update($bucket)) {
+	    // @codeCoverageIgnoreStart
+	    throw new APIAdmin_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
+	    // @codeCoverageIgnoreEnd
+    }
+     */
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (empty($fields['name'])) {
+	    throw new APIAdmin_Exception('Field "name" is mandatory.');
+    }
+    $opt['query_string'] = array(
+        '$op' => 'update',
+        '$id' => $id,
+        '$key' => $context['key'],
+        'name' => $fields['name'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/host_type', $opt);
+
+	  if (!isset($response->body)) {
+      $message = 'Error response from server in call to \'update_host_type\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object. Error when calling \'update_host_type\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'update_host_type\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!isset($response->body->host_type->status)) {
+      $message = 'Error response from server in call to \'update_host_type\'. Response to \'host_type\' was expected but was not present';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    $status = $response->body->host_type->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'update_host_type\'. Message \'' . $response->body->host_type->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    return $response;
+  }
+	
+  /*%******************************************************************************************%*/
+  // 'host_type_capable_of_host_role_type' Resource METHODS
+
+  
+  /**
+   * Invokes the CREATE method for the  host_type_capable_of_host_role_type resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $hosttype (Required) 'hosttype' field, which is an embedded 'HostType' resource. (FIELD).
+   * @param string $hostroletype (Required) 'hostroletype' field, which is an embedded 'HostRoleType' resource. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
+   */
+						
+public function create_host_type_capable_of_host_role_type($context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.create_host_type_capable_of_host_role_type' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (!isset($fields['hosttype'])) {
+	    throw new APIAdmin_Exception('Field "hosttype" is mandatory.');
+    }
+    if (!isset($fields['hostroletype'])) {
+	    throw new APIAdmin_Exception('Field "hostroletype" is mandatory.');
+    }
+    $opt['query_string'] = array(
+        '$op' => 'create',
+        '$key' => $context['key'],
+        'hosttype' => $fields['hosttype'],
+        'hostroletype' => $fields['hostroletype'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/host_type_capable_of_host_role_type', $opt);
+
+	  if (!isset($response->body)) {
+      $message = 'Error response from server in call to \'create_host_type_capable_of_host_role_type\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object. Error when calling \'create_host_type_capable_of_host_role_type\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'create_host_type_capable_of_host_role_type\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!isset($response->body->host_type_capable_of_host_role_type->status)) {
+      $message = 'Error response from server in call to \'create_host_type_capable_of_host_role_type\'. Response to \'host_type_capable_of_host_role_type\' was expected but was not present';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    $status = $response->body->host_type_capable_of_host_role_type->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'create_host_type_capable_of_host_role_type\'. Message \'' . $response->body->host_type_capable_of_host_role_type->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    return $response;
+  }					
+					
+ /**
+   * Invokes the UPDATE method for the  host_type_capable_of_host_role_type resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+      * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $hosttype (Required) 'hosttype' field, which is an embedded 'HostType' resource. (FIELD).
+   * @param string $hostroletype (Required) 'hostroletype' field, which is an embedded 'HostRoleType' resource. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.update Working with ThumbWhere APIContent Buckets
+   */
+						
+public function update_host_type_capable_of_host_role_type($id,$context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.update_host_type_capable_of_host_role_type' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+    /*
+     // If the bucket contains uppercase letters...
+    if (preg_match('/[A-Z]/', $bucket)) {
+	    // Throw a warning
+	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
+	
+	    // Force the bucketname to lowercase
+	    $blah = strtolower($bucket);
+    }
+
+    // Validate the APIContent bucket name for creation
+    if (!$this->validate_bucketname_update($bucket)) {
+	    // @codeCoverageIgnoreStart
+	    throw new APIAdmin_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
+	    // @codeCoverageIgnoreEnd
+    }
+     */
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (!isset($fields['hosttype'])) {
+	    throw new APIAdmin_Exception('Field "hosttype" is mandatory.');
+    }
+    if (!isset($fields['hostroletype'])) {
+	    throw new APIAdmin_Exception('Field "hostroletype" is mandatory.');
+    }
+    $opt['query_string'] = array(
+        '$op' => 'update',
+        '$id' => $id,
+        '$key' => $context['key'],
+        'hosttype' => $fields['hosttype'],
+        'hostroletype' => $fields['hostroletype'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/host_type_capable_of_host_role_type', $opt);
+
+	  if (!isset($response->body)) {
+      $message = 'Error response from server in call to \'update_host_type_capable_of_host_role_type\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object. Error when calling \'update_host_type_capable_of_host_role_type\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'update_host_type_capable_of_host_role_type\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!isset($response->body->host_type_capable_of_host_role_type->status)) {
+      $message = 'Error response from server in call to \'update_host_type_capable_of_host_role_type\'. Response to \'host_type_capable_of_host_role_type\' was expected but was not present';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    $status = $response->body->host_type_capable_of_host_role_type->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'update_host_type_capable_of_host_role_type\'. Message \'' . $response->body->host_type_capable_of_host_role_type->errorMessage . '\'';
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
@@ -757,6 +3751,109 @@ public function call_campaign_set_key($parameters = array(), $opt = null) {
   }
 	
   /*%******************************************************************************************%*/
+  // 'new_audio_metadata_template' Resource METHODS
+  
+
+  /**
+   * Invokes the CALL method for the  new_audio_metadata_template resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+   * @param string $key (Required) The API key for the campaign or external application. (PARAMETER).
+   * @param string $audio_target (Required) The name of the audio target. (PARAMETER).
+   * @param string $name (Required) The template name (PARAMETER).
+   * @param string $value (Required) The template value (PARAMETER).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
+   */
+						
+public function call_new_audio_metadata_template($parameters = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.call_new_audio_metadata_template' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($parameters);
+
+   
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (!isset($parameters['key'])) {
+	    throw new APIAdmin_Exception('Parameter "key" is mandatory.');
+    }
+    if (!isset($parameters['audio_target'])) {
+	    throw new APIAdmin_Exception('Parameter "audio_target" is mandatory.');
+    }
+    if (empty($parameters['name'])) {
+	    throw new APIAdmin_Exception('Parameter "name" is mandatory.');
+    }
+    if (empty($parameters['value'])) {
+	    throw new APIAdmin_Exception('Parameter "value" is mandatory.');
+    }
+    $opt['query_string'] = array(
+
+        'key' => $parameters['key'],
+        'audio_target' => $parameters['audio_target'],
+        'name' => $parameters['name'],
+        'value' => $parameters['value'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/new_audio_metadata_template', $opt);
+
+	  if (!isset($response->body)) {
+      $message = 'Error response from server in call to \'call_new_audio_metadata_template\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object. Error when calling \'call_new_audio_metadata_template\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'call_new_audio_metadata_template\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!isset($response->body->new_audio_metadata_template->status)) {
+      $message = 'Error response from server in call to \'call_new_audio_metadata_template\'. Response to \'new_audio_metadata_template\' was expected but was not present';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    $status = $response->body->new_audio_metadata_template->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'create_new_audio_metadata_template\'. Message \'' . $response->body->new_audio_metadata_template->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    return $response;
+  }
+	
+  /*%******************************************************************************************%*/
   // 'new_audio_target' Resource METHODS
   
 
@@ -771,6 +3868,7 @@ public function call_campaign_set_key($parameters = array(), $opt = null) {
    * @param string $channels (Required) The number of audio channels (PARAMETER).
    * @param string $bitrate (Required) The audio bitrate in bits per second (PARAMETER).
    * @param string $samplerate (Required) The audio samplerate in Hz. (PARAMETER).
+   * @param string $filenamemask (Required) The filename mask. (PARAMETER).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
    * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
    * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
@@ -814,6 +3912,9 @@ public function call_new_audio_target($parameters = array(), $opt = null) {
     if (!isset($parameters['samplerate'])) {
 	    throw new APIAdmin_Exception('Parameter "samplerate" is mandatory.');
     }
+    if (empty($parameters['filenamemask'])) {
+	    throw new APIAdmin_Exception('Parameter "filenamemask" is mandatory.');
+    }
     $opt['query_string'] = array(
 
         'key' => $parameters['key'],
@@ -822,6 +3923,7 @@ public function call_new_audio_target($parameters = array(), $opt = null) {
         'channels' => $parameters['channels'],
         'bitrate' => $parameters['bitrate'],
         'samplerate' => $parameters['samplerate'],
+        'filenamemask' => $parameters['filenamemask'],
     );
 
     //
@@ -991,7 +4093,7 @@ public function call_new_campaign($parameters = array(), $opt = null) {
    * @param string $name (Required) The name of the server. (PARAMETER).
    * @param string $public_url (Required) The public facing url that uploded content will be accessible on. (PARAMETER).
    * @param string $upload_url (Required) Where we upload our content to. (PARAMETER).
-   * @param string $media (Required) The media that we will store on this server. (PARAMETER).
+   * @param string $server_media_type (Required) The media that we will store on this server. (PARAMETER).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
    * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
    * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
@@ -1029,8 +4131,8 @@ public function call_new_server($parameters = array(), $opt = null) {
     if (empty($parameters['upload_url'])) {
 	    throw new APIAdmin_Exception('Parameter "upload_url" is mandatory.');
     }
-    if (empty($parameters['media'])) {
-	    throw new APIAdmin_Exception('Parameter "media" is mandatory.');
+    if (!isset($parameters['server_media_type'])) {
+	    throw new APIAdmin_Exception('Parameter "server_media_type" is mandatory.');
     }
     $opt['query_string'] = array(
 
@@ -1038,7 +4140,7 @@ public function call_new_server($parameters = array(), $opt = null) {
         'name' => $parameters['name'],
         'public_url' => $parameters['public_url'],
         'upload_url' => $parameters['upload_url'],
-        'media' => $parameters['media'],
+        'server_media_type' => $parameters['server_media_type'],
     );
 
     //

@@ -1500,9 +1500,9 @@ public function update_consumer_member($id,$context = array(), $fields = array()
    * TODO: Pull in description from resource as part of code-gen
    *
    * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
-   * @param string $mediaitem (Required) 'mediaitem' field, which is an embedded 'MediaItem' resource. (FIELD).
    * @param string $metadata (Required) 'metadata' field, which is an embedded 'Metadata' resource. (FIELD).
    * @param string $producer (Required) 'producer' field, which is an embedded 'Producer' resource. (FIELD).
+   * @param string $external_id (Required) 'external_id' field, which is a 'string' type. (FIELD).
    * @param string $title (Required) 'title' field, which is a 'string' type. (FIELD).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
    * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
@@ -1538,14 +1538,14 @@ public function create_content($context = array(), $fields = array(), $opt = nul
     // Populate the query string with optional parameters.
     //
 
-    if (isset($fields['mediaitem'])) {
-      $opt['query_string']['mediaitem'] = $fields['mediaitem'];
-    }
     if (isset($fields['metadata'])) {
       $opt['query_string']['metadata'] = $fields['metadata'];
     }
     if (isset($fields['producer'])) {
       $opt['query_string']['producer'] = $fields['producer'];
+    }
+    if (isset($fields['external_id'])) {
+      $opt['query_string']['external_id'] = $fields['external_id'];
     }
     if (isset($fields['title'])) {
       $opt['query_string']['title'] = $fields['title'];
@@ -1597,9 +1597,9 @@ public function create_content($context = array(), $fields = array(), $opt = nul
    * TODO: Pull in description from resource as part of code-gen
    *
       * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
-   * @param string $mediaitem (Required) 'mediaitem' field, which is an embedded 'MediaItem' resource. (FIELD).
    * @param string $metadata (Required) 'metadata' field, which is an embedded 'Metadata' resource. (FIELD).
    * @param string $producer (Required) 'producer' field, which is an embedded 'Producer' resource. (FIELD).
+   * @param string $external_id (Required) 'external_id' field, which is a 'string' type. (FIELD).
    * @param string $title (Required) 'title' field, which is a 'string' type. (FIELD).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
    * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
@@ -1653,14 +1653,14 @@ public function update_content($id,$context = array(), $fields = array(), $opt =
     // Populate the query string with optional parameters.
     //
 
-    if (isset($fields['mediaitem'])) {
-      $opt['query_string']['mediaitem'] = $fields['mediaitem'];
-    }
     if (isset($fields['metadata'])) {
       $opt['query_string']['metadata'] = $fields['metadata'];
     }
     if (isset($fields['producer'])) {
       $opt['query_string']['producer'] = $fields['producer'];
+    }
+    if (isset($fields['external_id'])) {
+      $opt['query_string']['external_id'] = $fields['external_id'];
     }
     if (isset($fields['title'])) {
       $opt['query_string']['title'] = $fields['title'];
@@ -2114,7 +2114,7 @@ public function update_content_collection($id,$context = array(), $fields = arra
    * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
    * @param string $contentcollection (Required) 'contentcollection' field, which is an embedded 'ContentCollection' resource. (FIELD).
    * @param string $content (Required) 'content' field, which is an embedded 'Content' resource. (FIELD).
-   * @param string $order (Required) 'order' field, which is a 'int' type. (FIELD).
+   * @param string $weight (Required) 'weight' field, which is a 'int' type. (FIELD).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
    * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
    * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
@@ -2157,8 +2157,8 @@ public function create_content_collection_item($context = array(), $fields = arr
     // Populate the query string with optional parameters.
     //
 
-    if (isset($fields['order'])) {
-      $opt['query_string']['order'] = $fields['order'];
+    if (isset($fields['weight'])) {
+      $opt['query_string']['weight'] = $fields['weight'];
     }
 
     //
@@ -2209,7 +2209,7 @@ public function create_content_collection_item($context = array(), $fields = arr
       * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
    * @param string $contentcollection (Required) 'contentcollection' field, which is an embedded 'ContentCollection' resource. (FIELD).
    * @param string $content (Required) 'content' field, which is an embedded 'Content' resource. (FIELD).
-   * @param string $order (Required) 'order' field, which is a 'int' type. (FIELD).
+   * @param string $weight (Required) 'weight' field, which is a 'int' type. (FIELD).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
    * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
    * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
@@ -2270,8 +2270,8 @@ public function update_content_collection_item($id,$context = array(), $fields =
     // Populate the query string with optional parameters.
     //
 
-    if (isset($fields['order'])) {
-      $opt['query_string']['order'] = $fields['order'];
+    if (isset($fields['weight'])) {
+      $opt['query_string']['weight'] = $fields['weight'];
     }
 
     //

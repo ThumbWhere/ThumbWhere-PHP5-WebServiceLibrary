@@ -141,6 +141,7 @@ class ThumbWhereAPIMedia extends TWRuntime {
    * @param string $format (Required) 'format' field, which is an embedded 'Format' resource. (FIELD).
    * @param string $server (Required) 'server' field, which is an embedded 'Server' resource. (FIELD).
    * @param string $license (Required) 'license' field, which is an embedded 'License' resource. (FIELD).
+   * @param string $content (Required) 'content' field, which is an embedded 'Content' resource. (FIELD).
    * @param string $title (Required) 'title' field, which is a 'string' type. (FIELD).
    * @param string $body (Required) 'body' field, which is a 'string' type. (FIELD).
    * @param string $bodyonly (Required) 'bodyonly' field, which is a 'boolean' type. (FIELD).
@@ -211,6 +212,9 @@ public function create_mediaitem($context = array(), $fields = array(), $opt = n
 
     if (isset($fields['license'])) {
       $opt['query_string']['license'] = $fields['license'];
+    }
+    if (isset($fields['content'])) {
+      $opt['query_string']['content'] = $fields['content'];
     }
     if (isset($fields['title'])) {
       $opt['query_string']['title'] = $fields['title'];
@@ -303,6 +307,7 @@ public function create_mediaitem($context = array(), $fields = array(), $opt = n
    * @param string $format (Required) 'format' field, which is an embedded 'Format' resource. (FIELD).
    * @param string $server (Required) 'server' field, which is an embedded 'Server' resource. (FIELD).
    * @param string $license (Required) 'license' field, which is an embedded 'License' resource. (FIELD).
+   * @param string $content (Required) 'content' field, which is an embedded 'Content' resource. (FIELD).
    * @param string $title (Required) 'title' field, which is a 'string' type. (FIELD).
    * @param string $body (Required) 'body' field, which is a 'string' type. (FIELD).
    * @param string $bodyonly (Required) 'bodyonly' field, which is a 'boolean' type. (FIELD).
@@ -391,6 +396,9 @@ public function update_mediaitem($id,$context = array(), $fields = array(), $opt
 
     if (isset($fields['license'])) {
       $opt['query_string']['license'] = $fields['license'];
+    }
+    if (isset($fields['content'])) {
+      $opt['query_string']['content'] = $fields['content'];
     }
     if (isset($fields['title'])) {
       $opt['query_string']['title'] = $fields['title'];
