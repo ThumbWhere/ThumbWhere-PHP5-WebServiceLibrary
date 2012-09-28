@@ -1115,7 +1115,6 @@ class TWRuntime {
 
     if (twCanDebug()) {
       debug($data);
-
       debug('RESPONSE');
     }
 
