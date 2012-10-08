@@ -1098,8 +1098,7 @@ class TWRuntime {
     // Did ThumbWhere tell us to redirect? Typically happens for multiple rapid requests EU datacenters.
     // @see: http://docs.thumbwhere.com/ThumbWhereAPIContent/latest/dev/Redirects.html
     // @codeCoverageIgnoreStart
-    if ((integer) $request->get_response_code() === 307) // Temporary redirect to new endpoint.
- {
+    if ((integer) $request->get_response_code() === 307) { // Temporary redirect to new endpoint.
       $data = $this->invoke($this->request_url, $opt, $headers['location'], ++$redirects);
     }
     // Was it ThumbWhere's fault the request failed? Retry the request until we reach $max_retries.
@@ -1107,8 +1106,12 @@ class TWRuntime {
       if ($redirects <= $this->max_retries) {
         // Exponential backoff
         $delay = (integer) (pow(4, $redirects) * 100000);
+
+        watchdog('tw_api', 'Request to %uri failed with code http status %code. Sleeping for %delaysec seconds before we repeat the request. ', array('%uri' => $this->request_url,'%code' => $request->get_response_code(), '%delaysec' => $delay/1000000), WATCHDOG_NOTICE);
         usleep($delay);
-        $data = $this->invoke($this->request_url, $opt, null, ++$redirects);
+
+        //$data = $this->invoke($this->request_url, $opt, null, ++$redirects);
+        $data = $this->invoke($endpoint, $opt, null, ++$redirects);
       }
     }
     // @codeCoverageIgnoreEnd
