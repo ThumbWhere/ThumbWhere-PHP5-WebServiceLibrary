@@ -411,6 +411,432 @@ public function update_audio_target($id,$context = array(), $fields = array(), $
   }
 	
   /*%******************************************************************************************%*/
+  // 'external_repository' Resource METHODS
+
+  
+  /**
+   * Invokes the CREATE method for the  external_repository resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $host (Required) 'host' field, which is an embedded 'Host' resource. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
+   */
+						
+public function create_external_repository($context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.create_external_repository' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (!isset($fields['host'])) {
+	    throw new APIAdmin_Exception('Field "host" is mandatory.');
+    }
+    $opt['query_string'] = array(
+        '$op' => 'create',
+        '$key' => $context['key'],
+        'host' => $fields['host'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/external_repository', $opt);
+
+	  if (!isset($response->body)) {
+      $message = 'Error response from server in call to \'create_external_repository\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object. Error when calling \'create_external_repository\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'create_external_repository\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!isset($response->body->external_repository->status)) {
+      $message = 'Error response from server in call to \'create_external_repository\'. Response to \'external_repository\' was expected but was not present';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    $status = $response->body->external_repository->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'create_external_repository\'. Message \'' . $response->body->external_repository->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    return $response;
+  }					
+					
+ /**
+   * Invokes the UPDATE method for the  external_repository resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+      * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $host (Required) 'host' field, which is an embedded 'Host' resource. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.update Working with ThumbWhere APIContent Buckets
+   */
+						
+public function update_external_repository($id,$context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.update_external_repository' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+    /*
+     // If the bucket contains uppercase letters...
+    if (preg_match('/[A-Z]/', $bucket)) {
+	    // Throw a warning
+	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
+	
+	    // Force the bucketname to lowercase
+	    $blah = strtolower($bucket);
+    }
+
+    // Validate the APIContent bucket name for creation
+    if (!$this->validate_bucketname_update($bucket)) {
+	    // @codeCoverageIgnoreStart
+	    throw new APIAdmin_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
+	    // @codeCoverageIgnoreEnd
+    }
+     */
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (!isset($fields['host'])) {
+	    throw new APIAdmin_Exception('Field "host" is mandatory.');
+    }
+    $opt['query_string'] = array(
+        '$op' => 'update',
+        '$id' => $id,
+        '$key' => $context['key'],
+        'host' => $fields['host'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/external_repository', $opt);
+
+	  if (!isset($response->body)) {
+      $message = 'Error response from server in call to \'update_external_repository\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object. Error when calling \'update_external_repository\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'update_external_repository\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!isset($response->body->external_repository->status)) {
+      $message = 'Error response from server in call to \'update_external_repository\'. Response to \'external_repository\' was expected but was not present';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    $status = $response->body->external_repository->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'update_external_repository\'. Message \'' . $response->body->external_repository->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    return $response;
+  }
+	
+  /*%******************************************************************************************%*/
+  // 'external_repository_sync' Resource METHODS
+
+  
+  /**
+   * Invokes the CREATE method for the  external_repository_sync resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $externalrepository (Required) 'externalrepository' field, which is an embedded 'ExternalRepository' resource. (FIELD).
+   * @param string $resource (Required) 'resource' field, which is a 'string' type. (FIELD).
+   * @param string $last_sync (Required) 'last_sync' field, which is a 'datetime' type. (FIELD).
+   * @param string $max (Required) 'max' field, which is a 'long' type. (FIELD).
+   * @param string $complete (Required) 'complete' field, which is a 'boolean' type. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
+   */
+						
+public function create_external_repository_sync($context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.create_external_repository_sync' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (!isset($fields['externalrepository'])) {
+	    throw new APIAdmin_Exception('Field "externalrepository" is mandatory.');
+    }
+    if (empty($fields['resource'])) {
+	    throw new APIAdmin_Exception('Field "resource" is mandatory.');
+    }
+    if (!isset($fields['last_sync'])) {
+	    throw new APIAdmin_Exception('Field "last_sync" is mandatory.');
+    }
+    if (!isset($fields['max'])) {
+	    throw new APIAdmin_Exception('Field "max" is mandatory.');
+    }
+    $opt['query_string'] = array(
+        '$op' => 'create',
+        '$key' => $context['key'],
+        'externalrepository' => $fields['externalrepository'],
+        'resource' => $fields['resource'],
+        'last_sync' => $fields['last_sync'],
+        'max' => $fields['max'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+    if (isset($fields['complete'])) {
+      $opt['query_string']['complete'] = $fields['complete'];
+    }
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/external_repository_sync', $opt);
+
+	  if (!isset($response->body)) {
+      $message = 'Error response from server in call to \'create_external_repository_sync\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object. Error when calling \'create_external_repository_sync\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'create_external_repository_sync\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!isset($response->body->external_repository_sync->status)) {
+      $message = 'Error response from server in call to \'create_external_repository_sync\'. Response to \'external_repository_sync\' was expected but was not present';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    $status = $response->body->external_repository_sync->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'create_external_repository_sync\'. Message \'' . $response->body->external_repository_sync->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    return $response;
+  }					
+					
+ /**
+   * Invokes the UPDATE method for the  external_repository_sync resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+      * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $externalrepository (Required) 'externalrepository' field, which is an embedded 'ExternalRepository' resource. (FIELD).
+   * @param string $resource (Required) 'resource' field, which is a 'string' type. (FIELD).
+   * @param string $last_sync (Required) 'last_sync' field, which is a 'datetime' type. (FIELD).
+   * @param string $max (Required) 'max' field, which is a 'long' type. (FIELD).
+   * @param string $complete (Required) 'complete' field, which is a 'boolean' type. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.update Working with ThumbWhere APIContent Buckets
+   */
+						
+public function update_external_repository_sync($id,$context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.update_external_repository_sync' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+    /*
+     // If the bucket contains uppercase letters...
+    if (preg_match('/[A-Z]/', $bucket)) {
+	    // Throw a warning
+	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
+	
+	    // Force the bucketname to lowercase
+	    $blah = strtolower($bucket);
+    }
+
+    // Validate the APIContent bucket name for creation
+    if (!$this->validate_bucketname_update($bucket)) {
+	    // @codeCoverageIgnoreStart
+	    throw new APIAdmin_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
+	    // @codeCoverageIgnoreEnd
+    }
+     */
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (!isset($fields['externalrepository'])) {
+	    throw new APIAdmin_Exception('Field "externalrepository" is mandatory.');
+    }
+    if (empty($fields['resource'])) {
+	    throw new APIAdmin_Exception('Field "resource" is mandatory.');
+    }
+    if (!isset($fields['last_sync'])) {
+	    throw new APIAdmin_Exception('Field "last_sync" is mandatory.');
+    }
+    if (!isset($fields['max'])) {
+	    throw new APIAdmin_Exception('Field "max" is mandatory.');
+    }
+    $opt['query_string'] = array(
+        '$op' => 'update',
+        '$id' => $id,
+        '$key' => $context['key'],
+        'externalrepository' => $fields['externalrepository'],
+        'resource' => $fields['resource'],
+        'last_sync' => $fields['last_sync'],
+        'max' => $fields['max'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+    if (isset($fields['complete'])) {
+      $opt['query_string']['complete'] = $fields['complete'];
+    }
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/external_repository_sync', $opt);
+
+	  if (!isset($response->body)) {
+      $message = 'Error response from server in call to \'update_external_repository_sync\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object. Error when calling \'update_external_repository_sync\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'update_external_repository_sync\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+	  if (!isset($response->body->external_repository_sync->status)) {
+      $message = 'Error response from server in call to \'update_external_repository_sync\'. Response to \'external_repository_sync\' was expected but was not present';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    $status = $response->body->external_repository_sync->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'update_external_repository_sync\'. Message \'' . $response->body->external_repository_sync->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIAdmin_Exception($message);
+    }
+
+    return $response;
+  }
+	
+  /*%******************************************************************************************%*/
   // 'host' Resource METHODS
 
   
@@ -2773,6 +3199,7 @@ public function update_host_role($id,$context = array(), $fields = array(), $opt
    *
    * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
    * @param string $name (Required) 'name' field, which is a 'string' type. (FIELD).
+   * @param string $config_xsl (Required) 'config_xsl' field, which is a 'string' type. (FIELD).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
    * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
    * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
@@ -2811,6 +3238,9 @@ public function create_host_role_type($context = array(), $fields = array(), $op
     // Populate the query string with optional parameters.
     //
 
+    if (isset($fields['config_xsl'])) {
+      $opt['query_string']['config_xsl'] = $fields['config_xsl'];
+    }
 
     //
     // Invoke the service
@@ -2859,6 +3289,7 @@ public function create_host_role_type($context = array(), $fields = array(), $op
    *
       * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
    * @param string $name (Required) 'name' field, which is a 'string' type. (FIELD).
+   * @param string $config_xsl (Required) 'config_xsl' field, which is a 'string' type. (FIELD).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
    * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
    * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
@@ -2915,6 +3346,9 @@ public function update_host_role_type($id,$context = array(), $fields = array(),
     // Populate the query string with optional parameters.
     //
 
+    if (isset($fields['config_xsl'])) {
+      $opt['query_string']['config_xsl'] = $fields['config_xsl'];
+    }
 
     //
     // Invoke the service

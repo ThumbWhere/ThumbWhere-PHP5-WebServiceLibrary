@@ -139,6 +139,7 @@ class ThumbWhereAPIIdentity extends TWRuntime {
    * @param string $identitytype (Required) 'identitytype' field, which is an embedded 'IdentityType' resource. (FIELD).
    * @param string $member (Required) 'member' field, which is an embedded 'Member' resource. (FIELD).
    * @param string $id (Required) 'id' field, which is a 'string' type. (FIELD).
+   * @param string $external_id (Required) 'external_id' field, which is a 'string' type. (FIELD).
    * @param string $secret (Required) 'secret' field, which is a 'string' type. (FIELD).
    * @param string $secret_hash (Required) 'secret_hash' field, which is a 'string' type. (FIELD).
    * @param string $secret_hash_salt (Required) 'secret_hash_salt' field, which is a 'string' type. (FIELD).
@@ -189,6 +190,9 @@ public function create_identity($context = array(), $fields = array(), $opt = nu
     }
     if (isset($fields['id'])) {
       $opt['query_string']['id'] = $fields['id'];
+    }
+    if (isset($fields['external_id'])) {
+      $opt['query_string']['external_id'] = $fields['external_id'];
     }
     if (isset($fields['secret'])) {
       $opt['query_string']['secret'] = $fields['secret'];
@@ -261,6 +265,7 @@ public function create_identity($context = array(), $fields = array(), $opt = nu
    * @param string $identitytype (Required) 'identitytype' field, which is an embedded 'IdentityType' resource. (FIELD).
    * @param string $member (Required) 'member' field, which is an embedded 'Member' resource. (FIELD).
    * @param string $id (Required) 'id' field, which is a 'string' type. (FIELD).
+   * @param string $external_id (Required) 'external_id' field, which is a 'string' type. (FIELD).
    * @param string $secret (Required) 'secret' field, which is a 'string' type. (FIELD).
    * @param string $secret_hash (Required) 'secret_hash' field, which is a 'string' type. (FIELD).
    * @param string $secret_hash_salt (Required) 'secret_hash_salt' field, which is a 'string' type. (FIELD).
@@ -329,6 +334,9 @@ public function update_identity($id,$context = array(), $fields = array(), $opt 
     }
     if (isset($fields['id'])) {
       $opt['query_string']['id'] = $fields['id'];
+    }
+    if (isset($fields['external_id'])) {
+      $opt['query_string']['external_id'] = $fields['external_id'];
     }
     if (isset($fields['secret'])) {
       $opt['query_string']['secret'] = $fields['secret'];

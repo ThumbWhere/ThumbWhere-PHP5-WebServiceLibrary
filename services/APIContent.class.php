@@ -1081,6 +1081,7 @@ public function update_awarded_trophy($id,$context = array(), $fields = array(),
    * @param string $place (Required) 'place' field, which is an embedded 'Place' resource. (FIELD).
    * @param string $reputation (Required) 'reputation' field, which is an embedded 'Reputation' resource. (FIELD).
    * @param string $name (Required) 'name' field, which is a 'string' type. (FIELD).
+   * @param string $external_id (Required) 'external_id' field, which is a 'string' type. (FIELD).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
    * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
    * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
@@ -1124,6 +1125,9 @@ public function create_consumer($context = array(), $fields = array(), $opt = nu
     }
     if (isset($fields['reputation'])) {
       $opt['query_string']['reputation'] = $fields['reputation'];
+    }
+    if (isset($fields['external_id'])) {
+      $opt['query_string']['external_id'] = $fields['external_id'];
     }
 
     //
@@ -1175,6 +1179,7 @@ public function create_consumer($context = array(), $fields = array(), $opt = nu
    * @param string $place (Required) 'place' field, which is an embedded 'Place' resource. (FIELD).
    * @param string $reputation (Required) 'reputation' field, which is an embedded 'Reputation' resource. (FIELD).
    * @param string $name (Required) 'name' field, which is a 'string' type. (FIELD).
+   * @param string $external_id (Required) 'external_id' field, which is a 'string' type. (FIELD).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
    * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
    * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
@@ -1236,6 +1241,9 @@ public function update_consumer($id,$context = array(), $fields = array(), $opt 
     }
     if (isset($fields['reputation'])) {
       $opt['query_string']['reputation'] = $fields['reputation'];
+    }
+    if (isset($fields['external_id'])) {
+      $opt['query_string']['external_id'] = $fields['external_id'];
     }
 
     //
@@ -1483,6 +1491,210 @@ public function update_consumer_member($id,$context = array(), $fields = array()
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'update_consumer_member\'. Message \'' . $response->body->consumer_member->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+    return $response;
+  }
+	
+  /*%******************************************************************************************%*/
+  // 'consumer_subscribed_contengenre' Resource METHODS
+
+  
+  /**
+   * Invokes the CREATE method for the  consumer_subscribed_contengenre resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $consumer (Required) 'consumer' field, which is an embedded 'Consumer' resource. (FIELD).
+   * @param string $contentgenre (Required) 'contentgenre' field, which is an embedded 'ContentGenre' resource. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
+   */
+						
+public function create_consumer_subscribed_contengenre($context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.create_consumer_subscribed_contengenre' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (!isset($fields['consumer'])) {
+	    throw new APIContent_Exception('Field "consumer" is mandatory.');
+    }
+    if (!isset($fields['contentgenre'])) {
+	    throw new APIContent_Exception('Field "contentgenre" is mandatory.');
+    }
+    $opt['query_string'] = array(
+        '$op' => 'create',
+        '$key' => $context['key'],
+        'consumer' => $fields['consumer'],
+        'contentgenre' => $fields['contentgenre'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/consumer_subscribed_contengenre', $opt);
+
+	  if (!isset($response->body)) {
+      $message = 'Error response from server in call to \'create_consumer_subscribed_contengenre\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object. Error when calling \'create_consumer_subscribed_contengenre\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'create_consumer_subscribed_contengenre\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+	  if (!isset($response->body->consumer_subscribed_contengenre->status)) {
+      $message = 'Error response from server in call to \'create_consumer_subscribed_contengenre\'. Response to \'consumer_subscribed_contengenre\' was expected but was not present';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+    $status = $response->body->consumer_subscribed_contengenre->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'create_consumer_subscribed_contengenre\'. Message \'' . $response->body->consumer_subscribed_contengenre->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+    return $response;
+  }					
+					
+ /**
+   * Invokes the UPDATE method for the  consumer_subscribed_contengenre resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+      * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $consumer (Required) 'consumer' field, which is an embedded 'Consumer' resource. (FIELD).
+   * @param string $contentgenre (Required) 'contentgenre' field, which is an embedded 'ContentGenre' resource. (FIELD).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.update Working with ThumbWhere APIContent Buckets
+   */
+						
+public function update_consumer_subscribed_contengenre($id,$context = array(), $fields = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.update_consumer_subscribed_contengenre' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
+
+    /*
+     // If the bucket contains uppercase letters...
+    if (preg_match('/[A-Z]/', $bucket)) {
+	    // Throw a warning
+	    trigger_error('constraint/field/parameter , "' . $blah . '" has been automatically converted to "' . strtolower($bucket) . '"', E_USER_WARNING);
+	
+	    // Force the bucketname to lowercase
+	    $blah = strtolower($bucket);
+    }
+
+    // Validate the APIContent bucket name for creation
+    if (!$this->validate_bucketname_update($bucket)) {
+	    // @codeCoverageIgnoreStart
+	    throw new APIContent_Exception('constraint/field/paramete "' . $bucket . '" is not valid.');
+	    // @codeCoverageIgnoreEnd
+    }
+     */
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (!isset($fields['consumer'])) {
+	    throw new APIContent_Exception('Field "consumer" is mandatory.');
+    }
+    if (!isset($fields['contentgenre'])) {
+	    throw new APIContent_Exception('Field "contentgenre" is mandatory.');
+    }
+    $opt['query_string'] = array(
+        '$op' => 'update',
+        '$id' => $id,
+        '$key' => $context['key'],
+        'consumer' => $fields['consumer'],
+        'contentgenre' => $fields['contentgenre'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/consumer_subscribed_contengenre', $opt);
+
+	  if (!isset($response->body)) {
+      $message = 'Error response from server in call to \'update_consumer_subscribed_contengenre\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object. Error when calling \'update_consumer_subscribed_contengenre\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'update_consumer_subscribed_contengenre\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+	  if (!isset($response->body->consumer_subscribed_contengenre->status)) {
+      $message = 'Error response from server in call to \'update_consumer_subscribed_contengenre\'. Response to \'consumer_subscribed_contengenre\' was expected but was not present';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIContent_Exception($message);
+    }
+
+    $status = $response->body->consumer_subscribed_contengenre->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'update_consumer_subscribed_contengenre\'. Message \'' . $response->body->consumer_subscribed_contengenre->errorMessage . '\'';
 	    watchdog('tw_api', $message , WATCHDOG_ERROR);
 	    throw new APIContent_Exception($message);
     }
@@ -2325,6 +2537,7 @@ public function update_content_collection_item($id,$context = array(), $fields =
    *
    * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
    * @param string $name (Required) 'name' field, which is a 'string' type. (FIELD).
+   * @param string $external_id (Required) 'external_id' field, which is a 'string' type. (FIELD).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
    * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
    * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
@@ -2363,6 +2576,9 @@ public function create_content_genre($context = array(), $fields = array(), $opt
     // Populate the query string with optional parameters.
     //
 
+    if (isset($fields['external_id'])) {
+      $opt['query_string']['external_id'] = $fields['external_id'];
+    }
 
     //
     // Invoke the service
@@ -2411,6 +2627,7 @@ public function create_content_genre($context = array(), $fields = array(), $opt
    *
       * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
    * @param string $name (Required) 'name' field, which is a 'string' type. (FIELD).
+   * @param string $external_id (Required) 'external_id' field, which is a 'string' type. (FIELD).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
    * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
    * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
@@ -2467,6 +2684,9 @@ public function update_content_genre($id,$context = array(), $fields = array(), 
     // Populate the query string with optional parameters.
     //
 
+    if (isset($fields['external_id'])) {
+      $opt['query_string']['external_id'] = $fields['external_id'];
+    }
 
     //
     // Invoke the service
@@ -4125,6 +4345,7 @@ public function update_place($id,$context = array(), $fields = array(), $opt = n
    * @param string $place (Required) 'place' field, which is an embedded 'Place' resource. (FIELD).
    * @param string $reputation (Required) 'reputation' field, which is an embedded 'Reputation' resource. (FIELD).
    * @param string $name (Required) 'name' field, which is a 'string' type. (FIELD).
+   * @param string $external_id (Required) 'external_id' field, which is a 'string' type. (FIELD).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
    * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
    * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
@@ -4168,6 +4389,9 @@ public function create_producer($context = array(), $fields = array(), $opt = nu
     }
     if (isset($fields['reputation'])) {
       $opt['query_string']['reputation'] = $fields['reputation'];
+    }
+    if (isset($fields['external_id'])) {
+      $opt['query_string']['external_id'] = $fields['external_id'];
     }
 
     //
@@ -4219,6 +4443,7 @@ public function create_producer($context = array(), $fields = array(), $opt = nu
    * @param string $place (Required) 'place' field, which is an embedded 'Place' resource. (FIELD).
    * @param string $reputation (Required) 'reputation' field, which is an embedded 'Reputation' resource. (FIELD).
    * @param string $name (Required) 'name' field, which is a 'string' type. (FIELD).
+   * @param string $external_id (Required) 'external_id' field, which is a 'string' type. (FIELD).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
    * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
    * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
@@ -4280,6 +4505,9 @@ public function update_producer($id,$context = array(), $fields = array(), $opt 
     }
     if (isset($fields['reputation'])) {
       $opt['query_string']['reputation'] = $fields['reputation'];
+    }
+    if (isset($fields['external_id'])) {
+      $opt['query_string']['external_id'] = $fields['external_id'];
     }
 
     //

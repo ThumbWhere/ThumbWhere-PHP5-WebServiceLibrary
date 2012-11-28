@@ -141,6 +141,7 @@ class ThumbWhereAPIMember extends TWRuntime {
    * @param string $whiteboard_mediaitemcollection (Required) 'whiteboard_mediaitemcollection' field, which is an embedded 'MediaItemCollection' resource. (FIELD).
    * @param string $activityfeed (Required) 'activityfeed' field, which is an embedded 'ActivityFeed' resource. (FIELD).
    * @param string $password (Required) 'password' field, which is a 'string' type. (FIELD).
+   * @param string $external_id (Required) 'external_id' field, which is a 'string' type. (FIELD).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
    * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
    * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
@@ -189,6 +190,9 @@ public function create_member($context = array(), $fields = array(), $opt = null
     }
     if (isset($fields['password'])) {
       $opt['query_string']['password'] = $fields['password'];
+    }
+    if (isset($fields['external_id'])) {
+      $opt['query_string']['external_id'] = $fields['external_id'];
     }
 
     //
@@ -242,6 +246,7 @@ public function create_member($context = array(), $fields = array(), $opt = null
    * @param string $whiteboard_mediaitemcollection (Required) 'whiteboard_mediaitemcollection' field, which is an embedded 'MediaItemCollection' resource. (FIELD).
    * @param string $activityfeed (Required) 'activityfeed' field, which is an embedded 'ActivityFeed' resource. (FIELD).
    * @param string $password (Required) 'password' field, which is a 'string' type. (FIELD).
+   * @param string $external_id (Required) 'external_id' field, which is a 'string' type. (FIELD).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
    * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
    * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
@@ -308,6 +313,9 @@ public function update_member($id,$context = array(), $fields = array(), $opt = 
     }
     if (isset($fields['password'])) {
       $opt['query_string']['password'] = $fields['password'];
+    }
+    if (isset($fields['external_id'])) {
+      $opt['query_string']['external_id'] = $fields['external_id'];
     }
 
     //
