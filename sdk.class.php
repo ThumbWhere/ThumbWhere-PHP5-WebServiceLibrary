@@ -849,8 +849,9 @@ class TWRuntime {
     // Determine hostname
     $scheme = $this->use_ssl ? 'https://' : 'http://';
 
-    // The actual domain we want to use
-    $hostname = 'localhost.thumbwhere.com';
+
+    // if we have defined a variable 'thumbwhere_api_url' then use it, otherwise use the default one.
+    $hostname = variable_get('thumbwhere_api_url',$this->hostname);
 
     // Get the UTC timestamp in RFC 2616 format
     $date = gmdate(TWUtilities::DATE_FORMAT_RFC2616, (time() + (integer) $this->adjust_offset));
