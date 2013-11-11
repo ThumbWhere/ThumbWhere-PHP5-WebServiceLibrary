@@ -896,7 +896,7 @@ class TWRuntime {
 
     $conjunction = '?';
 
-    $this->request_url = $scheme . $hostname . '/api/' . $endpoint . $conjunction . $query_string;
+    $this->request_url = $scheme . $hostname . '/' . $endpoint . $conjunction . $query_string;
 
     watchdog('tw_api', 'Making web service request : %uri', array(
         '%uri' => $this->request_url
