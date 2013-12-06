@@ -716,6 +716,99 @@ public function call_available($parameters = array(), $opt = null) {
   }
 	
   /*%******************************************************************************************%*/
+  // 'info' Resource METHODS
+  
+
+  /**
+   * Invokes the CALL method for the  info resource web service.
+   *
+   * TODO: Pull in description from resource as part of code-gen
+   *
+   * @param string $key (Required) The API Key to provide context for this request. (PARAMETER).
+   * @param string $member (Required) The identity type (PARAMETER).
+   * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
+   * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
+   * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
+   * @return TWResponse A <TWResponse> object containing a parsed HTTP response.
+   * @link http://thumbwhere.com/api/v1.0/content#content_ingest.create Working with ThumbWhere APIContent Buckets
+   */
+						
+public function call_info($parameters = array(), $opt = null) {
+	    watchdog('tw_api', 'call to TWAPI.call_info' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($parameters);
+
+   
+
+    if (!$opt) {
+      $opt = array();
+    }
+
+    $opt['verb'] = 'GET';
+    $opt['headers'] = array(
+        'Content-Type' => 'application/xml',
+    );
+    
+    //
+    // Validate Fields
+    //
+    if (!isset($parameters['key'])) {
+	    throw new APIIdentity_Exception('Parameter "key" is mandatory.');
+    }
+    if (!isset($parameters['member'])) {
+	    throw new APIIdentity_Exception('Parameter "member" is mandatory.');
+    }
+    $opt['query_string'] = array(
+
+        'key' => $parameters['key'],
+        'member' => $parameters['member'],
+    );
+
+    //
+    // Populate the query string with optional parameters.
+    //
+
+
+    //
+    // Invoke the service
+    //
+    $response = $this->invoke($this->api . '/' . $this->api_version . '/info', $opt);
+
+	  if (!isset($response->body)) {
+      $message = 'Error response from server in call to \'call_info\'. Response was not XML? Missing XML header?';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIIdentity_Exception($message);
+    }
+
+	  if (!is_object($response->body)) {
+      $message = 'Response body was not an object. Error when calling \'call_info\'. ' . $response->body ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIIdentity_Exception($message);
+    }
+
+	  if (isset($response->body->attributes()->errorMessage)) {
+      $message = 'Error response from server in call to \'call_info\'. ' . $response->body->attributes()->errorMessage ;
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIIdentity_Exception($message);
+    }
+
+	  if (!isset($response->body->info->status)) {
+      $message = 'Error response from server in call to \'call_info\'. Response to \'info\' was expected but was not present';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIIdentity_Exception($message);
+    }
+
+    $status = $response->body->info->status;
+
+	  if ($status == 'error') {
+      $message = 'Error response from server in call to \'create_info\'. Message \'' . $response->body->info->errorMessage . '\'';
+	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    throw new APIIdentity_Exception($message);
+    }
+
+    return $response;
+  }
+	
+  /*%******************************************************************************************%*/
   // 'query_request' Resource METHODS
   
 
