@@ -234,14 +234,14 @@ class TWRuntime {
   public $adjust_offset = 0;
 
   /**
-   * The state of SSL/HTTPS use.
+   * The state of SSL/HTTPS use. Setting it TRUE here will force it to be true, even if the config vars are set to false.
    */
-  public $use_ssl = true;
+  public $use_ssl = false;
 
   /**
-   * The state of SSL certificate verification.
+   * The state of SSL certificate verification. Setting it TRUE here will force it to be true, even if the config vars are set to false.
    */
-  public $ssl_verification = true;
+  public $ssl_verification = false;
 
   /**
    * The proxy to use for connecting.
