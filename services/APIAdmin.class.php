@@ -136,6 +136,7 @@ class ThumbWhereAPIAdmin extends TWRuntime {
    * TODO: Pull in description from resource as part of code-gen
    *
    * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $format (Required) 'format' field, which is an embedded 'Format' resource. (FIELD).
    * @param string $campaign (Required) 'campaign' field, which is an embedded 'Campaign' resource. (FIELD).
    * @param string $server (Required) 'server' field, which is an embedded 'Server' resource. (FIELD).
@@ -156,7 +157,7 @@ class ThumbWhereAPIAdmin extends TWRuntime {
    */
 						
 public function create_audio_target($context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.create_audio_target' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1)watchdog('tw_api', 'call to TWAPI.create_audio_target' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -169,6 +170,16 @@ public function create_audio_target($context = array(), $fields = array(), $opt 
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+    
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'audio_target\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
     
     //
     // Validate Fields
@@ -194,6 +205,7 @@ public function create_audio_target($context = array(), $fields = array(), $opt 
     $opt['query_string'] = array(
         '$op' => 'create',
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'format' => $fields['format'],
         'campaign' => $fields['campaign'],
         'name' => $fields['name'],
@@ -232,25 +244,25 @@ public function create_audio_target($context = array(), $fields = array(), $opt 
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'create_audio_target\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() ,  WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'create_audio_target\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'create_audio_target\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->audio_target->status)) {
       $message = 'Error response from server in call to \'create_audio_target\'. Response to \'audio_target\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -258,7 +270,7 @@ public function create_audio_target($context = array(), $fields = array(), $opt 
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'create_audio_target\'. Message \'' . $response->body->audio_target->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -271,6 +283,7 @@ public function create_audio_target($context = array(), $fields = array(), $opt 
    * TODO: Pull in description from resource as part of code-gen
    *
       * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $format (Required) 'format' field, which is an embedded 'Format' resource. (FIELD).
    * @param string $campaign (Required) 'campaign' field, which is an embedded 'Campaign' resource. (FIELD).
    * @param string $server (Required) 'server' field, which is an embedded 'Server' resource. (FIELD).
@@ -291,7 +304,7 @@ public function create_audio_target($context = array(), $fields = array(), $opt 
    */
 						
 public function update_audio_target($id,$context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.update_audio_target' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1) watchdog('tw_api', 'call to TWAPI.update_audio_target' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -321,6 +334,18 @@ public function update_audio_target($id,$context = array(), $fields = array(), $
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+        
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'audio_target\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
+    
+    
     
     //
     // Validate Fields
@@ -347,6 +372,7 @@ public function update_audio_target($id,$context = array(), $fields = array(), $
         '$op' => 'update',
         '$id' => $id,
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'format' => $fields['format'],
         'campaign' => $fields['campaign'],
         'name' => $fields['name'],
@@ -385,25 +411,25 @@ public function update_audio_target($id,$context = array(), $fields = array(), $
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'update_audio_target\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'update_audio_target\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'update_audio_target\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->audio_target->status)) {
       $message = 'Error response from server in call to \'update_audio_target\'. Response to \'audio_target\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -411,7 +437,7 @@ public function update_audio_target($id,$context = array(), $fields = array(), $
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'update_audio_target\'. Message \'' . $response->body->audio_target->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -428,6 +454,7 @@ public function update_audio_target($id,$context = array(), $fields = array(), $
    * TODO: Pull in description from resource as part of code-gen
    *
    * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $format (Required) 'format' field, which is an embedded 'Format' resource. (FIELD).
    * @param string $campaign (Required) 'campaign' field, which is an embedded 'Campaign' resource. (FIELD).
    * @param string $server (Required) 'server' field, which is an embedded 'Server' resource. (FIELD).
@@ -447,7 +474,7 @@ public function update_audio_target($id,$context = array(), $fields = array(), $
    */
 						
 public function create_barcode_target($context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.create_barcode_target' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1)watchdog('tw_api', 'call to TWAPI.create_barcode_target' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -460,6 +487,16 @@ public function create_barcode_target($context = array(), $fields = array(), $op
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+    
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'barcode_target\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
     
     //
     // Validate Fields
@@ -482,6 +519,7 @@ public function create_barcode_target($context = array(), $fields = array(), $op
     $opt['query_string'] = array(
         '$op' => 'create',
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'format' => $fields['format'],
         'campaign' => $fields['campaign'],
         'name' => $fields['name'],
@@ -519,25 +557,25 @@ public function create_barcode_target($context = array(), $fields = array(), $op
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'create_barcode_target\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() ,  WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'create_barcode_target\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'create_barcode_target\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->barcode_target->status)) {
       $message = 'Error response from server in call to \'create_barcode_target\'. Response to \'barcode_target\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -545,7 +583,7 @@ public function create_barcode_target($context = array(), $fields = array(), $op
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'create_barcode_target\'. Message \'' . $response->body->barcode_target->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -558,6 +596,7 @@ public function create_barcode_target($context = array(), $fields = array(), $op
    * TODO: Pull in description from resource as part of code-gen
    *
       * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $format (Required) 'format' field, which is an embedded 'Format' resource. (FIELD).
    * @param string $campaign (Required) 'campaign' field, which is an embedded 'Campaign' resource. (FIELD).
    * @param string $server (Required) 'server' field, which is an embedded 'Server' resource. (FIELD).
@@ -577,7 +616,7 @@ public function create_barcode_target($context = array(), $fields = array(), $op
    */
 						
 public function update_barcode_target($id,$context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.update_barcode_target' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1) watchdog('tw_api', 'call to TWAPI.update_barcode_target' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -607,6 +646,18 @@ public function update_barcode_target($id,$context = array(), $fields = array(),
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+        
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'barcode_target\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
+    
+    
     
     //
     // Validate Fields
@@ -630,6 +681,7 @@ public function update_barcode_target($id,$context = array(), $fields = array(),
         '$op' => 'update',
         '$id' => $id,
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'format' => $fields['format'],
         'campaign' => $fields['campaign'],
         'name' => $fields['name'],
@@ -667,25 +719,25 @@ public function update_barcode_target($id,$context = array(), $fields = array(),
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'update_barcode_target\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'update_barcode_target\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'update_barcode_target\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->barcode_target->status)) {
       $message = 'Error response from server in call to \'update_barcode_target\'. Response to \'barcode_target\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -693,7 +745,7 @@ public function update_barcode_target($id,$context = array(), $fields = array(),
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'update_barcode_target\'. Message \'' . $response->body->barcode_target->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -710,6 +762,7 @@ public function update_barcode_target($id,$context = array(), $fields = array(),
    * TODO: Pull in description from resource as part of code-gen
    *
    * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $externalrepositorytype (Required) 'externalrepositorytype' field, which is an embedded 'ExternalRepositoryType' resource. (FIELD).
    * @param string $host (Required) 'host' field, which is an embedded 'Host' resource. (FIELD).
    * @param string $apikey (Required) 'apikey' field, which is an embedded 'APIKey' resource. (FIELD).
@@ -722,7 +775,7 @@ public function update_barcode_target($id,$context = array(), $fields = array(),
    */
 						
 public function create_external_repository($context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.create_external_repository' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1)watchdog('tw_api', 'call to TWAPI.create_external_repository' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -735,6 +788,16 @@ public function create_external_repository($context = array(), $fields = array()
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+    
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'external_repository\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
     
     //
     // Validate Fields
@@ -754,6 +817,7 @@ public function create_external_repository($context = array(), $fields = array()
     $opt['query_string'] = array(
         '$op' => 'create',
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'externalrepositorytype' => $fields['externalrepositorytype'],
         'host' => $fields['host'],
         'apikey' => $fields['apikey'],
@@ -772,25 +836,25 @@ public function create_external_repository($context = array(), $fields = array()
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'create_external_repository\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() ,  WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'create_external_repository\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'create_external_repository\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->external_repository->status)) {
       $message = 'Error response from server in call to \'create_external_repository\'. Response to \'external_repository\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -798,7 +862,7 @@ public function create_external_repository($context = array(), $fields = array()
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'create_external_repository\'. Message \'' . $response->body->external_repository->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -811,6 +875,7 @@ public function create_external_repository($context = array(), $fields = array()
    * TODO: Pull in description from resource as part of code-gen
    *
       * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $externalrepositorytype (Required) 'externalrepositorytype' field, which is an embedded 'ExternalRepositoryType' resource. (FIELD).
    * @param string $host (Required) 'host' field, which is an embedded 'Host' resource. (FIELD).
    * @param string $apikey (Required) 'apikey' field, which is an embedded 'APIKey' resource. (FIELD).
@@ -823,7 +888,7 @@ public function create_external_repository($context = array(), $fields = array()
    */
 						
 public function update_external_repository($id,$context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.update_external_repository' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1) watchdog('tw_api', 'call to TWAPI.update_external_repository' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -853,6 +918,18 @@ public function update_external_repository($id,$context = array(), $fields = arr
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+        
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'external_repository\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
+    
+    
     
     //
     // Validate Fields
@@ -873,6 +950,7 @@ public function update_external_repository($id,$context = array(), $fields = arr
         '$op' => 'update',
         '$id' => $id,
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'externalrepositorytype' => $fields['externalrepositorytype'],
         'host' => $fields['host'],
         'apikey' => $fields['apikey'],
@@ -891,25 +969,25 @@ public function update_external_repository($id,$context = array(), $fields = arr
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'update_external_repository\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'update_external_repository\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'update_external_repository\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->external_repository->status)) {
       $message = 'Error response from server in call to \'update_external_repository\'. Response to \'external_repository\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -917,7 +995,7 @@ public function update_external_repository($id,$context = array(), $fields = arr
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'update_external_repository\'. Message \'' . $response->body->external_repository->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -934,6 +1012,7 @@ public function update_external_repository($id,$context = array(), $fields = arr
    * TODO: Pull in description from resource as part of code-gen
    *
    * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $name (Required) 'name' field, which is a 'string' type. (FIELD).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
    * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
@@ -943,7 +1022,7 @@ public function update_external_repository($id,$context = array(), $fields = arr
    */
 						
 public function create_external_repository_resource($context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.create_external_repository_resource' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1)watchdog('tw_api', 'call to TWAPI.create_external_repository_resource' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -957,6 +1036,16 @@ public function create_external_repository_resource($context = array(), $fields 
         'Content-Type' => 'application/xml',
     );
     
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'external_repository_resource\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
+    
     //
     // Validate Fields
     //
@@ -966,6 +1055,7 @@ public function create_external_repository_resource($context = array(), $fields 
     $opt['query_string'] = array(
         '$op' => 'create',
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'name' => $fields['name'],
     );
 
@@ -981,25 +1071,25 @@ public function create_external_repository_resource($context = array(), $fields 
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'create_external_repository_resource\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() ,  WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'create_external_repository_resource\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'create_external_repository_resource\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->external_repository_resource->status)) {
       $message = 'Error response from server in call to \'create_external_repository_resource\'. Response to \'external_repository_resource\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -1007,7 +1097,7 @@ public function create_external_repository_resource($context = array(), $fields 
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'create_external_repository_resource\'. Message \'' . $response->body->external_repository_resource->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -1020,6 +1110,7 @@ public function create_external_repository_resource($context = array(), $fields 
    * TODO: Pull in description from resource as part of code-gen
    *
       * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $name (Required) 'name' field, which is a 'string' type. (FIELD).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
    * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
@@ -1029,7 +1120,7 @@ public function create_external_repository_resource($context = array(), $fields 
    */
 						
 public function update_external_repository_resource($id,$context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.update_external_repository_resource' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1) watchdog('tw_api', 'call to TWAPI.update_external_repository_resource' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -1059,6 +1150,18 @@ public function update_external_repository_resource($id,$context = array(), $fie
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+        
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'external_repository_resource\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
+    
+    
     
     //
     // Validate Fields
@@ -1070,6 +1173,7 @@ public function update_external_repository_resource($id,$context = array(), $fie
         '$op' => 'update',
         '$id' => $id,
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'name' => $fields['name'],
     );
 
@@ -1085,25 +1189,25 @@ public function update_external_repository_resource($id,$context = array(), $fie
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'update_external_repository_resource\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'update_external_repository_resource\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'update_external_repository_resource\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->external_repository_resource->status)) {
       $message = 'Error response from server in call to \'update_external_repository_resource\'. Response to \'external_repository_resource\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -1111,7 +1215,7 @@ public function update_external_repository_resource($id,$context = array(), $fie
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'update_external_repository_resource\'. Message \'' . $response->body->external_repository_resource->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -1128,6 +1232,7 @@ public function update_external_repository_resource($id,$context = array(), $fie
    * TODO: Pull in description from resource as part of code-gen
    *
    * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $externalrepository (Required) 'externalrepository' field, which is an embedded 'ExternalRepository' resource. (FIELD).
    * @param string $repositoryresource (Required) 'repositoryresource' field, which is an embedded 'RepositoryResource' resource. (FIELD).
    * @param string $active (Required) 'active' field, which is a 'boolean' type. (FIELD).
@@ -1139,7 +1244,7 @@ public function update_external_repository_resource($id,$context = array(), $fie
    */
 						
 public function create_external_repository_resource_subscription($context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.create_external_repository_resource_subscription' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1)watchdog('tw_api', 'call to TWAPI.create_external_repository_resource_subscription' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -1153,6 +1258,16 @@ public function create_external_repository_resource_subscription($context = arra
         'Content-Type' => 'application/xml',
     );
     
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'external_repository_resource_subscription\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
+    
     //
     // Validate Fields
     //
@@ -1165,6 +1280,7 @@ public function create_external_repository_resource_subscription($context = arra
     $opt['query_string'] = array(
         '$op' => 'create',
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'externalrepository' => $fields['externalrepository'],
         'repositoryresource' => $fields['repositoryresource'],
     );
@@ -1184,25 +1300,25 @@ public function create_external_repository_resource_subscription($context = arra
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'create_external_repository_resource_subscription\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() ,  WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'create_external_repository_resource_subscription\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'create_external_repository_resource_subscription\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->external_repository_resource_subscription->status)) {
       $message = 'Error response from server in call to \'create_external_repository_resource_subscription\'. Response to \'external_repository_resource_subscription\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -1210,7 +1326,7 @@ public function create_external_repository_resource_subscription($context = arra
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'create_external_repository_resource_subscription\'. Message \'' . $response->body->external_repository_resource_subscription->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -1223,6 +1339,7 @@ public function create_external_repository_resource_subscription($context = arra
    * TODO: Pull in description from resource as part of code-gen
    *
       * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $externalrepository (Required) 'externalrepository' field, which is an embedded 'ExternalRepository' resource. (FIELD).
    * @param string $repositoryresource (Required) 'repositoryresource' field, which is an embedded 'RepositoryResource' resource. (FIELD).
    * @param string $active (Required) 'active' field, which is a 'boolean' type. (FIELD).
@@ -1234,7 +1351,7 @@ public function create_external_repository_resource_subscription($context = arra
    */
 						
 public function update_external_repository_resource_subscription($id,$context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.update_external_repository_resource_subscription' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1) watchdog('tw_api', 'call to TWAPI.update_external_repository_resource_subscription' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -1264,6 +1381,18 @@ public function update_external_repository_resource_subscription($id,$context = 
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+        
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'external_repository_resource_subscription\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
+    
+    
     
     //
     // Validate Fields
@@ -1278,6 +1407,7 @@ public function update_external_repository_resource_subscription($id,$context = 
         '$op' => 'update',
         '$id' => $id,
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'externalrepository' => $fields['externalrepository'],
         'repositoryresource' => $fields['repositoryresource'],
     );
@@ -1297,25 +1427,25 @@ public function update_external_repository_resource_subscription($id,$context = 
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'update_external_repository_resource_subscription\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'update_external_repository_resource_subscription\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'update_external_repository_resource_subscription\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->external_repository_resource_subscription->status)) {
       $message = 'Error response from server in call to \'update_external_repository_resource_subscription\'. Response to \'external_repository_resource_subscription\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -1323,7 +1453,7 @@ public function update_external_repository_resource_subscription($id,$context = 
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'update_external_repository_resource_subscription\'. Message \'' . $response->body->external_repository_resource_subscription->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -1340,6 +1470,7 @@ public function update_external_repository_resource_subscription($id,$context = 
    * TODO: Pull in description from resource as part of code-gen
    *
    * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $externalsubscription (Required) 'externalsubscription' field, which is an embedded 'ExternalSubscription' resource. (FIELD).
    * @param string $last_sync (Required) 'last_sync' field, which is a 'datetime' type. (FIELD).
    * @param string $max (Required) 'max' field, which is a 'long' type. (FIELD).
@@ -1352,7 +1483,7 @@ public function update_external_repository_resource_subscription($id,$context = 
    */
 						
 public function create_external_repository_sync($context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.create_external_repository_sync' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1)watchdog('tw_api', 'call to TWAPI.create_external_repository_sync' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -1365,6 +1496,16 @@ public function create_external_repository_sync($context = array(), $fields = ar
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+    
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'external_repository_sync\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
     
     //
     // Validate Fields
@@ -1381,6 +1522,7 @@ public function create_external_repository_sync($context = array(), $fields = ar
     $opt['query_string'] = array(
         '$op' => 'create',
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'externalsubscription' => $fields['externalsubscription'],
         'last_sync' => $fields['last_sync'],
         'max' => $fields['max'],
@@ -1401,25 +1543,25 @@ public function create_external_repository_sync($context = array(), $fields = ar
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'create_external_repository_sync\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() ,  WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'create_external_repository_sync\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'create_external_repository_sync\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->external_repository_sync->status)) {
       $message = 'Error response from server in call to \'create_external_repository_sync\'. Response to \'external_repository_sync\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -1427,7 +1569,7 @@ public function create_external_repository_sync($context = array(), $fields = ar
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'create_external_repository_sync\'. Message \'' . $response->body->external_repository_sync->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -1440,6 +1582,7 @@ public function create_external_repository_sync($context = array(), $fields = ar
    * TODO: Pull in description from resource as part of code-gen
    *
       * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $externalsubscription (Required) 'externalsubscription' field, which is an embedded 'ExternalSubscription' resource. (FIELD).
    * @param string $last_sync (Required) 'last_sync' field, which is a 'datetime' type. (FIELD).
    * @param string $max (Required) 'max' field, which is a 'long' type. (FIELD).
@@ -1452,7 +1595,7 @@ public function create_external_repository_sync($context = array(), $fields = ar
    */
 						
 public function update_external_repository_sync($id,$context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.update_external_repository_sync' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1) watchdog('tw_api', 'call to TWAPI.update_external_repository_sync' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -1482,6 +1625,18 @@ public function update_external_repository_sync($id,$context = array(), $fields 
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+        
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'external_repository_sync\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
+    
+    
     
     //
     // Validate Fields
@@ -1499,6 +1654,7 @@ public function update_external_repository_sync($id,$context = array(), $fields 
         '$op' => 'update',
         '$id' => $id,
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'externalsubscription' => $fields['externalsubscription'],
         'last_sync' => $fields['last_sync'],
         'max' => $fields['max'],
@@ -1519,25 +1675,25 @@ public function update_external_repository_sync($id,$context = array(), $fields 
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'update_external_repository_sync\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'update_external_repository_sync\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'update_external_repository_sync\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->external_repository_sync->status)) {
       $message = 'Error response from server in call to \'update_external_repository_sync\'. Response to \'external_repository_sync\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -1545,7 +1701,7 @@ public function update_external_repository_sync($id,$context = array(), $fields 
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'update_external_repository_sync\'. Message \'' . $response->body->external_repository_sync->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -1562,6 +1718,7 @@ public function update_external_repository_sync($id,$context = array(), $fields 
    * TODO: Pull in description from resource as part of code-gen
    *
    * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $name (Required) 'name' field, which is a 'string' type. (FIELD).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
    * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
@@ -1571,7 +1728,7 @@ public function update_external_repository_sync($id,$context = array(), $fields 
    */
 						
 public function create_external_repository_type($context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.create_external_repository_type' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1)watchdog('tw_api', 'call to TWAPI.create_external_repository_type' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -1585,6 +1742,16 @@ public function create_external_repository_type($context = array(), $fields = ar
         'Content-Type' => 'application/xml',
     );
     
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'external_repository_type\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
+    
     //
     // Validate Fields
     //
@@ -1594,6 +1761,7 @@ public function create_external_repository_type($context = array(), $fields = ar
     $opt['query_string'] = array(
         '$op' => 'create',
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'name' => $fields['name'],
     );
 
@@ -1609,25 +1777,25 @@ public function create_external_repository_type($context = array(), $fields = ar
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'create_external_repository_type\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() ,  WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'create_external_repository_type\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'create_external_repository_type\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->external_repository_type->status)) {
       $message = 'Error response from server in call to \'create_external_repository_type\'. Response to \'external_repository_type\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -1635,7 +1803,7 @@ public function create_external_repository_type($context = array(), $fields = ar
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'create_external_repository_type\'. Message \'' . $response->body->external_repository_type->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -1648,6 +1816,7 @@ public function create_external_repository_type($context = array(), $fields = ar
    * TODO: Pull in description from resource as part of code-gen
    *
       * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $name (Required) 'name' field, which is a 'string' type. (FIELD).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
    * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
@@ -1657,7 +1826,7 @@ public function create_external_repository_type($context = array(), $fields = ar
    */
 						
 public function update_external_repository_type($id,$context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.update_external_repository_type' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1) watchdog('tw_api', 'call to TWAPI.update_external_repository_type' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -1687,6 +1856,18 @@ public function update_external_repository_type($id,$context = array(), $fields 
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+        
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'external_repository_type\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
+    
+    
     
     //
     // Validate Fields
@@ -1698,6 +1879,7 @@ public function update_external_repository_type($id,$context = array(), $fields 
         '$op' => 'update',
         '$id' => $id,
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'name' => $fields['name'],
     );
 
@@ -1713,25 +1895,25 @@ public function update_external_repository_type($id,$context = array(), $fields 
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'update_external_repository_type\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'update_external_repository_type\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'update_external_repository_type\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->external_repository_type->status)) {
       $message = 'Error response from server in call to \'update_external_repository_type\'. Response to \'external_repository_type\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -1739,7 +1921,7 @@ public function update_external_repository_type($id,$context = array(), $fields 
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'update_external_repository_type\'. Message \'' . $response->body->external_repository_type->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -1756,6 +1938,7 @@ public function update_external_repository_type($id,$context = array(), $fields 
    * TODO: Pull in description from resource as part of code-gen
    *
    * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $hosttype (Required) 'hosttype' field, which is an embedded 'HostType' resource. (FIELD).
    * @param string $hostcredential (Required) 'hostcredential' field, which is an embedded 'HostCredential' resource. (FIELD).
    * @param string $address (Required) 'address' field, which is a 'string' type. (FIELD).
@@ -1768,7 +1951,7 @@ public function update_external_repository_type($id,$context = array(), $fields 
    */
 						
 public function create_host($context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.create_host' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1)watchdog('tw_api', 'call to TWAPI.create_host' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -1781,6 +1964,16 @@ public function create_host($context = array(), $fields = array(), $opt = null) 
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+    
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'host\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
     
     //
     // Validate Fields
@@ -1797,6 +1990,7 @@ public function create_host($context = array(), $fields = array(), $opt = null) 
     $opt['query_string'] = array(
         '$op' => 'create',
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'hosttype' => $fields['hosttype'],
         'hostcredential' => $fields['hostcredential'],
         'address' => $fields['address'],
@@ -1817,25 +2011,25 @@ public function create_host($context = array(), $fields = array(), $opt = null) 
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'create_host\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() ,  WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'create_host\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'create_host\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->host->status)) {
       $message = 'Error response from server in call to \'create_host\'. Response to \'host\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -1843,7 +2037,7 @@ public function create_host($context = array(), $fields = array(), $opt = null) 
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'create_host\'. Message \'' . $response->body->host->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -1856,6 +2050,7 @@ public function create_host($context = array(), $fields = array(), $opt = null) 
    * TODO: Pull in description from resource as part of code-gen
    *
       * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $hosttype (Required) 'hosttype' field, which is an embedded 'HostType' resource. (FIELD).
    * @param string $hostcredential (Required) 'hostcredential' field, which is an embedded 'HostCredential' resource. (FIELD).
    * @param string $address (Required) 'address' field, which is a 'string' type. (FIELD).
@@ -1868,7 +2063,7 @@ public function create_host($context = array(), $fields = array(), $opt = null) 
    */
 						
 public function update_host($id,$context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.update_host' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1) watchdog('tw_api', 'call to TWAPI.update_host' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -1898,6 +2093,18 @@ public function update_host($id,$context = array(), $fields = array(), $opt = nu
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+        
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'host\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
+    
+    
     
     //
     // Validate Fields
@@ -1915,6 +2122,7 @@ public function update_host($id,$context = array(), $fields = array(), $opt = nu
         '$op' => 'update',
         '$id' => $id,
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'hosttype' => $fields['hosttype'],
         'hostcredential' => $fields['hostcredential'],
         'address' => $fields['address'],
@@ -1935,25 +2143,25 @@ public function update_host($id,$context = array(), $fields = array(), $opt = nu
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'update_host\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'update_host\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'update_host\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->host->status)) {
       $message = 'Error response from server in call to \'update_host\'. Response to \'host\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -1961,7 +2169,7 @@ public function update_host($id,$context = array(), $fields = array(), $opt = nu
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'update_host\'. Message \'' . $response->body->host->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -1978,6 +2186,7 @@ public function update_host($id,$context = array(), $fields = array(), $opt = nu
    * TODO: Pull in description from resource as part of code-gen
    *
    * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $host (Required) 'host' field, which is an embedded 'Host' resource. (FIELD).
    * @param string $hostcommandtemplate (Required) 'hostcommandtemplate' field, which is an embedded 'HostCommandTemplate' resource. (FIELD).
    * @param string $command (Required) 'command' field, which is a 'string' type. (FIELD).
@@ -1991,7 +2200,7 @@ public function update_host($id,$context = array(), $fields = array(), $opt = nu
    */
 						
 public function create_host_command($context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.create_host_command' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1)watchdog('tw_api', 'call to TWAPI.create_host_command' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -2004,6 +2213,16 @@ public function create_host_command($context = array(), $fields = array(), $opt 
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+    
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'host_command\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
     
     //
     // Validate Fields
@@ -2026,6 +2245,7 @@ public function create_host_command($context = array(), $fields = array(), $opt 
     $opt['query_string'] = array(
         '$op' => 'create',
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'host' => $fields['host'],
         'hostcommandtemplate' => $fields['hostcommandtemplate'],
         'command' => $fields['command'],
@@ -2045,25 +2265,25 @@ public function create_host_command($context = array(), $fields = array(), $opt 
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'create_host_command\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() ,  WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'create_host_command\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'create_host_command\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->host_command->status)) {
       $message = 'Error response from server in call to \'create_host_command\'. Response to \'host_command\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -2071,7 +2291,7 @@ public function create_host_command($context = array(), $fields = array(), $opt 
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'create_host_command\'. Message \'' . $response->body->host_command->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -2084,6 +2304,7 @@ public function create_host_command($context = array(), $fields = array(), $opt 
    * TODO: Pull in description from resource as part of code-gen
    *
       * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $host (Required) 'host' field, which is an embedded 'Host' resource. (FIELD).
    * @param string $hostcommandtemplate (Required) 'hostcommandtemplate' field, which is an embedded 'HostCommandTemplate' resource. (FIELD).
    * @param string $command (Required) 'command' field, which is a 'string' type. (FIELD).
@@ -2097,7 +2318,7 @@ public function create_host_command($context = array(), $fields = array(), $opt 
    */
 						
 public function update_host_command($id,$context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.update_host_command' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1) watchdog('tw_api', 'call to TWAPI.update_host_command' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -2127,6 +2348,18 @@ public function update_host_command($id,$context = array(), $fields = array(), $
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+        
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'host_command\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
+    
+    
     
     //
     // Validate Fields
@@ -2150,6 +2383,7 @@ public function update_host_command($id,$context = array(), $fields = array(), $
         '$op' => 'update',
         '$id' => $id,
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'host' => $fields['host'],
         'hostcommandtemplate' => $fields['hostcommandtemplate'],
         'command' => $fields['command'],
@@ -2169,25 +2403,25 @@ public function update_host_command($id,$context = array(), $fields = array(), $
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'update_host_command\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'update_host_command\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'update_host_command\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->host_command->status)) {
       $message = 'Error response from server in call to \'update_host_command\'. Response to \'host_command\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -2195,7 +2429,7 @@ public function update_host_command($id,$context = array(), $fields = array(), $
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'update_host_command\'. Message \'' . $response->body->host_command->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -2212,6 +2446,7 @@ public function update_host_command($id,$context = array(), $fields = array(), $
    * TODO: Pull in description from resource as part of code-gen
    *
    * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $name (Required) 'name' field, which is a 'string' type. (FIELD).
    * @param string $hostroletype (Required) 'hostroletype' field, which is an embedded 'HostRoleType' resource. (FIELD).
    * @param string $hostcommandtemplatetype (Required) 'hostcommandtemplatetype' field, which is an embedded 'HostCommandTemplateType' resource. (FIELD).
@@ -2223,7 +2458,7 @@ public function update_host_command($id,$context = array(), $fields = array(), $
    */
 						
 public function create_host_command_template($context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.create_host_command_template' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1)watchdog('tw_api', 'call to TWAPI.create_host_command_template' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -2236,6 +2471,16 @@ public function create_host_command_template($context = array(), $fields = array
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+    
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'host_command_template\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
     
     //
     // Validate Fields
@@ -2252,6 +2497,7 @@ public function create_host_command_template($context = array(), $fields = array
     $opt['query_string'] = array(
         '$op' => 'create',
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'name' => $fields['name'],
         'hostroletype' => $fields['hostroletype'],
         'hostcommandtemplatetype' => $fields['hostcommandtemplatetype'],
@@ -2269,25 +2515,25 @@ public function create_host_command_template($context = array(), $fields = array
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'create_host_command_template\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() ,  WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'create_host_command_template\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'create_host_command_template\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->host_command_template->status)) {
       $message = 'Error response from server in call to \'create_host_command_template\'. Response to \'host_command_template\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -2295,7 +2541,7 @@ public function create_host_command_template($context = array(), $fields = array
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'create_host_command_template\'. Message \'' . $response->body->host_command_template->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -2308,6 +2554,7 @@ public function create_host_command_template($context = array(), $fields = array
    * TODO: Pull in description from resource as part of code-gen
    *
       * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $name (Required) 'name' field, which is a 'string' type. (FIELD).
    * @param string $hostroletype (Required) 'hostroletype' field, which is an embedded 'HostRoleType' resource. (FIELD).
    * @param string $hostcommandtemplatetype (Required) 'hostcommandtemplatetype' field, which is an embedded 'HostCommandTemplateType' resource. (FIELD).
@@ -2319,7 +2566,7 @@ public function create_host_command_template($context = array(), $fields = array
    */
 						
 public function update_host_command_template($id,$context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.update_host_command_template' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1) watchdog('tw_api', 'call to TWAPI.update_host_command_template' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -2349,6 +2596,18 @@ public function update_host_command_template($id,$context = array(), $fields = a
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+        
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'host_command_template\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
+    
+    
     
     //
     // Validate Fields
@@ -2366,6 +2625,7 @@ public function update_host_command_template($id,$context = array(), $fields = a
         '$op' => 'update',
         '$id' => $id,
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'name' => $fields['name'],
         'hostroletype' => $fields['hostroletype'],
         'hostcommandtemplatetype' => $fields['hostcommandtemplatetype'],
@@ -2383,25 +2643,25 @@ public function update_host_command_template($id,$context = array(), $fields = a
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'update_host_command_template\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'update_host_command_template\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'update_host_command_template\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->host_command_template->status)) {
       $message = 'Error response from server in call to \'update_host_command_template\'. Response to \'host_command_template\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -2409,7 +2669,7 @@ public function update_host_command_template($id,$context = array(), $fields = a
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'update_host_command_template\'. Message \'' . $response->body->host_command_template->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -2426,6 +2686,7 @@ public function update_host_command_template($id,$context = array(), $fields = a
    * TODO: Pull in description from resource as part of code-gen
    *
    * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $name (Required) 'name' field, which is a 'string' type. (FIELD).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
    * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
@@ -2435,7 +2696,7 @@ public function update_host_command_template($id,$context = array(), $fields = a
    */
 						
 public function create_host_command_template_type($context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.create_host_command_template_type' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1)watchdog('tw_api', 'call to TWAPI.create_host_command_template_type' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -2449,6 +2710,16 @@ public function create_host_command_template_type($context = array(), $fields = 
         'Content-Type' => 'application/xml',
     );
     
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'host_command_template_type\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
+    
     //
     // Validate Fields
     //
@@ -2458,6 +2729,7 @@ public function create_host_command_template_type($context = array(), $fields = 
     $opt['query_string'] = array(
         '$op' => 'create',
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'name' => $fields['name'],
     );
 
@@ -2473,25 +2745,25 @@ public function create_host_command_template_type($context = array(), $fields = 
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'create_host_command_template_type\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() ,  WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'create_host_command_template_type\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'create_host_command_template_type\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->host_command_template_type->status)) {
       $message = 'Error response from server in call to \'create_host_command_template_type\'. Response to \'host_command_template_type\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -2499,7 +2771,7 @@ public function create_host_command_template_type($context = array(), $fields = 
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'create_host_command_template_type\'. Message \'' . $response->body->host_command_template_type->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -2512,6 +2784,7 @@ public function create_host_command_template_type($context = array(), $fields = 
    * TODO: Pull in description from resource as part of code-gen
    *
       * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $name (Required) 'name' field, which is a 'string' type. (FIELD).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
    * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
@@ -2521,7 +2794,7 @@ public function create_host_command_template_type($context = array(), $fields = 
    */
 						
 public function update_host_command_template_type($id,$context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.update_host_command_template_type' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1) watchdog('tw_api', 'call to TWAPI.update_host_command_template_type' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -2551,6 +2824,18 @@ public function update_host_command_template_type($id,$context = array(), $field
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+        
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'host_command_template_type\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
+    
+    
     
     //
     // Validate Fields
@@ -2562,6 +2847,7 @@ public function update_host_command_template_type($id,$context = array(), $field
         '$op' => 'update',
         '$id' => $id,
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'name' => $fields['name'],
     );
 
@@ -2577,25 +2863,25 @@ public function update_host_command_template_type($id,$context = array(), $field
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'update_host_command_template_type\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'update_host_command_template_type\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'update_host_command_template_type\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->host_command_template_type->status)) {
       $message = 'Error response from server in call to \'update_host_command_template_type\'. Response to \'host_command_template_type\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -2603,7 +2889,7 @@ public function update_host_command_template_type($id,$context = array(), $field
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'update_host_command_template_type\'. Message \'' . $response->body->host_command_template_type->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -2620,6 +2906,7 @@ public function update_host_command_template_type($id,$context = array(), $field
    * TODO: Pull in description from resource as part of code-gen
    *
    * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $hostprovideraccount (Required) 'hostprovideraccount' field, which is an embedded 'HostProviderAccount' resource. (FIELD).
    * @param string $username (Required) 'username' field, which is a 'string' type. (FIELD).
    * @param string $password (Required) 'password' field, which is a 'string' type. (FIELD).
@@ -2632,7 +2919,7 @@ public function update_host_command_template_type($id,$context = array(), $field
    */
 						
 public function create_host_credential($context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.create_host_credential' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1)watchdog('tw_api', 'call to TWAPI.create_host_credential' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -2646,12 +2933,23 @@ public function create_host_credential($context = array(), $fields = array(), $o
         'Content-Type' => 'application/xml',
     );
     
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'host_credential\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
+    
     //
     // Validate Fields
     //
     $opt['query_string'] = array(
         '$op' => 'create',
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
     );
 
     //
@@ -2678,25 +2976,25 @@ public function create_host_credential($context = array(), $fields = array(), $o
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'create_host_credential\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() ,  WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'create_host_credential\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'create_host_credential\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->host_credential->status)) {
       $message = 'Error response from server in call to \'create_host_credential\'. Response to \'host_credential\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -2704,7 +3002,7 @@ public function create_host_credential($context = array(), $fields = array(), $o
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'create_host_credential\'. Message \'' . $response->body->host_credential->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -2717,6 +3015,7 @@ public function create_host_credential($context = array(), $fields = array(), $o
    * TODO: Pull in description from resource as part of code-gen
    *
       * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $hostprovideraccount (Required) 'hostprovideraccount' field, which is an embedded 'HostProviderAccount' resource. (FIELD).
    * @param string $username (Required) 'username' field, which is a 'string' type. (FIELD).
    * @param string $password (Required) 'password' field, which is a 'string' type. (FIELD).
@@ -2729,7 +3028,7 @@ public function create_host_credential($context = array(), $fields = array(), $o
    */
 						
 public function update_host_credential($id,$context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.update_host_credential' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1) watchdog('tw_api', 'call to TWAPI.update_host_credential' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -2759,6 +3058,18 @@ public function update_host_credential($id,$context = array(), $fields = array()
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+        
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'host_credential\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
+    
+    
     
     //
     // Validate Fields
@@ -2767,6 +3078,7 @@ public function update_host_credential($id,$context = array(), $fields = array()
         '$op' => 'update',
         '$id' => $id,
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
     );
 
     //
@@ -2793,25 +3105,25 @@ public function update_host_credential($id,$context = array(), $fields = array()
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'update_host_credential\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'update_host_credential\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'update_host_credential\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->host_credential->status)) {
       $message = 'Error response from server in call to \'update_host_credential\'. Response to \'host_credential\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -2819,7 +3131,7 @@ public function update_host_credential($id,$context = array(), $fields = array()
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'update_host_credential\'. Message \'' . $response->body->host_credential->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -2836,6 +3148,7 @@ public function update_host_credential($id,$context = array(), $fields = array()
    * TODO: Pull in description from resource as part of code-gen
    *
    * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $log (Required) 'log' field, which is a 'string' type. (FIELD).
    * @param string $hostcommand (Required) 'hostcommand' field, which is an embedded 'HostCommand' resource. (FIELD).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
@@ -2846,7 +3159,7 @@ public function update_host_credential($id,$context = array(), $fields = array()
    */
 						
 public function create_host_log_entry($context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.create_host_log_entry' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1)watchdog('tw_api', 'call to TWAPI.create_host_log_entry' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -2860,6 +3173,16 @@ public function create_host_log_entry($context = array(), $fields = array(), $op
         'Content-Type' => 'application/xml',
     );
     
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'host_log_entry\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
+    
     //
     // Validate Fields
     //
@@ -2872,6 +3195,7 @@ public function create_host_log_entry($context = array(), $fields = array(), $op
     $opt['query_string'] = array(
         '$op' => 'create',
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'log' => $fields['log'],
         'hostcommand' => $fields['hostcommand'],
     );
@@ -2888,25 +3212,25 @@ public function create_host_log_entry($context = array(), $fields = array(), $op
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'create_host_log_entry\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() ,  WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'create_host_log_entry\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'create_host_log_entry\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->host_log_entry->status)) {
       $message = 'Error response from server in call to \'create_host_log_entry\'. Response to \'host_log_entry\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -2914,7 +3238,7 @@ public function create_host_log_entry($context = array(), $fields = array(), $op
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'create_host_log_entry\'. Message \'' . $response->body->host_log_entry->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -2927,6 +3251,7 @@ public function create_host_log_entry($context = array(), $fields = array(), $op
    * TODO: Pull in description from resource as part of code-gen
    *
       * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $log (Required) 'log' field, which is a 'string' type. (FIELD).
    * @param string $hostcommand (Required) 'hostcommand' field, which is an embedded 'HostCommand' resource. (FIELD).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
@@ -2937,7 +3262,7 @@ public function create_host_log_entry($context = array(), $fields = array(), $op
    */
 						
 public function update_host_log_entry($id,$context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.update_host_log_entry' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1) watchdog('tw_api', 'call to TWAPI.update_host_log_entry' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -2967,6 +3292,18 @@ public function update_host_log_entry($id,$context = array(), $fields = array(),
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+        
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'host_log_entry\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
+    
+    
     
     //
     // Validate Fields
@@ -2981,6 +3318,7 @@ public function update_host_log_entry($id,$context = array(), $fields = array(),
         '$op' => 'update',
         '$id' => $id,
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'log' => $fields['log'],
         'hostcommand' => $fields['hostcommand'],
     );
@@ -2997,25 +3335,25 @@ public function update_host_log_entry($id,$context = array(), $fields = array(),
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'update_host_log_entry\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'update_host_log_entry\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'update_host_log_entry\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->host_log_entry->status)) {
       $message = 'Error response from server in call to \'update_host_log_entry\'. Response to \'host_log_entry\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -3023,7 +3361,7 @@ public function update_host_log_entry($id,$context = array(), $fields = array(),
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'update_host_log_entry\'. Message \'' . $response->body->host_log_entry->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -3040,6 +3378,7 @@ public function update_host_log_entry($id,$context = array(), $fields = array(),
    * TODO: Pull in description from resource as part of code-gen
    *
    * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $hostcredential (Required) 'hostcredential' field, which is an embedded 'HostCredential' resource. (FIELD).
    * @param string $host (Required) 'host' field, which is an embedded 'Host' resource. (FIELD).
    * @param string $address (Required) 'address' field, which is a 'string' type. (FIELD).
@@ -3053,7 +3392,7 @@ public function update_host_log_entry($id,$context = array(), $fields = array(),
    */
 						
 public function create_host_order($context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.create_host_order' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1)watchdog('tw_api', 'call to TWAPI.create_host_order' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -3066,6 +3405,16 @@ public function create_host_order($context = array(), $fields = array(), $opt = 
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+    
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'host_order\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
     
     //
     // Validate Fields
@@ -3082,6 +3431,7 @@ public function create_host_order($context = array(), $fields = array(), $opt = 
     $opt['query_string'] = array(
         '$op' => 'create',
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'hostcredential' => $fields['hostcredential'],
         'processing' => $fields['processing'],
         'completed' => $fields['completed'],
@@ -3105,25 +3455,25 @@ public function create_host_order($context = array(), $fields = array(), $opt = 
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'create_host_order\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() ,  WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'create_host_order\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'create_host_order\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->host_order->status)) {
       $message = 'Error response from server in call to \'create_host_order\'. Response to \'host_order\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -3131,7 +3481,7 @@ public function create_host_order($context = array(), $fields = array(), $opt = 
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'create_host_order\'. Message \'' . $response->body->host_order->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -3144,6 +3494,7 @@ public function create_host_order($context = array(), $fields = array(), $opt = 
    * TODO: Pull in description from resource as part of code-gen
    *
       * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $hostcredential (Required) 'hostcredential' field, which is an embedded 'HostCredential' resource. (FIELD).
    * @param string $host (Required) 'host' field, which is an embedded 'Host' resource. (FIELD).
    * @param string $address (Required) 'address' field, which is a 'string' type. (FIELD).
@@ -3157,7 +3508,7 @@ public function create_host_order($context = array(), $fields = array(), $opt = 
    */
 						
 public function update_host_order($id,$context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.update_host_order' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1) watchdog('tw_api', 'call to TWAPI.update_host_order' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -3187,6 +3538,18 @@ public function update_host_order($id,$context = array(), $fields = array(), $op
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+        
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'host_order\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
+    
+    
     
     //
     // Validate Fields
@@ -3204,6 +3567,7 @@ public function update_host_order($id,$context = array(), $fields = array(), $op
         '$op' => 'update',
         '$id' => $id,
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'hostcredential' => $fields['hostcredential'],
         'processing' => $fields['processing'],
         'completed' => $fields['completed'],
@@ -3227,25 +3591,25 @@ public function update_host_order($id,$context = array(), $fields = array(), $op
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'update_host_order\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'update_host_order\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'update_host_order\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->host_order->status)) {
       $message = 'Error response from server in call to \'update_host_order\'. Response to \'host_order\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -3253,7 +3617,7 @@ public function update_host_order($id,$context = array(), $fields = array(), $op
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'update_host_order\'. Message \'' . $response->body->host_order->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -3270,6 +3634,7 @@ public function update_host_order($id,$context = array(), $fields = array(), $op
    * TODO: Pull in description from resource as part of code-gen
    *
    * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $name (Required) 'name' field, which is a 'string' type. (FIELD).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
    * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
@@ -3279,7 +3644,7 @@ public function update_host_order($id,$context = array(), $fields = array(), $op
    */
 						
 public function create_host_provider($context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.create_host_provider' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1)watchdog('tw_api', 'call to TWAPI.create_host_provider' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -3293,6 +3658,16 @@ public function create_host_provider($context = array(), $fields = array(), $opt
         'Content-Type' => 'application/xml',
     );
     
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'host_provider\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
+    
     //
     // Validate Fields
     //
@@ -3302,6 +3677,7 @@ public function create_host_provider($context = array(), $fields = array(), $opt
     $opt['query_string'] = array(
         '$op' => 'create',
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'name' => $fields['name'],
     );
 
@@ -3317,25 +3693,25 @@ public function create_host_provider($context = array(), $fields = array(), $opt
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'create_host_provider\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() ,  WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'create_host_provider\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'create_host_provider\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->host_provider->status)) {
       $message = 'Error response from server in call to \'create_host_provider\'. Response to \'host_provider\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -3343,7 +3719,7 @@ public function create_host_provider($context = array(), $fields = array(), $opt
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'create_host_provider\'. Message \'' . $response->body->host_provider->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -3356,6 +3732,7 @@ public function create_host_provider($context = array(), $fields = array(), $opt
    * TODO: Pull in description from resource as part of code-gen
    *
       * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $name (Required) 'name' field, which is a 'string' type. (FIELD).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
    * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
@@ -3365,7 +3742,7 @@ public function create_host_provider($context = array(), $fields = array(), $opt
    */
 						
 public function update_host_provider($id,$context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.update_host_provider' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1) watchdog('tw_api', 'call to TWAPI.update_host_provider' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -3395,6 +3772,18 @@ public function update_host_provider($id,$context = array(), $fields = array(), 
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+        
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'host_provider\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
+    
+    
     
     //
     // Validate Fields
@@ -3406,6 +3795,7 @@ public function update_host_provider($id,$context = array(), $fields = array(), 
         '$op' => 'update',
         '$id' => $id,
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'name' => $fields['name'],
     );
 
@@ -3421,25 +3811,25 @@ public function update_host_provider($id,$context = array(), $fields = array(), 
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'update_host_provider\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'update_host_provider\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'update_host_provider\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->host_provider->status)) {
       $message = 'Error response from server in call to \'update_host_provider\'. Response to \'host_provider\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -3447,7 +3837,7 @@ public function update_host_provider($id,$context = array(), $fields = array(), 
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'update_host_provider\'. Message \'' . $response->body->host_provider->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -3464,6 +3854,7 @@ public function update_host_provider($id,$context = array(), $fields = array(), 
    * TODO: Pull in description from resource as part of code-gen
    *
    * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $name (Required) 'name' field, which is a 'string' type. (FIELD).
    * @param string $token (Required) 'token' field, which is a 'string' type. (FIELD).
    * @param string $secret (Required) 'secret' field, which is a 'string' type. (FIELD).
@@ -3476,7 +3867,7 @@ public function update_host_provider($id,$context = array(), $fields = array(), 
    */
 						
 public function create_host_provider_account($context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.create_host_provider_account' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1)watchdog('tw_api', 'call to TWAPI.create_host_provider_account' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -3490,6 +3881,16 @@ public function create_host_provider_account($context = array(), $fields = array
         'Content-Type' => 'application/xml',
     );
     
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'host_provider_account\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
+    
     //
     // Validate Fields
     //
@@ -3499,6 +3900,7 @@ public function create_host_provider_account($context = array(), $fields = array
     $opt['query_string'] = array(
         '$op' => 'create',
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'name' => $fields['name'],
     );
 
@@ -3523,25 +3925,25 @@ public function create_host_provider_account($context = array(), $fields = array
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'create_host_provider_account\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() ,  WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'create_host_provider_account\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'create_host_provider_account\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->host_provider_account->status)) {
       $message = 'Error response from server in call to \'create_host_provider_account\'. Response to \'host_provider_account\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -3549,7 +3951,7 @@ public function create_host_provider_account($context = array(), $fields = array
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'create_host_provider_account\'. Message \'' . $response->body->host_provider_account->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -3562,6 +3964,7 @@ public function create_host_provider_account($context = array(), $fields = array
    * TODO: Pull in description from resource as part of code-gen
    *
       * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $name (Required) 'name' field, which is a 'string' type. (FIELD).
    * @param string $token (Required) 'token' field, which is a 'string' type. (FIELD).
    * @param string $secret (Required) 'secret' field, which is a 'string' type. (FIELD).
@@ -3574,7 +3977,7 @@ public function create_host_provider_account($context = array(), $fields = array
    */
 						
 public function update_host_provider_account($id,$context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.update_host_provider_account' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1) watchdog('tw_api', 'call to TWAPI.update_host_provider_account' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -3604,6 +4007,18 @@ public function update_host_provider_account($id,$context = array(), $fields = a
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+        
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'host_provider_account\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
+    
+    
     
     //
     // Validate Fields
@@ -3615,6 +4030,7 @@ public function update_host_provider_account($id,$context = array(), $fields = a
         '$op' => 'update',
         '$id' => $id,
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'name' => $fields['name'],
     );
 
@@ -3639,25 +4055,25 @@ public function update_host_provider_account($id,$context = array(), $fields = a
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'update_host_provider_account\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'update_host_provider_account\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'update_host_provider_account\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->host_provider_account->status)) {
       $message = 'Error response from server in call to \'update_host_provider_account\'. Response to \'host_provider_account\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -3665,7 +4081,7 @@ public function update_host_provider_account($id,$context = array(), $fields = a
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'update_host_provider_account\'. Message \'' . $response->body->host_provider_account->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -3682,6 +4098,7 @@ public function update_host_provider_account($id,$context = array(), $fields = a
    * TODO: Pull in description from resource as part of code-gen
    *
    * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $hostprovider (Required) 'hostprovider' field, which is an embedded 'HostProvider' resource. (FIELD).
    * @param string $hosttype (Required) 'hosttype' field, which is an embedded 'HostType' resource. (FIELD).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
@@ -3692,7 +4109,7 @@ public function update_host_provider_account($id,$context = array(), $fields = a
    */
 						
 public function create_host_provider_host_type($context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.create_host_provider_host_type' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1)watchdog('tw_api', 'call to TWAPI.create_host_provider_host_type' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -3706,6 +4123,16 @@ public function create_host_provider_host_type($context = array(), $fields = arr
         'Content-Type' => 'application/xml',
     );
     
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'host_provider_host_type\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
+    
     //
     // Validate Fields
     //
@@ -3718,6 +4145,7 @@ public function create_host_provider_host_type($context = array(), $fields = arr
     $opt['query_string'] = array(
         '$op' => 'create',
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'hostprovider' => $fields['hostprovider'],
         'hosttype' => $fields['hosttype'],
     );
@@ -3734,25 +4162,25 @@ public function create_host_provider_host_type($context = array(), $fields = arr
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'create_host_provider_host_type\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() ,  WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'create_host_provider_host_type\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'create_host_provider_host_type\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->host_provider_host_type->status)) {
       $message = 'Error response from server in call to \'create_host_provider_host_type\'. Response to \'host_provider_host_type\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -3760,7 +4188,7 @@ public function create_host_provider_host_type($context = array(), $fields = arr
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'create_host_provider_host_type\'. Message \'' . $response->body->host_provider_host_type->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -3773,6 +4201,7 @@ public function create_host_provider_host_type($context = array(), $fields = arr
    * TODO: Pull in description from resource as part of code-gen
    *
       * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $hostprovider (Required) 'hostprovider' field, which is an embedded 'HostProvider' resource. (FIELD).
    * @param string $hosttype (Required) 'hosttype' field, which is an embedded 'HostType' resource. (FIELD).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
@@ -3783,7 +4212,7 @@ public function create_host_provider_host_type($context = array(), $fields = arr
    */
 						
 public function update_host_provider_host_type($id,$context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.update_host_provider_host_type' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1) watchdog('tw_api', 'call to TWAPI.update_host_provider_host_type' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -3813,6 +4242,18 @@ public function update_host_provider_host_type($id,$context = array(), $fields =
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+        
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'host_provider_host_type\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
+    
+    
     
     //
     // Validate Fields
@@ -3827,6 +4268,7 @@ public function update_host_provider_host_type($id,$context = array(), $fields =
         '$op' => 'update',
         '$id' => $id,
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'hostprovider' => $fields['hostprovider'],
         'hosttype' => $fields['hosttype'],
     );
@@ -3843,25 +4285,25 @@ public function update_host_provider_host_type($id,$context = array(), $fields =
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'update_host_provider_host_type\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'update_host_provider_host_type\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'update_host_provider_host_type\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->host_provider_host_type->status)) {
       $message = 'Error response from server in call to \'update_host_provider_host_type\'. Response to \'host_provider_host_type\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -3869,7 +4311,7 @@ public function update_host_provider_host_type($id,$context = array(), $fields =
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'update_host_provider_host_type\'. Message \'' . $response->body->host_provider_host_type->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -3886,6 +4328,7 @@ public function update_host_provider_host_type($id,$context = array(), $fields =
    * TODO: Pull in description from resource as part of code-gen
    *
    * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $hostroletype (Required) 'hostroletype' field, which is an embedded 'HostRoleType' resource. (FIELD).
    * @param string $host (Required) 'host' field, which is an embedded 'Host' resource. (FIELD).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
@@ -3896,7 +4339,7 @@ public function update_host_provider_host_type($id,$context = array(), $fields =
    */
 						
 public function create_host_role($context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.create_host_role' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1)watchdog('tw_api', 'call to TWAPI.create_host_role' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -3910,6 +4353,16 @@ public function create_host_role($context = array(), $fields = array(), $opt = n
         'Content-Type' => 'application/xml',
     );
     
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'host_role\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
+    
     //
     // Validate Fields
     //
@@ -3919,6 +4372,7 @@ public function create_host_role($context = array(), $fields = array(), $opt = n
     $opt['query_string'] = array(
         '$op' => 'create',
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'hostroletype' => $fields['hostroletype'],
     );
 
@@ -3937,25 +4391,25 @@ public function create_host_role($context = array(), $fields = array(), $opt = n
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'create_host_role\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() ,  WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'create_host_role\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'create_host_role\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->host_role->status)) {
       $message = 'Error response from server in call to \'create_host_role\'. Response to \'host_role\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -3963,7 +4417,7 @@ public function create_host_role($context = array(), $fields = array(), $opt = n
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'create_host_role\'. Message \'' . $response->body->host_role->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -3976,6 +4430,7 @@ public function create_host_role($context = array(), $fields = array(), $opt = n
    * TODO: Pull in description from resource as part of code-gen
    *
       * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $hostroletype (Required) 'hostroletype' field, which is an embedded 'HostRoleType' resource. (FIELD).
    * @param string $host (Required) 'host' field, which is an embedded 'Host' resource. (FIELD).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
@@ -3986,7 +4441,7 @@ public function create_host_role($context = array(), $fields = array(), $opt = n
    */
 						
 public function update_host_role($id,$context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.update_host_role' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1) watchdog('tw_api', 'call to TWAPI.update_host_role' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -4016,6 +4471,18 @@ public function update_host_role($id,$context = array(), $fields = array(), $opt
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+        
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'host_role\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
+    
+    
     
     //
     // Validate Fields
@@ -4027,6 +4494,7 @@ public function update_host_role($id,$context = array(), $fields = array(), $opt
         '$op' => 'update',
         '$id' => $id,
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'hostroletype' => $fields['hostroletype'],
     );
 
@@ -4045,25 +4513,25 @@ public function update_host_role($id,$context = array(), $fields = array(), $opt
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'update_host_role\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'update_host_role\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'update_host_role\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->host_role->status)) {
       $message = 'Error response from server in call to \'update_host_role\'. Response to \'host_role\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -4071,7 +4539,7 @@ public function update_host_role($id,$context = array(), $fields = array(), $opt
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'update_host_role\'. Message \'' . $response->body->host_role->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -4088,6 +4556,7 @@ public function update_host_role($id,$context = array(), $fields = array(), $opt
    * TODO: Pull in description from resource as part of code-gen
    *
    * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $host (Required) 'host' field, which is an embedded 'Host' resource. (FIELD).
    * @param string $hostroletype (Required) 'hostroletype' field, which is an embedded 'HostRoleType' resource. (FIELD).
    * @param string $processing (Required) 'processing' field, which is a 'boolean' type. (FIELD).
@@ -4100,7 +4569,7 @@ public function update_host_role($id,$context = array(), $fields = array(), $opt
    */
 						
 public function create_host_role_order($context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.create_host_role_order' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1)watchdog('tw_api', 'call to TWAPI.create_host_role_order' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -4114,6 +4583,16 @@ public function create_host_role_order($context = array(), $fields = array(), $o
         'Content-Type' => 'application/xml',
     );
     
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'host_role_order\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
+    
     //
     // Validate Fields
     //
@@ -4126,6 +4605,7 @@ public function create_host_role_order($context = array(), $fields = array(), $o
     $opt['query_string'] = array(
         '$op' => 'create',
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'processing' => $fields['processing'],
         'completed' => $fields['completed'],
     );
@@ -4148,25 +4628,25 @@ public function create_host_role_order($context = array(), $fields = array(), $o
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'create_host_role_order\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() ,  WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'create_host_role_order\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'create_host_role_order\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->host_role_order->status)) {
       $message = 'Error response from server in call to \'create_host_role_order\'. Response to \'host_role_order\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -4174,7 +4654,7 @@ public function create_host_role_order($context = array(), $fields = array(), $o
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'create_host_role_order\'. Message \'' . $response->body->host_role_order->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -4187,6 +4667,7 @@ public function create_host_role_order($context = array(), $fields = array(), $o
    * TODO: Pull in description from resource as part of code-gen
    *
       * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $host (Required) 'host' field, which is an embedded 'Host' resource. (FIELD).
    * @param string $hostroletype (Required) 'hostroletype' field, which is an embedded 'HostRoleType' resource. (FIELD).
    * @param string $processing (Required) 'processing' field, which is a 'boolean' type. (FIELD).
@@ -4199,7 +4680,7 @@ public function create_host_role_order($context = array(), $fields = array(), $o
    */
 						
 public function update_host_role_order($id,$context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.update_host_role_order' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1) watchdog('tw_api', 'call to TWAPI.update_host_role_order' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -4229,6 +4710,18 @@ public function update_host_role_order($id,$context = array(), $fields = array()
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+        
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'host_role_order\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
+    
+    
     
     //
     // Validate Fields
@@ -4243,6 +4736,7 @@ public function update_host_role_order($id,$context = array(), $fields = array()
         '$op' => 'update',
         '$id' => $id,
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'processing' => $fields['processing'],
         'completed' => $fields['completed'],
     );
@@ -4265,25 +4759,25 @@ public function update_host_role_order($id,$context = array(), $fields = array()
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'update_host_role_order\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'update_host_role_order\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'update_host_role_order\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->host_role_order->status)) {
       $message = 'Error response from server in call to \'update_host_role_order\'. Response to \'host_role_order\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -4291,7 +4785,7 @@ public function update_host_role_order($id,$context = array(), $fields = array()
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'update_host_role_order\'. Message \'' . $response->body->host_role_order->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -4308,6 +4802,7 @@ public function update_host_role_order($id,$context = array(), $fields = array()
    * TODO: Pull in description from resource as part of code-gen
    *
    * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $subroletype (Required) 'subroletype' field, which is an embedded 'HostSubRoleType' resource. (FIELD).
    * @param string $hostrole (Required) 'hostrole' field, which is an embedded 'HostRole' resource. (FIELD).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
@@ -4318,7 +4813,7 @@ public function update_host_role_order($id,$context = array(), $fields = array()
    */
 						
 public function create_host_role_subrole($context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.create_host_role_subrole' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1)watchdog('tw_api', 'call to TWAPI.create_host_role_subrole' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -4332,6 +4827,16 @@ public function create_host_role_subrole($context = array(), $fields = array(), 
         'Content-Type' => 'application/xml',
     );
     
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'host_role_subrole\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
+    
     //
     // Validate Fields
     //
@@ -4341,6 +4846,7 @@ public function create_host_role_subrole($context = array(), $fields = array(), 
     $opt['query_string'] = array(
         '$op' => 'create',
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'subroletype' => $fields['subroletype'],
     );
 
@@ -4359,25 +4865,25 @@ public function create_host_role_subrole($context = array(), $fields = array(), 
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'create_host_role_subrole\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() ,  WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'create_host_role_subrole\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'create_host_role_subrole\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->host_role_subrole->status)) {
       $message = 'Error response from server in call to \'create_host_role_subrole\'. Response to \'host_role_subrole\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -4385,7 +4891,7 @@ public function create_host_role_subrole($context = array(), $fields = array(), 
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'create_host_role_subrole\'. Message \'' . $response->body->host_role_subrole->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -4398,6 +4904,7 @@ public function create_host_role_subrole($context = array(), $fields = array(), 
    * TODO: Pull in description from resource as part of code-gen
    *
       * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $subroletype (Required) 'subroletype' field, which is an embedded 'HostSubRoleType' resource. (FIELD).
    * @param string $hostrole (Required) 'hostrole' field, which is an embedded 'HostRole' resource. (FIELD).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
@@ -4408,7 +4915,7 @@ public function create_host_role_subrole($context = array(), $fields = array(), 
    */
 						
 public function update_host_role_subrole($id,$context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.update_host_role_subrole' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1) watchdog('tw_api', 'call to TWAPI.update_host_role_subrole' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -4438,6 +4945,18 @@ public function update_host_role_subrole($id,$context = array(), $fields = array
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+        
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'host_role_subrole\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
+    
+    
     
     //
     // Validate Fields
@@ -4449,6 +4968,7 @@ public function update_host_role_subrole($id,$context = array(), $fields = array
         '$op' => 'update',
         '$id' => $id,
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'subroletype' => $fields['subroletype'],
     );
 
@@ -4467,25 +4987,25 @@ public function update_host_role_subrole($id,$context = array(), $fields = array
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'update_host_role_subrole\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'update_host_role_subrole\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'update_host_role_subrole\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->host_role_subrole->status)) {
       $message = 'Error response from server in call to \'update_host_role_subrole\'. Response to \'host_role_subrole\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -4493,7 +5013,7 @@ public function update_host_role_subrole($id,$context = array(), $fields = array
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'update_host_role_subrole\'. Message \'' . $response->body->host_role_subrole->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -4510,6 +5030,7 @@ public function update_host_role_subrole($id,$context = array(), $fields = array
    * TODO: Pull in description from resource as part of code-gen
    *
    * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $host (Required) 'host' field, which is an embedded 'Host' resource. (FIELD).
    * @param string $subroletype (Required) 'subroletype' field, which is an embedded 'HostSubRoleType' resource. (FIELD).
    * @param string $processing (Required) 'processing' field, which is a 'boolean' type. (FIELD).
@@ -4522,7 +5043,7 @@ public function update_host_role_subrole($id,$context = array(), $fields = array
    */
 						
 public function create_host_role_subrole_order($context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.create_host_role_subrole_order' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1)watchdog('tw_api', 'call to TWAPI.create_host_role_subrole_order' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -4536,6 +5057,16 @@ public function create_host_role_subrole_order($context = array(), $fields = arr
         'Content-Type' => 'application/xml',
     );
     
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'host_role_subrole_order\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
+    
     //
     // Validate Fields
     //
@@ -4548,6 +5079,7 @@ public function create_host_role_subrole_order($context = array(), $fields = arr
     $opt['query_string'] = array(
         '$op' => 'create',
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'processing' => $fields['processing'],
         'completed' => $fields['completed'],
     );
@@ -4570,25 +5102,25 @@ public function create_host_role_subrole_order($context = array(), $fields = arr
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'create_host_role_subrole_order\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() ,  WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'create_host_role_subrole_order\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'create_host_role_subrole_order\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->host_role_subrole_order->status)) {
       $message = 'Error response from server in call to \'create_host_role_subrole_order\'. Response to \'host_role_subrole_order\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -4596,7 +5128,7 @@ public function create_host_role_subrole_order($context = array(), $fields = arr
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'create_host_role_subrole_order\'. Message \'' . $response->body->host_role_subrole_order->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -4609,6 +5141,7 @@ public function create_host_role_subrole_order($context = array(), $fields = arr
    * TODO: Pull in description from resource as part of code-gen
    *
       * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $host (Required) 'host' field, which is an embedded 'Host' resource. (FIELD).
    * @param string $subroletype (Required) 'subroletype' field, which is an embedded 'HostSubRoleType' resource. (FIELD).
    * @param string $processing (Required) 'processing' field, which is a 'boolean' type. (FIELD).
@@ -4621,7 +5154,7 @@ public function create_host_role_subrole_order($context = array(), $fields = arr
    */
 						
 public function update_host_role_subrole_order($id,$context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.update_host_role_subrole_order' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1) watchdog('tw_api', 'call to TWAPI.update_host_role_subrole_order' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -4651,6 +5184,18 @@ public function update_host_role_subrole_order($id,$context = array(), $fields =
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+        
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'host_role_subrole_order\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
+    
+    
     
     //
     // Validate Fields
@@ -4665,6 +5210,7 @@ public function update_host_role_subrole_order($id,$context = array(), $fields =
         '$op' => 'update',
         '$id' => $id,
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'processing' => $fields['processing'],
         'completed' => $fields['completed'],
     );
@@ -4687,25 +5233,25 @@ public function update_host_role_subrole_order($id,$context = array(), $fields =
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'update_host_role_subrole_order\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'update_host_role_subrole_order\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'update_host_role_subrole_order\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->host_role_subrole_order->status)) {
       $message = 'Error response from server in call to \'update_host_role_subrole_order\'. Response to \'host_role_subrole_order\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -4713,7 +5259,7 @@ public function update_host_role_subrole_order($id,$context = array(), $fields =
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'update_host_role_subrole_order\'. Message \'' . $response->body->host_role_subrole_order->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -4730,6 +5276,7 @@ public function update_host_role_subrole_order($id,$context = array(), $fields =
    * TODO: Pull in description from resource as part of code-gen
    *
    * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $name (Required) 'name' field, which is a 'string' type. (FIELD).
    * @param string $config_xsl (Required) 'config_xsl' field, which is a 'string' type. (FIELD).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
@@ -4740,7 +5287,7 @@ public function update_host_role_subrole_order($id,$context = array(), $fields =
    */
 						
 public function create_host_role_subrole_type($context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.create_host_role_subrole_type' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1)watchdog('tw_api', 'call to TWAPI.create_host_role_subrole_type' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -4754,6 +5301,16 @@ public function create_host_role_subrole_type($context = array(), $fields = arra
         'Content-Type' => 'application/xml',
     );
     
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'host_role_subrole_type\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
+    
     //
     // Validate Fields
     //
@@ -4763,6 +5320,7 @@ public function create_host_role_subrole_type($context = array(), $fields = arra
     $opt['query_string'] = array(
         '$op' => 'create',
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'name' => $fields['name'],
     );
 
@@ -4781,25 +5339,25 @@ public function create_host_role_subrole_type($context = array(), $fields = arra
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'create_host_role_subrole_type\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() ,  WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'create_host_role_subrole_type\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'create_host_role_subrole_type\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->host_role_subrole_type->status)) {
       $message = 'Error response from server in call to \'create_host_role_subrole_type\'. Response to \'host_role_subrole_type\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -4807,7 +5365,7 @@ public function create_host_role_subrole_type($context = array(), $fields = arra
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'create_host_role_subrole_type\'. Message \'' . $response->body->host_role_subrole_type->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -4820,6 +5378,7 @@ public function create_host_role_subrole_type($context = array(), $fields = arra
    * TODO: Pull in description from resource as part of code-gen
    *
       * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $name (Required) 'name' field, which is a 'string' type. (FIELD).
    * @param string $config_xsl (Required) 'config_xsl' field, which is a 'string' type. (FIELD).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
@@ -4830,7 +5389,7 @@ public function create_host_role_subrole_type($context = array(), $fields = arra
    */
 						
 public function update_host_role_subrole_type($id,$context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.update_host_role_subrole_type' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1) watchdog('tw_api', 'call to TWAPI.update_host_role_subrole_type' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -4860,6 +5419,18 @@ public function update_host_role_subrole_type($id,$context = array(), $fields = 
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+        
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'host_role_subrole_type\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
+    
+    
     
     //
     // Validate Fields
@@ -4871,6 +5442,7 @@ public function update_host_role_subrole_type($id,$context = array(), $fields = 
         '$op' => 'update',
         '$id' => $id,
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'name' => $fields['name'],
     );
 
@@ -4889,25 +5461,25 @@ public function update_host_role_subrole_type($id,$context = array(), $fields = 
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'update_host_role_subrole_type\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'update_host_role_subrole_type\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'update_host_role_subrole_type\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->host_role_subrole_type->status)) {
       $message = 'Error response from server in call to \'update_host_role_subrole_type\'. Response to \'host_role_subrole_type\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -4915,7 +5487,7 @@ public function update_host_role_subrole_type($id,$context = array(), $fields = 
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'update_host_role_subrole_type\'. Message \'' . $response->body->host_role_subrole_type->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -4932,6 +5504,7 @@ public function update_host_role_subrole_type($id,$context = array(), $fields = 
    * TODO: Pull in description from resource as part of code-gen
    *
    * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $name (Required) 'name' field, which is a 'string' type. (FIELD).
    * @param string $config_xsl (Required) 'config_xsl' field, which is a 'string' type. (FIELD).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
@@ -4942,7 +5515,7 @@ public function update_host_role_subrole_type($id,$context = array(), $fields = 
    */
 						
 public function create_host_role_type($context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.create_host_role_type' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1)watchdog('tw_api', 'call to TWAPI.create_host_role_type' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -4956,6 +5529,16 @@ public function create_host_role_type($context = array(), $fields = array(), $op
         'Content-Type' => 'application/xml',
     );
     
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'host_role_type\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
+    
     //
     // Validate Fields
     //
@@ -4965,6 +5548,7 @@ public function create_host_role_type($context = array(), $fields = array(), $op
     $opt['query_string'] = array(
         '$op' => 'create',
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'name' => $fields['name'],
     );
 
@@ -4983,25 +5567,25 @@ public function create_host_role_type($context = array(), $fields = array(), $op
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'create_host_role_type\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() ,  WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'create_host_role_type\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'create_host_role_type\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->host_role_type->status)) {
       $message = 'Error response from server in call to \'create_host_role_type\'. Response to \'host_role_type\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -5009,7 +5593,7 @@ public function create_host_role_type($context = array(), $fields = array(), $op
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'create_host_role_type\'. Message \'' . $response->body->host_role_type->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -5022,6 +5606,7 @@ public function create_host_role_type($context = array(), $fields = array(), $op
    * TODO: Pull in description from resource as part of code-gen
    *
       * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $name (Required) 'name' field, which is a 'string' type. (FIELD).
    * @param string $config_xsl (Required) 'config_xsl' field, which is a 'string' type. (FIELD).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
@@ -5032,7 +5617,7 @@ public function create_host_role_type($context = array(), $fields = array(), $op
    */
 						
 public function update_host_role_type($id,$context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.update_host_role_type' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1) watchdog('tw_api', 'call to TWAPI.update_host_role_type' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -5062,6 +5647,18 @@ public function update_host_role_type($id,$context = array(), $fields = array(),
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+        
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'host_role_type\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
+    
+    
     
     //
     // Validate Fields
@@ -5073,6 +5670,7 @@ public function update_host_role_type($id,$context = array(), $fields = array(),
         '$op' => 'update',
         '$id' => $id,
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'name' => $fields['name'],
     );
 
@@ -5091,25 +5689,25 @@ public function update_host_role_type($id,$context = array(), $fields = array(),
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'update_host_role_type\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'update_host_role_type\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'update_host_role_type\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->host_role_type->status)) {
       $message = 'Error response from server in call to \'update_host_role_type\'. Response to \'host_role_type\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -5117,7 +5715,7 @@ public function update_host_role_type($id,$context = array(), $fields = array(),
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'update_host_role_type\'. Message \'' . $response->body->host_role_type->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -5134,6 +5732,7 @@ public function update_host_role_type($id,$context = array(), $fields = array(),
    * TODO: Pull in description from resource as part of code-gen
    *
    * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $hostroletype (Required) 'hostroletype' field, which is an embedded 'HostRoleType' resource. (FIELD).
    * @param string $subroletype (Required) 'subroletype' field, which is an embedded 'HostRoleType' resource. (FIELD).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
@@ -5144,7 +5743,7 @@ public function update_host_role_type($id,$context = array(), $fields = array(),
    */
 						
 public function create_host_role_type_capable_of_host_role_subrole_type($context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.create_host_role_type_capable_of_host_role_subrole_type' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1)watchdog('tw_api', 'call to TWAPI.create_host_role_type_capable_of_host_role_subrole_type' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -5158,6 +5757,16 @@ public function create_host_role_type_capable_of_host_role_subrole_type($context
         'Content-Type' => 'application/xml',
     );
     
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'host_role_type_capable_of_host_role_subrole_type\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
+    
     //
     // Validate Fields
     //
@@ -5170,6 +5779,7 @@ public function create_host_role_type_capable_of_host_role_subrole_type($context
     $opt['query_string'] = array(
         '$op' => 'create',
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'hostroletype' => $fields['hostroletype'],
         'subroletype' => $fields['subroletype'],
     );
@@ -5186,25 +5796,25 @@ public function create_host_role_type_capable_of_host_role_subrole_type($context
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'create_host_role_type_capable_of_host_role_subrole_type\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() ,  WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'create_host_role_type_capable_of_host_role_subrole_type\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'create_host_role_type_capable_of_host_role_subrole_type\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->host_role_type_capable_of_host_role_subrole_type->status)) {
       $message = 'Error response from server in call to \'create_host_role_type_capable_of_host_role_subrole_type\'. Response to \'host_role_type_capable_of_host_role_subrole_type\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -5212,7 +5822,7 @@ public function create_host_role_type_capable_of_host_role_subrole_type($context
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'create_host_role_type_capable_of_host_role_subrole_type\'. Message \'' . $response->body->host_role_type_capable_of_host_role_subrole_type->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -5225,6 +5835,7 @@ public function create_host_role_type_capable_of_host_role_subrole_type($context
    * TODO: Pull in description from resource as part of code-gen
    *
       * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $hostroletype (Required) 'hostroletype' field, which is an embedded 'HostRoleType' resource. (FIELD).
    * @param string $subroletype (Required) 'subroletype' field, which is an embedded 'HostRoleType' resource. (FIELD).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
@@ -5235,7 +5846,7 @@ public function create_host_role_type_capable_of_host_role_subrole_type($context
    */
 						
 public function update_host_role_type_capable_of_host_role_subrole_type($id,$context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.update_host_role_type_capable_of_host_role_subrole_type' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1) watchdog('tw_api', 'call to TWAPI.update_host_role_type_capable_of_host_role_subrole_type' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -5265,6 +5876,18 @@ public function update_host_role_type_capable_of_host_role_subrole_type($id,$con
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+        
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'host_role_type_capable_of_host_role_subrole_type\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
+    
+    
     
     //
     // Validate Fields
@@ -5279,6 +5902,7 @@ public function update_host_role_type_capable_of_host_role_subrole_type($id,$con
         '$op' => 'update',
         '$id' => $id,
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'hostroletype' => $fields['hostroletype'],
         'subroletype' => $fields['subroletype'],
     );
@@ -5295,25 +5919,25 @@ public function update_host_role_type_capable_of_host_role_subrole_type($id,$con
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'update_host_role_type_capable_of_host_role_subrole_type\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'update_host_role_type_capable_of_host_role_subrole_type\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'update_host_role_type_capable_of_host_role_subrole_type\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->host_role_type_capable_of_host_role_subrole_type->status)) {
       $message = 'Error response from server in call to \'update_host_role_type_capable_of_host_role_subrole_type\'. Response to \'host_role_type_capable_of_host_role_subrole_type\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -5321,7 +5945,7 @@ public function update_host_role_type_capable_of_host_role_subrole_type($id,$con
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'update_host_role_type_capable_of_host_role_subrole_type\'. Message \'' . $response->body->host_role_type_capable_of_host_role_subrole_type->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -5338,6 +5962,7 @@ public function update_host_role_type_capable_of_host_role_subrole_type($id,$con
    * TODO: Pull in description from resource as part of code-gen
    *
    * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $name (Required) 'name' field, which is a 'string' type. (FIELD).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
    * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
@@ -5347,7 +5972,7 @@ public function update_host_role_type_capable_of_host_role_subrole_type($id,$con
    */
 						
 public function create_host_type($context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.create_host_type' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1)watchdog('tw_api', 'call to TWAPI.create_host_type' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -5361,6 +5986,16 @@ public function create_host_type($context = array(), $fields = array(), $opt = n
         'Content-Type' => 'application/xml',
     );
     
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'host_type\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
+    
     //
     // Validate Fields
     //
@@ -5370,6 +6005,7 @@ public function create_host_type($context = array(), $fields = array(), $opt = n
     $opt['query_string'] = array(
         '$op' => 'create',
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'name' => $fields['name'],
     );
 
@@ -5385,25 +6021,25 @@ public function create_host_type($context = array(), $fields = array(), $opt = n
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'create_host_type\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() ,  WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'create_host_type\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'create_host_type\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->host_type->status)) {
       $message = 'Error response from server in call to \'create_host_type\'. Response to \'host_type\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -5411,7 +6047,7 @@ public function create_host_type($context = array(), $fields = array(), $opt = n
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'create_host_type\'. Message \'' . $response->body->host_type->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -5424,6 +6060,7 @@ public function create_host_type($context = array(), $fields = array(), $opt = n
    * TODO: Pull in description from resource as part of code-gen
    *
       * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $name (Required) 'name' field, which is a 'string' type. (FIELD).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
    * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
@@ -5433,7 +6070,7 @@ public function create_host_type($context = array(), $fields = array(), $opt = n
    */
 						
 public function update_host_type($id,$context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.update_host_type' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1) watchdog('tw_api', 'call to TWAPI.update_host_type' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -5463,6 +6100,18 @@ public function update_host_type($id,$context = array(), $fields = array(), $opt
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+        
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'host_type\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
+    
+    
     
     //
     // Validate Fields
@@ -5474,6 +6123,7 @@ public function update_host_type($id,$context = array(), $fields = array(), $opt
         '$op' => 'update',
         '$id' => $id,
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'name' => $fields['name'],
     );
 
@@ -5489,25 +6139,25 @@ public function update_host_type($id,$context = array(), $fields = array(), $opt
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'update_host_type\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'update_host_type\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'update_host_type\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->host_type->status)) {
       $message = 'Error response from server in call to \'update_host_type\'. Response to \'host_type\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -5515,7 +6165,7 @@ public function update_host_type($id,$context = array(), $fields = array(), $opt
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'update_host_type\'. Message \'' . $response->body->host_type->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -5532,6 +6182,7 @@ public function update_host_type($id,$context = array(), $fields = array(), $opt
    * TODO: Pull in description from resource as part of code-gen
    *
    * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $hosttype (Required) 'hosttype' field, which is an embedded 'HostType' resource. (FIELD).
    * @param string $hostroletype (Required) 'hostroletype' field, which is an embedded 'HostRoleType' resource. (FIELD).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
@@ -5542,7 +6193,7 @@ public function update_host_type($id,$context = array(), $fields = array(), $opt
    */
 						
 public function create_host_type_capable_of_host_role_type($context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.create_host_type_capable_of_host_role_type' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1)watchdog('tw_api', 'call to TWAPI.create_host_type_capable_of_host_role_type' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -5556,6 +6207,16 @@ public function create_host_type_capable_of_host_role_type($context = array(), $
         'Content-Type' => 'application/xml',
     );
     
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'host_type_capable_of_host_role_type\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
+    
     //
     // Validate Fields
     //
@@ -5568,6 +6229,7 @@ public function create_host_type_capable_of_host_role_type($context = array(), $
     $opt['query_string'] = array(
         '$op' => 'create',
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'hosttype' => $fields['hosttype'],
         'hostroletype' => $fields['hostroletype'],
     );
@@ -5584,25 +6246,25 @@ public function create_host_type_capable_of_host_role_type($context = array(), $
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'create_host_type_capable_of_host_role_type\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() ,  WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'create_host_type_capable_of_host_role_type\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'create_host_type_capable_of_host_role_type\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->host_type_capable_of_host_role_type->status)) {
       $message = 'Error response from server in call to \'create_host_type_capable_of_host_role_type\'. Response to \'host_type_capable_of_host_role_type\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -5610,7 +6272,7 @@ public function create_host_type_capable_of_host_role_type($context = array(), $
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'create_host_type_capable_of_host_role_type\'. Message \'' . $response->body->host_type_capable_of_host_role_type->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -5623,6 +6285,7 @@ public function create_host_type_capable_of_host_role_type($context = array(), $
    * TODO: Pull in description from resource as part of code-gen
    *
       * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $hosttype (Required) 'hosttype' field, which is an embedded 'HostType' resource. (FIELD).
    * @param string $hostroletype (Required) 'hostroletype' field, which is an embedded 'HostRoleType' resource. (FIELD).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
@@ -5633,7 +6296,7 @@ public function create_host_type_capable_of_host_role_type($context = array(), $
    */
 						
 public function update_host_type_capable_of_host_role_type($id,$context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.update_host_type_capable_of_host_role_type' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1) watchdog('tw_api', 'call to TWAPI.update_host_type_capable_of_host_role_type' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -5663,6 +6326,18 @@ public function update_host_type_capable_of_host_role_type($id,$context = array(
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+        
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'host_type_capable_of_host_role_type\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
+    
+    
     
     //
     // Validate Fields
@@ -5677,6 +6352,7 @@ public function update_host_type_capable_of_host_role_type($id,$context = array(
         '$op' => 'update',
         '$id' => $id,
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'hosttype' => $fields['hosttype'],
         'hostroletype' => $fields['hostroletype'],
     );
@@ -5693,25 +6369,25 @@ public function update_host_type_capable_of_host_role_type($id,$context = array(
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'update_host_type_capable_of_host_role_type\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'update_host_type_capable_of_host_role_type\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'update_host_type_capable_of_host_role_type\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->host_type_capable_of_host_role_type->status)) {
       $message = 'Error response from server in call to \'update_host_type_capable_of_host_role_type\'. Response to \'host_type_capable_of_host_role_type\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -5719,7 +6395,7 @@ public function update_host_type_capable_of_host_role_type($id,$context = array(
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'update_host_type_capable_of_host_role_type\'. Message \'' . $response->body->host_type_capable_of_host_role_type->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -5736,6 +6412,7 @@ public function update_host_type_capable_of_host_role_type($id,$context = array(
    * TODO: Pull in description from resource as part of code-gen
    *
    * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $name (Required) 'name' field, which is a 'string' type. (FIELD).
    * @param string $format (Required) 'format' field, which is an embedded 'Format' resource. (FIELD).
    * @param string $campaign (Required) 'campaign' field, which is an embedded 'Campaign' resource. (FIELD).
@@ -5755,7 +6432,7 @@ public function update_host_type_capable_of_host_role_type($id,$context = array(
    */
 						
 public function create_image_target($context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.create_image_target' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1)watchdog('tw_api', 'call to TWAPI.create_image_target' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -5768,6 +6445,16 @@ public function create_image_target($context = array(), $fields = array(), $opt 
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+    
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'image_target\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
     
     //
     // Validate Fields
@@ -5790,6 +6477,7 @@ public function create_image_target($context = array(), $fields = array(), $opt 
     $opt['query_string'] = array(
         '$op' => 'create',
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'name' => $fields['name'],
         'format' => $fields['format'],
         'campaign' => $fields['campaign'],
@@ -5827,25 +6515,25 @@ public function create_image_target($context = array(), $fields = array(), $opt 
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'create_image_target\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() ,  WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'create_image_target\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'create_image_target\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->image_target->status)) {
       $message = 'Error response from server in call to \'create_image_target\'. Response to \'image_target\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -5853,7 +6541,7 @@ public function create_image_target($context = array(), $fields = array(), $opt 
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'create_image_target\'. Message \'' . $response->body->image_target->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -5866,6 +6554,7 @@ public function create_image_target($context = array(), $fields = array(), $opt 
    * TODO: Pull in description from resource as part of code-gen
    *
       * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $name (Required) 'name' field, which is a 'string' type. (FIELD).
    * @param string $format (Required) 'format' field, which is an embedded 'Format' resource. (FIELD).
    * @param string $campaign (Required) 'campaign' field, which is an embedded 'Campaign' resource. (FIELD).
@@ -5885,7 +6574,7 @@ public function create_image_target($context = array(), $fields = array(), $opt 
    */
 						
 public function update_image_target($id,$context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.update_image_target' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1) watchdog('tw_api', 'call to TWAPI.update_image_target' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -5915,6 +6604,18 @@ public function update_image_target($id,$context = array(), $fields = array(), $
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+        
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'image_target\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
+    
+    
     
     //
     // Validate Fields
@@ -5938,6 +6639,7 @@ public function update_image_target($id,$context = array(), $fields = array(), $
         '$op' => 'update',
         '$id' => $id,
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'name' => $fields['name'],
         'format' => $fields['format'],
         'campaign' => $fields['campaign'],
@@ -5975,25 +6677,25 @@ public function update_image_target($id,$context = array(), $fields = array(), $
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'update_image_target\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'update_image_target\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'update_image_target\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->image_target->status)) {
       $message = 'Error response from server in call to \'update_image_target\'. Response to \'image_target\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -6001,7 +6703,7 @@ public function update_image_target($id,$context = array(), $fields = array(), $
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'update_image_target\'. Message \'' . $response->body->image_target->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -6018,6 +6720,7 @@ public function update_image_target($id,$context = array(), $fields = array(), $
    * TODO: Pull in description from resource as part of code-gen
    *
    * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $format (Required) 'format' field, which is an embedded 'Format' resource. (FIELD).
    * @param string $campaign (Required) 'campaign' field, which is an embedded 'Campaign' resource. (FIELD).
    * @param string $server (Required) 'server' field, which is an embedded 'Server' resource. (FIELD).
@@ -6037,7 +6740,7 @@ public function update_image_target($id,$context = array(), $fields = array(), $
    */
 						
 public function create_thumbnail_target($context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.create_thumbnail_target' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1)watchdog('tw_api', 'call to TWAPI.create_thumbnail_target' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -6050,6 +6753,16 @@ public function create_thumbnail_target($context = array(), $fields = array(), $
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+    
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'thumbnail_target\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
     
     //
     // Validate Fields
@@ -6075,6 +6788,7 @@ public function create_thumbnail_target($context = array(), $fields = array(), $
     $opt['query_string'] = array(
         '$op' => 'create',
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'format' => $fields['format'],
         'campaign' => $fields['campaign'],
         'name' => $fields['name'],
@@ -6110,25 +6824,25 @@ public function create_thumbnail_target($context = array(), $fields = array(), $
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'create_thumbnail_target\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() ,  WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'create_thumbnail_target\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'create_thumbnail_target\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->thumbnail_target->status)) {
       $message = 'Error response from server in call to \'create_thumbnail_target\'. Response to \'thumbnail_target\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -6136,7 +6850,7 @@ public function create_thumbnail_target($context = array(), $fields = array(), $
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'create_thumbnail_target\'. Message \'' . $response->body->thumbnail_target->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -6149,6 +6863,7 @@ public function create_thumbnail_target($context = array(), $fields = array(), $
    * TODO: Pull in description from resource as part of code-gen
    *
       * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $format (Required) 'format' field, which is an embedded 'Format' resource. (FIELD).
    * @param string $campaign (Required) 'campaign' field, which is an embedded 'Campaign' resource. (FIELD).
    * @param string $server (Required) 'server' field, which is an embedded 'Server' resource. (FIELD).
@@ -6168,7 +6883,7 @@ public function create_thumbnail_target($context = array(), $fields = array(), $
    */
 						
 public function update_thumbnail_target($id,$context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.update_thumbnail_target' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1) watchdog('tw_api', 'call to TWAPI.update_thumbnail_target' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -6198,6 +6913,18 @@ public function update_thumbnail_target($id,$context = array(), $fields = array(
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+        
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'thumbnail_target\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
+    
+    
     
     //
     // Validate Fields
@@ -6224,6 +6951,7 @@ public function update_thumbnail_target($id,$context = array(), $fields = array(
         '$op' => 'update',
         '$id' => $id,
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'format' => $fields['format'],
         'campaign' => $fields['campaign'],
         'name' => $fields['name'],
@@ -6259,25 +6987,25 @@ public function update_thumbnail_target($id,$context = array(), $fields = array(
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'update_thumbnail_target\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'update_thumbnail_target\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'update_thumbnail_target\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->thumbnail_target->status)) {
       $message = 'Error response from server in call to \'update_thumbnail_target\'. Response to \'thumbnail_target\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -6285,7 +7013,7 @@ public function update_thumbnail_target($id,$context = array(), $fields = array(
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'update_thumbnail_target\'. Message \'' . $response->body->thumbnail_target->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -6302,6 +7030,7 @@ public function update_thumbnail_target($id,$context = array(), $fields = array(
    * TODO: Pull in description from resource as part of code-gen
    *
    * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $format (Required) 'format' field, which is an embedded 'Format' resource. (FIELD).
    * @param string $campaign (Required) 'campaign' field, which is an embedded 'Campaign' resource. (FIELD).
    * @param string $server (Required) 'server' field, which is an embedded 'Server' resource. (FIELD).
@@ -6327,7 +7056,7 @@ public function update_thumbnail_target($id,$context = array(), $fields = array(
    */
 						
 public function create_video_target($context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.create_video_target' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1)watchdog('tw_api', 'call to TWAPI.create_video_target' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -6340,6 +7069,16 @@ public function create_video_target($context = array(), $fields = array(), $opt 
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+    
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'video_target\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
     
     //
     // Validate Fields
@@ -6362,6 +7101,7 @@ public function create_video_target($context = array(), $fields = array(), $opt 
     $opt['query_string'] = array(
         '$op' => 'create',
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'format' => $fields['format'],
         'campaign' => $fields['campaign'],
         'name' => $fields['name'],
@@ -6417,25 +7157,25 @@ public function create_video_target($context = array(), $fields = array(), $opt 
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'create_video_target\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() ,  WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'create_video_target\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'create_video_target\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->video_target->status)) {
       $message = 'Error response from server in call to \'create_video_target\'. Response to \'video_target\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -6443,7 +7183,7 @@ public function create_video_target($context = array(), $fields = array(), $opt 
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'create_video_target\'. Message \'' . $response->body->video_target->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -6456,6 +7196,7 @@ public function create_video_target($context = array(), $fields = array(), $opt 
    * TODO: Pull in description from resource as part of code-gen
    *
       * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $format (Required) 'format' field, which is an embedded 'Format' resource. (FIELD).
    * @param string $campaign (Required) 'campaign' field, which is an embedded 'Campaign' resource. (FIELD).
    * @param string $server (Required) 'server' field, which is an embedded 'Server' resource. (FIELD).
@@ -6481,7 +7222,7 @@ public function create_video_target($context = array(), $fields = array(), $opt 
    */
 						
 public function update_video_target($id,$context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.update_video_target' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1) watchdog('tw_api', 'call to TWAPI.update_video_target' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -6511,6 +7252,18 @@ public function update_video_target($id,$context = array(), $fields = array(), $
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+        
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIAdmin_Exception('Cannot send create \'video_target\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
+    
+    
     
     //
     // Validate Fields
@@ -6534,6 +7287,7 @@ public function update_video_target($id,$context = array(), $fields = array(), $
         '$op' => 'update',
         '$id' => $id,
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'format' => $fields['format'],
         'campaign' => $fields['campaign'],
         'name' => $fields['name'],
@@ -6589,25 +7343,25 @@ public function update_video_target($id,$context = array(), $fields = array(), $
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'update_video_target\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'update_video_target\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'update_video_target\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->video_target->status)) {
       $message = 'Error response from server in call to \'update_video_target\'. Response to \'video_target\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -6615,7 +7369,7 @@ public function update_video_target($id,$context = array(), $fields = array(), $
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'update_video_target\'. Message \'' . $response->body->video_target->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -6652,7 +7406,7 @@ public function update_video_target($id,$context = array(), $fields = array(), $
    */
 						
 public function call_account_create($parameters = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.call_account_create' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1) watchdog('tw_api', 'call to TWAPI.call_account_create' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($parameters);
 
    
@@ -6665,6 +7419,10 @@ public function call_account_create($parameters = array(), $opt = null) {
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+    
+    
+    
+    
     
     //
     // Validate Fields
@@ -6701,25 +7459,25 @@ public function call_account_create($parameters = array(), $opt = null) {
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'call_account_create\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'call_account_create\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'call_account_create\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->account_create->status)) {
       $message = 'Error response from server in call to \'call_account_create\'. Response to \'account_create\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -6727,7 +7485,7 @@ public function call_account_create($parameters = array(), $opt = null) {
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'create_account_create\'. Message \'' . $response->body->account_create->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -6753,7 +7511,7 @@ public function call_account_create($parameters = array(), $opt = null) {
    */
 						
 public function call_account_exists($parameters = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.call_account_exists' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1) watchdog('tw_api', 'call to TWAPI.call_account_exists' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($parameters);
 
    
@@ -6766,6 +7524,10 @@ public function call_account_exists($parameters = array(), $opt = null) {
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+    
+    
+    
+    
     
     //
     // Validate Fields
@@ -6794,25 +7556,25 @@ public function call_account_exists($parameters = array(), $opt = null) {
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'call_account_exists\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'call_account_exists\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'call_account_exists\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->account_exists->status)) {
       $message = 'Error response from server in call to \'call_account_exists\'. Response to \'account_exists\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -6820,7 +7582,7 @@ public function call_account_exists($parameters = array(), $opt = null) {
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'create_account_exists\'. Message \'' . $response->body->account_exists->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -6846,7 +7608,7 @@ public function call_account_exists($parameters = array(), $opt = null) {
    */
 						
 public function call_campaign_encrypt($parameters = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.call_campaign_encrypt' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1) watchdog('tw_api', 'call to TWAPI.call_campaign_encrypt' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($parameters);
 
    
@@ -6859,6 +7621,10 @@ public function call_campaign_encrypt($parameters = array(), $opt = null) {
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+    
+    
+    
+    
     
     //
     // Validate Fields
@@ -6887,25 +7653,25 @@ public function call_campaign_encrypt($parameters = array(), $opt = null) {
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'call_campaign_encrypt\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'call_campaign_encrypt\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'call_campaign_encrypt\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->campaign_encrypt->status)) {
       $message = 'Error response from server in call to \'call_campaign_encrypt\'. Response to \'campaign_encrypt\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -6913,7 +7679,7 @@ public function call_campaign_encrypt($parameters = array(), $opt = null) {
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'create_campaign_encrypt\'. Message \'' . $response->body->campaign_encrypt->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -6940,7 +7706,7 @@ public function call_campaign_encrypt($parameters = array(), $opt = null) {
    */
 						
 public function call_campaign_set_key($parameters = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.call_campaign_set_key' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1) watchdog('tw_api', 'call to TWAPI.call_campaign_set_key' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($parameters);
 
    
@@ -6953,6 +7719,10 @@ public function call_campaign_set_key($parameters = array(), $opt = null) {
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+    
+    
+    
+    
     
     //
     // Validate Fields
@@ -6985,25 +7755,25 @@ public function call_campaign_set_key($parameters = array(), $opt = null) {
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'call_campaign_set_key\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'call_campaign_set_key\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'call_campaign_set_key\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->campaign_set_key->status)) {
       $message = 'Error response from server in call to \'call_campaign_set_key\'. Response to \'campaign_set_key\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -7011,7 +7781,7 @@ public function call_campaign_set_key($parameters = array(), $opt = null) {
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'create_campaign_set_key\'. Message \'' . $response->body->campaign_set_key->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -7039,7 +7809,7 @@ public function call_campaign_set_key($parameters = array(), $opt = null) {
    */
 						
 public function call_new_audio_metadata_template($parameters = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.call_new_audio_metadata_template' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1) watchdog('tw_api', 'call to TWAPI.call_new_audio_metadata_template' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($parameters);
 
    
@@ -7052,6 +7822,10 @@ public function call_new_audio_metadata_template($parameters = array(), $opt = n
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+    
+    
+    
+    
     
     //
     // Validate Fields
@@ -7088,25 +7862,25 @@ public function call_new_audio_metadata_template($parameters = array(), $opt = n
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'call_new_audio_metadata_template\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'call_new_audio_metadata_template\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'call_new_audio_metadata_template\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->new_audio_metadata_template->status)) {
       $message = 'Error response from server in call to \'call_new_audio_metadata_template\'. Response to \'new_audio_metadata_template\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -7114,7 +7888,7 @@ public function call_new_audio_metadata_template($parameters = array(), $opt = n
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'create_new_audio_metadata_template\'. Message \'' . $response->body->new_audio_metadata_template->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -7145,7 +7919,7 @@ public function call_new_audio_metadata_template($parameters = array(), $opt = n
    */
 						
 public function call_new_audio_target($parameters = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.call_new_audio_target' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1) watchdog('tw_api', 'call to TWAPI.call_new_audio_target' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($parameters);
 
    
@@ -7158,6 +7932,10 @@ public function call_new_audio_target($parameters = array(), $opt = null) {
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+    
+    
+    
+    
     
     //
     // Validate Fields
@@ -7206,25 +7984,25 @@ public function call_new_audio_target($parameters = array(), $opt = null) {
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'call_new_audio_target\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'call_new_audio_target\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'call_new_audio_target\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->new_audio_target->status)) {
       $message = 'Error response from server in call to \'call_new_audio_target\'. Response to \'new_audio_target\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -7232,7 +8010,7 @@ public function call_new_audio_target($parameters = array(), $opt = null) {
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'create_new_audio_target\'. Message \'' . $response->body->new_audio_target->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -7262,7 +8040,7 @@ public function call_new_audio_target($parameters = array(), $opt = null) {
    */
 						
 public function call_new_campaign($parameters = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.call_new_campaign' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1) watchdog('tw_api', 'call to TWAPI.call_new_campaign' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($parameters);
 
    
@@ -7275,6 +8053,10 @@ public function call_new_campaign($parameters = array(), $opt = null) {
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+    
+    
+    
+    
     
     //
     // Validate Fields
@@ -7315,25 +8097,25 @@ public function call_new_campaign($parameters = array(), $opt = null) {
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'call_new_campaign\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'call_new_campaign\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'call_new_campaign\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->new_campaign->status)) {
       $message = 'Error response from server in call to \'call_new_campaign\'. Response to \'new_campaign\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -7341,7 +8123,7 @@ public function call_new_campaign($parameters = array(), $opt = null) {
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'create_new_campaign\'. Message \'' . $response->body->new_campaign->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -7371,7 +8153,7 @@ public function call_new_campaign($parameters = array(), $opt = null) {
    */
 						
 public function call_new_server($parameters = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.call_new_server' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1) watchdog('tw_api', 'call to TWAPI.call_new_server' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($parameters);
 
    
@@ -7384,6 +8166,10 @@ public function call_new_server($parameters = array(), $opt = null) {
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+    
+    
+    
+    
     
     //
     // Validate Fields
@@ -7428,25 +8214,25 @@ public function call_new_server($parameters = array(), $opt = null) {
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'call_new_server\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'call_new_server\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'call_new_server\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->new_server->status)) {
       $message = 'Error response from server in call to \'call_new_server\'. Response to \'new_server\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -7454,7 +8240,7 @@ public function call_new_server($parameters = array(), $opt = null) {
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'create_new_server\'. Message \'' . $response->body->new_server->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -7480,7 +8266,7 @@ public function call_new_server($parameters = array(), $opt = null) {
    */
 						
 public function call_user_exists($parameters = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.call_user_exists' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1) watchdog('tw_api', 'call to TWAPI.call_user_exists' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($parameters);
 
    
@@ -7493,6 +8279,10 @@ public function call_user_exists($parameters = array(), $opt = null) {
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+    
+    
+    
+    
     
     //
     // Validate Fields
@@ -7521,25 +8311,25 @@ public function call_user_exists($parameters = array(), $opt = null) {
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'call_user_exists\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'call_user_exists\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'call_user_exists\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->user_exists->status)) {
       $message = 'Error response from server in call to \'call_user_exists\'. Response to \'user_exists\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -7547,7 +8337,7 @@ public function call_user_exists($parameters = array(), $opt = null) {
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'create_user_exists\'. Message \'' . $response->body->user_exists->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -7573,7 +8363,7 @@ public function call_user_exists($parameters = array(), $opt = null) {
    */
 						
 public function call_user_recover($parameters = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.call_user_recover' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1) watchdog('tw_api', 'call to TWAPI.call_user_recover' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($parameters);
 
    
@@ -7586,6 +8376,10 @@ public function call_user_recover($parameters = array(), $opt = null) {
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+    
+    
+    
+    
     
     //
     // Validate Fields
@@ -7614,25 +8408,25 @@ public function call_user_recover($parameters = array(), $opt = null) {
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'call_user_recover\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'call_user_recover\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'call_user_recover\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
 	  if (!isset($response->body->user_recover->status)) {
       $message = 'Error response from server in call to \'call_user_recover\'. Response to \'user_recover\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 
@@ -7640,7 +8434,7 @@ public function call_user_recover($parameters = array(), $opt = null) {
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'create_user_recover\'. Message \'' . $response->body->user_recover->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIAdmin_Exception($message);
     }
 

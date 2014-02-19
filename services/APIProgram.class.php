@@ -136,6 +136,7 @@ class ThumbWhereAPIProgram extends TWRuntime {
    * TODO: Pull in description from resource as part of code-gen
    *
    * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $name (Required) 'name' field, which is a 'string' type. (FIELD).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
    * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
@@ -145,7 +146,7 @@ class ThumbWhereAPIProgram extends TWRuntime {
    */
 						
 public function create_program($context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.create_program' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1)watchdog('tw_api', 'call to TWAPI.create_program' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -159,6 +160,16 @@ public function create_program($context = array(), $fields = array(), $opt = nul
         'Content-Type' => 'application/xml',
     );
     
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIProgram_Exception('Cannot send create \'program\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
+    
     //
     // Validate Fields
     //
@@ -168,6 +179,7 @@ public function create_program($context = array(), $fields = array(), $opt = nul
     $opt['query_string'] = array(
         '$op' => 'create',
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'name' => $fields['name'],
     );
 
@@ -183,25 +195,25 @@ public function create_program($context = array(), $fields = array(), $opt = nul
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'create_program\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() ,  WATCHDOG_ERROR);
 	    throw new APIProgram_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'create_program\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIProgram_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'create_program\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIProgram_Exception($message);
     }
 
 	  if (!isset($response->body->program->status)) {
       $message = 'Error response from server in call to \'create_program\'. Response to \'program\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIProgram_Exception($message);
     }
 
@@ -209,7 +221,7 @@ public function create_program($context = array(), $fields = array(), $opt = nul
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'create_program\'. Message \'' . $response->body->program->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIProgram_Exception($message);
     }
 
@@ -222,6 +234,7 @@ public function create_program($context = array(), $fields = array(), $opt = nul
    * TODO: Pull in description from resource as part of code-gen
    *
       * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $name (Required) 'name' field, which is a 'string' type. (FIELD).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
    * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
@@ -231,7 +244,7 @@ public function create_program($context = array(), $fields = array(), $opt = nul
    */
 						
 public function update_program($id,$context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.update_program' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1) watchdog('tw_api', 'call to TWAPI.update_program' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -261,6 +274,18 @@ public function update_program($id,$context = array(), $fields = array(), $opt =
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+        
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIProgram_Exception('Cannot send create \'program\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
+    
+    
     
     //
     // Validate Fields
@@ -272,6 +297,7 @@ public function update_program($id,$context = array(), $fields = array(), $opt =
         '$op' => 'update',
         '$id' => $id,
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
         'name' => $fields['name'],
     );
 
@@ -287,25 +313,25 @@ public function update_program($id,$context = array(), $fields = array(), $opt =
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'update_program\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIProgram_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'update_program\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIProgram_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'update_program\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIProgram_Exception($message);
     }
 
 	  if (!isset($response->body->program->status)) {
       $message = 'Error response from server in call to \'update_program\'. Response to \'program\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIProgram_Exception($message);
     }
 
@@ -313,7 +339,7 @@ public function update_program($id,$context = array(), $fields = array(), $opt =
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'update_program\'. Message \'' . $response->body->program->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIProgram_Exception($message);
     }
 
@@ -348,7 +374,7 @@ public function update_program($id,$context = array(), $fields = array(), $opt =
    */
 						
 public function call_new_program($parameters = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.call_new_program' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1) watchdog('tw_api', 'call to TWAPI.call_new_program' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($parameters);
 
    
@@ -361,6 +387,10 @@ public function call_new_program($parameters = array(), $opt = null) {
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+    
+    
+    
+    
     
     //
     // Validate Fields
@@ -389,25 +419,25 @@ public function call_new_program($parameters = array(), $opt = null) {
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'call_new_program\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIProgram_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'call_new_program\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIProgram_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'call_new_program\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIProgram_Exception($message);
     }
 
 	  if (!isset($response->body->new_program->status)) {
       $message = 'Error response from server in call to \'call_new_program\'. Response to \'new_program\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIProgram_Exception($message);
     }
 
@@ -415,7 +445,7 @@ public function call_new_program($parameters = array(), $opt = null) {
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'create_new_program\'. Message \'' . $response->body->new_program->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIProgram_Exception($message);
     }
 

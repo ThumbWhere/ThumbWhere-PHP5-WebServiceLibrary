@@ -136,6 +136,7 @@ class ThumbWhereAPIMember extends TWRuntime {
    * TODO: Pull in description from resource as part of code-gen
    *
    * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $profilepic (Required) 'profilepic' field, which is an embedded 'MediaItem' resource. (FIELD).
    * @param string $profilepics_mediaitemcollection (Required) 'profilepics_mediaitemcollection' field, which is an embedded 'MediaItemCollection' resource. (FIELD).
    * @param string $whiteboard_mediaitemcollection (Required) 'whiteboard_mediaitemcollection' field, which is an embedded 'MediaItemCollection' resource. (FIELD).
@@ -152,7 +153,7 @@ class ThumbWhereAPIMember extends TWRuntime {
    */
 						
 public function create_member($context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.create_member' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1)watchdog('tw_api', 'call to TWAPI.create_member' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -166,12 +167,23 @@ public function create_member($context = array(), $fields = array(), $opt = null
         'Content-Type' => 'application/xml',
     );
     
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIMember_Exception('Cannot send create \'member\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
+    
     //
     // Validate Fields
     //
     $opt['query_string'] = array(
         '$op' => 'create',
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
     );
 
     //
@@ -210,25 +222,25 @@ public function create_member($context = array(), $fields = array(), $opt = null
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'create_member\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() ,  WATCHDOG_ERROR);
 	    throw new APIMember_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'create_member\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIMember_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'create_member\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIMember_Exception($message);
     }
 
 	  if (!isset($response->body->member->status)) {
       $message = 'Error response from server in call to \'create_member\'. Response to \'member\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIMember_Exception($message);
     }
 
@@ -236,7 +248,7 @@ public function create_member($context = array(), $fields = array(), $opt = null
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'create_member\'. Message \'' . $response->body->member->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIMember_Exception($message);
     }
 
@@ -249,6 +261,7 @@ public function create_member($context = array(), $fields = array(), $opt = null
    * TODO: Pull in description from resource as part of code-gen
    *
       * @param int $id (Mandatory) The id of the entity we are updating: <ul>   * @param string $key (Required) Provides context for the campaign. (CONSTRAINT).
+   * @param string $origin (Required) Identifier of host that originated this resource (CONSTRAINT).
    * @param string $profilepic (Required) 'profilepic' field, which is an embedded 'MediaItem' resource. (FIELD).
    * @param string $profilepics_mediaitemcollection (Required) 'profilepics_mediaitemcollection' field, which is an embedded 'MediaItemCollection' resource. (FIELD).
    * @param string $whiteboard_mediaitemcollection (Required) 'whiteboard_mediaitemcollection' field, which is an embedded 'MediaItemCollection' resource. (FIELD).
@@ -265,7 +278,7 @@ public function create_member($context = array(), $fields = array(), $opt = null
    */
 						
 public function update_member($id,$context = array(), $fields = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.update_member' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1) watchdog('tw_api', 'call to TWAPI.update_member' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($context);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($fields);
 
@@ -295,6 +308,18 @@ public function update_member($id,$context = array(), $fields = array(), $opt = 
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+        
+    // Make sure we have a context id
+    if (!isset($context['origin'])) {
+      $context['origin'] = variable_get('thumbwhere_host_id', -1);
+    }
+
+    // Make sure we have a valid id
+    if (!is_numeric($context['origin']))  {
+      throw new APIMember_Exception('Cannot send create \'member\'resource call. The ThumbWhere Host Id has not been configured.');
+    }
+    
+    
     
     //
     // Validate Fields
@@ -303,6 +328,7 @@ public function update_member($id,$context = array(), $fields = array(), $opt = 
         '$op' => 'update',
         '$id' => $id,
         '$key' => $context['key'],
+        '$origin' => $context['origin'],
     );
 
     //
@@ -341,25 +367,25 @@ public function update_member($id,$context = array(), $fields = array(), $opt = 
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'update_member\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIMember_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'update_member\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIMember_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'update_member\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIMember_Exception($message);
     }
 
 	  if (!isset($response->body->member->status)) {
       $message = 'Error response from server in call to \'update_member\'. Response to \'member\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIMember_Exception($message);
     }
 
@@ -367,7 +393,7 @@ public function update_member($id,$context = array(), $fields = array(), $opt = 
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'update_member\'. Message \'' . $response->body->member->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIMember_Exception($message);
     }
 
@@ -404,7 +430,7 @@ public function update_member($id,$context = array(), $fields = array(), $opt = 
    */
 						
 public function call_create($parameters = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.call_create' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1) watchdog('tw_api', 'call to TWAPI.call_create' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($parameters);
 
    
@@ -417,6 +443,10 @@ public function call_create($parameters = array(), $opt = null) {
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+    
+    
+    
+    
     
     //
     // Validate Fields
@@ -453,25 +483,25 @@ public function call_create($parameters = array(), $opt = null) {
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'call_create\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIMember_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'call_create\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIMember_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'call_create\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIMember_Exception($message);
     }
 
 	  if (!isset($response->body->create->status)) {
       $message = 'Error response from server in call to \'call_create\'. Response to \'create\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIMember_Exception($message);
     }
 
@@ -479,7 +509,7 @@ public function call_create($parameters = array(), $opt = null) {
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'create_create\'. Message \'' . $response->body->create->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIMember_Exception($message);
     }
 
@@ -505,7 +535,7 @@ public function call_create($parameters = array(), $opt = null) {
    */
 						
 public function call_info($parameters = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.call_info' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1) watchdog('tw_api', 'call to TWAPI.call_info' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($parameters);
 
    
@@ -518,6 +548,10 @@ public function call_info($parameters = array(), $opt = null) {
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+    
+    
+    
+    
     
     //
     // Validate Fields
@@ -546,25 +580,25 @@ public function call_info($parameters = array(), $opt = null) {
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'call_info\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIMember_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'call_info\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIMember_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'call_info\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIMember_Exception($message);
     }
 
 	  if (!isset($response->body->info->status)) {
       $message = 'Error response from server in call to \'call_info\'. Response to \'info\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIMember_Exception($message);
     }
 
@@ -572,7 +606,7 @@ public function call_info($parameters = array(), $opt = null) {
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'create_info\'. Message \'' . $response->body->info->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIMember_Exception($message);
     }
 
@@ -599,7 +633,7 @@ public function call_info($parameters = array(), $opt = null) {
    */
 						
 public function call_set_about($parameters = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.call_set_about' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1) watchdog('tw_api', 'call to TWAPI.call_set_about' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($parameters);
 
    
@@ -612,6 +646,10 @@ public function call_set_about($parameters = array(), $opt = null) {
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+    
+    
+    
+    
     
     //
     // Validate Fields
@@ -644,25 +682,25 @@ public function call_set_about($parameters = array(), $opt = null) {
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'call_set_about\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIMember_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'call_set_about\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIMember_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'call_set_about\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIMember_Exception($message);
     }
 
 	  if (!isset($response->body->set_about->status)) {
       $message = 'Error response from server in call to \'call_set_about\'. Response to \'set_about\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIMember_Exception($message);
     }
 
@@ -670,7 +708,7 @@ public function call_set_about($parameters = array(), $opt = null) {
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'create_set_about\'. Message \'' . $response->body->set_about->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIMember_Exception($message);
     }
 
@@ -697,7 +735,7 @@ public function call_set_about($parameters = array(), $opt = null) {
    */
 						
 public function call_set_profilepic($parameters = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.call_set_profilepic' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1) watchdog('tw_api', 'call to TWAPI.call_set_profilepic' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($parameters);
 
    
@@ -710,6 +748,10 @@ public function call_set_profilepic($parameters = array(), $opt = null) {
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+    
+    
+    
+    
     
     //
     // Validate Fields
@@ -742,25 +784,25 @@ public function call_set_profilepic($parameters = array(), $opt = null) {
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'call_set_profilepic\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIMember_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'call_set_profilepic\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIMember_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'call_set_profilepic\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIMember_Exception($message);
     }
 
 	  if (!isset($response->body->set_profilepic->status)) {
       $message = 'Error response from server in call to \'call_set_profilepic\'. Response to \'set_profilepic\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIMember_Exception($message);
     }
 
@@ -768,7 +810,7 @@ public function call_set_profilepic($parameters = array(), $opt = null) {
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'create_set_profilepic\'. Message \'' . $response->body->set_profilepic->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIMember_Exception($message);
     }
 
@@ -795,7 +837,7 @@ public function call_set_profilepic($parameters = array(), $opt = null) {
    */
 						
 public function call_set_url($parameters = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.call_set_url' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1) watchdog('tw_api', 'call to TWAPI.call_set_url' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($parameters);
 
    
@@ -808,6 +850,10 @@ public function call_set_url($parameters = array(), $opt = null) {
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+    
+    
+    
+    
     
     //
     // Validate Fields
@@ -840,25 +886,25 @@ public function call_set_url($parameters = array(), $opt = null) {
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'call_set_url\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIMember_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'call_set_url\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIMember_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'call_set_url\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIMember_Exception($message);
     }
 
 	  if (!isset($response->body->set_url->status)) {
       $message = 'Error response from server in call to \'call_set_url\'. Response to \'set_url\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIMember_Exception($message);
     }
 
@@ -866,7 +912,7 @@ public function call_set_url($parameters = array(), $opt = null) {
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'create_set_url\'. Message \'' . $response->body->set_url->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APIMember_Exception($message);
     }
 

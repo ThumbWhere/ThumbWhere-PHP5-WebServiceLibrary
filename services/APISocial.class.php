@@ -157,7 +157,7 @@ class ThumbWhereAPISocial extends TWRuntime {
    */
 						
 public function call_share($parameters = array(), $opt = null) {
-	    watchdog('tw_api', 'call to TWAPI.call_share' ,array(), WATCHDOG_NOTICE);
+	    if (variable_get('thumbwhere_api_log_info',0) == 1) watchdog('tw_api', 'call to TWAPI.call_share' ,array(), WATCHDOG_NOTICE);
 	    if (variable_get('thumbwhere_api_log_debug',0) == 1) debug($parameters);
 
    
@@ -170,6 +170,10 @@ public function call_share($parameters = array(), $opt = null) {
     $opt['headers'] = array(
         'Content-Type' => 'application/xml',
     );
+    
+    
+    
+    
     
     //
     // Validate Fields
@@ -210,25 +214,25 @@ public function call_share($parameters = array(), $opt = null) {
 
 	  if (!isset($response->body)) {
       $message = 'Error response from server in call to \'call_share\'. Response was not XML? Missing XML header?';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APISocial_Exception($message);
     }
 
 	  if (!is_object($response->body)) {
       $message = 'Response body was not an object. Error when calling \'call_share\'. ' . $response->body ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APISocial_Exception($message);
     }
 
 	  if (isset($response->body->attributes()->errorMessage)) {
       $message = 'Error response from server in call to \'call_share\'. ' . $response->body->attributes()->errorMessage ;
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APISocial_Exception($message);
     }
 
 	  if (!isset($response->body->share->status)) {
       $message = 'Error response from server in call to \'call_share\'. Response to \'share\' was expected but was not present';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APISocial_Exception($message);
     }
 
@@ -236,7 +240,7 @@ public function call_share($parameters = array(), $opt = null) {
 
 	  if ($status == 'error') {
       $message = 'Error response from server in call to \'create_share\'. Message \'' . $response->body->share->errorMessage . '\'';
-	    watchdog('tw_api', $message , WATCHDOG_ERROR);
+	    watchdog('tw_api', $message , array() , WATCHDOG_ERROR);
 	    throw new APISocial_Exception($message);
     }
 

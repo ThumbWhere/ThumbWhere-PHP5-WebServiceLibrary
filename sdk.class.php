@@ -236,7 +236,7 @@ class TWRuntime {
   /**
    * The state of SSL/HTTPS use.
    */
-  public $use_ssl = false;
+  public $use_ssl = true;
 
   /**
    * The state of SSL certificate verification.
@@ -846,6 +846,11 @@ class TWRuntime {
      * 	Tells invoke() to return the cURL handle for the request instead of executing it.
      */
 
+
+    // Get SSL options
+    $this->use_ssl = $this->use_ssl || variable_get('thumbwhere_api_use_ssl', false);
+    $this->ssl_verification = $this->ssl_verification || variable_get('thumbwhere_api_ssl_verification', false);
+
     // Determine hostname
     $scheme = $this->use_ssl ? 'https://' : 'http://';
 
@@ -899,17 +904,16 @@ class TWRuntime {
 
     $this->request_url = $scheme . $hostname . '/' . $endpoint . $conjunction . $query_string;
 
-    watchdog('tw_api', 'Making web service request : %uri', array(
-        '%uri' => $this->request_url
-    ), WATCHDOG_NOTICE);
-
-    if (isset($opt) && variable_get('thumbwhere_api_log_debug', 0) == '1') {
-      if (twCanDebug()) {
-        debug($opt);
-      }
+    if (twCanTrace()) {
+          watchdog('thumbwhere_api', 'Request : %uri', array(
+          '%uri' => $this->request_url
+      ), WATCHDOG_NOTICE);
     }
 
     if (twCanDebug()) {
+      if (isset($opt)) {
+          debug($opt);
+      }
       debug('REQUEST ' . $this->request_url);
     }
 
@@ -1005,6 +1009,18 @@ class TWRuntime {
       $curlopts = $opt['curlopts'];
       unset($opt['curlopts']);
     }
+
+	if ($this->use_ssl) {
+		if ($this->ssl_verification) {
+	    	$curlopts[CURLOPT_SSL_VERIFYPEER] = true;
+			$curlopts[CURLOPT_SSL_VERIFYHOST] = true;
+		}
+		else {
+			$curlopts[CURLOPT_SSL_VERIFYPEER] = false;
+			$curlopts[CURLOPT_SSL_VERIFYHOST] = false;
+		}
+	}
+
 
     // Debug mode
     if ($this->debug_mode) {
@@ -1108,7 +1124,7 @@ class TWRuntime {
         // Exponential backoff
         $delay = (integer) (pow(4, $redirects) * 100000);
 
-        watchdog('tw_api', 'Request to %uri failed with code http status %code. Sleeping for %delaysec seconds before we repeat the request. ', array('%uri' => $this->request_url,'%code' => $request->get_response_code(), '%delaysec' => $delay/1000000), WATCHDOG_NOTICE);
+        watchdog('thumbwhere_api', 'Request to %uri failed with code http status %code. Sleeping for %delaysec seconds before we repeat the request. ', array('%uri' => $this->request_url,'%code' => $request->get_response_code(), '%delaysec' => $delay/1000000), WATCHDOG_NOTICE);
         usleep($delay);
 
         //$data = $this->invoke($this->request_url, $opt, null, ++$redirects);
@@ -1426,7 +1442,7 @@ class TWLoader {
 
     // ThumbWhere SDK classes
     if (strstr($class, 'ThumbWhere')) {
-      $path .= 'services' . DIRECTORY_SEPARATOR . str_ireplace('ThumbWhere', '', strtolower($class)) . '.class.php';
+      $path .= 'services' . DIRECTORY_SEPARATOR . str_ireplace('ThumbWhere', '', $class) . '.class.php';
     }
     // Utility classes
     elseif (strstr($class, 'TW')) {
