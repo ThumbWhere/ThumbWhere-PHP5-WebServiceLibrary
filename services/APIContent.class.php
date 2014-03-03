@@ -8486,6 +8486,7 @@ public function call_produce_mediaitem($parameters = array(), $opt = null) {
    *
    * @param string $key (Required) The API key for the campaign. (PARAMETER).
    * @param string $content (Required) The content we want to purge. (PARAMETER).
+   * @param string $verify (Required) If this is true then we verify that the content files exist AND have been deleted. (PARAMETER).
    * @param array $opt (Optional) An associative array of parameters that can have the following keys: <ul>
    * 	<li><code>curlopts</code> - <code>array</code> - Optional - A set of values to pass directly into <code>curl_setopt()</code>, where the key is a pre-defined <code>CURLOPT_*</code> constant.</li>
    * 	<li><code>returnCurlHandle</code> - <code>boolean</code> - Optional - A private toggle specifying that the cURL handle be returned rather than actually completing the request.</li></ul>
@@ -8529,6 +8530,9 @@ public function call_purge($parameters = array(), $opt = null) {
 
     if (isset($parameters['key'])) {
       $opt['query_string']['key'] = $parameters['key'];
+    }
+    if (isset($parameters['verify'])) {
+      $opt['query_string']['verify'] = $parameters['verify'];
     }
 
     //
