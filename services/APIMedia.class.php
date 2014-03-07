@@ -187,7 +187,7 @@ public function create_mediaitem($context = array(), $fields = array(), $opt = n
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIMedia_Exception('Cannot send create \'mediaitem\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIMedia_Exception('Cannot send create \'mediaitem\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     //
@@ -386,7 +386,7 @@ public function update_mediaitem($id,$context = array(), $fields = array(), $opt
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIMedia_Exception('Cannot send create \'mediaitem\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIMedia_Exception('Cannot send create \'mediaitem\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     
@@ -556,7 +556,7 @@ public function create_target($context = array(), $fields = array(), $opt = null
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIMedia_Exception('Cannot send create \'target\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIMedia_Exception('Cannot send create \'target\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     //
@@ -676,7 +676,7 @@ public function update_target($id,$context = array(), $fields = array(), $opt = 
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIMedia_Exception('Cannot send create \'target\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIMedia_Exception('Cannot send create \'target\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     

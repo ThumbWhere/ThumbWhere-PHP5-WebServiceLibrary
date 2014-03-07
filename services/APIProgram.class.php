@@ -167,7 +167,7 @@ public function create_program($context = array(), $fields = array(), $opt = nul
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIProgram_Exception('Cannot send create \'program\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIProgram_Exception('Cannot send create \'program\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     //
@@ -282,7 +282,7 @@ public function update_program($id,$context = array(), $fields = array(), $opt =
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIProgram_Exception('Cannot send create \'program\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIProgram_Exception('Cannot send create \'program\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     

@@ -177,7 +177,7 @@ public function create_identity($context = array(), $fields = array(), $opt = nu
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIIdentity_Exception('Cannot send create \'identity\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIIdentity_Exception('Cannot send create \'identity\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     //
@@ -332,7 +332,7 @@ public function update_identity($id,$context = array(), $fields = array(), $opt 
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIIdentity_Exception('Cannot send create \'identity\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIIdentity_Exception('Cannot send create \'identity\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     

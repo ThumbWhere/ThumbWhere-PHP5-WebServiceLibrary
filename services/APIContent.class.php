@@ -179,7 +179,7 @@ public function create_action($context = array(), $fields = array(), $opt = null
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'action\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'action\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     //
@@ -341,7 +341,7 @@ public function update_action($id,$context = array(), $fields = array(), $opt = 
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'action\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'action\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     
@@ -484,7 +484,7 @@ public function create_activity($context = array(), $fields = array(), $opt = nu
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'activity\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'activity\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     //
@@ -613,7 +613,7 @@ public function update_activity($id,$context = array(), $fields = array(), $opt 
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'activity\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'activity\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     
@@ -732,7 +732,7 @@ public function create_actor($context = array(), $fields = array(), $opt = null)
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'actor\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'actor\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     //
@@ -858,7 +858,7 @@ public function update_actor($id,$context = array(), $fields = array(), $opt = n
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'actor\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'actor\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     
@@ -974,7 +974,7 @@ public function create_awarded_trophy($context = array(), $fields = array(), $op
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'awarded_trophy\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'awarded_trophy\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     //
@@ -1104,7 +1104,7 @@ public function update_awarded_trophy($id,$context = array(), $fields = array(),
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'awarded_trophy\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'awarded_trophy\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     
@@ -1223,7 +1223,7 @@ public function create_bookmark($context = array(), $fields = array(), $opt = nu
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'bookmark\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'bookmark\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     //
@@ -1345,7 +1345,7 @@ public function update_bookmark($id,$context = array(), $fields = array(), $opt 
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'bookmark\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'bookmark\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     
@@ -1459,7 +1459,7 @@ public function create_consume($context = array(), $fields = array(), $opt = nul
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'consume\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'consume\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     //
@@ -1592,7 +1592,7 @@ public function update_consume($id,$context = array(), $fields = array(), $opt =
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'consume\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'consume\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     
@@ -1714,7 +1714,7 @@ public function create_consumer($context = array(), $fields = array(), $opt = nu
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'consumer\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'consumer\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     //
@@ -1841,7 +1841,7 @@ public function update_consumer($id,$context = array(), $fields = array(), $opt 
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'consumer\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'consumer\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     
@@ -1957,7 +1957,7 @@ public function create_consumer_member($context = array(), $fields = array(), $o
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'consumer_member\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'consumer_member\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     //
@@ -2081,7 +2081,7 @@ public function update_consumer_member($id,$context = array(), $fields = array()
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'consumer_member\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'consumer_member\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     
@@ -2194,7 +2194,7 @@ public function create_consumer_subscribed_contengenre($context = array(), $fiel
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'consumer_subscribed_contengenre\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'consumer_subscribed_contengenre\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     //
@@ -2314,7 +2314,7 @@ public function update_consumer_subscribed_contengenre($id,$context = array(), $
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'consumer_subscribed_contengenre\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'consumer_subscribed_contengenre\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     
@@ -2426,7 +2426,7 @@ public function create_content($context = array(), $fields = array(), $opt = nul
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'content\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'content\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     //
@@ -2552,7 +2552,7 @@ public function update_content($id,$context = array(), $fields = array(), $opt =
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'content\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'content\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     
@@ -2665,7 +2665,7 @@ public function create_content_classification($context = array(), $fields = arra
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'content_classification\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'content_classification\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     //
@@ -2780,7 +2780,7 @@ public function update_content_classification($id,$context = array(), $fields = 
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'content_classification\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'content_classification\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     
@@ -2886,7 +2886,7 @@ public function create_content_collection($context = array(), $fields = array(),
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'content_collection\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'content_collection\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     //
@@ -3005,7 +3005,7 @@ public function update_content_collection($id,$context = array(), $fields = arra
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'content_collection\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'content_collection\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     
@@ -3115,7 +3115,7 @@ public function create_content_collection_item($context = array(), $fields = arr
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'content_collection_item\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'content_collection_item\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     //
@@ -3239,7 +3239,7 @@ public function update_content_collection_item($id,$context = array(), $fields =
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'content_collection_item\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'content_collection_item\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     
@@ -3352,7 +3352,7 @@ public function create_content_genre($context = array(), $fields = array(), $opt
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'content_genre\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'content_genre\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     //
@@ -3471,7 +3471,7 @@ public function update_content_genre($id,$context = array(), $fields = array(), 
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'content_genre\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'content_genre\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     
@@ -3594,7 +3594,7 @@ public function create_content_ingest($context = array(), $fields = array(), $op
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'content_ingest\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'content_ingest\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     //
@@ -3769,7 +3769,7 @@ public function update_content_ingest($id,$context = array(), $fields = array(),
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'content_ingest\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'content_ingest\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     
@@ -3925,7 +3925,7 @@ public function create_content_metadata($context = array(), $fields = array(), $
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'content_metadata\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'content_metadata\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     //
@@ -4063,7 +4063,7 @@ public function update_content_metadata($id,$context = array(), $fields = array(
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'content_metadata\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'content_metadata\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     
@@ -4199,7 +4199,7 @@ public function create_content_upload($context = array(), $fields = array(), $op
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'content_upload\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'content_upload\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     //
@@ -4370,7 +4370,7 @@ public function update_content_upload($id,$context = array(), $fields = array(),
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'content_upload\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'content_upload\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     
@@ -4520,7 +4520,7 @@ public function create_fan($context = array(), $fields = array(), $opt = null) {
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'fan\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'fan\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     //
@@ -4649,7 +4649,7 @@ public function update_fan($id,$context = array(), $fields = array(), $opt = nul
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'fan\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'fan\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     
@@ -4768,7 +4768,7 @@ public function create_follow($context = array(), $fields = array(), $opt = null
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'follow\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'follow\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     //
@@ -4897,7 +4897,7 @@ public function update_follow($id,$context = array(), $fields = array(), $opt = 
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'follow\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'follow\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     
@@ -5016,7 +5016,7 @@ public function create_like($context = array(), $fields = array(), $opt = null) 
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'like\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'like\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     //
@@ -5145,7 +5145,7 @@ public function update_like($id,$context = array(), $fields = array(), $opt = nu
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'like\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'like\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     
@@ -5262,7 +5262,7 @@ public function create_metadata($context = array(), $fields = array(), $opt = nu
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'metadata\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'metadata\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     //
@@ -5380,7 +5380,7 @@ public function update_metadata($id,$context = array(), $fields = array(), $opt 
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'metadata\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'metadata\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     
@@ -5487,7 +5487,7 @@ public function create_place($context = array(), $fields = array(), $opt = null)
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'place\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'place\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     //
@@ -5601,7 +5601,7 @@ public function update_place($id,$context = array(), $fields = array(), $opt = n
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'place\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'place\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     
@@ -5709,7 +5709,7 @@ public function create_produce($context = array(), $fields = array(), $opt = nul
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'produce\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'produce\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     //
@@ -5842,7 +5842,7 @@ public function update_produce($id,$context = array(), $fields = array(), $opt =
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'produce\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'produce\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     
@@ -5964,7 +5964,7 @@ public function create_producer($context = array(), $fields = array(), $opt = nu
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'producer\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'producer\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     //
@@ -6091,7 +6091,7 @@ public function update_producer($id,$context = array(), $fields = array(), $opt 
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'producer\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'producer\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     
@@ -6207,7 +6207,7 @@ public function create_producer_member($context = array(), $fields = array(), $o
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'producer_member\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'producer_member\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     //
@@ -6331,7 +6331,7 @@ public function update_producer_member($id,$context = array(), $fields = array()
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'producer_member\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'producer_member\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     
@@ -6444,7 +6444,7 @@ public function create_profileimage($context = array(), $fields = array(), $opt 
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'profileimage\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'profileimage\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     //
@@ -6564,7 +6564,7 @@ public function update_profileimage($id,$context = array(), $fields = array(), $
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'profileimage\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'profileimage\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     
@@ -6676,7 +6676,7 @@ public function create_subject($context = array(), $fields = array(), $opt = nul
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'subject\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'subject\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     //
@@ -6802,7 +6802,7 @@ public function update_subject($id,$context = array(), $fields = array(), $opt =
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'subject\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'subject\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     
@@ -6917,7 +6917,7 @@ public function create_thing($context = array(), $fields = array(), $opt = null)
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'thing\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'thing\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     //
@@ -7039,7 +7039,7 @@ public function update_thing($id,$context = array(), $fields = array(), $opt = n
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'thing\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'thing\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     
@@ -7154,7 +7154,7 @@ public function create_track_metadata($context = array(), $fields = array(), $op
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'track_metadata\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'track_metadata\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     //
@@ -7288,7 +7288,7 @@ public function update_track_metadata($id,$context = array(), $fields = array(),
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'track_metadata\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'track_metadata\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     
@@ -7408,7 +7408,7 @@ public function create_trophy($context = array(), $fields = array(), $opt = null
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'trophy\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'trophy\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     //
@@ -7528,7 +7528,7 @@ public function update_trophy($id,$context = array(), $fields = array(), $opt = 
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'trophy\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'trophy\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     
@@ -7637,7 +7637,7 @@ public function create_superheroes($context = array(), $fields = array(), $opt =
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'superheroes\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'superheroes\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     //
@@ -7753,7 +7753,7 @@ public function update_superheroes($id,$context = array(), $fields = array(), $o
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIContent_Exception('Cannot send create \'superheroes\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIContent_Exception('Cannot send create \'superheroes\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     

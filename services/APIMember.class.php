@@ -174,7 +174,7 @@ public function create_member($context = array(), $fields = array(), $opt = null
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIMember_Exception('Cannot send create \'member\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIMember_Exception('Cannot send create \'member\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     //
@@ -316,7 +316,7 @@ public function update_member($id,$context = array(), $fields = array(), $opt = 
 
     // Make sure we have a valid id
     if (!is_numeric($context['origin']))  {
-      throw new APIMember_Exception('Cannot send create \'member\'resource call. The ThumbWhere Host Id has not been configured.');
+      throw new APIMember_Exception('Cannot send create \'member\' resource call. The ThumbWhere Host Id has not been configured.');
     }
     
     
